@@ -55,6 +55,10 @@ std::string getExecutablePath();
  **/
 void requestAttention(bool continuous);
 
+	void *registerAppDelegate();
+	void freeAppDelegate(void *appDelegate);
+	void pollForEvents();
+
 } // macosx
 } // love
 

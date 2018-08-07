@@ -31,6 +31,70 @@
 # include <SDL2/SDL.h>
 #endif
 
+
+@interface GhostAppDelegate : NSObject <NSApplicationDelegate>
+
+@end
+
+@implementation GhostAppDelegate
+
+- (instancetype)init
+{
+	int a = 0;
+	return [super init];
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
+{
+	NSLog(@"did finish launching");
+}
+
+- (void)dealloc
+{
+	int d = 0;
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+	if (SDL_GetEventState(SDL_QUIT) == SDL_ENABLE) {
+		SDL_Event event;
+		event.type = SDL_QUIT;
+		SDL_PushEvent(&event);
+	}
+	return NSTerminateCancel;
+}
+
+- (void)application:(NSApplication *)application
+		   openURLs:(NSArray<NSURL *> *)urls
+{
+	NSLog(@"openUrls");
+	int a = 0;
+}
+
+- (BOOL)application:(NSApplication *)sender
+		   openFile:(NSString *)filename
+{
+	NSLog(@"openFile");
+	
+	if (SDL_GetEventState(SDL_DROPFILE) == SDL_ENABLE) {
+		SDL_Event event;
+		event.type = SDL_DROPFILE;
+		event.drop.file = SDL_strdup([filename UTF8String]);
+		return (SDL_PushEvent(&event) > 0);
+	}
+	
+	return NO;
+}
+
+- (void)application:(NSApplication *)sender
+		  openFiles:(NSArray<NSString *> *)filenames
+{
+	NSLog(@"openFiles");
+	int a = 0;
+}
+
+@end
+
 namespace love
 {
 namespace macosx
@@ -92,6 +156,37 @@ void requestAttention(bool continuous)
 			[NSApp requestUserAttention:NSInformationalRequest];
 	}
 }
+
+	void *registerAppDelegate()
+	{
+		static GhostAppDelegate *theAppDelegate;
+		@autoreleasepool {
+			static dispatch_once_t onceToken;
+			dispatch_once(&onceToken, ^{
+				theAppDelegate = [GhostAppDelegate new];
+			});
+			[[NSApplication sharedApplication] setDelegate:theAppDelegate];
+		}
+		return (void *)CFBridgingRetain(theAppDelegate);
+	}
+	
+	void freeAppDelegate(void *appDelegate)
+	{
+		CFBridgingRelease(appDelegate);
+	}
+	
+	void pollForEvents()
+	{
+		/* @autoreleasepool {
+			NSEvent *event = [NSApp nextEventMatchingMask:NSAnyEventMask
+												untilDate:[NSDate distantFuture]
+												   inMode:NSDefaultRunLoopMode
+												  dequeue:YES];
+			if (event) {
+				NSLog(@"ben: event: %@", event);
+			}
+		} */
+	}
 
 } // osx
 } // love

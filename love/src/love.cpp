@@ -159,7 +159,7 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 		retval = 0;
 		return DONE_QUIT;
 	}
-
+	
 	// Create the virtual machine.
 	lua_State *L = luaL_newstate();
 	luaL_openlibs(L);
@@ -237,7 +237,7 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 		delete [] hack_argv;
 	}
 #endif // LOVE_LEGENDARY_APP_ARGV_HACK
-
+	
 	return done;
 }
 
@@ -252,6 +252,11 @@ int main(int argc, char **argv)
 
 	int retval = 0;
 	DoneAction done = DONE_QUIT;
+	
+	void *macOS_appDelegatePtr;
+#ifdef LOVE_MACOSX
+	macOS_appDelegatePtr = love::macosx::registerAppDelegate();
+#endif
 
 	do
 	{
@@ -267,6 +272,10 @@ int main(int argc, char **argv)
 
 #ifdef LOVE_ANDROID
 	SDL_Quit();
+#endif
+	
+#ifdef LOVE_MACOSX
+	love::macosx::freeAppDelegate(macOS_appDelegatePtr);
 #endif
 
 	return retval;
