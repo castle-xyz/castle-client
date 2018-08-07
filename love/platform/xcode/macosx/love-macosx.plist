@@ -51,6 +51,17 @@
 			<string>Editor</string>
 		</dict>
 	</array>
+        <key>CFBundleURLTypes</key>
+        <array>
+          <dict>
+            <key>CFBundleURLName</key>
+            <string>Ghost URL</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+              <string>ghost</string>
+            </array>
+          </dict>
+        </array>
 	<key>CFBundleExecutable</key>
 	<string>love</string>
 	<key>CFBundleIdentifier</key>
