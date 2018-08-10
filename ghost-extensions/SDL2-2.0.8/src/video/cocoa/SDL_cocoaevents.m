@@ -456,7 +456,7 @@ Cocoa_PumpEvents(_THIS)
     }
 #endif
 
-    for ( ; ; ) {
+//    for ( ; ; ) {
         [NSApp run];
 //        NSEvent *event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES ];
 //        if ( event == nil ) {
@@ -469,7 +469,7 @@ Cocoa_PumpEvents(_THIS)
 //
 //        // Pass events down to SDLApplication to be handled in sendEvent:
 //        [NSApp sendEvent:event];
-    }
+//    }
 }}
 
 void
