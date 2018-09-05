@@ -22,6 +22,9 @@
 #include "modules/love/love.h"
 #include <SDL.h>
 
+/*#include "include/cef_application_mac.h"
+#include "include/wrapper/cef_helpers.h"*/
+
 #ifdef LOVE_BUILD_EXE
 
 // Lua
@@ -243,6 +246,49 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 
 int main(int argc, char **argv)
 {
+	
+	// Provide CEF with command-line arguments.
+	//CefMainArgs main_args(argc, argv);
+	
+	
+	// Initialize the SimpleApplication instance.
+	//[SimpleApplication sharedApplication];
+	
+	// Specify CEF global settings here.
+	//CefSettings settings;
+	
+	// SimpleApp implements application-level callbacks for the browser process.
+	// It will create the first browser instance in OnContextInitialized() after
+	// CEF has initialized.
+	//CefRefPtr<SimpleApp> app(new SimpleApp);
+	
+	// Initialize CEF for the browser process.
+	//CefInitialize(main_args, settings, app.get(), NULL);
+	
+	// Create the application delegate.
+	/*NSObject* delegate = [[SimpleAppDelegate alloc] init];
+	[delegate performSelectorOnMainThread:@selector(createApplication:)
+							   withObject:nil
+							waitUntilDone:NO];*/
+	
+	// Run the CEF message loop. This will block until CefQuitMessageLoop() is
+	// called.
+	//CefRunMessageLoop();
+	
+	// Shut down CEF.
+	//CefShutdown();
+	return 0;
+	
+	
+	
+	
+	/*
+	
+	
+	
+	
+	
+	
 	if (strcmp(LOVE_VERSION_STRING, love_version()) != 0)
 	{
 		printf("Version mismatch detected!\nLOVE binary is version %s\n"
@@ -269,7 +315,7 @@ int main(int argc, char **argv)
 	SDL_Quit();
 #endif
 
-	return retval;
+	return retval;*/
 }
 
 #endif // LOVE_BUILD_EXE

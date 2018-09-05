@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		91FDE54A214336CD008FFB60 /* Chromium Embedded Framework.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDE549214336CD008FFB60 /* Chromium Embedded Framework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A1E7953D20721BC800731DD3 /* package.love in Resources */ = {isa = PBXBuildFile; fileRef = A1E7953C20721BC800731DD3 /* package.love */; };
 		A1ED98E9211DFA0700CBC701 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A194C6C4211CD1D50093B328 /* SDL2.framework */; };
 		A1ED98EA211DFA0700CBC701 /* SDL2.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A194C6C4211CD1D50093B328 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -67,6 +68,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		91C98FA121432C39006E745C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 919D1763214326E4003D26E5;
+			remoteInfo = cef;
+		};
+		91FDEBD121475158008FFB60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 91FDE94321475039008FFB60;
+			remoteInfo = libcef_dll_wrapper;
+		};
+		91FDEBD421475159008FFB60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 91FDE94421475039008FFB60;
+			remoteInfo = libcef_dll_wrapper;
+		};
+		91FDEBD62147515C008FFB60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 919D1762214326E4003D26E5;
+			remoteInfo = cef;
+		};
 		A194C6C3211CD1D50093B328 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A194C6BA211CD1D50093B328 /* SDL.xcodeproj */;
@@ -191,6 +220,7 @@
 				B5256F69211A555500891B27 /* ogg.framework in Copy Frameworks */,
 				B5256F6A211A555500891B27 /* vorbis.framework in Copy Frameworks */,
 				B5256F6B211A555500891B27 /* Lua.framework in Copy Frameworks */,
+				91FDE54A214336CD008FFB60 /* Chromium Embedded Framework.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,6 +230,8 @@
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* love.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = love.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		91C98F9D21432C39006E745C /* cef.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cef.xcodeproj; path = ../../../cef/cef.xcodeproj; sourceTree = "<group>"; };
+		91FDE549214336CD008FFB60 /* Chromium Embedded Framework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Chromium Embedded Framework.framework"; path = "../../../cef/Chromium Embedded Framework.framework"; sourceTree = "<group>"; };
 		A194C6BA211CD1D50093B328 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "../../../ghost-extensions/SDL2-2.0.8/Xcode/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
 		A1E7953C20721BC800731DD3 /* package.love */ = {isa = PBXFileReference; lastKnownFileType = file; name = package.love; path = ../../../package.love; sourceTree = "<group>"; };
 		A9255E021043195A00BA1496 /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = /Library/Frameworks/vorbis.framework; sourceTree = "<absolute>"; };
@@ -314,6 +346,8 @@
 		29B97314FDCFA39411CA2CEA /* love */ = {
 			isa = PBXGroup;
 			children = (
+				91FDE549214336CD008FFB60 /* Chromium Embedded Framework.framework */,
+				91C98F9D21432C39006E745C /* cef.xcodeproj */,
 				A194C6BA211CD1D50093B328 /* SDL.xcodeproj */,
 				A1E7953C20721BC800731DD3 /* package.love */,
 				FA5D249A1A96CF4300C6FC8F /* Images.xcassets */,
@@ -335,6 +369,15 @@
 				FAC1A448196F5DC600125284 /* license.txt */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		91C98F9E21432C39006E745C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				91C98FA221432C39006E745C /* cef.framework */,
+				91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.dylib */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		A194C6BB211CD1D50093B328 /* Products */ = {
@@ -460,6 +503,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				91FDEBD72147515C008FFB60 /* PBXTargetDependency */,
+				91FDEBD221475158008FFB60 /* PBXTargetDependency */,
 				B5256F3F211A555500891B27 /* PBXTargetDependency */,
 				A1ED98EC211DFA0700CBC701 /* PBXTargetDependency */,
 			);
@@ -518,6 +563,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 91C98F9E21432C39006E745C /* Products */;
+					ProjectRef = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
+				},
+				{
 					ProductGroup = B5E9FC3C211B6B9F0068BEB9 /* Products */;
 					ProjectRef = B5E9FC3B211B6B9F0068BEB9 /* ghost-extensions.xcodeproj */;
 				},
@@ -540,6 +589,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		91C98FA221432C39006E745C /* cef.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = cef.framework;
+			remoteRef = 91C98FA121432C39006E745C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = liblibcef_dll_wrapper.dylib;
+			remoteRef = 91FDEBD421475159008FFB60 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		A194C6C4211CD1D50093B328 /* SDL2.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -745,6 +808,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		91FDEBD221475158008FFB60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libcef_dll_wrapper;
+			targetProxy = 91FDEBD121475158008FFB60 /* PBXContainerItemProxy */;
+		};
+		91FDEBD72147515C008FFB60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = cef;
+			targetProxy = 91FDEBD62147515C008FFB60 /* PBXContainerItemProxy */;
+		};
 		A1ED98EC211DFA0700CBC701 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Framework;
@@ -780,6 +853,7 @@
 					"\"$(SRCROOT)/build/Release\"",
 					"\"$(SRCROOT)/build/Debug\"",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\"$(PROJECT_DIR)/../../../cef\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -790,6 +864,7 @@
 					"$(PROJECT_DIR)/macosx/Frameworks/SDL2.framework/Headers",
 					/Library/Frameworks/Lua.framework/Headers,
 					/Library/Frameworks/SDL2.framework/Headers,
+					"$(PROJECT_DIR)/../../../cef",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/macosx/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
@@ -814,6 +889,7 @@
 					"\"$(SRCROOT)/build/Release\"",
 					"\"$(SRCROOT)/build/Debug\"",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\"$(PROJECT_DIR)/../../../cef\"",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
@@ -822,6 +898,7 @@
 					"$(PROJECT_DIR)/macosx/Frameworks/SDL2.framework/Headers",
 					/Library/Frameworks/Lua.framework/Headers,
 					/Library/Frameworks/SDL2.framework/Headers,
+					"$(PROJECT_DIR)/../../../cef",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/macosx/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
@@ -846,6 +923,7 @@
 					"\"$(SRCROOT)/build/Release\"",
 					"\"$(SRCROOT)/build/Debug\"",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\"$(PROJECT_DIR)/../../../cef\"",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
@@ -854,6 +932,7 @@
 					"$(PROJECT_DIR)/macosx/Frameworks/SDL2.framework/Headers",
 					/Library/Frameworks/Lua.framework/Headers,
 					/Library/Frameworks/SDL2.framework/Headers,
+					"$(PROJECT_DIR)/../../../cef",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/macosx/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
