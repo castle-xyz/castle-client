@@ -7,249 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		91576129214332E800DC6DBC /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91576128214332E800DC6DBC /* Chromium Embedded Framework.framework */; };
-		91FDE73E2147499E008FFB60 /* cef.h in Headers */ = {isa = PBXBuildFile; fileRef = 919D1766214326E4003D26E5 /* cef.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		91FDE83F214749FA008FFB60 /* cef_render_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE745214749FA008FFB60 /* cef_render_handler.h */; };
-		91FDE840214749FA008FFB60 /* cef_pack_strings.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE746214749FA008FFB60 /* cef_pack_strings.h */; };
-		91FDE841214749FA008FFB60 /* cef_response_filter.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE747214749FA008FFB60 /* cef_response_filter.h */; };
-		91FDE842214749FA008FFB60 /* cef_render_process_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE748214749FA008FFB60 /* cef_render_process_handler.h */; };
-		91FDE843214749FA008FFB60 /* cef_accessibility_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE749214749FA008FFB60 /* cef_accessibility_handler.h */; };
-		91FDE844214749FA008FFB60 /* cef_keyboard_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE74A214749FA008FFB60 /* cef_keyboard_handler.h */; };
-		91FDE845214749FA008FFB60 /* cef_string_visitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE74B214749FA008FFB60 /* cef_string_visitor.h */; };
-		91FDE846214749FA008FFB60 /* cef_server.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE74C214749FA008FFB60 /* cef_server.h */; };
-		91FDE847214749FA008FFB60 /* cef_drag_data.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE74D214749FA008FFB60 /* cef_drag_data.h */; };
-		91FDE848214749FA008FFB60 /* cef_trace.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE74E214749FA008FFB60 /* cef_trace.h */; };
-		91FDE849214749FA008FFB60 /* cef_resource_bundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE74F214749FA008FFB60 /* cef_resource_bundle.h */; };
-		91FDE84A214749FA008FFB60 /* cef_base.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE750214749FA008FFB60 /* cef_base.h */; };
-		91FDE84B214749FA008FFB60 /* cef_ssl_status.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE751214749FA008FFB60 /* cef_ssl_status.h */; };
-		91FDE84C214749FA008FFB60 /* cef_ssl_info.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE752214749FA008FFB60 /* cef_ssl_info.h */; };
-		91FDE84D214749FA008FFB60 /* cef_translator_test.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE754214749FA008FFB60 /* cef_translator_test.h */; };
-		91FDE84E214749FA008FFB60 /* cef_test_helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE755214749FA008FFB60 /* cef_test_helpers.h */; };
-		91FDE84F214749FB008FFB60 /* cef_callback.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE756214749FA008FFB60 /* cef_callback.h */; };
-		91FDE850214749FB008FFB60 /* cef_request_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE757214749FA008FFB60 /* cef_request_handler.h */; };
-		91FDE851214749FB008FFB60 /* cef_version.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE758214749FA008FFB60 /* cef_version.h */; };
-		91FDE852214749FB008FFB60 /* cef_drag_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE759214749FA008FFB60 /* cef_drag_handler.h */; };
-		91FDE853214749FB008FFB60 /* cef_origin_whitelist.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE75A214749FA008FFB60 /* cef_origin_whitelist.h */; };
-		91FDE854214749FB008FFB60 /* cef_xml_object.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE75C214749FA008FFB60 /* cef_xml_object.h */; };
-		91FDE855214749FB008FFB60 /* cef_stream_resource_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE75D214749FA008FFB60 /* cef_stream_resource_handler.h */; };
-		91FDE856214749FB008FFB60 /* cef_closure_task.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE75E214749FA008FFB60 /* cef_closure_task.h */; };
-		91FDE857214749FB008FFB60 /* cef_message_router.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE75F214749FA008FFB60 /* cef_message_router.h */; };
-		91FDE858214749FB008FFB60 /* cef_byte_read_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE760214749FA008FFB60 /* cef_byte_read_handler.h */; };
-		91FDE859214749FB008FFB60 /* cef_resource_manager.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE761214749FA008FFB60 /* cef_resource_manager.h */; };
-		91FDE85A214749FB008FFB60 /* cef_scoped_temp_dir.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE762214749FA008FFB60 /* cef_scoped_temp_dir.h */; };
-		91FDE85B214749FB008FFB60 /* cef_helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE763214749FA008FFB60 /* cef_helpers.h */; };
-		91FDE85C214749FB008FFB60 /* cef_zip_archive.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE764214749FA008FFB60 /* cef_zip_archive.h */; };
-		91FDE85D214749FB008FFB60 /* cef_request_context_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE765214749FA008FFB60 /* cef_request_context_handler.h */; };
-		91FDE85E214749FB008FFB60 /* cef_resource_bundle_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE766214749FA008FFB60 /* cef_resource_bundle_handler.h */; };
-		91FDE85F214749FB008FFB60 /* cef_print_settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE767214749FA008FFB60 /* cef_print_settings.h */; };
-		91FDE860214749FB008FFB60 /* cef_display_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE768214749FA008FFB60 /* cef_display_handler.h */; };
-		91FDE861214749FB008FFB60 /* cef_urlrequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE769214749FA008FFB60 /* cef_urlrequest.h */; };
-		91FDE862214749FB008FFB60 /* cef_request_context_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE76B214749FA008FFB60 /* cef_request_context_capi.h */; };
-		91FDE863214749FB008FFB60 /* cef_response_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE76C214749FA008FFB60 /* cef_response_capi.h */; };
-		91FDE864214749FB008FFB60 /* cef_string_visitor_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE76D214749FA008FFB60 /* cef_string_visitor_capi.h */; };
-		91FDE865214749FB008FFB60 /* cef_dialog_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE76E214749FA008FFB60 /* cef_dialog_handler_capi.h */; };
-		91FDE866214749FB008FFB60 /* cef_xml_reader_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE76F214749FA008FFB60 /* cef_xml_reader_capi.h */; };
-		91FDE867214749FB008FFB60 /* cef_waitable_event_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE770214749FA008FFB60 /* cef_waitable_event_capi.h */; };
-		91FDE868214749FB008FFB60 /* cef_client_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE771214749FA008FFB60 /* cef_client_capi.h */; };
-		91FDE869214749FB008FFB60 /* cef_base_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE772214749FA008FFB60 /* cef_base_capi.h */; };
-		91FDE86A214749FB008FFB60 /* cef_thread_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE773214749FA008FFB60 /* cef_thread_capi.h */; };
-		91FDE86B214749FB008FFB60 /* cef_image_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE774214749FA008FFB60 /* cef_image_capi.h */; };
-		91FDE86C214749FB008FFB60 /* cef_request_context_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE775214749FA008FFB60 /* cef_request_context_handler_capi.h */; };
-		91FDE86D214749FB008FFB60 /* cef_test_helpers_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE777214749FA008FFB60 /* cef_test_helpers_capi.h */; };
-		91FDE86E214749FB008FFB60 /* cef_translator_test_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE778214749FA008FFB60 /* cef_translator_test_capi.h */; };
-		91FDE86F214749FB008FFB60 /* cef_urlrequest_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE779214749FA008FFB60 /* cef_urlrequest_capi.h */; };
-		91FDE870214749FB008FFB60 /* cef_ssl_info_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE77A214749FA008FFB60 /* cef_ssl_info_capi.h */; };
-		91FDE871214749FB008FFB60 /* cef_app_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE77B214749FA008FFB60 /* cef_app_capi.h */; };
-		91FDE872214749FB008FFB60 /* cef_menu_model_delegate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE77C214749FA008FFB60 /* cef_menu_model_delegate_capi.h */; };
-		91FDE873214749FB008FFB60 /* cef_life_span_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE77D214749FA008FFB60 /* cef_life_span_handler_capi.h */; };
-		91FDE874214749FB008FFB60 /* cef_parser_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE77E214749FA008FFB60 /* cef_parser_capi.h */; };
-		91FDE875214749FB008FFB60 /* cef_focus_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE77F214749FA008FFB60 /* cef_focus_handler_capi.h */; };
-		91FDE876214749FB008FFB60 /* cef_frame_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE780214749FA008FFB60 /* cef_frame_capi.h */; };
-		91FDE877214749FB008FFB60 /* cef_drag_data_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE781214749FA008FFB60 /* cef_drag_data_capi.h */; };
-		91FDE878214749FB008FFB60 /* cef_dom_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE782214749FA008FFB60 /* cef_dom_capi.h */; };
-		91FDE879214749FB008FFB60 /* cef_response_filter_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE783214749FA008FFB60 /* cef_response_filter_capi.h */; };
-		91FDE87A214749FB008FFB60 /* cef_find_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE784214749FA008FFB60 /* cef_find_handler_capi.h */; };
-		91FDE87B214749FB008FFB60 /* cef_web_plugin_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE785214749FA008FFB60 /* cef_web_plugin_capi.h */; };
-		91FDE87C214749FB008FFB60 /* cef_download_item_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE786214749FA008FFB60 /* cef_download_item_capi.h */; };
-		91FDE87D214749FB008FFB60 /* cef_drag_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE787214749FA008FFB60 /* cef_drag_handler_capi.h */; };
-		91FDE87E214749FB008FFB60 /* cef_display_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE788214749FA008FFB60 /* cef_display_handler_capi.h */; };
-		91FDE87F214749FB008FFB60 /* cef_stream_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE789214749FA008FFB60 /* cef_stream_capi.h */; };
-		91FDE880214749FB008FFB60 /* cef_trace_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE78A214749FA008FFB60 /* cef_trace_capi.h */; };
-		91FDE881214749FB008FFB60 /* cef_load_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE78B214749FA008FFB60 /* cef_load_handler_capi.h */; };
-		91FDE882214749FB008FFB60 /* cef_path_util_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE78C214749FA008FFB60 /* cef_path_util_capi.h */; };
-		91FDE883214749FB008FFB60 /* cef_cookie_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE78D214749FA008FFB60 /* cef_cookie_capi.h */; };
-		91FDE884214749FB008FFB60 /* cef_accessibility_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE78E214749FA008FFB60 /* cef_accessibility_handler_capi.h */; };
-		91FDE885214749FB008FFB60 /* cef_server_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE78F214749FA008FFB60 /* cef_server_capi.h */; };
-		91FDE886214749FB008FFB60 /* cef_ssl_status_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE790214749FA008FFB60 /* cef_ssl_status_capi.h */; };
-		91FDE887214749FB008FFB60 /* cef_request_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE791214749FA008FFB60 /* cef_request_handler_capi.h */; };
-		91FDE888214749FB008FFB60 /* cef_print_settings_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE792214749FA008FFB60 /* cef_print_settings_capi.h */; };
-		91FDE889214749FB008FFB60 /* cef_origin_whitelist_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE793214749FA008FFB60 /* cef_origin_whitelist_capi.h */; };
-		91FDE88A214749FB008FFB60 /* cef_crash_util_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE794214749FA008FFB60 /* cef_crash_util_capi.h */; };
-		91FDE88B214749FB008FFB60 /* cef_callback_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE795214749FA008FFB60 /* cef_callback_capi.h */; };
-		91FDE88C214749FB008FFB60 /* cef_x509_certificate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE796214749FA008FFB60 /* cef_x509_certificate_capi.h */; };
-		91FDE88D214749FB008FFB60 /* cef_request_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE797214749FA008FFB60 /* cef_request_capi.h */; };
-		91FDE88E214749FB008FFB60 /* cef_extension_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE798214749FA008FFB60 /* cef_extension_handler_capi.h */; };
-		91FDE88F214749FB008FFB60 /* cef_menu_model_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE799214749FA008FFB60 /* cef_menu_model_capi.h */; };
-		91FDE890214749FB008FFB60 /* cef_jsdialog_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE79A214749FA008FFB60 /* cef_jsdialog_handler_capi.h */; };
-		91FDE891214749FB008FFB60 /* cef_context_menu_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE79B214749FA008FFB60 /* cef_context_menu_handler_capi.h */; };
-		91FDE892214749FB008FFB60 /* cef_browser_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE79C214749FA008FFB60 /* cef_browser_capi.h */; };
-		91FDE893214749FB008FFB60 /* cef_process_util_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE79D214749FA008FFB60 /* cef_process_util_capi.h */; };
-		91FDE894214749FB008FFB60 /* cef_extension_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE79E214749FA008FFB60 /* cef_extension_capi.h */; };
-		91FDE895214749FB008FFB60 /* cef_auth_callback_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE79F214749FA008FFB60 /* cef_auth_callback_capi.h */; };
-		91FDE896214749FB008FFB60 /* cef_render_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A0214749FA008FFB60 /* cef_render_handler_capi.h */; };
-		91FDE897214749FB008FFB60 /* cef_values_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A1214749FA008FFB60 /* cef_values_capi.h */; };
-		91FDE898214749FB008FFB60 /* cef_download_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A2214749FA008FFB60 /* cef_download_handler_capi.h */; };
-		91FDE899214749FB008FFB60 /* cef_zip_reader_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A3214749FA008FFB60 /* cef_zip_reader_capi.h */; };
-		91FDE89A214749FB008FFB60 /* cef_process_message_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A4214749FA008FFB60 /* cef_process_message_capi.h */; };
-		91FDE89B214749FB008FFB60 /* cef_resource_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A5214749FA008FFB60 /* cef_resource_handler_capi.h */; };
-		91FDE89C214749FB008FFB60 /* cef_file_util_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A6214749FA008FFB60 /* cef_file_util_capi.h */; };
-		91FDE89D214749FB008FFB60 /* cef_window_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A8214749FA008FFB60 /* cef_window_capi.h */; };
-		91FDE89E214749FB008FFB60 /* cef_box_layout_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7A9214749FA008FFB60 /* cef_box_layout_capi.h */; };
-		91FDE89F214749FB008FFB60 /* cef_display_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7AA214749FA008FFB60 /* cef_display_capi.h */; };
-		91FDE8A0214749FB008FFB60 /* cef_layout_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7AB214749FA008FFB60 /* cef_layout_capi.h */; };
-		91FDE8A1214749FB008FFB60 /* cef_label_button_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7AC214749FA008FFB60 /* cef_label_button_capi.h */; };
-		91FDE8A2214749FB008FFB60 /* cef_panel_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7AD214749FA008FFB60 /* cef_panel_capi.h */; };
-		91FDE8A3214749FB008FFB60 /* cef_panel_delegate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7AE214749FA008FFB60 /* cef_panel_delegate_capi.h */; };
-		91FDE8A4214749FB008FFB60 /* cef_scroll_view_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7AF214749FA008FFB60 /* cef_scroll_view_capi.h */; };
-		91FDE8A5214749FB008FFB60 /* cef_fill_layout_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B0214749FA008FFB60 /* cef_fill_layout_capi.h */; };
-		91FDE8A6214749FB008FFB60 /* cef_window_delegate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B1214749FA008FFB60 /* cef_window_delegate_capi.h */; };
-		91FDE8A7214749FB008FFB60 /* cef_browser_view_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B2214749FA008FFB60 /* cef_browser_view_capi.h */; };
-		91FDE8A8214749FB008FFB60 /* cef_menu_button_delegate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B3214749FA008FFB60 /* cef_menu_button_delegate_capi.h */; };
-		91FDE8A9214749FB008FFB60 /* cef_button_delegate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B4214749FA008FFB60 /* cef_button_delegate_capi.h */; };
-		91FDE8AA214749FB008FFB60 /* cef_view_delegate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B5214749FA008FFB60 /* cef_view_delegate_capi.h */; };
-		91FDE8AB214749FB008FFB60 /* cef_button_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B6214749FA008FFB60 /* cef_button_capi.h */; };
-		91FDE8AC214749FB008FFB60 /* cef_menu_button_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B7214749FA008FFB60 /* cef_menu_button_capi.h */; };
-		91FDE8AD214749FB008FFB60 /* cef_textfield_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B8214749FA008FFB60 /* cef_textfield_capi.h */; };
-		91FDE8AE214749FB008FFB60 /* cef_browser_view_delegate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7B9214749FA008FFB60 /* cef_browser_view_delegate_capi.h */; };
-		91FDE8AF214749FB008FFB60 /* cef_view_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7BA214749FA008FFB60 /* cef_view_capi.h */; };
-		91FDE8B0214749FB008FFB60 /* cef_textfield_delegate_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7BB214749FA008FFB60 /* cef_textfield_delegate_capi.h */; };
-		91FDE8B1214749FB008FFB60 /* cef_command_line_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7BC214749FA008FFB60 /* cef_command_line_capi.h */; };
-		91FDE8B2214749FB008FFB60 /* cef_navigation_entry_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7BD214749FA008FFB60 /* cef_navigation_entry_capi.h */; };
-		91FDE8B3214749FB008FFB60 /* cef_task_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7BE214749FA008FFB60 /* cef_task_capi.h */; };
-		91FDE8B4214749FB008FFB60 /* cef_resource_bundle_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7BF214749FA008FFB60 /* cef_resource_bundle_handler_capi.h */; };
-		91FDE8B5214749FB008FFB60 /* cef_browser_process_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C0214749FA008FFB60 /* cef_browser_process_handler_capi.h */; };
-		91FDE8B6214749FB008FFB60 /* cef_resource_bundle_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C1214749FA008FFB60 /* cef_resource_bundle_capi.h */; };
-		91FDE8B7214749FB008FFB60 /* cef_render_process_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C2214749FA008FFB60 /* cef_render_process_handler_capi.h */; };
-		91FDE8B8214749FB008FFB60 /* cef_keyboard_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C3214749FA008FFB60 /* cef_keyboard_handler_capi.h */; };
-		91FDE8B9214749FB008FFB60 /* cef_scheme_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C4214749FA008FFB60 /* cef_scheme_capi.h */; };
-		91FDE8BA214749FB008FFB60 /* cef_v8_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C5214749FA008FFB60 /* cef_v8_capi.h */; };
-		91FDE8BB214749FB008FFB60 /* cef_print_handler_capi.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C6214749FA008FFB60 /* cef_print_handler_capi.h */; };
-		91FDE8BC214749FB008FFB60 /* cef_context_menu_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C7214749FA008FFB60 /* cef_context_menu_handler.h */; };
-		91FDE8BD214749FB008FFB60 /* cef_image.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C8214749FA008FFB60 /* cef_image.h */; };
-		91FDE8BE214749FB008FFB60 /* cef_file_util.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7C9214749FA008FFB60 /* cef_file_util.h */; };
-		91FDE8BF214749FB008FFB60 /* cef_auth_callback.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7CA214749FA008FFB60 /* cef_auth_callback.h */; };
-		91FDE8C0214749FB008FFB60 /* cef_life_span_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7CB214749FA008FFB60 /* cef_life_span_handler.h */; };
-		91FDE8C1214749FB008FFB60 /* cef_resource_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7CC214749FA008FFB60 /* cef_resource_handler.h */; };
-		91FDE8C2214749FB008FFB60 /* cef_pack_resources.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7CD214749FA008FFB60 /* cef_pack_resources.h */; };
-		91FDE8C3214749FB008FFB60 /* cef_string.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7CF214749FA008FFB60 /* cef_string.h */; };
-		91FDE8C4214749FB008FFB60 /* cef_string_wrappers.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D0214749FA008FFB60 /* cef_string_wrappers.h */; };
-		91FDE8C5214749FB008FFB60 /* cef_string_multimap.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D1214749FA008FFB60 /* cef_string_multimap.h */; };
-		91FDE8C6214749FB008FFB60 /* cef_types_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D2214749FA008FFB60 /* cef_types_mac.h */; };
-		91FDE8C7214749FB008FFB60 /* cef_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D3214749FA008FFB60 /* cef_mac.h */; };
-		91FDE8C8214749FB008FFB60 /* cef_ptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D4214749FA008FFB60 /* cef_ptr.h */; };
-		91FDE8C9214749FB008FFB60 /* cef_string_map.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D5214749FA008FFB60 /* cef_string_map.h */; };
-		91FDE8CA214749FB008FFB60 /* cef_thread_internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D6214749FA008FFB60 /* cef_thread_internal.h */; };
-		91FDE8CB214749FB008FFB60 /* cef_types_wrappers.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D7214749FA008FFB60 /* cef_types_wrappers.h */; };
-		91FDE8CC214749FB008FFB60 /* cef_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D8214749FA008FFB60 /* cef_types.h */; };
-		91FDE8CD214749FB008FFB60 /* cef_string_list.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7D9214749FA008FFB60 /* cef_string_list.h */; };
-		91FDE8CE214749FB008FFB60 /* cef_time.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7DA214749FA008FFB60 /* cef_time.h */; };
-		91FDE8CF214749FB008FFB60 /* cef_trace_event_internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7DB214749FA008FFB60 /* cef_trace_event_internal.h */; };
-		91FDE8D0214749FB008FFB60 /* cef_string_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7DC214749FA008FFB60 /* cef_string_types.h */; };
-		91FDE8D1214749FB008FFB60 /* cef_export.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7DD214749FA008FFB60 /* cef_export.h */; };
-		91FDE8D2214749FB008FFB60 /* cef_logging_internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7DE214749FA008FFB60 /* cef_logging_internal.h */; };
-		91FDE8D3214749FB008FFB60 /* cef_download_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7DF214749FA008FFB60 /* cef_download_handler.h */; };
-		91FDE8D4214749FB008FFB60 /* cef_thread.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E0214749FA008FFB60 /* cef_thread.h */; };
-		91FDE8D5214749FB008FFB60 /* cef_print_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E1214749FA008FFB60 /* cef_print_handler.h */; };
-		91FDE8D6214749FB008FFB60 /* cef_values.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E2214749FA008FFB60 /* cef_values.h */; };
-		91FDE8D7214749FB008FFB60 /* cef_dialog_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E3214749FA008FFB60 /* cef_dialog_handler.h */; };
-		91FDE8D8214749FB008FFB60 /* cef_waitable_event.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E4214749FA008FFB60 /* cef_waitable_event.h */; };
-		91FDE8D9214749FB008FFB60 /* cef_menu_model_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E5214749FA008FFB60 /* cef_menu_model_delegate.h */; };
-		91FDE8DA214749FB008FFB60 /* cef_path_util.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E6214749FA008FFB60 /* cef_path_util.h */; };
-		91FDE8DB214749FB008FFB60 /* cef_cookie.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E7214749FA008FFB60 /* cef_cookie.h */; };
-		91FDE8DC214749FB008FFB60 /* cef_zip_reader.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E8214749FA008FFB60 /* cef_zip_reader.h */; };
-		91FDE8DD214749FB008FFB60 /* cef_scheme.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7E9214749FA008FFB60 /* cef_scheme.h */; };
-		91FDE8DE214749FB008FFB60 /* cef_focus_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7EA214749FA008FFB60 /* cef_focus_handler.h */; };
-		91FDE8DF214749FB008FFB60 /* cef_stream.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7EB214749FA008FFB60 /* cef_stream.h */; };
-		91FDE8E0214749FB008FFB60 /* cef_navigation_entry.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7EC214749FA008FFB60 /* cef_navigation_entry.h */; };
-		91FDE8E1214749FB008FFB60 /* cef_browser.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7ED214749FA008FFB60 /* cef_browser.h */; };
-		91FDE8E2214749FB008FFB60 /* cef_x509_certificate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7EE214749FA008FFB60 /* cef_x509_certificate.h */; };
-		91FDE8E3214749FB008FFB60 /* cef_menu_model.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7EF214749FA008FFB60 /* cef_menu_model.h */; };
-		91FDE8E4214749FB008FFB60 /* cef_crash_util.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F0214749FA008FFB60 /* cef_crash_util.h */; };
-		91FDE8E5214749FB008FFB60 /* cef_jsdialog_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F1214749FA008FFB60 /* cef_jsdialog_handler.h */; };
-		91FDE8E6214749FB008FFB60 /* cef_request_context.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F2214749FA008FFB60 /* cef_request_context.h */; };
-		91FDE8E7214749FB008FFB60 /* cef_load_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F3214749FA008FFB60 /* cef_load_handler.h */; };
-		91FDE8E8214749FB008FFB60 /* cef_request.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F4214749FA008FFB60 /* cef_request.h */; };
-		91FDE8E9214749FB008FFB60 /* cef_process_message.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F5214749FA008FFB60 /* cef_process_message.h */; };
-		91FDE8EA214749FB008FFB60 /* cef_browser_process_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F6214749FA008FFB60 /* cef_browser_process_handler.h */; };
-		91FDE8EB214749FB008FFB60 /* cef_extension.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F7214749FA008FFB60 /* cef_extension.h */; };
-		91FDE8EC214749FB008FFB60 /* cef_web_plugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F8214749FA008FFB60 /* cef_web_plugin.h */; };
-		91FDE8ED214749FB008FFB60 /* cef_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7F9214749FA008FFB60 /* cef_parser.h */; };
-		91FDE8EE214749FB008FFB60 /* cef_extension_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7FA214749FA008FFB60 /* cef_extension_handler.h */; };
-		91FDE8EF214749FB008FFB60 /* cef_application_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7FB214749FA008FFB60 /* cef_application_mac.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		91FDE8F0214749FB008FFB60 /* cef_find_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7FC214749FA008FFB60 /* cef_find_handler.h */; };
-		91FDE8F1214749FB008FFB60 /* cef_v8.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7FD214749FA008FFB60 /* cef_v8.h */; };
-		91FDE8F2214749FB008FFB60 /* cef_task.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7FE214749FA008FFB60 /* cef_task.h */; };
-		91FDE8F3214749FB008FFB60 /* cef_process_util.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE7FF214749FA008FFB60 /* cef_process_util.h */; };
-		91FDE8F4214749FB008FFB60 /* cef_dom.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE800214749FA008FFB60 /* cef_dom.h */; };
-		91FDE8F5214749FB008FFB60 /* cef_panel.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE802214749FA008FFB60 /* cef_panel.h */; };
-		91FDE8F6214749FB008FFB60 /* cef_browser_view_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE803214749FA008FFB60 /* cef_browser_view_delegate.h */; };
-		91FDE8F7214749FB008FFB60 /* cef_box_layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE804214749FA008FFB60 /* cef_box_layout.h */; };
-		91FDE8F8214749FB008FFB60 /* cef_menu_button_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE805214749FA008FFB60 /* cef_menu_button_delegate.h */; };
-		91FDE8F9214749FB008FFB60 /* cef_button.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE806214749FA008FFB60 /* cef_button.h */; };
-		91FDE8FA214749FB008FFB60 /* cef_menu_button.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE807214749FA008FFB60 /* cef_menu_button.h */; };
-		91FDE8FB214749FB008FFB60 /* cef_browser_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE808214749FA008FFB60 /* cef_browser_view.h */; };
-		91FDE8FC214749FB008FFB60 /* cef_window_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE809214749FA008FFB60 /* cef_window_delegate.h */; };
-		91FDE8FD214749FB008FFB60 /* cef_layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE80A214749FA008FFB60 /* cef_layout.h */; };
-		91FDE8FE214749FB008FFB60 /* cef_scroll_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE80B214749FA008FFB60 /* cef_scroll_view.h */; };
-		91FDE8FF214749FB008FFB60 /* cef_display.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE80C214749FA008FFB60 /* cef_display.h */; };
-		91FDE900214749FB008FFB60 /* cef_window.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE80D214749FA008FFB60 /* cef_window.h */; };
-		91FDE901214749FB008FFB60 /* cef_view.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE80E214749FA008FFB60 /* cef_view.h */; };
-		91FDE902214749FB008FFB60 /* cef_panel_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE80F214749FA008FFB60 /* cef_panel_delegate.h */; };
-		91FDE903214749FB008FFB60 /* cef_textfield.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE810214749FA008FFB60 /* cef_textfield.h */; };
-		91FDE904214749FB008FFB60 /* cef_fill_layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE811214749FA008FFB60 /* cef_fill_layout.h */; };
-		91FDE905214749FB008FFB60 /* cef_label_button.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE812214749FA008FFB60 /* cef_label_button.h */; };
-		91FDE906214749FB008FFB60 /* cef_view_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE813214749FA008FFB60 /* cef_view_delegate.h */; };
-		91FDE907214749FB008FFB60 /* cef_textfield_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE814214749FA008FFB60 /* cef_textfield_delegate.h */; };
-		91FDE908214749FB008FFB60 /* cef_button_delegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE815214749FA008FFB60 /* cef_button_delegate.h */; };
-		91FDE909214749FB008FFB60 /* cef_command_line.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE816214749FA008FFB60 /* cef_command_line.h */; };
-		91FDE90A214749FB008FFB60 /* cef_client.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE817214749FA008FFB60 /* cef_client.h */; };
-		91FDE90B214749FB008FFB60 /* cef_download_item.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE818214749FA008FFB60 /* cef_download_item.h */; };
-		91FDE90C214749FB008FFB60 /* cef_frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE819214749FA008FFB60 /* cef_frame.h */; };
-		91FDE90D214749FB008FFB60 /* cef_xml_reader.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE81A214749FA008FFB60 /* cef_xml_reader.h */; };
-		91FDE90E214749FB008FFB60 /* cef_app.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE81B214749FA008FFB60 /* cef_app.h */; };
-		91FDE90F214749FB008FFB60 /* cef_move.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE81D214749FA008FFB60 /* cef_move.h */; };
-		91FDE910214749FB008FFB60 /* cef_tuple.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE81E214749FA008FFB60 /* cef_tuple.h */; };
-		91FDE911214749FB008FFB60 /* cef_bind.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE81F214749FA008FFB60 /* cef_bind.h */; };
-		91FDE912214749FB008FFB60 /* cef_thread_checker.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE820214749FA008FFB60 /* cef_thread_checker.h */; };
-		91FDE913214749FB008FFB60 /* cef_bind_helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE821214749FA008FFB60 /* cef_bind_helpers.h */; };
-		91FDE914214749FB008FFB60 /* cef_ref_counted.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE822214749FA008FFB60 /* cef_ref_counted.h */; };
-		91FDE915214749FB008FFB60 /* cef_callback.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE823214749FA008FFB60 /* cef_callback.h */; };
-		91FDE916214749FB008FFB60 /* cef_platform_thread.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE824214749FA008FFB60 /* cef_platform_thread.h */; };
-		91FDE917214749FB008FFB60 /* cef_macros.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE825214749FA008FFB60 /* cef_macros.h */; };
-		91FDE918214749FB008FFB60 /* cef_raw_scoped_refptr_mismatch_checker.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE827214749FA008FFB60 /* cef_raw_scoped_refptr_mismatch_checker.h */; };
-		91FDE919214749FB008FFB60 /* cef_atomicops_atomicword_compat.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE828214749FA008FFB60 /* cef_atomicops_atomicword_compat.h */; };
-		91FDE91A214749FB008FFB60 /* cef_thread_checker_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE829214749FA008FFB60 /* cef_thread_checker_impl.h */; };
-		91FDE91B214749FB008FFB60 /* cef_lock_impl.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE82A214749FA008FFB60 /* cef_lock_impl.h */; };
-		91FDE91C214749FB008FFB60 /* cef_bind_internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE82B214749FA008FFB60 /* cef_bind_internal.h */; };
-		91FDE91D214749FB008FFB60 /* cef_atomicops_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE82C214749FA008FFB60 /* cef_atomicops_mac.h */; };
-		91FDE91E214749FB008FFB60 /* cef_callback_internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE82D214749FA008FFB60 /* cef_callback_internal.h */; };
-		91FDE91F214749FB008FFB60 /* cef_cancelable_callback.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE82E214749FA008FFB60 /* cef_cancelable_callback.h */; };
-		91FDE920214749FB008FFB60 /* cef_callback_helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE82F214749FA008FFB60 /* cef_callback_helpers.h */; };
-		91FDE921214749FB008FFB60 /* cef_basictypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE830214749FA008FFB60 /* cef_basictypes.h */; };
-		91FDE922214749FB008FFB60 /* cef_callback_forward.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE831214749FA008FFB60 /* cef_callback_forward.h */; };
-		91FDE923214749FB008FFB60 /* cef_logging.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE832214749FA008FFB60 /* cef_logging.h */; };
-		91FDE924214749FC008FFB60 /* cef_atomic_ref_count.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE833214749FA008FFB60 /* cef_atomic_ref_count.h */; };
-		91FDE925214749FC008FFB60 /* cef_atomicops.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE834214749FA008FFB60 /* cef_atomicops.h */; };
-		91FDE926214749FC008FFB60 /* cef_thread_collision_warner.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE835214749FA008FFB60 /* cef_thread_collision_warner.h */; };
-		91FDE927214749FC008FFB60 /* cef_string16.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE836214749FA008FFB60 /* cef_string16.h */; };
-		91FDE928214749FC008FFB60 /* cef_build.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE837214749FA008FFB60 /* cef_build.h */; };
-		91FDE929214749FC008FFB60 /* cef_lock.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE838214749FA008FFB60 /* cef_lock.h */; };
-		91FDE92A214749FC008FFB60 /* cef_trace_event.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE839214749FA008FFB60 /* cef_trace_event.h */; };
-		91FDE92B214749FC008FFB60 /* cef_callback_list.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE83A214749FA008FFB60 /* cef_callback_list.h */; };
-		91FDE92C214749FC008FFB60 /* cef_scoped_ptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE83B214749FA008FFB60 /* cef_scoped_ptr.h */; };
-		91FDE92D214749FC008FFB60 /* cef_weak_ptr.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE83C214749FA008FFB60 /* cef_weak_ptr.h */; };
-		91FDE92E214749FC008FFB60 /* cef_template_util.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE83D214749FA008FFB60 /* cef_template_util.h */; };
-		91FDE92F214749FC008FFB60 /* cef_response.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE83E214749FA008FFB60 /* cef_response.h */; };
 		91FDEA94214750D3008FFB60 /* menu_model_delegate_cpptoc.cc in Sources */ = {isa = PBXBuildFile; fileRef = 91FDE951214750D3008FFB60 /* menu_model_delegate_cpptoc.cc */; };
 		91FDEA95214750D3008FFB60 /* completion_callback_cpptoc.cc in Sources */ = {isa = PBXBuildFile; fileRef = 91FDE952214750D3008FFB60 /* completion_callback_cpptoc.cc */; };
 		91FDEA96214750D3008FFB60 /* drag_handler_cpptoc.h in Headers */ = {isa = PBXBuildFile; fileRef = 91FDE953214750D3008FFB60 /* drag_handler_cpptoc.h */; };
@@ -565,21 +322,11 @@
 		91FDEBCC214750D4008FFB60 /* cef_ref_counted.cc in Sources */ = {isa = PBXBuildFile; fileRef = 91FDEA91214750D3008FFB60 /* cef_ref_counted.cc */; };
 		91FDEBCD214750D4008FFB60 /* cef_lock_impl.cc in Sources */ = {isa = PBXBuildFile; fileRef = 91FDEA92214750D3008FFB60 /* cef_lock_impl.cc */; };
 		91FDEBCE214750D4008FFB60 /* cef_bind_helpers.cc in Sources */ = {isa = PBXBuildFile; fileRef = 91FDEA93214750D3008FFB60 /* cef_bind_helpers.cc */; };
+		B5A0404121483747007A6CC1 /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91576128214332E800DC6DBC /* Chromium Embedded Framework.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		91FDEBCF21475119008FFB60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 919D175A214326E4003D26E5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 91FDE94321475039008FFB60;
-			remoteInfo = libcef_dll_wrapper;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		91576128214332E800DC6DBC /* Chromium Embedded Framework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "Chromium Embedded Framework.framework"; sourceTree = "<group>"; };
-		919D1763214326E4003D26E5 /* cef.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = cef.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		919D1766214326E4003D26E5 /* cef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cef.h; sourceTree = "<group>"; };
 		919D1767214326E4003D26E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91FDE745214749FA008FFB60 /* cef_render_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cef_render_handler.h; sourceTree = "<group>"; };
@@ -1143,18 +890,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		919D175F214326E4003D26E5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				91576129214332E800DC6DBC /* Chromium Embedded Framework.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		91FDE94121475039008FFB60 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A0404121483747007A6CC1 /* Chromium Embedded Framework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1169,13 +909,13 @@
 				91576128214332E800DC6DBC /* Chromium Embedded Framework.framework */,
 				919D1765214326E4003D26E5 /* cef */,
 				919D1764214326E4003D26E5 /* Products */,
+				B5A0404021483747007A6CC1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		919D1764214326E4003D26E5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				919D1763214326E4003D26E5 /* cef.framework */,
 				91FDE94421475039008FFB60 /* liblibcef_dll_wrapper.dylib */,
 			);
 			name = Products;
@@ -1897,258 +1637,16 @@
 			path = base;
 			sourceTree = "<group>";
 		};
+		B5A0404021483747007A6CC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		919D1760214326E4003D26E5 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				91FDE841214749FA008FFB60 /* cef_response_filter.h in Headers */,
-				91FDE8EF214749FB008FFB60 /* cef_application_mac.h in Headers */,
-				91FDE84D214749FA008FFB60 /* cef_translator_test.h in Headers */,
-				91FDE8BA214749FB008FFB60 /* cef_v8_capi.h in Headers */,
-				91FDE8EA214749FB008FFB60 /* cef_browser_process_handler.h in Headers */,
-				91FDE897214749FB008FFB60 /* cef_values_capi.h in Headers */,
-				91FDE8DD214749FB008FFB60 /* cef_scheme.h in Headers */,
-				91FDE884214749FB008FFB60 /* cef_accessibility_handler_capi.h in Headers */,
-				91FDE860214749FB008FFB60 /* cef_display_handler.h in Headers */,
-				91FDE891214749FB008FFB60 /* cef_context_menu_handler_capi.h in Headers */,
-				91FDE924214749FC008FFB60 /* cef_atomic_ref_count.h in Headers */,
-				91FDE8A6214749FB008FFB60 /* cef_window_delegate_capi.h in Headers */,
-				91FDE8D6214749FB008FFB60 /* cef_values.h in Headers */,
-				91FDE87E214749FB008FFB60 /* cef_display_handler_capi.h in Headers */,
-				91FDE873214749FB008FFB60 /* cef_life_span_handler_capi.h in Headers */,
-				91FDE89D214749FB008FFB60 /* cef_window_capi.h in Headers */,
-				91FDE882214749FB008FFB60 /* cef_path_util_capi.h in Headers */,
-				91FDE8A2214749FB008FFB60 /* cef_panel_capi.h in Headers */,
-				91FDE84C214749FA008FFB60 /* cef_ssl_info.h in Headers */,
-				91FDE890214749FB008FFB60 /* cef_jsdialog_handler_capi.h in Headers */,
-				91FDE88A214749FB008FFB60 /* cef_crash_util_capi.h in Headers */,
-				91FDE912214749FB008FFB60 /* cef_thread_checker.h in Headers */,
-				91FDE88F214749FB008FFB60 /* cef_menu_model_capi.h in Headers */,
-				91FDE913214749FB008FFB60 /* cef_bind_helpers.h in Headers */,
-				91FDE92A214749FC008FFB60 /* cef_trace_event.h in Headers */,
-				91FDE846214749FA008FFB60 /* cef_server.h in Headers */,
-				91FDE8A8214749FB008FFB60 /* cef_menu_button_delegate_capi.h in Headers */,
-				91FDE865214749FB008FFB60 /* cef_dialog_handler_capi.h in Headers */,
-				91FDE8A7214749FB008FFB60 /* cef_browser_view_capi.h in Headers */,
-				91FDE8EE214749FB008FFB60 /* cef_extension_handler.h in Headers */,
-				91FDE84A214749FA008FFB60 /* cef_base.h in Headers */,
-				91FDE8CD214749FB008FFB60 /* cef_string_list.h in Headers */,
-				91FDE840214749FA008FFB60 /* cef_pack_strings.h in Headers */,
-				91FDE8AC214749FB008FFB60 /* cef_menu_button_capi.h in Headers */,
-				91FDE8FF214749FB008FFB60 /* cef_display.h in Headers */,
-				91FDE8DA214749FB008FFB60 /* cef_path_util.h in Headers */,
-				91FDE91A214749FB008FFB60 /* cef_thread_checker_impl.h in Headers */,
-				91FDE919214749FB008FFB60 /* cef_atomicops_atomicword_compat.h in Headers */,
-				91FDE8D2214749FB008FFB60 /* cef_logging_internal.h in Headers */,
-				91FDE893214749FB008FFB60 /* cef_process_util_capi.h in Headers */,
-				91FDE879214749FB008FFB60 /* cef_response_filter_capi.h in Headers */,
-				91FDE8A0214749FB008FFB60 /* cef_layout_capi.h in Headers */,
-				91FDE86D214749FB008FFB60 /* cef_test_helpers_capi.h in Headers */,
-				91FDE8D9214749FB008FFB60 /* cef_menu_model_delegate.h in Headers */,
-				91FDE927214749FC008FFB60 /* cef_string16.h in Headers */,
-				91FDE8F3214749FB008FFB60 /* cef_process_util.h in Headers */,
-				91FDE8C3214749FB008FFB60 /* cef_string.h in Headers */,
-				91FDE86C214749FB008FFB60 /* cef_request_context_handler_capi.h in Headers */,
-				91FDE8CC214749FB008FFB60 /* cef_types.h in Headers */,
-				91FDE872214749FB008FFB60 /* cef_menu_model_delegate_capi.h in Headers */,
-				91FDE8C5214749FB008FFB60 /* cef_string_multimap.h in Headers */,
-				91FDE8D8214749FB008FFB60 /* cef_waitable_event.h in Headers */,
-				91FDE8A5214749FB008FFB60 /* cef_fill_layout_capi.h in Headers */,
-				91FDE84F214749FB008FFB60 /* cef_callback.h in Headers */,
-				91FDE8BF214749FB008FFB60 /* cef_auth_callback.h in Headers */,
-				91FDE914214749FB008FFB60 /* cef_ref_counted.h in Headers */,
-				91FDE8CB214749FB008FFB60 /* cef_types_wrappers.h in Headers */,
-				91FDE8BC214749FB008FFB60 /* cef_context_menu_handler.h in Headers */,
-				91FDE8C4214749FB008FFB60 /* cef_string_wrappers.h in Headers */,
-				91FDE859214749FB008FFB60 /* cef_resource_manager.h in Headers */,
-				91FDE896214749FB008FFB60 /* cef_render_handler_capi.h in Headers */,
-				91FDE889214749FB008FFB60 /* cef_origin_whitelist_capi.h in Headers */,
-				91FDE923214749FB008FFB60 /* cef_logging.h in Headers */,
-				91FDE90D214749FB008FFB60 /* cef_xml_reader.h in Headers */,
-				91FDE910214749FB008FFB60 /* cef_tuple.h in Headers */,
-				91FDE842214749FA008FFB60 /* cef_render_process_handler.h in Headers */,
-				91FDE8F5214749FB008FFB60 /* cef_panel.h in Headers */,
-				91FDE8D4214749FB008FFB60 /* cef_thread.h in Headers */,
-				91FDE87B214749FB008FFB60 /* cef_web_plugin_capi.h in Headers */,
-				91FDE87D214749FB008FFB60 /* cef_drag_handler_capi.h in Headers */,
-				91FDE921214749FB008FFB60 /* cef_basictypes.h in Headers */,
-				91FDE900214749FB008FFB60 /* cef_window.h in Headers */,
-				91FDE852214749FB008FFB60 /* cef_drag_handler.h in Headers */,
-				91FDE85D214749FB008FFB60 /* cef_request_context_handler.h in Headers */,
-				91FDE8C7214749FB008FFB60 /* cef_mac.h in Headers */,
-				91FDE906214749FB008FFB60 /* cef_view_delegate.h in Headers */,
-				91FDE8AB214749FB008FFB60 /* cef_button_capi.h in Headers */,
-				91FDE86A214749FB008FFB60 /* cef_thread_capi.h in Headers */,
-				91FDE92D214749FC008FFB60 /* cef_weak_ptr.h in Headers */,
-				91FDE8A4214749FB008FFB60 /* cef_scroll_view_capi.h in Headers */,
-				91FDE929214749FC008FFB60 /* cef_lock.h in Headers */,
-				91FDE8ED214749FB008FFB60 /* cef_parser.h in Headers */,
-				91FDE8F2214749FB008FFB60 /* cef_task.h in Headers */,
-				91FDE88D214749FB008FFB60 /* cef_request_capi.h in Headers */,
-				91FDE8C2214749FB008FFB60 /* cef_pack_resources.h in Headers */,
-				91FDE83F214749FA008FFB60 /* cef_render_handler.h in Headers */,
-				91FDE876214749FB008FFB60 /* cef_frame_capi.h in Headers */,
-				91FDE8A3214749FB008FFB60 /* cef_panel_delegate_capi.h in Headers */,
-				91FDE8E2214749FB008FFB60 /* cef_x509_certificate.h in Headers */,
-				91FDE8A1214749FB008FFB60 /* cef_label_button_capi.h in Headers */,
-				91FDE903214749FB008FFB60 /* cef_textfield.h in Headers */,
-				91FDE8E8214749FB008FFB60 /* cef_request.h in Headers */,
-				91FDE8DF214749FB008FFB60 /* cef_stream.h in Headers */,
-				91FDE8BD214749FB008FFB60 /* cef_image.h in Headers */,
-				91FDE88E214749FB008FFB60 /* cef_extension_handler_capi.h in Headers */,
-				91FDE8FD214749FB008FFB60 /* cef_layout.h in Headers */,
-				91FDE847214749FA008FFB60 /* cef_drag_data.h in Headers */,
-				91FDE8AF214749FB008FFB60 /* cef_view_capi.h in Headers */,
-				91FDE8DE214749FB008FFB60 /* cef_focus_handler.h in Headers */,
-				91FDE871214749FB008FFB60 /* cef_app_capi.h in Headers */,
-				91FDE90C214749FB008FFB60 /* cef_frame.h in Headers */,
-				91FDE8D0214749FB008FFB60 /* cef_string_types.h in Headers */,
-				91FDE878214749FB008FFB60 /* cef_dom_capi.h in Headers */,
-				91FDE892214749FB008FFB60 /* cef_browser_capi.h in Headers */,
-				91FDE88B214749FB008FFB60 /* cef_callback_capi.h in Headers */,
-				91FDE848214749FA008FFB60 /* cef_trace.h in Headers */,
-				91FDE911214749FB008FFB60 /* cef_bind.h in Headers */,
-				91FDE8BE214749FB008FFB60 /* cef_file_util.h in Headers */,
-				91FDE90F214749FB008FFB60 /* cef_move.h in Headers */,
-				91FDE8D3214749FB008FFB60 /* cef_download_handler.h in Headers */,
-				91FDE8D5214749FB008FFB60 /* cef_print_handler.h in Headers */,
-				91FDE8EC214749FB008FFB60 /* cef_web_plugin.h in Headers */,
-				91FDE863214749FB008FFB60 /* cef_response_capi.h in Headers */,
-				91FDE8F7214749FB008FFB60 /* cef_box_layout.h in Headers */,
-				91FDE8CE214749FB008FFB60 /* cef_time.h in Headers */,
-				91FDE8E5214749FB008FFB60 /* cef_jsdialog_handler.h in Headers */,
-				91FDE84B214749FA008FFB60 /* cef_ssl_status.h in Headers */,
-				91FDE87C214749FB008FFB60 /* cef_download_item_capi.h in Headers */,
-				91FDE862214749FB008FFB60 /* cef_request_context_capi.h in Headers */,
-				91FDE868214749FB008FFB60 /* cef_client_capi.h in Headers */,
-				91FDE8DB214749FB008FFB60 /* cef_cookie.h in Headers */,
-				91FDE91C214749FB008FFB60 /* cef_bind_internal.h in Headers */,
-				91FDE73E2147499E008FFB60 /* cef.h in Headers */,
-				91FDE8FE214749FB008FFB60 /* cef_scroll_view.h in Headers */,
-				91FDE874214749FB008FFB60 /* cef_parser_capi.h in Headers */,
-				91FDE89A214749FB008FFB60 /* cef_process_message_capi.h in Headers */,
-				91FDE8F8214749FB008FFB60 /* cef_menu_button_delegate.h in Headers */,
-				91FDE86B214749FB008FFB60 /* cef_image_capi.h in Headers */,
-				91FDE85B214749FB008FFB60 /* cef_helpers.h in Headers */,
-				91FDE89F214749FB008FFB60 /* cef_display_capi.h in Headers */,
-				91FDE8F1214749FB008FFB60 /* cef_v8.h in Headers */,
-				91FDE905214749FB008FFB60 /* cef_label_button.h in Headers */,
-				91FDE88C214749FB008FFB60 /* cef_x509_certificate_capi.h in Headers */,
-				91FDE845214749FA008FFB60 /* cef_string_visitor.h in Headers */,
-				91FDE877214749FB008FFB60 /* cef_drag_data_capi.h in Headers */,
-				91FDE902214749FB008FFB60 /* cef_panel_delegate.h in Headers */,
-				91FDE861214749FB008FFB60 /* cef_urlrequest.h in Headers */,
-				91FDE851214749FB008FFB60 /* cef_version.h in Headers */,
-				91FDE917214749FB008FFB60 /* cef_macros.h in Headers */,
-				91FDE883214749FB008FFB60 /* cef_cookie_capi.h in Headers */,
-				91FDE899214749FB008FFB60 /* cef_zip_reader_capi.h in Headers */,
-				91FDE8F4214749FB008FFB60 /* cef_dom.h in Headers */,
-				91FDE8FB214749FB008FFB60 /* cef_browser_view.h in Headers */,
-				91FDE869214749FB008FFB60 /* cef_base_capi.h in Headers */,
-				91FDE916214749FB008FFB60 /* cef_platform_thread.h in Headers */,
-				91FDE85E214749FB008FFB60 /* cef_resource_bundle_handler.h in Headers */,
-				91FDE855214749FB008FFB60 /* cef_stream_resource_handler.h in Headers */,
-				91FDE8B2214749FB008FFB60 /* cef_navigation_entry_capi.h in Headers */,
-				91FDE8E1214749FB008FFB60 /* cef_browser.h in Headers */,
-				91FDE8B7214749FB008FFB60 /* cef_render_process_handler_capi.h in Headers */,
-				91FDE8AE214749FB008FFB60 /* cef_browser_view_delegate_capi.h in Headers */,
-				91FDE87F214749FB008FFB60 /* cef_stream_capi.h in Headers */,
-				91FDE8AD214749FB008FFB60 /* cef_textfield_capi.h in Headers */,
-				91FDE8B5214749FB008FFB60 /* cef_browser_process_handler_capi.h in Headers */,
-				91FDE875214749FB008FFB60 /* cef_focus_handler_capi.h in Headers */,
-				91FDE849214749FA008FFB60 /* cef_resource_bundle.h in Headers */,
-				91FDE91D214749FB008FFB60 /* cef_atomicops_mac.h in Headers */,
-				91FDE8C6214749FB008FFB60 /* cef_types_mac.h in Headers */,
-				91FDE928214749FC008FFB60 /* cef_build.h in Headers */,
-				91FDE92B214749FC008FFB60 /* cef_callback_list.h in Headers */,
-				91FDE8BB214749FB008FFB60 /* cef_print_handler_capi.h in Headers */,
-				91FDE895214749FB008FFB60 /* cef_auth_callback_capi.h in Headers */,
-				91FDE922214749FB008FFB60 /* cef_callback_forward.h in Headers */,
-				91FDE909214749FB008FFB60 /* cef_command_line.h in Headers */,
-				91FDE918214749FB008FFB60 /* cef_raw_scoped_refptr_mismatch_checker.h in Headers */,
-				91FDE8B3214749FB008FFB60 /* cef_task_capi.h in Headers */,
-				91FDE8D7214749FB008FFB60 /* cef_dialog_handler.h in Headers */,
-				91FDE915214749FB008FFB60 /* cef_callback.h in Headers */,
-				91FDE926214749FC008FFB60 /* cef_thread_collision_warner.h in Headers */,
-				91FDE91B214749FB008FFB60 /* cef_lock_impl.h in Headers */,
-				91FDE870214749FB008FFB60 /* cef_ssl_info_capi.h in Headers */,
-				91FDE89B214749FB008FFB60 /* cef_resource_handler_capi.h in Headers */,
-				91FDE8B1214749FB008FFB60 /* cef_command_line_capi.h in Headers */,
-				91FDE901214749FB008FFB60 /* cef_view.h in Headers */,
-				91FDE8A9214749FB008FFB60 /* cef_button_delegate_capi.h in Headers */,
-				91FDE8B0214749FB008FFB60 /* cef_textfield_delegate_capi.h in Headers */,
-				91FDE8B8214749FB008FFB60 /* cef_keyboard_handler_capi.h in Headers */,
-				91FDE89C214749FB008FFB60 /* cef_file_util_capi.h in Headers */,
-				91FDE86E214749FB008FFB60 /* cef_translator_test_capi.h in Headers */,
-				91FDE888214749FB008FFB60 /* cef_print_settings_capi.h in Headers */,
-				91FDE8E7214749FB008FFB60 /* cef_load_handler.h in Headers */,
-				91FDE8FA214749FB008FFB60 /* cef_menu_button.h in Headers */,
-				91FDE898214749FB008FFB60 /* cef_download_handler_capi.h in Headers */,
-				91FDE91F214749FB008FFB60 /* cef_cancelable_callback.h in Headers */,
-				91FDE92F214749FC008FFB60 /* cef_response.h in Headers */,
-				91FDE89E214749FB008FFB60 /* cef_box_layout_capi.h in Headers */,
-				91FDE8B9214749FB008FFB60 /* cef_scheme_capi.h in Headers */,
-				91FDE87A214749FB008FFB60 /* cef_find_handler_capi.h in Headers */,
-				91FDE854214749FB008FFB60 /* cef_xml_object.h in Headers */,
-				91FDE90A214749FB008FFB60 /* cef_client.h in Headers */,
-				91FDE844214749FA008FFB60 /* cef_keyboard_handler.h in Headers */,
-				91FDE920214749FB008FFB60 /* cef_callback_helpers.h in Headers */,
-				91FDE85C214749FB008FFB60 /* cef_zip_archive.h in Headers */,
-				91FDE84E214749FA008FFB60 /* cef_test_helpers.h in Headers */,
-				91FDE8B4214749FB008FFB60 /* cef_resource_bundle_handler_capi.h in Headers */,
-				91FDE908214749FB008FFB60 /* cef_button_delegate.h in Headers */,
-				91FDE843214749FA008FFB60 /* cef_accessibility_handler.h in Headers */,
-				91FDE881214749FB008FFB60 /* cef_load_handler_capi.h in Headers */,
-				91FDE858214749FB008FFB60 /* cef_byte_read_handler.h in Headers */,
-				91FDE8C8214749FB008FFB60 /* cef_ptr.h in Headers */,
-				91FDE85F214749FB008FFB60 /* cef_print_settings.h in Headers */,
-				91FDE867214749FB008FFB60 /* cef_waitable_event_capi.h in Headers */,
-				91FDE8E3214749FB008FFB60 /* cef_menu_model.h in Headers */,
-				91FDE857214749FB008FFB60 /* cef_message_router.h in Headers */,
-				91FDE907214749FB008FFB60 /* cef_textfield_delegate.h in Headers */,
-				91FDE8E9214749FB008FFB60 /* cef_process_message.h in Headers */,
-				91FDE864214749FB008FFB60 /* cef_string_visitor_capi.h in Headers */,
-				91FDE880214749FB008FFB60 /* cef_trace_capi.h in Headers */,
-				91FDE8CF214749FB008FFB60 /* cef_trace_event_internal.h in Headers */,
-				91FDE925214749FC008FFB60 /* cef_atomicops.h in Headers */,
-				91FDE90B214749FB008FFB60 /* cef_download_item.h in Headers */,
-				91FDE8F9214749FB008FFB60 /* cef_button.h in Headers */,
-				91FDE887214749FB008FFB60 /* cef_request_handler_capi.h in Headers */,
-				91FDE8FC214749FB008FFB60 /* cef_window_delegate.h in Headers */,
-				91FDE8DC214749FB008FFB60 /* cef_zip_reader.h in Headers */,
-				91FDE904214749FB008FFB60 /* cef_fill_layout.h in Headers */,
-				91FDE92C214749FC008FFB60 /* cef_scoped_ptr.h in Headers */,
-				91FDE850214749FB008FFB60 /* cef_request_handler.h in Headers */,
-				91FDE8C9214749FB008FFB60 /* cef_string_map.h in Headers */,
-				91FDE866214749FB008FFB60 /* cef_xml_reader_capi.h in Headers */,
-				91FDE92E214749FC008FFB60 /* cef_template_util.h in Headers */,
-				91FDE8EB214749FB008FFB60 /* cef_extension.h in Headers */,
-				91FDE8E4214749FB008FFB60 /* cef_crash_util.h in Headers */,
-				91FDE86F214749FB008FFB60 /* cef_urlrequest_capi.h in Headers */,
-				91FDE85A214749FB008FFB60 /* cef_scoped_temp_dir.h in Headers */,
-				91FDE8F6214749FB008FFB60 /* cef_browser_view_delegate.h in Headers */,
-				91FDE8F0214749FB008FFB60 /* cef_find_handler.h in Headers */,
-				91FDE8D1214749FB008FFB60 /* cef_export.h in Headers */,
-				91FDE886214749FB008FFB60 /* cef_ssl_status_capi.h in Headers */,
-				91FDE8AA214749FB008FFB60 /* cef_view_delegate_capi.h in Headers */,
-				91FDE8E6214749FB008FFB60 /* cef_request_context.h in Headers */,
-				91FDE8B6214749FB008FFB60 /* cef_resource_bundle_capi.h in Headers */,
-				91FDE90E214749FB008FFB60 /* cef_app.h in Headers */,
-				91FDE8E0214749FB008FFB60 /* cef_navigation_entry.h in Headers */,
-				91FDE8C0214749FB008FFB60 /* cef_life_span_handler.h in Headers */,
-				91FDE91E214749FB008FFB60 /* cef_callback_internal.h in Headers */,
-				91FDE853214749FB008FFB60 /* cef_origin_whitelist.h in Headers */,
-				91FDE856214749FB008FFB60 /* cef_closure_task.h in Headers */,
-				91FDE885214749FB008FFB60 /* cef_server_capi.h in Headers */,
-				91FDE8CA214749FB008FFB60 /* cef_thread_internal.h in Headers */,
-				91FDE8C1214749FB008FFB60 /* cef_resource_handler.h in Headers */,
-				91FDE894214749FB008FFB60 /* cef_extension_capi.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		91FDE94221475039008FFB60 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -2309,25 +1807,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		919D1762214326E4003D26E5 /* cef */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 919D176B214326E4003D26E5 /* Build configuration list for PBXNativeTarget "cef" */;
-			buildPhases = (
-				919D175E214326E4003D26E5 /* Sources */,
-				919D175F214326E4003D26E5 /* Frameworks */,
-				919D1760214326E4003D26E5 /* Headers */,
-				919D1761214326E4003D26E5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				91FDEBD021475119008FFB60 /* PBXTargetDependency */,
-			);
-			name = cef;
-			productName = cef;
-			productReference = 919D1763214326E4003D26E5 /* cef.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		91FDE94321475039008FFB60 /* libcef_dll_wrapper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 91FDE94A2147503A008FFB60 /* Build configuration list for PBXNativeTarget "libcef_dll_wrapper" */;
@@ -2354,9 +1833,6 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = builders.game;
 				TargetAttributes = {
-					919D1762214326E4003D26E5 = {
-						CreatedOnToolsVersion = 9.4.1;
-					};
 					91FDE94321475039008FFB60 = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -2374,30 +1850,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				919D1762214326E4003D26E5 /* cef */,
 				91FDE94321475039008FFB60 /* libcef_dll_wrapper */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		919D1761214326E4003D26E5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		919D175E214326E4003D26E5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		91FDE94021475039008FFB60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2572,14 +2030,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		91FDEBD021475119008FFB60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 91FDE94321475039008FFB60 /* libcef_dll_wrapper */;
-			targetProxy = 91FDEBCF21475119008FFB60 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
 		919D1769214326E4003D26E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -2696,150 +2146,6 @@
 			};
 			name = Release;
 		};
-		919D176C214326E4003D26E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"\"$(PROJECT_DIR)/Chromium Embedded Framework/\"",
-				);
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = cef/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-					"@executable_path/..",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-fno-strict-aliasing",
-					"-fstack-protector",
-					"-funwind-tables",
-					"'-fvisibility=hidden'",
-					"-Wall",
-					"-Werror",
-					"-Wextra",
-					"-Wendif-labels",
-					"-Wnewline-eof",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused-parameter",
-					"'-mmacosx-version-min=10.9'",
-					"-fno-exceptions",
-					"-fno-rtti",
-					"-fno-threadsafe-statics",
-					"-fobjc-call-cxx-cdtors",
-					"-fvisibility-inlines-hidden",
-					"'-std=gnu++11'",
-					"-Wno-narrowing",
-					"-Wsign-compare",
-					"-Wno-undefined-var-template",
-				);
-				OTHER_LDFLAGS = (
-					"-Wl,-search_paths_first",
-					"-Wl,-ObjC",
-					"-Wl,-pie",
-					"-Wl,-search_paths_first",
-					"-Wl,-headerpad_max_install_names",
-					"\"/Users/ben/Documents/code/exponentjs/ghost/ghost-extensions/cef/Debug/Chromium Embedded Framework.framework/Chromium Embedded Framework\"",
-					"/Users/ben/Documents/code/exponentjs/ghost/ghost-extensions/cef/libcef_dll_wrapper/Debug/libcef_dll_wrapper.a",
-					"-lpthread",
-					"-framework",
-					Cocoa,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = builders.game.cef;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		919D176D214326E4003D26E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"\"$(PROJECT_DIR)/Chromium Embedded Framework\"",
-				);
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = cef/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-					"@executable_path/..",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNDEBUG",
-					"-fno-strict-aliasing",
-					"-fstack-protector",
-					"-funwind-tables",
-					"'-fvisibility=hidden'",
-					"-Wall",
-					"-Werror",
-					"-Wextra",
-					"-Wendif-labels",
-					"-Wnewline-eof",
-					"-Wno-missing-field-initializers",
-					"-Wno-unused-parameter",
-					"'-mmacosx-version-min=10.9'",
-					"-fno-exceptions",
-					"-fno-rtti",
-					"-fno-threadsafe-statics",
-					"-fobjc-call-cxx-cdtors",
-					"-fvisibility-inlines-hidden",
-					"'-std=gnu++11'",
-					"-Wno-narrowing",
-					"-Wsign-compare",
-					"-Wno-undefined-var-template",
-				);
-				OTHER_LDFLAGS = (
-					"-Wl,-search_paths_first",
-					"-Wl,-ObjC",
-					"-Wl,-pie",
-					"-Wl,-dead_strip",
-					"-Wl,-search_paths_first",
-					"-Wl,-headerpad_max_install_names",
-					"\"/Users/ben/Documents/code/exponentjs/ghost/ghost-extensions/cef/Release/Chromium Embedded Framework.framework/Chromium Embedded Framework\"",
-					"/Users/ben/Documents/code/exponentjs/ghost/ghost-extensions/cef/libcef_dll_wrapper/Release/libcef_dll_wrapper.a",
-					"-lpthread",
-					"-framework",
-					Cocoa,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = builders.game.cef;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		91FDE94B2147503A008FFB60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2847,6 +2153,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -2865,6 +2175,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = WRAPPING_CEF_SHARED;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2880,15 +2194,6 @@
 			buildConfigurations = (
 				919D1769214326E4003D26E5 /* Debug */,
 				919D176A214326E4003D26E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		919D176B214326E4003D26E5 /* Build configuration list for PBXNativeTarget "cef" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				919D176C214326E4003D26E5 /* Debug */,
-				919D176D214326E4003D26E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

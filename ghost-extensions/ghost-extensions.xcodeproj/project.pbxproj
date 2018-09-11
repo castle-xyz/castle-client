@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		91C98F9721432A75006E745C /* cef.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91C98F9621432A75006E745C /* cef.framework */; };
 		B5E9F8A1211B669D0068BEB9 /* ghost_extensions.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E9F89F211B669D0068BEB9 /* ghost_extensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B5E9FA75211B67100068BEB9 /* imgui.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E9F8AA211B670F0068BEB9 /* imgui.h */; };
 		B5E9FA76211B67100068BEB9 /* imconfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B5E9F8AB211B670F0068BEB9 /* imconfig.h */; };
@@ -200,7 +199,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91C98F9721432A75006E745C /* cef.framework in Frameworks */,
 				B5E9FC4A211B6C630068BEB9 /* love.framework in Frameworks */,
 				B5E9FC3A211B6AF40068BEB9 /* Lua.framework in Frameworks */,
 				B5E9FC38211B6AB60068BEB9 /* libcrypto.a in Frameworks */,
