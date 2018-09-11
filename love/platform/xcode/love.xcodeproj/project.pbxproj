@@ -277,7 +277,7 @@
 		91CF433D2148438D002024DA /* simple_app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simple_app.h; path = ../../src/simple_app.h; sourceTree = "<group>"; };
 		91CF433E2148438D002024DA /* simple_handler_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = simple_handler_mac.mm; path = ../../src/simple_handler_mac.mm; sourceTree = "<group>"; };
 		91CF433F2148438D002024DA /* simple_handler.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_handler.cc; path = ../../src/simple_handler.cc; sourceTree = "<group>"; };
-		91CF438321484742002024DA /* ghost-macosx_Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ghost-macosx_Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91CF438321484742002024DA /* ghost-macosx Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ghost-macosx Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91CF438D21484743002024DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91CF439021484743002024DA /* ghost_macosx_Helper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ghost_macosx_Helper.entitlements; sourceTree = "<group>"; };
 		91CF439A21484812002024DA /* process_helper_mac.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = process_helper_mac.cc; sourceTree = "<group>"; };
@@ -409,7 +409,7 @@
 				8D1107320486CEB800E47090 /* love.app */,
 				FA0B7F061A95AAF3000E1D17 /* ghost.app */,
 				B5256F78211A555500891B27 /* ghost-macosx.app */,
-				91CF438321484742002024DA /* ghost-macosx_Helper.app */,
+				91CF438321484742002024DA /* ghost-macosx Helper.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -644,7 +644,7 @@
 			);
 			name = "ghost-macosx_Helper";
 			productName = "ghost-macosx_Helper";
-			productReference = 91CF438321484742002024DA /* ghost-macosx_Helper.app */;
+			productReference = 91CF438321484742002024DA /* ghost-macosx Helper.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B5256F3E211A555500891B27 /* ghost-macosx */ = {
@@ -871,7 +871,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo $BUILT_PRODUCTS_DIR\nrm -rf $BUILT_PRODUCTS_DIR/ghost-macosx.app/Contents/Frameworks/ghost-macosx\\ Helper.app\ncp -r $BUILT_PRODUCTS_DIR/ghost-macosx_Helper.app $BUILT_PRODUCTS_DIR/ghost-macosx.app/Contents/Frameworks/ghost-macosx\\ Helper.app";
+			shellScript = "echo $BUILT_PRODUCTS_DIR\nrm -rf $BUILT_PRODUCTS_DIR/ghost-macosx.app/Contents/Frameworks/ghost-macosx\\ Helper.app\ncp -r $BUILT_PRODUCTS_DIR/ghost-macosx\\ Helper.app $BUILT_PRODUCTS_DIR/ghost-macosx.app/Contents/Frameworks/ghost-macosx\\ Helper.app";
 		};
 		A1A91ED9205F8F34002CFB78 /* Create Temporary '.love' Package */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1091,7 +1091,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "builders.game.ghost-macosx-Helper";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "ghost-macosx Helper";
 			};
 			name = Debug;
 		};
@@ -1135,7 +1135,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "builders.game.ghost-macosx-Helper";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "ghost-macosx Helper";
 			};
 			name = Release;
 		};
@@ -1179,7 +1179,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "builders.game.ghost-macosx-Helper";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "ghost-macosx Helper";
 			};
 			name = Distribution;
 		};
