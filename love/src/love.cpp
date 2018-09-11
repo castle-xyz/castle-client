@@ -277,18 +277,7 @@ int main(int argc, char **argv)
 	
 	// Shut down CEF.
 	// CefShutdown();
-	return 0;
-	
-	
-	
-	
-	/*
-	
-	
-	
-	
-	
-	
+
 	if (strcmp(LOVE_VERSION_STRING, love_version()) != 0)
 	{
 		printf("Version mismatch detected!\nLOVE binary is version %s\n"
@@ -315,7 +304,7 @@ int main(int argc, char **argv)
 	SDL_Quit();
 #endif
 
-	return retval;*/
+	return retval;
 }
 
 #endif // LOVE_BUILD_EXE
