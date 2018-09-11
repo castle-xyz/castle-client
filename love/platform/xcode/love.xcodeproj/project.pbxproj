@@ -18,6 +18,8 @@
 		91CF439B21484812002024DA /* process_helper_mac.cc in Sources */ = {isa = PBXBuildFile; fileRef = 91CF439A21484812002024DA /* process_helper_mac.cc */; };
 		91CF43A721484947002024DA /* liblibcef_dll_wrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.dylib */; };
 		91CF43B721484A3A002024DA /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A0404221483BA5007A6CC1 /* Chromium Embedded Framework.framework */; };
+		91CF43B921485687002024DA /* liblibcef_dll_wrapper.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		91CF43BD21485694002024DA /* liblibcef_dll_wrapper.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A1E7953D20721BC800731DD3 /* package.love in Resources */ = {isa = PBXBuildFile; fileRef = A1E7953C20721BC800731DD3 /* package.love */; };
 		A1ED98E9211DFA0700CBC701 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A194C6C4211CD1D50093B328 /* SDL2.framework */; };
 		A1ED98EA211DFA0700CBC701 /* SDL2.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A194C6C4211CD1D50093B328 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -93,6 +95,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 91CF438221484742002024DA;
 			remoteInfo = "ghost-macosx_Helper";
+		};
+		91CF43BA21485687002024DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 91FDE94321475039008FFB60;
+			remoteInfo = libcef_dll_wrapper;
+		};
+		91CF43BE21485694002024DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 91FDE94321475039008FFB60;
+			remoteInfo = libcef_dll_wrapper;
 		};
 		91FDEBD121475158008FFB60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -195,6 +211,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		91CF43BC21485688002024DA /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				91CF43B921485687002024DA /* liblibcef_dll_wrapper.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9255DDE1043185300BA1496 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -227,6 +254,7 @@
 				B5256F65211A555500891B27 /* OpenAL-Soft.framework in Copy Frameworks */,
 				A1ED98EA211DFA0700CBC701 /* SDL2.framework in Copy Frameworks */,
 				B5256F66211A555500891B27 /* freetype.framework in Copy Frameworks */,
+				91CF43BD21485694002024DA /* liblibcef_dll_wrapper.dylib in Copy Frameworks */,
 				B5256F67211A555500891B27 /* mpg123.framework in Copy Frameworks */,
 				B5256F68211A555500891B27 /* libmodplug.framework in Copy Frameworks */,
 				B5256F69211A555500891B27 /* ogg.framework in Copy Frameworks */,
@@ -606,11 +634,13 @@
 				91CF438021484742002024DA /* Frameworks */,
 				91CF438121484742002024DA /* Resources */,
 				91CF439C21484834002024DA /* Headers */,
+				91CF43BC21485688002024DA /* Embed Libraries */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				91CF43A0214848EE002024DA /* PBXTargetDependency */,
+				91CF43BB21485687002024DA /* PBXTargetDependency */,
 			);
 			name = "ghost-macosx_Helper";
 			productName = "ghost-macosx_Helper";
@@ -628,6 +658,7 @@
 				B5256F61211A555500891B27 /* Copy Frameworks */,
 				B5256F6C211A555500891B27 /* Frameworks */,
 				91CF43332148405B002024DA /* Headers */,
+				91CF43B821484E33002024DA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -636,6 +667,7 @@
 				91FDEBD221475158008FFB60 /* PBXTargetDependency */,
 				B5256F3F211A555500891B27 /* PBXTargetDependency */,
 				A1ED98EC211DFA0700CBC701 /* PBXTargetDependency */,
+				91CF43BF21485694002024DA /* PBXTargetDependency */,
 			);
 			name = "ghost-macosx";
 			productInstallPath = "$(HOME)/Applications";
@@ -828,6 +860,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		91CF43B821484E33002024DA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo $BUILT_PRODUCTS_DIR\nrm -rf $BUILT_PRODUCTS_DIR/ghost-macosx.app/Contents/Frameworks/ghost-macosx\\ Helper.app\ncp -r $BUILT_PRODUCTS_DIR/ghost-macosx_Helper.app $BUILT_PRODUCTS_DIR/ghost-macosx.app/Contents/Frameworks/ghost-macosx\\ Helper.app";
+		};
 		A1A91ED9205F8F34002CFB78 /* Create Temporary '.love' Package */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -963,6 +1008,16 @@
 			isa = PBXTargetDependency;
 			target = 91CF438221484742002024DA /* ghost-macosx_Helper */;
 			targetProxy = 91CF43A12148490E002024DA /* PBXContainerItemProxy */;
+		};
+		91CF43BB21485687002024DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libcef_dll_wrapper;
+			targetProxy = 91CF43BA21485687002024DA /* PBXContainerItemProxy */;
+		};
+		91CF43BF21485694002024DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libcef_dll_wrapper;
+			targetProxy = 91CF43BE21485694002024DA /* PBXContainerItemProxy */;
 		};
 		91FDEBD221475158008FFB60 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
