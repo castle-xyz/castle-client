@@ -245,7 +245,7 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 	return done;
 }
 
-int main(int argc, char **argv)
+int mainUSING_MAIN_IN_CEFSIMPLE_MAC(int argc, char **argv)
 {
 	
 	// Provide CEF with command-line arguments.

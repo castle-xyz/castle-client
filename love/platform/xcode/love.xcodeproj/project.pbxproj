@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		91CF4339214841CC002024DA /* liblibcef_dll_wrapper.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.dylib */; };
+		91CF43402148438D002024DA /* simple_handler.h in Headers */ = {isa = PBXBuildFile; fileRef = 91CF433A2148438C002024DA /* simple_handler.h */; };
+		91CF43412148438D002024DA /* cefsimple_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 91CF433B2148438C002024DA /* cefsimple_mac.mm */; };
+		91CF43422148438D002024DA /* simple_app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 91CF433C2148438C002024DA /* simple_app.cc */; };
+		91CF43432148438D002024DA /* simple_app.h in Headers */ = {isa = PBXBuildFile; fileRef = 91CF433D2148438D002024DA /* simple_app.h */; };
+		91CF43442148438D002024DA /* simple_handler_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 91CF433E2148438D002024DA /* simple_handler_mac.mm */; };
+		91CF43452148438D002024DA /* simple_handler.cc in Sources */ = {isa = PBXBuildFile; fileRef = 91CF433F2148438D002024DA /* simple_handler.cc */; };
 		A1E7953D20721BC800731DD3 /* package.love in Resources */ = {isa = PBXBuildFile; fileRef = A1E7953C20721BC800731DD3 /* package.love */; };
 		A1ED98E9211DFA0700CBC701 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A194C6C4211CD1D50093B328 /* SDL2.framework */; };
 		A1ED98EA211DFA0700CBC701 /* SDL2.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A194C6C4211CD1D50093B328 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -220,6 +226,12 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* love.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = love.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91C98F9D21432C39006E745C /* cef.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cef.xcodeproj; path = ../../../cef/cef.xcodeproj; sourceTree = "<group>"; };
+		91CF433A2148438C002024DA /* simple_handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simple_handler.h; path = ../../src/simple_handler.h; sourceTree = "<group>"; };
+		91CF433B2148438C002024DA /* cefsimple_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = cefsimple_mac.mm; path = ../../src/cefsimple_mac.mm; sourceTree = "<group>"; };
+		91CF433C2148438C002024DA /* simple_app.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_app.cc; path = ../../src/simple_app.cc; sourceTree = "<group>"; };
+		91CF433D2148438D002024DA /* simple_app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = simple_app.h; path = ../../src/simple_app.h; sourceTree = "<group>"; };
+		91CF433E2148438D002024DA /* simple_handler_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = simple_handler_mac.mm; path = ../../src/simple_handler_mac.mm; sourceTree = "<group>"; };
+		91CF433F2148438D002024DA /* simple_handler.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = simple_handler.cc; path = ../../src/simple_handler.cc; sourceTree = "<group>"; };
 		A194C6BA211CD1D50093B328 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "../../../ghost-extensions/SDL2-2.0.8/Xcode/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
 		A1E7953C20721BC800731DD3 /* package.love */ = {isa = PBXFileReference; lastKnownFileType = file; name = package.love; path = ../../../package.love; sourceTree = "<group>"; };
 		A9255E021043195A00BA1496 /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = /Library/Frameworks/vorbis.framework; sourceTree = "<absolute>"; };
@@ -423,6 +435,12 @@
 			isa = PBXGroup;
 			children = (
 				A93E6A3410420AC0007D418B /* love.cpp */,
+				91CF433B2148438C002024DA /* cefsimple_mac.mm */,
+				91CF433C2148438C002024DA /* simple_app.cc */,
+				91CF433D2148438D002024DA /* simple_app.h */,
+				91CF433E2148438D002024DA /* simple_handler_mac.mm */,
+				91CF433F2148438D002024DA /* simple_handler.cc */,
+				91CF433A2148438C002024DA /* simple_handler.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -462,6 +480,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91CF43432148438D002024DA /* simple_app.h in Headers */,
+				91CF43402148438D002024DA /* simple_handler.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,7 +807,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91CF43442148438D002024DA /* simple_handler_mac.mm in Sources */,
+				91CF43412148438D002024DA /* cefsimple_mac.mm in Sources */,
+				91CF43422148438D002024DA /* simple_app.cc in Sources */,
 				B5256F48211A555500891B27 /* love.cpp in Sources */,
+				91CF43452148438D002024DA /* simple_handler.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
