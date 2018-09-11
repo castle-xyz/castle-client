@@ -24,6 +24,7 @@
 
 #include "include/cef_application_mac.h"
 #include "include/wrapper/cef_helpers.h"
+#include "include/cef_app.h"
 
 #ifdef LOVE_BUILD_EXE
 
@@ -273,11 +274,14 @@ int main(int argc, char **argv)
 	
 	// Run the CEF message loop. This will block until CefQuitMessageLoop() is
 	// called.
-	// CefRunMessageLoop();
+	CefRunMessageLoop();
 	
 	// Shut down CEF.
-	// CefShutdown();
+	CefShutdown();
 
+	return 0;
+	
+	/*
 	if (strcmp(LOVE_VERSION_STRING, love_version()) != 0)
 	{
 		printf("Version mismatch detected!\nLOVE binary is version %s\n"
@@ -304,7 +308,7 @@ int main(int argc, char **argv)
 	SDL_Quit();
 #endif
 
-	return retval;
+	return retval;*/
 }
 
 #endif // LOVE_BUILD_EXE
