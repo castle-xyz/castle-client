@@ -108,7 +108,7 @@
 @end
 
 // Entry point function for the browser process.
-int main(int argc, char* argv[]) {
+int mainUSING_MAIN_IN_LOVE_CPP(int argc, char* argv[]) {
   // Provide CEF with command-line arguments.
   CefMainArgs main_args(argc, argv);
 
