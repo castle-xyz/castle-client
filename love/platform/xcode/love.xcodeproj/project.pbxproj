@@ -35,6 +35,7 @@
 		B5256F71211A555500891B27 /* Lua.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A93E6E5310420B57007D418B /* Lua.framework */; };
 		B5256F72211A555500891B27 /* theora.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA27B3CA1B498696008A9DCE /* theora.framework */; };
 		B5256F7D211A56EE00891B27 /* package.love in Resources */ = {isa = PBXBuildFile; fileRef = A1E7953C20721BC800731DD3 /* package.love */; };
+		B5A0404321483BA5007A6CC1 /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A0404221483BA5007A6CC1 /* Chromium Embedded Framework.framework */; };
 		B5E9FC48211B6C190068BEB9 /* ghost_extensions_macos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9FC43211B6BA00068BEB9 /* ghost_extensions_macos.framework */; };
 		B5E9FC4B211B6E610068BEB9 /* ghost_extensions_macos.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9FC43211B6BA00068BEB9 /* ghost_extensions_macos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE73F8001EEB64150052DAB3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE73F7FF1EEB64150052DAB3 /* AVFoundation.framework */; };
@@ -67,13 +68,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		91C98FA121432C39006E745C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 919D1763214326E4003D26E5;
-			remoteInfo = cef;
-		};
 		91FDEBD121475158008FFB60 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
@@ -87,13 +81,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 91FDE94421475039008FFB60;
 			remoteInfo = libcef_dll_wrapper;
-		};
-		91FDEBD62147515C008FFB60 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 91C98F9D21432C39006E745C /* cef.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 919D1762214326E4003D26E5;
-			remoteInfo = cef;
 		};
 		A194C6C3211CD1D50093B328 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -241,6 +228,7 @@
 		A9F169A6109E824900FC83D1 /* mpg123.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = mpg123.framework; path = /Library/Frameworks/mpg123.framework; sourceTree = "<absolute>"; };
 		B5256F3A211A4FC000891B27 /* ghost-macosx.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ghost-macosx.plist"; path = "macosx/ghost-macosx.plist"; sourceTree = "<group>"; };
 		B5256F78211A555500891B27 /* ghost-macosx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ghost-macosx.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B5A0404221483BA5007A6CC1 /* Chromium Embedded Framework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Chromium Embedded Framework.framework"; path = "../../../cef/Chromium Embedded Framework.framework"; sourceTree = "<group>"; };
 		B5E9FC3B211B6B9F0068BEB9 /* ghost-extensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "ghost-extensions.xcodeproj"; path = "../../../ghost-extensions/ghost-extensions.xcodeproj"; sourceTree = "<group>"; };
 		CE73F7FF1EEB64150052DAB3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		FA0797981BF480A200034B7C /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/GameController.framework; sourceTree = DEVELOPER_DIR; };
@@ -285,6 +273,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5A0404321483BA5007A6CC1 /* Chromium Embedded Framework.framework in Frameworks */,
 				B5E9FC48211B6C190068BEB9 /* ghost_extensions_macos.framework in Frameworks */,
 				B5256F6F211A555500891B27 /* love.framework in Frameworks */,
 				B5256F70211A555500891B27 /* Cocoa.framework in Frameworks */,
@@ -370,7 +359,6 @@
 		91C98F9E21432C39006E745C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				91C98FA221432C39006E745C /* cef.framework */,
 				91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.dylib */,
 			);
 			name = Products;
@@ -408,6 +396,7 @@
 		FA0B7EEC1A959249000E1D17 /* macosx */ = {
 			isa = PBXGroup;
 			children = (
+				B5A0404221483BA5007A6CC1 /* Chromium Embedded Framework.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				FAD43ECF1FF3133700831BB8 /* freetype.framework */,
 				A9F16926109E7BAD00FC83D1 /* libmodplug.framework */,
@@ -499,7 +488,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				91FDEBD72147515C008FFB60 /* PBXTargetDependency */,
 				91FDEBD221475158008FFB60 /* PBXTargetDependency */,
 				B5256F3F211A555500891B27 /* PBXTargetDependency */,
 				A1ED98EC211DFA0700CBC701 /* PBXTargetDependency */,
@@ -585,13 +573,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		91C98FA221432C39006E745C /* cef.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = cef.framework;
-			remoteRef = 91C98FA121432C39006E745C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
@@ -808,11 +789,6 @@
 			isa = PBXTargetDependency;
 			name = libcef_dll_wrapper;
 			targetProxy = 91FDEBD121475158008FFB60 /* PBXContainerItemProxy */;
-		};
-		91FDEBD72147515C008FFB60 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = cef;
-			targetProxy = 91FDEBD62147515C008FFB60 /* PBXContainerItemProxy */;
 		};
 		A1ED98EC211DFA0700CBC701 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
