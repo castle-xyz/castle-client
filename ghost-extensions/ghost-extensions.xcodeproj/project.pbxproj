@@ -830,6 +830,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_VERSION = A;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				INFOPLIST_FILE = "ghost-extensions-macos/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -863,6 +864,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				FRAMEWORK_VERSION = A;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				INFOPLIST_FILE = "ghost-extensions-macos/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
