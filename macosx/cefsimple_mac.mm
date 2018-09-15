@@ -182,6 +182,8 @@ void Cocoa_DispatchEvent(NSEvent *theEvent);
   }
 }
 
+static BOOL resizeSubscribed = NO;
+static float prevWindowWidth, prevWindowHeight;
 static float childLeft = 0, childTop = 0, childWidth = 200, childHeight = 200;
 
 - (void)stepLove {
@@ -195,7 +197,29 @@ static float childLeft = 0, childTop = 0, childWidth = 200, childHeight = 200;
     }
   }
 
+  if (!resizeSubscribed) {
+    NSWindow *window = [[NSApplication sharedApplication] mainWindow];
+    if (window) {
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                               selector:@selector(windowResized:)
+                                                   name:NSWindowDidResizeNotification
+                                                 object:window];
+      prevWindowWidth = window.frame.size.width;
+      prevWindowHeight = window.frame.size.height;
+      resizeSubscribed = YES;
+    }
+  }
+
   ghostSetChildWindowFrame(childLeft, childTop, childWidth, childHeight);
+}
+
+- (void)windowResized:(NSNotification *)notification {
+  NSWindow *window = [[NSApplication sharedApplication] mainWindow];
+  float dw = window.frame.size.width - prevWindowWidth;
+  float dh = window.frame.size.height - prevWindowHeight;
+  ghostSetChildWindowFrame(childLeft, childTop, childWidth + dw, childHeight + dh);
+  prevWindowWidth = window.frame.size.width;
+  prevWindowHeight = window.frame.size.height;
 }
 
 - (void)closeLua {
