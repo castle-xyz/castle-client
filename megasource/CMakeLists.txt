@@ -322,3 +322,82 @@ add_move_dll(megatest ${MEGA_MPEG123})
 add_move_dll(megatest ${MEGA_SDL2})
 add_move_dll(megatest ${MEGA_OPENAL})
 add_move_dll(megatest ${MEGA_LUA51})
+
+# CEF
+
+# Override the value in cef_variables.cmake
+set(CEF_RUNTIME_LIBRARY_FLAG "/MD")
+
+set_property(GLOBAL PROPERTY OS_FOLDERS ON)
+
+get_filename_component(CEF_ROOT
+                       "${CMAKE_CURRENT_LIST_DIR}/../cef"
+                       ABSOLUTE)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CEF_ROOT}/cmake")
+
+find_package(CEF REQUIRED)
+add_subdirectory(${CEF_LIBCEF_DLL_WRAPPER_PATH} libcef_dll_wrapper)
+
+PRINT_CEF_CONFIG()
+
+# Ghost
+
+set(GHOST_TARGET "ghost")
+#set(GHOST_SRCS
+#  ../win/main.cpp
+#  ../common/simple_app.cpp
+#  ../common/simple_handler.cpp
+#)
+
+set(GHOST_SRCS
+  ../win/main.cc
+  ../win/simple_app.cc
+  ../win/simple_handler_win.cc
+  ../win/simple_handler.cc
+)
+
+ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
+SET_CEF_TARGET_OUT_DIR()
+
+add_executable(${GHOST_TARGET} WIN32 ${GHOST_SRCS})
+add_dependencies(${GHOST_TARGET} libcef_dll_wrapper liblove)
+SET_EXECUTABLE_TARGET_PROPERTIES(${GHOST_TARGET})
+target_link_libraries(${GHOST_TARGET} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS} liblove)
+include_directories(
+  ../common
+  ../cef
+  ../win
+)
+
+target_link_libraries(${GHOST_TARGET} ${MEGA_3P})
+
+add_move_dll(${GHOST_TARGET} ${MEGA_MPEG123})
+add_move_dll(${GHOST_TARGET} ${MEGA_SDL2})
+add_move_dll(${GHOST_TARGET} ${MEGA_OPENAL})
+add_move_dll(${GHOST_TARGET} ${MEGA_LUA51})
+
+#list(APPEND GHOST_COMPILER_DEFINES
+#  WIN32 _WIN32 _WINDOWS             # Windows platform
+#  UNICODE _UNICODE                  # Unicode build
+#  WINVER=0x0601 _WIN32_WINNT=0x601  # Targeting Windows 7
+#  NOMINMAX                          # Use the standard's templated min/max
+#  WIN32_LEAN_AND_MEAN               # Exclude less common API declarations
+#  _HAS_EXCEPTIONS=0                 # Disable exceptions
+#)
+target_compile_definitions(${GHOST_TARGET} PRIVATE ${CEF_COMPILER_DEFINES})
+
+# Add the custom manifest files to the executable.
+ADD_WINDOWS_MANIFEST("${CMAKE_CURRENT_SOURCE_DIR}/../win" "${GHOST_TARGET}" "exe")
+
+# Copy binary and resource files to the target output directory.
+COPY_FILES("${GHOST_TARGET}" "${CEF_BINARY_FILES}" "${CEF_BINARY_DIR}" "${CEF_TARGET_OUT_DIR}")
+COPY_FILES("${GHOST_TARGET}" "${CEF_RESOURCE_FILES}" "${CEF_RESOURCE_DIR}" "${CEF_TARGET_OUT_DIR}")
+
+set(GHOST_WEB_FILES
+  index.html
+  main.js
+  main.js.map
+)
+COPY_FILES("${GHOST_TARGET}" "${GHOST_WEB_FILES}" "${CMAKE_CURRENT_SOURCE_DIR}/../web" "${CEF_TARGET_OUT_DIR}/web")
+
+#add_subdirectory(../win ${CMAKE_BINARY_DIR}/ghost)
