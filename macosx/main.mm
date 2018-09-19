@@ -42,6 +42,17 @@ void Cocoa_DispatchEvent(NSEvent *theEvent);
 
 @end
 
+@interface MyDelegate : NSObject<NSApplicationDelegate>
+@end
+
+@implementation MyDelegate
+
+- (void)application:(NSApplication *)application openURLs:(NSArray<NSURL *> *)urls {
+  NSLog(@"OMG\n");
+}
+
+@end
+
 // Entry point function for the browser process.
 int main(int argc, char *argv[]) {
   // Provide CEF with command-line arguments.
@@ -49,8 +60,10 @@ int main(int argc, char *argv[]) {
 
   @autoreleasepool {
     // Initialize the SimpleApplication instance.
-    [SimpleApplication sharedApplication];
-
+    SimpleApplication *theApp = [SimpleApplication sharedApplication];
+    theApp.delegate = [[MyDelegate alloc] init];
+    [theApp run];
+    
     // Specify CEF global settings here.
     CefSettings settings;
 
@@ -80,6 +93,8 @@ int main(int argc, char *argv[]) {
     [delegate performSelectorOnMainThread:@selector(createApplication:)
                                withObject:nil
                             waitUntilDone:NO];
+    
+    [NSApp run];
 
     // Run the CEF message loop. This will block until CefQuitMessageLoop() is
     // called.
