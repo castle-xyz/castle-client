@@ -351,9 +351,10 @@ set(GHOST_TARGET "ghost")
 
 set(GHOST_SRCS
   ../win/main.cc
-  ../win/simple_app.cc
+  ../win/ghost.cc
   ../win/simple_handler_win.cc
-  ../win/simple_handler.cc
+  ../common/simple_app.cpp
+  ../common/simple_handler.cpp
 )
 
 ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")

@@ -6,6 +6,7 @@
 
 #include "include/cef_sandbox_win.h"
 #include "simple_app.h"
+#include "simple_handler.h"
 
 // When generating projects with CMake the CEF_USE_SANDBOX value will be defined
 // automatically if using the required compiler version. Pass -DUSE_SANDBOX=OFF
@@ -58,10 +59,18 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
   settings.no_sandbox = true;
 #endif
 
+  CHAR buffer[MAX_PATH];
+  GetModuleFileNameA(NULL, buffer, MAX_PATH);
+  std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+  std::string url = std::string(buffer).substr(0, pos) + "/web/index.html";
+
+  int screenSizeWidth = 1440;
+  int screenSizeHeight = 877;
+
   // SimpleApp implements application-level callbacks for the browser process.
   // It will create the first browser instance in OnContextInitialized() after
   // CEF has initialized.
-  CefRefPtr<SimpleApp> app(new SimpleApp);
+  CefRefPtr<SimpleApp> app(new SimpleApp(url, screenSizeWidth, screenSizeHeight));
 
   // Initialize CEF.
   CefInitialize(main_args, settings, app.get(), sandbox_info);
