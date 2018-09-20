@@ -304,6 +304,7 @@ if(EXISTS ${MEGA_LOVE}/CMakeLists.txt)
 	message(STATUS "-----------------------------------------------------")
 	message(STATUS "Configuring: love")
 	message(STATUS "-----------------------------------------------------")
+	#set(ARCHIVE_OUTPUT_DIRECTORY  "${CMAKE_CURRENT_BINARY_DIR}/$<CONFIGURATION>")
 	add_subdirectory(${MEGA_LOVE} ${CMAKE_BINARY_DIR}/love)
 
 	# Turn off third-party warnings when building with LOVE.
@@ -343,6 +344,8 @@ PRINT_CEF_CONFIG()
 # Ghost
 
 set(GHOST_TARGET "ghost")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
 #set(GHOST_SRCS
 #  ../win/main.cpp
 #  ../common/simple_app.cpp
@@ -363,7 +366,7 @@ ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
 SET_CEF_TARGET_OUT_DIR()
 
 add_executable(${GHOST_TARGET} WIN32 ${GHOST_SRCS})
-add_dependencies(${GHOST_TARGET} libcef_dll_wrapper liblove)
+add_dependencies(${GHOST_TARGET} libcef_dll_wrapper)
 SET_EXECUTABLE_TARGET_PROPERTIES(${GHOST_TARGET})
 target_link_libraries(${GHOST_TARGET} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS} liblove)
 include_directories(
