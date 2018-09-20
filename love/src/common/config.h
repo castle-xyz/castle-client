@@ -114,7 +114,9 @@
 #ifndef LOVE_WINDOWS_UWP
 #	define LOVE_LEGENDARY_CONSOLE_IO_HACK
 #endif // LOVE_WINDOWS_UWP
+#ifndef NOMINMAX
 #	define NOMINMAX
+#endif // NOMINMAX
 #endif
 
 #if defined(LOVE_MACOSX) || defined(LOVE_IOS)

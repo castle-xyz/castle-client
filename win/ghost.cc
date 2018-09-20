@@ -4,6 +4,14 @@
 
 static float childLeft = 0, childTop = 0, childWidth = 200, childHeight = 200;
 
+void ghostHandleOpenUri(const char *uri) {
+  // TODO
+}
+
+void ghostOpenLoveUri(const char *uri) {
+
+}
+
 void ghostSetChildWindowFrame(float left, float top, float width, float height) {
   
 }

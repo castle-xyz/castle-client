@@ -353,6 +353,8 @@ set(GHOST_SRCS
   ../win/main.cc
   ../win/ghost.cc
   ../win/simple_handler_win.cc
+  ../win/json.hpp
+  ../common/ghost_constants.cpp
   ../common/simple_app.cpp
   ../common/simple_handler.cpp
 )
@@ -368,6 +370,7 @@ include_directories(
   ../common
   ../cef
   ../win
+  ../love/src
 )
 
 target_link_libraries(${GHOST_TARGET} ${MEGA_3P})
