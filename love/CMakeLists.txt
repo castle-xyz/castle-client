@@ -1764,7 +1764,7 @@ if(MSVC)
 	)
 endif()
 
-add_library(${LOVE_LIB_NAME} SHARED ${LOVE_LIB_SRC} ${LOVE_RC})
+add_library(${LOVE_LIB_NAME} STATIC ${LOVE_LIB_SRC} ${LOVE_RC})
 target_link_libraries(${LOVE_LIB_NAME} ${LOVE_LINK_LIBRARIES} ${LOVE_3P})
 find_package(OpenSSL REQUIRED)
 target_link_libraries(${LOVE_LIB_NAME} OpenSSL::SSL)
@@ -1863,7 +1863,7 @@ message(STATUS "Version: ${LOVE_VERSION_STR}")
 ###################################
 # CPack
 ###################################
-install(TARGETS ${LOVE_EXE_NAME} ${LOVE_CONSOLE_EXE_NAME} ${LOVE_LIB_NAME} RUNTIME DESTINATION .)
+install(TARGETS ${LOVE_EXE_NAME} ${LOVE_CONSOLE_EXE_NAME} RUNTIME DESTINATION .)
 
 # Extra DLLs.
 if(LOVE_EXTRA_DLLS)
