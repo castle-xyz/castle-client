@@ -381,7 +381,9 @@ target_link_libraries(${GHOST_TARGET} ${MEGA_3P})
 add_move_dll(${GHOST_TARGET} ${MEGA_MPEG123})
 add_move_dll(${GHOST_TARGET} ${MEGA_SDL2})
 add_move_dll(${GHOST_TARGET} ${MEGA_OPENAL})
-add_move_dll(${GHOST_TARGET} ${MEGA_LUA51})
+# TODO(jesse/nikki): This copies Lua51, not LuaJIT, need to copy the lua51.dll
+#                    at build/libs/LuaJIT/src/lua51.dll. 
+#add_move_dll(${GHOST_TARGET} ${MEGA_LUA51}) 
 
 #list(APPEND GHOST_COMPILER_DEFINES
 #  WIN32 _WIN32 _WINDOWS             # Windows platform
