@@ -105,6 +105,10 @@ static void bootLove(const char *uri) {
     //  lua_pushstring(L, "--fused");
     //  lua_rawseti(L, -2, 1);
     //}
+    lua_pushstring(L, "C:\\Users\\nikki-desktop-win\\Development\\ghost\\base");
+      lua_rawseti(L, -2, 0);
+    //  lua_pushstring(L, "--fused");
+    //  lua_rawseti(L, -2, 1);
 
     lua_setglobal(L, "arg");
   }
