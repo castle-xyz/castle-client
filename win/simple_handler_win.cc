@@ -4,13 +4,17 @@
 
 #include "simple_handler.h"
 
-#include <windows.h>
 #include <string>
+#include <windows.h>
 
 #include "include/cef_browser.h"
 
-void SimpleHandler::PlatformTitleChange(CefRefPtr<CefBrowser> browser,
-                                        const CefString& title) {
+extern "C" {
+void ghostWinSetMainWindow(HWND window);
+}
+
+void SimpleHandler::PlatformTitleChange(CefRefPtr<CefBrowser> browser, const CefString &title) {
   CefWindowHandle hwnd = browser->GetHost()->GetWindowHandle();
+  ghostWinSetMainWindow(hwnd);
   SetWindowText(hwnd, std::wstring(title).c_str());
 }

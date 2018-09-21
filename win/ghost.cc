@@ -55,6 +55,10 @@ void ghostOpenLoveUri(const char *uri) {
 
 void ghostSetChildWindowFrame(float left, float top, float width, float height) {
   std::lock_guard<std::mutex> guard(mutex);
+  Message msg;
+  msg.type = SET_CHILD_WINDOW_FRAME;
+  msg.body.setChildWindowFrame = {left, top, width, height};
+  messages.push(msg);
 }
 
 void ghostResizeChildWindow(float dw, float dh) { std::lock_guard<std::mutex> guard(mutex); }
@@ -106,7 +110,7 @@ static void bootLove(const char *uri) {
     //  lua_rawseti(L, -2, 1);
     //}
     lua_pushstring(L, "C:\\Users\\nikki-desktop-win\\Development\\ghost\\base");
-      lua_rawseti(L, -2, 0);
+    lua_rawseti(L, -2, 0);
     //  lua_pushstring(L, "--fused");
     //  lua_rawseti(L, -2, 1);
 
@@ -168,6 +172,10 @@ void stepLove() {
   }
 }
 
+extern "C" {
+HWND ghostWinGetChildWindow();
+}
+
 void ghostStep() {
   // Process messages
   {
@@ -183,6 +191,13 @@ void ghostStep() {
         free(uri);
       } break;
 
+      case SET_CHILD_WINDOW_FRAME: {
+        childLeft = msg.body.setChildWindowFrame.left;
+        childTop = msg.body.setChildWindowFrame.top;
+        childWidth = msg.body.setChildWindowFrame.width;
+        childHeight = msg.body.setChildWindowFrame.height;
+      } break;
+
       case CLOSE: {
         closeLua();
       } break;
@@ -194,8 +209,13 @@ void ghostStep() {
 
   if (luaState) {
     stepLove();
+
+    HWND child = ghostWinGetChildWindow();
+    if (child) {
+      SetWindowPos(child, NULL, childLeft, childTop, childWidth, childHeight, 0);
+    }
   } else {
-	// If not running Love, sleep for longer per loop
+    // If not running Love, sleep for longer per loop
     Sleep(100);
   }
 }

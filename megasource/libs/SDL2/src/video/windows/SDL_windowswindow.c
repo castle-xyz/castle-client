@@ -58,13 +58,13 @@ static ATOM SDL_HelperWindowClass = 0;
    This will also cause the task bar to overlap the window and other windowed behaviors, so only use this for windows that shouldn't appear to be fullscreen
  */
 
-#define STYLE_BASIC         (WS_CLIPSIBLINGS | WS_CLIPCHILDREN)
-#define STYLE_FULLSCREEN    (WS_POPUP)
-#define STYLE_BORDERLESS    (WS_POPUP)
-#define STYLE_BORDERLESS_WINDOWED (WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
-#define STYLE_NORMAL        (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX)
-#define STYLE_RESIZABLE     (WS_THICKFRAME | WS_MAXIMIZEBOX)
-#define STYLE_MASK          (STYLE_FULLSCREEN | STYLE_BORDERLESS | STYLE_NORMAL | STYLE_RESIZABLE)
+#define STYLE_BASIC         (WS_CHILD | WS_OVERLAPPED)
+#define STYLE_FULLSCREEN    STYLE_BASIC
+#define STYLE_BORDERLESS    STYLE_BASIC
+#define STYLE_BORDERLESS_WINDOWED STYLE_BASIC
+#define STYLE_NORMAL        STYLE_BASIC
+#define STYLE_RESIZABLE     STYLE_BASIC
+#define STYLE_MASK          STYLE_BASIC
 
 static DWORD
 GetWindowStyle(SDL_Window * window)
@@ -98,7 +98,7 @@ GetWindowStyle(SDL_Window * window)
             style |= STYLE_RESIZABLE;
         }
     }
-    return style;
+    return WS_CHILD;
 }
 
 static void
@@ -298,6 +298,15 @@ SetupWindowData(_THIS, SDL_Window * window, HWND hwnd, HWND parent, SDL_bool cre
 
 
 
+static HWND ghostWinMainWindow = NULL;
+static HWND ghostWinChildWindow = NULL;
+
+__declspec(dllexport) void ghostWinSetMainWindow(HWND window) {
+	ghostWinMainWindow = window;
+}
+
+__declspec(dllexport) HWND ghostWinGetChildWindow() { return ghostWinChildWindow; }
+
 int
 WIN_CreateWindow(_THIS, SDL_Window * window)
 {
@@ -308,6 +317,10 @@ WIN_CreateWindow(_THIS, SDL_Window * window)
 
     if (window->flags & SDL_WINDOW_SKIP_TASKBAR) {
         parent = CreateWindow(SDL_Appname, TEXT(""), STYLE_BASIC, 0, 0, 32, 32, NULL, NULL, SDL_Instance, NULL);
+    }
+
+    if (ghostWinMainWindow) {
+      parent = ghostWinMainWindow;
     }
 
     style |= GetWindowStyle(window);
@@ -321,6 +334,7 @@ WIN_CreateWindow(_THIS, SDL_Window * window)
     if (!hwnd) {
         return WIN_SetError("Couldn't create window");
     }
+    ghostWinChildWindow = hwnd;
 
     WIN_PumpEvents(_this);
 
