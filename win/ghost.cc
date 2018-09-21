@@ -74,8 +74,98 @@ extern "C" {
 void ghostStep();
 }
 
+static void bootLove(const char *uri) {
+  // Create the virtual machine.
+  lua_State *L = luaL_newstate();
+  luaL_openlibs(L);
+
+  // Add love to package.preload for easy requiring.
+  lua_getglobal(L, "package");
+  lua_getfield(L, -1, "preload");
+  lua_pushcfunction(L, luaopen_love);
+  lua_setfield(L, -2, "love");
+  lua_pop(L, 2);
+
+  // Add command line arguments to global arg (like stand-alone Lua).
+  {
+    lua_newtable(L);
+
+    lua_pushstring(L, "love");
+    lua_rawseti(L, -2, -2);
+
+    lua_pushstring(L, "embedded boot.lua");
+    lua_rawseti(L, -2, -1);
+
+    // TODO(nikki/jesse): Somehow refer to 'base/' stuff in here
+    // NSArray *bundlepaths =
+    //    [[NSBundle mainBundle] pathsForResourcesOfType:@"love" inDirectory:nil];
+    // if (bundlepaths.count > 0) {
+    //  lua_pushstring(L, [bundlepaths[0] UTF8String]);
+    //  lua_rawseti(L, -2, 0);
+    //  lua_pushstring(L, "--fused");
+    //  lua_rawseti(L, -2, 1);
+    //}
+
+    lua_setglobal(L, "arg");
+  }
+
+  // require "love"
+  lua_getglobal(L, "require");
+  lua_pushstring(L, "love");
+  lua_call(L, 1, 1); // leave the returned table on the stack.
+
+  // Add love._exe = true.
+  // This indicates that we're running the standalone version of love, and not
+  // the library version.
+  {
+    lua_pushboolean(L, 1);
+    lua_setfield(L, -2, "_exe");
+  }
+
+  // Pop the love table returned by require "love".
+  lua_pop(L, 1);
+
+  // require "love.boot" (preloaded when love was required.)
+  lua_getglobal(L, "require");
+  lua_pushstring(L, "love.boot");
+  lua_call(L, 1, 1);
+
+  // Turn the returned boot function into a coroutine and leave it at the top of
+  // the stack
+  lua_newthread(L);
+  lua_pushvalue(L, -2);
+  loveBootStackPos = lua_gettop(L);
+  luaState = L;
+
+  // If `uri` is given, set it as the global variable `GHOST_ROOT_URI`
+  if (uri) {
+    lua_pushstring(L, uri);
+    lua_setglobal(L, "GHOST_ROOT_URI");
+  }
+}
+
+void closeLua() {
+  if (luaState) {
+    lua_State *L = luaState;
+    luaState = NULL;
+    lua_close(L);
+  }
+}
+
+void stepLove() {
+  if (luaState) {
+    // Call the coroutine at the top of the stack
+    lua_State *L = luaState;
+    if (lua_resume(L, 0) == LUA_YIELD) {
+      lua_pop(L, lua_gettop(L) - loveBootStackPos);
+    } else {
+      closeLua();
+    }
+  }
+}
+
 void ghostStep() {
-  Sleep(16);
+  // Process messages
   {
     std::lock_guard<std::mutex> guard(mutex);
     while (messages.size() > 0) {
@@ -83,16 +173,25 @@ void ghostStep() {
 
       switch (msg.type) {
       case OPEN_LOVE_URI: {
-        printf("open love uri: %s\n", msg.body.openUri.uri);
-        free(msg.body.openUri.uri);
+        char *uri = msg.body.openUri.uri;
+        closeLua();
+        bootLove(uri);
+        free(uri);
       } break;
 
       case CLOSE: {
-        printf("close\n");
+        closeLua();
       } break;
       }
 
       messages.pop();
     }
+  }
+
+  if (luaState) {
+    stepLove();
+  } else {
+	// If not running Love, sleep for longer per loop
+    Sleep(100);
   }
 }
