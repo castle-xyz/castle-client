@@ -14,6 +14,43 @@
 // Uncomment this line to manually enable sandbox support.
 // #define CEF_USE_SANDBOX 1
 
+class HelperApp : public CefApp, public CefRenderProcessHandler {
+public:
+  virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() OVERRIDE { return this; }
+
+  // CefRenderProcessHandler methods:
+  void OnWebKitInitialized() OVERRIDE {
+    // Create the renderer-side router for query handling.
+    CefMessageRouterConfig config;
+    message_router_ = CefMessageRouterRendererSide::Create(config);
+  }
+
+  void OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                        CefRefPtr<CefV8Context> context) OVERRIDE {
+    message_router_->OnContextCreated(browser, frame, context);
+  }
+
+  void OnContextReleased(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame,
+                         CefRefPtr<CefV8Context> context) OVERRIDE {
+    message_router_->OnContextReleased(browser, frame, context);
+  }
+
+  bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process,
+                                CefRefPtr<CefProcessMessage> message) OVERRIDE {
+    return message_router_->OnProcessMessageReceived(browser, source_process, message);
+  }
+
+  void OnRegisterCustomSchemes(CefRawPtr<CefSchemeRegistrar> registrar) OVERRIDE {
+    registrar->AddCustomScheme("castle", true, false, false, false, false, false);
+  }
+
+private:
+  CefRefPtr<CefMessageRouterRendererSide> message_router_;
+
+  // Include the default reference counting implementation.
+  IMPLEMENT_REFCOUNTING(HelperApp);
+};
+
 #if defined(CEF_USE_SANDBOX)
 // The cef_sandbox.lib static library is currently built with VS2013. It may not
 // link successfully with other VS versions.
@@ -46,7 +83,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
   // CEF applications have multiple sub-processes (render, plugin, GPU, etc)
   // that share the same executable. This function checks the command-line and,
   // if this is a sub-process, executes the appropriate logic.
-  int exit_code = CefExecuteProcess(main_args, NULL, sandbox_info);
+  CefRefPtr<HelperApp> helperApp(new HelperApp());
+  int exit_code = CefExecuteProcess(main_args, helperApp, sandbox_info);
   if (exit_code >= 0) {
     // The sub-process has completed so return here.
     return exit_code;
