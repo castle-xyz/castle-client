@@ -8,6 +8,10 @@
 #include "simple_app.h"
 #include "simple_handler.h"
 
+extern "C" {
+void ghostStep();
+}
+
 // When generating projects with CMake the CEF_USE_SANDBOX value will be defined
 // automatically if using the required compiler version. Pass -DUSE_SANDBOX=OFF
 // to the CMake command-line to disable use of the sandbox.
@@ -92,6 +96,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 
   // Specify CEF global settings here.
   CefSettings settings;
+  settings.multi_threaded_message_loop = true;
 
 #if !defined(CEF_USE_SANDBOX)
   settings.no_sandbox = true;
@@ -101,6 +106,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
   GetModuleFileNameA(NULL, buffer, MAX_PATH);
   std::string::size_type pos = std::string(buffer).find_last_of("\\/");
   std::string url = std::string(buffer).substr(0, pos) + "/web/index.html";
+  url = "http://localhost:8000/index.html";
 
   int screenSizeWidth = 1440;
   int screenSizeHeight = 877;
@@ -115,7 +121,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 
   // Run the CEF message loop. This will block until CefQuitMessageLoop() is
   // called.
-  CefRunMessageLoop();
+  while (true) {
+    ghostStep();
+  }
 
   // Shut down CEF.
   CefShutdown();
