@@ -90,12 +90,12 @@ export default class CoreApp extends React.Component {
           });
           this.setState({ logs: [...logs, ...this.state.logs] });
 
-          this._devTimeout = setTimeout(processChannels);
+          this._devTimeout = setTimeout(processChannels, 100);
         },
       });
     };
 
-    this._devTimeout = setTimeout(processChannels);
+    this._devTimeout = setTimeout(processChannels, 100);
 
     const playlist = await API.callAsync('getCurrentJamPlaylist');
     this.setState({ playlist });

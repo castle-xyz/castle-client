@@ -104,8 +104,7 @@ export default class UIListMediaInPlaylist extends React.Component {
             }
           }
 
-          // Case if there is no username...
-          if (!m.mediaId) {
+          if (!username) {
             return (
               <div
                 className={isSelected ? STYLES_ROW_SELECTED : STYLES_ROW}
