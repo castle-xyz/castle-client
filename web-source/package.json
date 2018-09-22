@@ -37,6 +37,8 @@
     "prop-types": "^15.6.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
-    "react-emotion": "^9.2.8"
+    "react-emotion": "^9.2.8",
+    "react-markdown": "^3.6.0",
+    "url": "^0.11.0"
   }
 }
