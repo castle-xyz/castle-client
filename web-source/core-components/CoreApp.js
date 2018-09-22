@@ -103,8 +103,39 @@ export default class CoreApp extends React.Component {
 
     this._devTimeout = setTimeout(processChannels);
 
-    const playlist = await API.callAsync('getCurrentJamPlaylist');
-    this.setState({ playlist });
+    const playlistData = await API.graphqlAsync({
+      query: `
+        query {
+          currentPlaylist {
+            playlistId
+            name
+            mediaItems {
+              name
+              published
+              instructions
+              description
+              mediaUrl
+              coverImage {
+                url
+                height
+                width
+              }
+              user {
+                userId
+                name
+                username
+                photo {
+                  url
+                  height
+                  width
+                }
+              }
+            }
+          }
+        }
+      `,
+    });
+    this.setState({ playlist: playlistData.data.currentPlaylist });
   }
 
   componentWillUnmount() {

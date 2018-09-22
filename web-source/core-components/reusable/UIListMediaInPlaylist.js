@@ -87,10 +87,6 @@ export default class UIListMediaInPlaylist extends React.Component {
             username = m.user.username;
           }
 
-          if (m.extraData && m.extraData.itch && m.extraData.itch.itchUsername) {
-            username = m.extraData.itch.itchUsername;
-          }
-
           // TODO(jim): Consolidate this when we properly have usernames
           return (
             <div
@@ -108,7 +104,7 @@ export default class UIListMediaInPlaylist extends React.Component {
                 }}>
                 {username ? username : '-'}
               </div>
-              <div className={STYLES_COLUMN}>{Strings.toDate(m.extraData.itch.ld.published)}</div>
+              <div className={STYLES_COLUMN}>{Strings.toDate(m.published)}</div>
             </div>
           );
         })}
