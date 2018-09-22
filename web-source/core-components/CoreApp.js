@@ -88,7 +88,7 @@ export default class CoreApp extends React.Component {
             const error = JSON.parse(json).error;
             logs.push({ type: 'error', text: `${error}` });
           });
-          this.setState({ logs });
+          this.setState({ logs: [...logs, ...this.state.logs] });
 
           this._devTimeout = setTimeout(processChannels);
         },
