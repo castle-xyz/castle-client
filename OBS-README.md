@@ -1,0 +1,3 @@
+- `git submodule update --init --recrusive --remote`
+- `brew install ffmpeg x264 qt5 cmake`
+- `cd obs && mkdir build && cd build && cmake .. -G Xcode -DCMAKE_PREFIX_PATH=/usr/local/Cellar/qt/5.11.2/`
