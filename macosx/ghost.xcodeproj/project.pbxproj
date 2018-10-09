@@ -14,6 +14,7 @@
 		91CF43B721484A3A002024DA /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A0404221483BA5007A6CC1 /* Chromium Embedded Framework.framework */; };
 		91CF43B921485687002024DA /* liblibcef_dll_wrapper.a in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.a */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		91CF43BD21485694002024DA /* liblibcef_dll_wrapper.a in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.a */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		A1CE82B0216D296A00EDBF84 /* libobs.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A19AA3CC216C42B100CAA71D /* libobs.dylib */; };
 		A1ED98E9211DFA0700CBC701 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A194C6C4211CD1D50093B328 /* SDL2.framework */; };
 		A1ED98EA211DFA0700CBC701 /* SDL2.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = A194C6C4211CD1D50093B328 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B500022A215AEB1E00CD2309 /* ghost-env.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5000229215AEB1E00CD2309 /* ghost-env.plist */; };
@@ -131,6 +132,181 @@
 			remoteGlobalIDString = BECDF6BE0761BA81005FE872;
 			remoteInfo = "Standard DMG";
 		};
+		A19AA3C1216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9530D896E43A4B7AAE100146;
+			remoteInfo = glad;
+		};
+		A19AA3C3216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B7CD39113A874D6589B2CC95;
+			remoteInfo = "media-playback";
+		};
+		A19AA3C5216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 034EF594D941476BB0AEA367;
+			remoteInfo = "file-updater";
+		};
+		A19AA3C7216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2ADF7DF6BC0D4705A031A776;
+			remoteInfo = jansson;
+		};
+		A19AA3C9216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 38573A94198442C682605524;
+			remoteInfo = "libobs-opengl";
+		};
+		A19AA3CB216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7550CE31C24D4863A8C3E0E6;
+			remoteInfo = libobs;
+		};
+		A19AA3CD216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3575B723FBB34F7883F06757;
+			remoteInfo = obs;
+		};
+		A19AA3CF216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4E23DC6FFD9A42BE87DB2CBB;
+			remoteInfo = "obs-frontend-api";
+		};
+		A19AA3D1216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 010A9D31CDA8491FBFBF5381;
+			remoteInfo = "frontend-tools";
+		};
+		A19AA3D3216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 13BA3B732C3245239FDE26BD;
+			remoteInfo = "coreaudio-encoder";
+		};
+		A19AA3D5216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0611534672264D5F82766449;
+			remoteInfo = "mac-avcapture";
+		};
+		A19AA3D7216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 183E2C46E9C94FDB89B34875;
+			remoteInfo = "mac-capture";
+		};
+		A19AA3D9216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61B420057468441BA0FBDFF6;
+			remoteInfo = "mac-vth264";
+		};
+		A19AA3DB216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 936108EDA1DF461B84C7C8BB;
+			remoteInfo = "mac-syphon";
+		};
+		A19AA3DD216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 486A4932DA1F4631897952B3;
+			remoteInfo = "mac-decklink";
+		};
+		A19AA3DF216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C1E5BC0173784789A6157B26;
+			remoteInfo = "obs-vst";
+		};
+		A19AA3E1216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A64B85DB9B0C4D1FB318D586;
+			remoteInfo = "image-source";
+		};
+		A19AA3E3216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0918B91A35EC47BF9A5636CA;
+			remoteInfo = "obs-x264";
+		};
+		A19AA3E5216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 83445489B8F44437941DDFE1;
+			remoteInfo = "obs-ffmpeg";
+		};
+		A19AA3E7216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE82D6EDCD26493CB6675DF3;
+			remoteInfo = "ffmpeg-mux";
+		};
+		A19AA3E9216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4EE5F277A94D4CE5BAB1F3FA;
+			remoteInfo = "obs-outputs";
+		};
+		A19AA3EB216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F9FA680CF5774ACE907E5B38;
+			remoteInfo = "obs-filters";
+		};
+		A19AA3ED216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61475430E93240658B929CCD;
+			remoteInfo = "obs-transitions";
+		};
+		A19AA3EF216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D12DDC16FF2A42DEB72C62B4;
+			remoteInfo = "rtmp-services";
+		};
+		A19AA3F1216C42B100CAA71D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D1AFFF600A67404D83BE8516;
+			remoteInfo = "text-freetype2";
+		};
 		A1ED98EB211DFA0700CBC701 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A194C6BA211CD1D50093B328 /* SDL.xcodeproj */;
@@ -227,6 +403,7 @@
 		91CF43B421484A26002024DA /* move in todos.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "move in todos.txt"; sourceTree = "<group>"; };
 		91CF43B621484A26002024DA /* full extreme tenor solo.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "full extreme tenor solo.m4a"; sourceTree = "<group>"; };
 		A194C6BA211CD1D50093B328 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "../ghost-extensions/SDL2-2.0.8/Xcode/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
+		A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "obs-studio.xcodeproj"; path = "../obs/build/obs-studio.xcodeproj"; sourceTree = "<group>"; };
 		A1E7953C20721BC800731DD3 /* package.love */ = {isa = PBXFileReference; lastKnownFileType = file; name = package.love; path = ../package.love; sourceTree = "<group>"; };
 		A9255E021043195A00BA1496 /* vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vorbis.framework; path = /Library/Frameworks/vorbis.framework; sourceTree = "<absolute>"; };
 		A9255F51104324D700BA1496 /* ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ogg.framework; path = /Library/Frameworks/ogg.framework; sourceTree = "<absolute>"; };
@@ -288,6 +465,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1CE82B0216D296A00EDBF84 /* libobs.dylib in Frameworks */,
 				91CF4339214841CC002024DA /* liblibcef_dll_wrapper.a in Frameworks */,
 				B5A0404321483BA5007A6CC1 /* Chromium Embedded Framework.framework in Frameworks */,
 				B5E9FC48211B6C190068BEB9 /* ghost_extensions_macos.framework in Frameworks */,
@@ -326,6 +504,7 @@
 		29B97314FDCFA39411CA2CEA /* ghost */ = {
 			isa = PBXGroup;
 			children = (
+				A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */,
 				B5BAE382215ABA89001354F9 /* src */,
 				B55858EB215AB95300926105 /* Supporting */,
 				B5B06A402150751A001C4382 /* common */,
@@ -391,6 +570,38 @@
 				A194C6C6211CD1D50093B328 /* libSDL2.a */,
 				A194C6C8211CD1D50093B328 /* libSDL2.dylib */,
 				A194C6CA211CD1D50093B328 /* Standard DMG */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A19AA39D216C42B100CAA71D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A19AA3C2216C42B100CAA71D /* libobsglad.dylib */,
+				A19AA3C4216C42B100CAA71D /* libmedia-playback.a */,
+				A19AA3C6216C42B100CAA71D /* libfile-updater.a */,
+				A19AA3C8216C42B100CAA71D /* libjansson.a */,
+				A19AA3CA216C42B100CAA71D /* libobs-opengl.so */,
+				A19AA3CC216C42B100CAA71D /* libobs.dylib */,
+				A19AA3CE216C42B100CAA71D /* obs */,
+				A19AA3D0216C42B100CAA71D /* libobs-frontend-api.dylib */,
+				A19AA3D2216C42B100CAA71D /* frontend-tools.so */,
+				A19AA3D4216C42B100CAA71D /* coreaudio-encoder.so */,
+				A19AA3D6216C42B100CAA71D /* mac-avcapture.so */,
+				A19AA3D8216C42B100CAA71D /* mac-capture.so */,
+				A19AA3DA216C42B100CAA71D /* mac-vth264.so */,
+				A19AA3DC216C42B100CAA71D /* mac-syphon.so */,
+				A19AA3DE216C42B100CAA71D /* mac-decklink.so */,
+				A19AA3E0216C42B100CAA71D /* obs-vst.so */,
+				A19AA3E2216C42B100CAA71D /* image-source.so */,
+				A19AA3E4216C42B100CAA71D /* obs-x264.so */,
+				A19AA3E6216C42B100CAA71D /* obs-ffmpeg.so */,
+				A19AA3E8216C42B100CAA71D /* ffmpeg-mux */,
+				A19AA3EA216C42B100CAA71D /* obs-outputs.so */,
+				A19AA3EC216C42B100CAA71D /* obs-filters.so */,
+				A19AA3EE216C42B100CAA71D /* obs-transitions.so */,
+				A19AA3F0216C42B100CAA71D /* rtmp-services.so */,
+				A19AA3F2216C42B100CAA71D /* text-freetype2.so */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -618,6 +829,10 @@
 					ProjectRef = FA577A9316C7217800860150 /* liblove.xcodeproj */;
 				},
 				{
+					ProductGroup = A19AA39D216C42B100CAA71D /* Products */;
+					ProjectRef = A19AA39C216C42B100CAA71D /* obs-studio.xcodeproj */;
+				},
+				{
 					ProductGroup = A194C6BB211CD1D50093B328 /* Products */;
 					ProjectRef = A194C6BA211CD1D50093B328 /* SDL.xcodeproj */;
 				},
@@ -664,6 +879,183 @@
 			fileType = "compiled.mach-o.executable";
 			path = "Standard DMG";
 			remoteRef = A194C6C9211CD1D50093B328 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3C2216C42B100CAA71D /* libobsglad.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			name = libobsglad.dylib;
+			path = libobsglad.0.dylib;
+			remoteRef = A19AA3C1216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3C4216C42B100CAA71D /* libmedia-playback.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libmedia-playback.a";
+			remoteRef = A19AA3C3216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3C6216C42B100CAA71D /* libfile-updater.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libfile-updater.a";
+			remoteRef = A19AA3C5216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3C8216C42B100CAA71D /* libjansson.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjansson.a;
+			remoteRef = A19AA3C7216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3CA216C42B100CAA71D /* libobs-opengl.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "libobs-opengl.so";
+			remoteRef = A19AA3C9216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3CC216C42B100CAA71D /* libobs.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			name = libobs.dylib;
+			path = libobs.0.dylib;
+			remoteRef = A19AA3CB216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3CE216C42B100CAA71D /* obs */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = obs;
+			remoteRef = A19AA3CD216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3D0216C42B100CAA71D /* libobs-frontend-api.dylib */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.dylib";
+			path = "libobs-frontend-api.dylib";
+			remoteRef = A19AA3CF216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3D2216C42B100CAA71D /* frontend-tools.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "frontend-tools.so";
+			remoteRef = A19AA3D1216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3D4216C42B100CAA71D /* coreaudio-encoder.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "coreaudio-encoder.so";
+			remoteRef = A19AA3D3216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3D6216C42B100CAA71D /* mac-avcapture.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "mac-avcapture.so";
+			remoteRef = A19AA3D5216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3D8216C42B100CAA71D /* mac-capture.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "mac-capture.so";
+			remoteRef = A19AA3D7216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3DA216C42B100CAA71D /* mac-vth264.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "mac-vth264.so";
+			remoteRef = A19AA3D9216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3DC216C42B100CAA71D /* mac-syphon.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "mac-syphon.so";
+			remoteRef = A19AA3DB216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3DE216C42B100CAA71D /* mac-decklink.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "mac-decklink.so";
+			remoteRef = A19AA3DD216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3E0216C42B100CAA71D /* obs-vst.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "obs-vst.so";
+			remoteRef = A19AA3DF216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3E2216C42B100CAA71D /* image-source.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "image-source.so";
+			remoteRef = A19AA3E1216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3E4216C42B100CAA71D /* obs-x264.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "obs-x264.so";
+			remoteRef = A19AA3E3216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3E6216C42B100CAA71D /* obs-ffmpeg.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "obs-ffmpeg.so";
+			remoteRef = A19AA3E5216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3E8216C42B100CAA71D /* ffmpeg-mux */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "ffmpeg-mux";
+			remoteRef = A19AA3E7216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3EA216C42B100CAA71D /* obs-outputs.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "obs-outputs.so";
+			remoteRef = A19AA3E9216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3EC216C42B100CAA71D /* obs-filters.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "obs-filters.so";
+			remoteRef = A19AA3EB216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3EE216C42B100CAA71D /* obs-transitions.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "obs-transitions.so";
+			remoteRef = A19AA3ED216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3F0216C42B100CAA71D /* rtmp-services.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "rtmp-services.so";
+			remoteRef = A19AA3EF216C42B100CAA71D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A19AA3F2216C42B100CAA71D /* text-freetype2.so */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "text-freetype2.so";
+			remoteRef = A19AA3F1216C42B100CAA71D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		B5E9FC41211B6BA00068BEB9 /* ghost_extensions.framework */ = {
