@@ -329,4 +329,6 @@ void ghostRunMessageLoop() {
   while (shouldRunMessageLoop) {
     ghostStep();
   }
+
+  stopLove();
 }

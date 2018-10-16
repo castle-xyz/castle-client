@@ -156,6 +156,8 @@ bool SimpleHandler::DoClose(CefRefPtr<CefBrowser> browser) {
     is_closing_ = true;
   }
 
+  ghostQuitMessageLoop();
+
   // Allow the close. For windowed browsers this will result in the OS close
   // event being sent.
   return false;
