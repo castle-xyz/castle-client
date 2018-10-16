@@ -162,6 +162,8 @@ extern "C" {
       self.loveStepping = NO;
       [self closeLua];
     }
+  } else {
+    self.loveStepping = NO;
   }
 }
 
@@ -220,7 +222,7 @@ extern "C" {
 }
 
 - (void)sendEvent:(NSEvent *)event {
-  if (self.loveStepping) {
+  if (self.luaState && self.loveStepping) {
     Cocoa_DispatchEvent(event);
   }
 }
