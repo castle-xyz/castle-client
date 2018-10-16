@@ -6,5 +6,6 @@
 - (void)bootLoveWithUri:(NSString *)uri;
 - (void)tryToTerminateApplication:(NSApplication *)app;
 - (void)createApplication:(id)object;
+- (void)sendEvent:(NSEvent *)event;
 
 @end

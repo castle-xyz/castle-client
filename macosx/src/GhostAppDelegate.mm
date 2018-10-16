@@ -209,6 +209,17 @@ extern "C" {
   }
 }
 
+// XXX(Ghost): Make this available for external use...
+extern "C" {
+  void Cocoa_DispatchEvent(NSEvent *theEvent);
+}
+
+- (void)sendEvent:(NSEvent *)event {
+  if (self.luaState) {
+    Cocoa_DispatchEvent(event);
+  }
+}
+
 - (void)tryToTerminateApplication:(NSApplication *)app {
   [self stopLove];
 
