@@ -21,6 +21,7 @@ extern "C" {
 @property(nonatomic, assign) lua_State *luaState;
 @property(nonatomic, assign) int loveBootStackPos;
 @property(nonatomic, assign) BOOL lovePaused;
+@property(nonatomic, assign) BOOL loveStepping;
 
 @property(nonatomic, strong) NSTimer *mainLoopTimer;
 
@@ -53,6 +54,7 @@ extern "C" {
   [[NSRunLoop mainRunLoop] addTimer:self.mainLoopTimer forMode:NSRunLoopCommonModes];
 
   self.lovePaused = NO;
+  self.loveStepping = NO;
 
   self.windowEventsSubscribed = NO;
 }
@@ -154,8 +156,10 @@ extern "C" {
     // Call the coroutine at the top of the stack
     lua_State *L = self.luaState;
     if (lua_resume(L, 0) == LUA_YIELD) {
+      self.loveStepping = YES;
       lua_pop(L, lua_gettop(L) - self.loveBootStackPos);
     } else {
+      self.loveStepping = NO;
       [self closeLua];
     }
   }
@@ -199,6 +203,7 @@ extern "C" {
     [self stepLove];
     [self closeLua];
   }
+  self.loveStepping = NO;
 }
 
 - (void)closeLua {
@@ -215,7 +220,7 @@ extern "C" {
 }
 
 - (void)sendEvent:(NSEvent *)event {
-  if (self.luaState) {
+  if (self.loveStepping) {
     Cocoa_DispatchEvent(event);
   }
 }
