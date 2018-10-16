@@ -28,6 +28,8 @@ const STYLES_ROW = css`
   justify-content: space-between;
   border-bottom: 1px solid ${Constants.colors.border};
   cursor: pointer;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 
   :last-child {
     border-bottom: 0;
@@ -39,6 +41,7 @@ const STYLES_COLUMN_FULL = css`
   width: 100%;
   padding: 12px 16px 12px 16px;
   overflow-wrap: break-word;
+  word-wrap: break-word;
 
   :hover {
     color: ${Constants.colors.selected};
@@ -49,6 +52,7 @@ const STYLES_COLUMN_NO_INTERACTION = css`
   flex-shrink: 0;
   width: 33.33%;
   overflow-wrap: break-word;
+  word-wrap: break-word;
   padding: 12px 16px 12px 16px;
 `;
 
@@ -56,6 +60,8 @@ const STYLES_COLUMN = css`
   flex-shrink: 0;
   width: 33.33%;
   padding: 12px 16px 12px 16px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 
   :hover {
     color: ${Constants.colors.selected};

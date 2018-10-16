@@ -27,6 +27,8 @@ const STYLES_ROW = css`
   align-items: flex-start;
   justify-content: space-between;
   border-bottom: 1px solid ${Constants.colors.border};
+  overflow-wrap: break-word;
+  word-wrap: break-word;
   cursor: pointer;
 
   :last-child {
@@ -41,6 +43,7 @@ const STYLES_COLUMN = css`
   width: 128px;
   padding: 12px 16px 12px 16px;
   overflow-wrap: break-word;
+  word-wrap: break-word;
 
   :hover {
     color: ${Constants.colors.selected};
@@ -51,6 +54,7 @@ const STYLES_COLUMN_NO_INTERACTION = css`
   flex-shrink: 0;
   width: 128px;
   overflow-wrap: break-word;
+  word-wrap: break-word;
   padding: 12px 16px 12px 16px;
 `;
 
@@ -58,6 +62,7 @@ const STYLES_FLUID_COLUMN = css`
   min-width: 25%;
   width: 100%;
   overflow-wrap: break-word;
+  word-wrap: break-word;
   padding: 12px 16px 12px 16px;
   :hover {
     color: ${Constants.colors.selected};
@@ -68,6 +73,7 @@ const STYLES_FLUID_COLUMN_NO_INTERACTION = css`
   min-width: 25%;
   width: 100%;
   overflow-wrap: break-word;
+  word-wrap: break-word;
   padding: 12px 16px 12px 16px;
 `;
 
