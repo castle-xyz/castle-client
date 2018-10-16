@@ -152,14 +152,20 @@ export default class CoreApp extends React.Component {
       return;
     }
 
+    if (history.length > 10) {
+      history.pop();
+    }
+
     history = history.filter(h => h.mediaUrl !== media.mediaUrl);
 
     history.unshift(media);
     this.props.storage.setItem('history', JSON.stringify({ history }));
+  };
 
-    if (history.length > 10) {
-      history.pop();
-    }
+  _handleClearHistory = () => {
+    window.setTimeout(() => {
+      this.props.storage.setItem('history', JSON.stringify({ history: [] }));
+    });
   };
 
   _handleMediaAdd = async data => {
@@ -932,6 +938,8 @@ export default class CoreApp extends React.Component {
         <CoreRootDashboard
           media={state.media}
           onMediaSelect={this._handleMediaSelect}
+          onUserSelect={this._handleUserSelect}
+          onClearHistory={this._handleClearHistory}
           storage={this.props.storage}
           onDismiss={this._handleDismissSidebar}
         />
