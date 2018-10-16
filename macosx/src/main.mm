@@ -26,10 +26,12 @@
 }
 
 - (void)sendEvent:(NSEvent *)event {
-  CefScopedSendingEvent sendingEventScoper;
   GhostAppDelegate *delegate = static_cast<GhostAppDelegate *>([NSApp delegate]);
   [delegate sendEvent:event];
-  [super sendEvent:event];
+  {
+    CefScopedSendingEvent sendingEventScoper;
+    [super sendEvent:event];
+  }
 }
 
 - (void)terminate:(id)sender {
