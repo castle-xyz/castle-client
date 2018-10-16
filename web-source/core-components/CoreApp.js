@@ -280,7 +280,6 @@ export default class CoreApp extends React.Component {
       media: existingMedia ? existingMedia : media,
       mediaUrl: media.mediaUrl,
       pageMode: null,
-      sidebarMode: this.state.sidebarMode !== 'dashboard' ? 'current-playlist' : 'dashboard',
       creator: null,
     });
   };
@@ -304,7 +303,6 @@ export default class CoreApp extends React.Component {
       media: media ? media : { mediaUrl },
       mediaUrl,
       pageMode: null,
-      sidebarMode: this.state.sidebarMode !== 'dashboard' ? 'current-playlist' : 'dashboard',
       creator: null,
     });
   };
@@ -767,15 +765,21 @@ export default class CoreApp extends React.Component {
   render() {
     const { state } = this;
 
+    const isViewerViewingBrowseScene = state.pageMode === 'browse';
+    const isViewerViewingSignInScene = state.pageMode === 'sign-in';
+    const isViewerViewingProfileScene = state.pageMode === 'profile';
+    const isViewerViewingPlaylistScene = state.pageMode === 'playlist';
+    const isViewerViewingDashboardScene = !state.pageMode && state.sidebarMode === 'dashboard';
+
     let maybeLeftSidebarNode;
     if (state.isOverlayActive) {
       maybeLeftSidebarNode = (
         <CoreRootLeftSidebar
           viewer={state.viewer}
-          isBrowsing={state.pageMode === 'browse'}
-          isSignIn={state.pageMode === 'sign-in'}
-          isViewingProfile={state.pageMode === 'profile'}
-          isDashboardActive={!state.pageMode && state.sidebarMode === 'dashboard'}
+          isBrowsing={isViewerViewingBrowseScene}
+          isSignIn={isViewerViewingSignInScene}
+          isViewingProfile={isViewerViewingProfileScene}
+          isDashboardActive={isViewerViewingDashboardScene}
           onToggleProfile={this._handleToggleProfile}
           onToggleBrowse={this._handleToggleBrowse}
           onToggleSignIn={this._handleToggleSignIn}
@@ -786,7 +790,7 @@ export default class CoreApp extends React.Component {
     }
 
     // NOTE(jim): Browse/Search Scene
-    if (state.pageMode === 'browse') {
+    if (isViewerViewingBrowseScene) {
       return (
         <CoreLayout
           ref={this._handleGetReference}
@@ -813,7 +817,7 @@ export default class CoreApp extends React.Component {
     }
 
     // NOTE(jim): Sign in scene
-    if (state.pageMode === 'sign-in') {
+    if (isViewerViewingSignInScene) {
       return (
         <CoreLayout
           ref={this._handleGetReference}
@@ -825,7 +829,7 @@ export default class CoreApp extends React.Component {
     }
 
     // NOTE(jim): Playlist Scene
-    if (state.pageMode === 'playlist') {
+    if (isViewerViewingPlaylistScene) {
       return (
         <CoreLayout
           ref={reference => {
@@ -847,7 +851,7 @@ export default class CoreApp extends React.Component {
     }
 
     // NOTE(jim): Profile Scene
-    if (state.pageMode === 'profile') {
+    if (isViewerViewingProfileScene) {
       return (
         <CoreLayout
           ref={this._handleGetReference}
