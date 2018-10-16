@@ -72,7 +72,7 @@ export default class UICardMedia extends React.Component {
   _handleSubmit = async () => {
     await this.props.onRegisterMedia({ email: this.state.email, message: this.state.message });
 
-    this.setState({ email: null, message: null });
+    this.setState({ email: '', message: '' });
   };
 
   render() {
