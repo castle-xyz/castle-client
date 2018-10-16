@@ -30,6 +30,13 @@ export default class CoreRootLeftSidebar extends React.Component {
   render() {
     return (
       <div className={STYLES_NAVIGATION}>
+        <UIButtonIcon
+          active={this.props.isBrowsing}
+          icon={<SVG.Search height="20px" />}
+          style={{ background: Constants.colors.red }}
+          onClick={this.props.onToggleBrowse}>
+          Browse
+        </UIButtonIcon>
         {this.props.viewer ? (
           <UIButtonIcon
             active={this.props.isViewingProfile}
@@ -45,13 +52,6 @@ export default class CoreRootLeftSidebar extends React.Component {
           style={{ background: Constants.colors.blue }}
           onClick={this.props.onToggleDashboard}>
           History
-        </UIButtonIcon>
-        <UIButtonIcon
-          active={this.props.isBrowsing}
-          icon={<SVG.Search height="20px" />}
-          style={{ background: Constants.colors.red }}
-          onClick={this.props.onToggleBrowse}>
-          Browse
         </UIButtonIcon>
         {!this.props.viewer ? (
           <UIButtonIcon

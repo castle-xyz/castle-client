@@ -533,6 +533,7 @@ export default class CoreApp extends React.Component {
   _handleToggleBrowse = () => {
     const updates = {
       pageMode: this.state.pageMode === 'browse' ? null : 'browse',
+      sidebarMode: this.state.pageMode === 'browse' ? 'dashboard' : this.state.sidebarMode,
       creator: null,
     };
 
@@ -601,7 +602,7 @@ export default class CoreApp extends React.Component {
     const updates = {
       sidebarMode:
         !this.state.pageMode && this.state.sidebarMode === 'dashboard' ? null : 'dashboard',
-      pageMode: null,
+      pageMode: !this.state.pageMode && this.state.sidebarMode === 'dashboard' ? 'browse' : null,
       creator: null,
     };
 
