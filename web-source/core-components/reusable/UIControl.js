@@ -23,6 +23,12 @@ const STYLES_CONTROL = css`
 
 export default class UIControl extends React.Component {
   render() {
-    return <span className={STYLES_CONTROL} {...this.props} />;
+    return (
+      <span
+        className={STYLES_CONTROL}
+        {...this.props}
+        style={{ ...this.props.style, color: this.props.isActive ? Constants.colors.green : null }}
+      />
+    );
   }
 }

@@ -91,11 +91,7 @@ export default class UICardProfileHeader extends React.Component {
                 Joined on {Strings.toDate(this.props.creator.createdTime)}
               </div>
             </div>
-            {rich ? (
-              <ContentEditor readOnly value={rich} />
-            ) : (
-              <p className={STYLES_DESCRIPTION}>A creator on Castle.</p>
-            )}
+            {rich ? <ContentEditor readOnly value={rich} /> : <p className={STYLES_DESCRIPTION} />}
           </div>
         </div>
         <div className={STYLES_ROW}>

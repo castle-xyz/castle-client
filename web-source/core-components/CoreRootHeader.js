@@ -51,7 +51,9 @@ export default class CoreRootHeader extends React.Component {
     return (
       <div className={STYLES_CONTAINER}>
         <div className={STYLES_CONTAINER_LEFT} />
-        <div className={STYLES_CONTAINER_RIGHT}>
+        <div
+          className={STYLES_CONTAINER_RIGHT}
+          style={{ color: this.props.isContextSidebarActive ? Constants.colors.green : null }}>
           <UIControl style={{ marginLeft: 24 }} onClick={this.props.onToggleCurrentContext}>
             <SVG.More height="20px" />
           </UIControl>

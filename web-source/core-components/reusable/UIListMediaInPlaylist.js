@@ -108,7 +108,7 @@ export default class UIListMediaInPlaylist extends React.Component {
             return (
               <div
                 className={STYLES_ROW}
-                style={isSelected ? { background: `#666` } : null}
+                style={isSelected ? { background: Constants.colors.green } : null}
                 key={`playlist-list-item-${i}`}>
                 <div className={STYLES_COLUMN_FULL} onClick={() => this.props.onMediaSelect(m)}>
                   {m.mediaUrl}
@@ -120,7 +120,7 @@ export default class UIListMediaInPlaylist extends React.Component {
           return (
             <div
               className={STYLES_ROW}
-              style={isSelected ? { background: `#666` } : null}
+              style={isSelected ? { background: Constants.colors.green } : null}
               key={`playlist-list-item-${i}`}>
               <div className={STYLES_COLUMN} onClick={() => this.props.onMediaSelect(m)}>
                 {m.name}

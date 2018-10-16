@@ -279,7 +279,8 @@ export default class CoreApp extends React.Component {
       media: existingMedia ? existingMedia : media,
       mediaUrl: media.mediaUrl,
       pageMode: null,
-      sidebarMode: 'current-context',
+      sidebarMode:
+        this.state.sidebarMode === 'dashboard' ? this.state.sidebarMode : 'current-context',
       creator: null,
     });
   };
@@ -303,7 +304,8 @@ export default class CoreApp extends React.Component {
       media: media ? media : { mediaUrl },
       mediaUrl,
       pageMode: null,
-      sidebarMode: 'current-context',
+      sidebarMode:
+        this.state.sidebarMode === 'dashboard' ? this.state.sidebarMode : 'current-context',
       creator: null,
     });
   };
@@ -340,6 +342,7 @@ export default class CoreApp extends React.Component {
     if (Strings.isEmpty(this.state.searchQuery)) {
       this.setState({
         pageMode: 'browse',
+        sidebarMode: null,
         searchQuery: '',
         allMediaFiltered: this.state.allMedia,
         allPlaylistsFiltered: this.state.allPlaylists,
@@ -388,6 +391,7 @@ export default class CoreApp extends React.Component {
 
     this.setState({
       pageMode: 'browse',
+      sidebarMode: null,
       searchQuery: '',
       allMediaFiltered:
         allMediaFiltered && allMediaFiltered.length ? allMediaFiltered : this.state.allMedia,
@@ -538,7 +542,7 @@ export default class CoreApp extends React.Component {
   _handleToggleBrowse = () => {
     const updates = {
       pageMode: this.state.pageMode === 'browse' ? null : 'browse',
-      sidebarMode: this.state.pageMode === 'browse' ? 'dashboard' : this.state.sidebarMode,
+      sidebarMode: null,
       creator: null,
     };
 
@@ -890,6 +894,7 @@ export default class CoreApp extends React.Component {
           viewer={state.viewer}
           media={state.media}
           playlist={state.playlist}
+          isContextSidebarActive={state.sidebarMode === 'current-context'}
           onToggleCurrentContext={this._handleToggleCurrentContext}
         />
       );

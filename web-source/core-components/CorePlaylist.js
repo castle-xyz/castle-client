@@ -76,11 +76,7 @@ export default class CorePlaylist extends React.Component {
           <div className={STYLES_META}>
             Created on {Strings.toDate(this.props.playlist.createdTime)}
           </div>
-          {rich ? (
-            <ContentEditor readOnly value={rich} />
-          ) : (
-            <p className={STYLES_PARAGRAPH}>There is no description for this playlist.</p>
-          )}
+          {rich ? <ContentEditor readOnly value={rich} /> : <p className={STYLES_PARAGRAPH} />}
         </div>
         {this.props.playlist.mediaItems && this.props.playlist.mediaItems.length ? (
           <UIListMedia

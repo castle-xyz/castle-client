@@ -83,10 +83,13 @@ export default class CoreRootContextSidebar extends React.Component {
           this._reference = c;
         }}>
         <UIHeaderDismiss onDismiss={this.props.onDismiss}>
-          <UIControl onClick={this.viewMediaContext} style={{ marginRight: 24 }}>
+          <UIControl
+            onClick={this.viewMediaContext}
+            style={{ marginRight: 24 }}
+            isActive={this.state.mode === 'media'}>
             <SVG.MediaIcon height="19px" style={{ marginRight: 8 }} /> Now Playing
           </UIControl>
-          <UIControl onClick={this.viewPlaylistContext}>
+          <UIControl onClick={this.viewPlaylistContext} isActive={this.state.mode === 'playlist'}>
             <SVG.PlaylistIcon height="18px" style={{ marginRight: 8 }} /> Current List Results
           </UIControl>
         </UIHeaderDismiss>
@@ -104,7 +107,8 @@ export default class CoreRootContextSidebar extends React.Component {
             {headerNode}
             <div className={STYLES_CONTAINER}>
               <UIEmptyState title="No media loaded">
-                Once you load media, information about the media will appear here. Try <UILink onClick={this.props.onToggleBrowse}>browsing</UILink>.
+                Once you load media, information about the media will appear here. Try{' '}
+                <UILink onClick={this.props.onToggleBrowse}>browsing</UILink>.
               </UIEmptyState>
             </div>
           </div>

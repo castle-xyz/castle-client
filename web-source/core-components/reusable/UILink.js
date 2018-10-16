@@ -4,9 +4,11 @@ import * as Constants from '~/common/constants';
 import { css } from 'react-emotion';
 
 const STYLES_LINK = css`
-  color: ${Constants.colors.green};
+  color: ${Constants.colors.selected};
+  text-decoration: underline;
   opacity: 1;
   transition: 200ms ease opacity;
+  font-weight: 600;
   cursor: pointer;
 
   :visited {

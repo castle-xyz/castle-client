@@ -44,7 +44,7 @@ export const colors = {
   yellow: base.yellow,
   purple: base.purple,
   red: base.red,
-  selected: base.green,
+  selected: base.yellow,
   secondaryButtonSelected: '#B2BABB',
 };
 
