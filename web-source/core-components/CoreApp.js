@@ -279,6 +279,7 @@ export default class CoreApp extends React.Component {
       media: existingMedia ? existingMedia : media,
       mediaUrl: media.mediaUrl,
       pageMode: null,
+      sidebarMode: 'current-context',
       creator: null,
     });
   };
@@ -302,6 +303,7 @@ export default class CoreApp extends React.Component {
       media: media ? media : { mediaUrl },
       mediaUrl,
       pageMode: null,
+      sidebarMode: 'current-context',
       creator: null,
     });
   };
@@ -901,6 +903,7 @@ export default class CoreApp extends React.Component {
           allMedia={state.allMedia}
           allMediaFiltered={state.allMediaFiltered}
           onRegisterMedia={this._handleRegisterGame}
+          onToggleBrowse={this._handleToggleBrowse}
           onMediaSelect={this._handleMediaSelect}
           onUserSelect={this._handleUserSelect}
           onViewCurrentPlaylistDetails={this._handleToggleCurrentPlaylistDetails}
@@ -922,6 +925,7 @@ export default class CoreApp extends React.Component {
           onMediaSelect={this._handleMediaSelect}
           onUserSelect={this._handleUserSelect}
           onClearHistory={this._handleClearHistory}
+          onToggleBrowse={this._handleToggleBrowse}
           storage={this.props.storage}
           onDismiss={this._handleDismissSidebar}
         />

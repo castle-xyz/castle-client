@@ -17,6 +17,7 @@ const STYLES_CONTROL = css`
   transition: 200ms ease opacity;
   cursor: pointer;
   width: 100%;
+  user-select: none;
 
   :hover {
     opacity: 0.8;

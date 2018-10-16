@@ -7,6 +7,7 @@ const STYLES_LINK = css`
   color: ${Constants.colors.green};
   opacity: 1;
   transition: 200ms ease opacity;
+  cursor: pointer;
 
   :visited {
     color: ${Constants.colors.green};

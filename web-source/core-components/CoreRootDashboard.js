@@ -7,6 +7,7 @@ import UIListMediaInPlaylist from '~/core-components/reusable/UIListMediaInPlayl
 import UIHeaderDismiss from '~/core-components/reusable/UIHeaderDismiss';
 import UIEmptyState from '~/core-components/reusable/UIEmptyState';
 import UIControl from '~/core-components/reusable/UIControl';
+import UILink from '~/core-components/reusable/UILink';
 
 const STYLES_CONTAINER = css`
   @keyframes dashboard-animation {
@@ -43,7 +44,7 @@ export default class CoreRootDashboard extends React.Component {
           <UIHeaderDismiss onDismiss={this.props.onDismiss} />
           <UIEmptyState title="History">
             As you play different Media using Castle, the last 10 links you visited will appear
-            here.
+            here. Try <UILink onClick={this.props.onToggleBrowse}>Browsing</UILink>.
           </UIEmptyState>
         </div>
       );
@@ -56,7 +57,7 @@ export default class CoreRootDashboard extends React.Component {
           <UIHeaderDismiss onDismiss={this.props.onDismiss} />
           <UIEmptyState title="History">
             As you play different Media using Castle, the last 10 links you visited will appear
-            here.
+            here. Try <UILink onClick={this.props.onToggleBrowse}>Browsing</UILink>.
           </UIEmptyState>
         </div>
       );
