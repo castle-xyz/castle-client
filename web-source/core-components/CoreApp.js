@@ -24,7 +24,6 @@ import CoreSignIn from '~/core-components/CoreSignIn';
 
 // NOTE(jim): Media Scene
 import CoreMediaScreen from '~/core-components/CoreMediaScreen';
-import CoreMediaInformation from '~/core-components/CoreMediaInformation';
 
 // NOTE(jim): Browse Scene
 import CoreBrowsePlaylistResults from '~/core-components/CoreBrowsePlaylistResults';
@@ -633,24 +632,6 @@ export default class CoreApp extends React.Component {
     });
   };
 
-  _handleToggleMediaInfo = () => {
-    const updates = {
-      sidebarMode: this.state.sidebarMode === 'media-info' ? null : 'media-info',
-      pageMode: null,
-      creator: null,
-    };
-
-    this.determineNextStateOfCEF({
-      isClosing: false,
-      isOpening: !Strings.isEmpty(this.state.pageMode),
-      mediaUrl: this.state.mediaUrl,
-    });
-
-    this.setStateWithCEF({
-      ...updates,
-    });
-  };
-
   _handleShowProfileMediaList = () => {
     this.setStateWithCEF({
       profileMode: 'media',
@@ -901,32 +882,19 @@ export default class CoreApp extends React.Component {
           viewer={state.viewer}
           media={state.media}
           playlist={state.playlist}
-          onToggleBrowse={this._handleToggleBrowse}
-          onSelectRandom={this._handleSelectRandom}
-          onToggleDashboard={this._handleToggleDashboard}
-          onToggleAuthentication={this._handleToggleAuthentication}
-          onToggleMediaInfo={this._handleToggleMediaInfo}
-          onToggleCurrentPlaylist={this._handleToggleCurrentContext}
+          onToggleCurrentContext={this._handleToggleCurrentContext}
         />
       );
     }
 
     let maybeRightNode;
-    if (state.isOverlayActive && state.sidebarMode === 'media-info') {
-      maybeRightNode = (
-        <CoreMediaInformation
-          media={state.media}
-          onDismiss={this._handleDismissSidebar}
-          onRegisterMedia={this._handleRegisterGame}
-        />
-      );
-    }
-
     if (state.isOverlayActive && state.sidebarMode === 'current-context') {
       maybeRightNode = (
         <CoreRootContextSidebar
           media={state.media}
-          playlist={state.playlist}
+          allMedia={state.allMedia}
+          allMediaFiltered={state.allmediaFiltered}
+          onRegisterMedia={this._handleRegisterGame}
           onMediaSelect={this._handleMediaSelect}
           onUserSelect={this._handleUserSelect}
           onViewCurrentPlaylistDetails={this._handleToggleCurrentPlaylistDetails}

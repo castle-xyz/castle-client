@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as Constants from '~/common/constants';
+import * as SVG from '~/core-components/primitives/svg';
 
 import { css } from 'react-emotion';
 
 import UIListMediaInPlaylist from '~/core-components/reusable/UIListMediaInPlaylist';
 import UIHeaderDismiss from '~/core-components/reusable/UIHeaderDismiss';
+import UICardMedia from '~/core-components/reusable/UICardMedia';
 import UIEmptyState from '~/core-components/reusable/UIEmptyState';
 import UILink from '~/core-components/reusable/UILink';
 import UIControl from '~/core-components/reusable/UIControl';
@@ -50,18 +52,94 @@ const STYLES_CONTAINER = css`
 `;
 
 export default class CoreRootContextSidebar extends React.Component {
+  _reference;
+
+  static defaultProps = {
+    allMedia: [],
+    allMediaFiltered: [],
+  };
+
+  state = {
+    mode: 'media',
+  };
+
+  viewMediaContext = () => {
+    this.setState({ mode: 'media' });
+  };
+
+  viewPlaylistContext = () => {
+    this.setState({ mode: 'playlist' });
+  };
+
+  getRef = () => {
+    return this._reference;
+  };
+
   render() {
-    return (
-      <div className={STYLES_FIXED_CONTAINER}>
-        <div className={STYLES_FIXED_HEADER}>
-          <UIHeaderDismiss onDismiss={this.props.onDismiss} />
+    const headerNode = (
+      <div
+        className={STYLES_FIXED_HEADER}
+        ref={c => {
+          this._reference = c;
+        }}>
+        <UIHeaderDismiss onDismiss={this.props.onDismiss}>
+          <UIControl onClick={this.viewMediaContext} style={{ marginRight: 24 }}>
+            <SVG.MediaIcon height="19px" style={{ marginRight: 8 }} /> Media
+          </UIControl>
+          <UIControl onClick={this.viewPlaylistContext}>
+            <SVG.PlaylistIcon height="18px" style={{ marginRight: 8 }} /> Playlist
+          </UIControl>
+        </UIHeaderDismiss>
+      </div>
+    );
+
+    if (this.state.mode === 'media') {
+      if (!this.props.media) {
+        return (
+          <div
+            className={STYLES_FIXED_CONTAINER}
+            ref={c => {
+              this._reference = c;
+            }}>
+            {headerNode}
+            <div className={STYLES_CONTAINER}>
+              <UIEmptyState title="No media loaded">
+                Once you load media, information about the media will appear here.
+              </UIEmptyState>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div
+          className={STYLES_FIXED_CONTAINER}
+          ref={c => {
+            this._reference = c;
+          }}>
+          {headerNode}
+          <div className={STYLES_CONTAINER}>
+            <UICardMedia media={this.props.media} onRegisterMedia={this.props.onRegisterMedia} />
+          </div>
         </div>
+      );
+    }
+
+    return (
+      <div
+        className={STYLES_FIXED_CONTAINER}
+        ref={c => {
+          this._reference = c;
+        }}>
+        {headerNode}
         <div className={STYLES_CONTAINER}>
           <UIListMediaInPlaylist
             media={this.props.media}
             onMediaSelect={this.props.onMediaSelect}
             onUserSelect={this.props.onUserSelect}
-            mediaItems={this.props.playlist.mediaItems}
+            mediaItems={
+              this.props.allMediaFiltered.length ? this.props.allMediaFiltered : this.props.allMedia
+            }
           />
         </div>
       </div>

@@ -6,7 +6,7 @@ import * as Strings from '~/common/strings';
 import { css } from 'react-emotion';
 
 import UIButtonIconHorizontal from '~/core-components/reusable/UIButtonIconHorizontal';
-import UIInput from '~/core-components/reusable/UIInput';
+import UIInputSecondary from '~/core-components/reusable/UIInputSecondary';
 
 import ContentEditor from '~/editor/ContentEditor';
 
@@ -132,14 +132,15 @@ export default class UICardMedia extends React.Component {
 
           {!isReal ? (
             <div style={{ marginTop: 48 }}>
-              <UIInput
+              <UIInputSecondary
                 value={this.state.email}
                 label="E-mail"
                 name="email"
                 onChange={this._handleChange}
+                style={{ marginBottom: 16 }}
               />
 
-              <UIInput
+              <UIInputSecondary
                 value={this.state.message}
                 label="message"
                 name="message"

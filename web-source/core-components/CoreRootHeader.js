@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as Constants from '~/common/constants';
+import * as SVG from '~/core-components/primitives/svg';
 
 import { css } from 'react-emotion';
 
@@ -51,21 +52,9 @@ export default class CoreRootHeader extends React.Component {
       <div className={STYLES_CONTAINER}>
         <div className={STYLES_CONTAINER_LEFT} />
         <div className={STYLES_CONTAINER_RIGHT}>
-          {this.props.playlist ? (
-            <UIControl style={{ marginLeft: 24 }} onClick={this.props.onSelectRandom}>
-              Play random
-            </UIControl>
-          ) : null}
-          {this.props.media ? (
-            <UIControl style={{ marginLeft: 24 }} onClick={this.props.onToggleMediaInfo}>
-              Media Info
-            </UIControl>
-          ) : null}
-          {this.props.playlist ? (
-            <UIControl style={{ marginLeft: 24 }} onClick={this.props.onToggleCurrentPlaylist}>
-              {this.props.playlist.name}
-            </UIControl>
-          ) : null}
+          <UIControl style={{ marginLeft: 24 }} onClick={this.props.onToggleCurrentContext}>
+            <SVG.More height="20px" />
+          </UIControl>
         </div>
       </div>
     );
