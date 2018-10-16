@@ -424,8 +424,14 @@ export default class CoreApp extends React.Component {
       this.closeCEF();
     }
 
+    console.log(playlist.mediaItems.length);
+
     this.setStateWithCEF({
       pageMode: 'playlist',
+      allMediaFiltered:
+        playlist && playlist.mediaItems && playlist.mediaItems.length
+          ? [...playlist.mediaItems]
+          : [...this.state.allMediaFiltered],
       creator: null,
       playlist,
       media: null,
@@ -893,7 +899,7 @@ export default class CoreApp extends React.Component {
         <CoreRootContextSidebar
           media={state.media}
           allMedia={state.allMedia}
-          allMediaFiltered={state.allmediaFiltered}
+          allMediaFiltered={state.allMediaFiltered}
           onRegisterMedia={this._handleRegisterGame}
           onMediaSelect={this._handleMediaSelect}
           onUserSelect={this._handleUserSelect}

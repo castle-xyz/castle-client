@@ -93,7 +93,9 @@ export default class UICardMedia extends React.Component {
 
     let textElement = (
       <div>
-        <div className={STYLES_SECTION_TITLE}>A game on Castle</div>
+        <div className={STYLES_SECTION_TITLE} style={{ marginTop: 32 }}>
+          A game on Castle
+        </div>
         <div className={STYLES_SECTION_PARAGRAPH}>
           This user hasn't written anything about their game on Castle yet.
         </div>
@@ -102,7 +104,9 @@ export default class UICardMedia extends React.Component {
     if (!isReal) {
       textElement = (
         <div>
-          <div className={STYLES_SECTION_TITLE}>Is this your game?</div>
+          <div className={STYLES_SECTION_TITLE} style={{ marginTop: 32 }}>
+            Is this your game?
+          </div>
           <div className={STYLES_SECTION_PARAGRAPH}>
             Castle lists all the games from a game jam, so people can browse and play them all
             easily. If you created this game and want to claim it, change the way it is presented,
