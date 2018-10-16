@@ -35,7 +35,7 @@ export const colors = {
   black10: `rgba(0, 0, 0, 0.1)`,
   background: base.black,
   foreground: `#222`,
-  border: `#333`,
+  border: `#232323`,
   card: `#444`,
   subdued: '#666',
   white: base.white,
