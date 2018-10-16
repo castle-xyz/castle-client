@@ -48,11 +48,6 @@ const isReloadHotkey = isKeyHotkey('mod+r');
 const POLL_DELAY = 300;
 const ENABLE_HIDE_OVERLAY = false;
 
-const delay = ms =>
-  new Promise(resolve => {
-    window.setTimeout(resolve, ms);
-  });
-
 // NOTES(jim):
 // + Assigning creator to `null` whenever `pageMode` changes is dangerous.
 //   We may want to think of an enumeration to represent that state.
@@ -295,9 +290,8 @@ export default class CoreApp extends React.Component {
 
     this.openCEF(mediaUrl);
 
-    await delay(200);
-
     this._handleSetHistory(media ? media : { mediaUrl });
+
     this.setStateWithCEF({
       media: media ? media : { mediaUrl },
       mediaUrl,

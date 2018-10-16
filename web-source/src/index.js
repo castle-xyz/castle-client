@@ -1,14 +1,14 @@
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
-import * as React from "react";
-import * as Constants from "~/common/constants";
-import * as Actions from "~/common/actions";
+import * as React from 'react';
+import * as Constants from '~/common/constants';
+import * as Actions from '~/common/actions';
 
-import App from "./App";
+import App from './App';
 
-import Storage from "~/common/storage";
+import Storage from '~/common/storage';
 
-import { injectGlobal } from "react-emotion";
+import { injectGlobal } from 'react-emotion';
 
 const injectGlobalStyles = () => injectGlobal`
   html, body, div, span, applet, object, iframe,
@@ -95,51 +95,44 @@ const injectGlobalStyles = () => injectGlobal`
   }
 `;
 
-const storage = new Storage("castle");
+const storage = new Storage('castle');
 const delay = ms =>
   new Promise(resolve => {
     window.setTimeout(resolve, ms);
   });
 
 const run = async () => {
-  const {
-    allMedia = [],
-    allPlaylists = [],
-    me
-  } = await Actions.getInitialData();
-  await delay(1000);
+  const { allMedia = [], allPlaylists = [], me } = await Actions.getInitialData();
+  await delay(300);
 
-  document.getElementById("loader").classList.add("loader--finished");
+  document.getElementById('loader').classList.add('loader--finished');
 
   const state = {
     logs: [],
-    mediaUrl: "",
+    mediaUrl: '',
     playlist: null,
     media: null,
     creator: null,
     viewer: me,
     local: null,
-    searchQuery: "",
+    searchQuery: '',
     allMedia,
     allPlaylists,
     allMediaFiltered: [...allMedia],
     allPlaylistsFiltered: [...allPlaylists],
     sidebarMode: null, // current-playlists | dashboard | media-info | authentication | null
-    pageMode: "browse", // browse | playlist | profile | sign-in | null
+    pageMode: 'browse', // browse | playlist | profile | sign-in | null
     profileMode: null, // media | playlist | null
     isMediaFavorited: false,
     isMediaExpanded: false,
-    isOverlayActive: true
+    isOverlayActive: true,
   };
 
-  ReactDOM.render(
-    <App state={state} storage={storage} />,
-    document.getElementById("root")
-  );
+  ReactDOM.render(<App state={state} storage={storage} />, document.getElementById('root'));
 
-  await delay(1000);
+  await delay(300);
 
-  document.getElementById("loader").outerHTML = "";
+  document.getElementById('loader').outerHTML = '';
 };
 
 injectGlobalStyles();
