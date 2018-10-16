@@ -49,7 +49,7 @@ const STYLES_CONTAINER = css`
   }
 `;
 
-export default class CoreRootPlaylistSidebar extends React.Component {
+export default class CoreRootContextSidebar extends React.Component {
   render() {
     return (
       <div className={STYLES_FIXED_CONTAINER}>

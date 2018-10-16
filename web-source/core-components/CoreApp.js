@@ -19,7 +19,7 @@ import CoreRootURLInput from '~/core-components/CoreRootURLInput';
 import CoreRootLeftSidebar from '~/core-components/CoreRootLeftSidebar';
 import CoreRootDashboard from '~/core-components/CoreRootDashboard';
 import CoreRootToolbar from '~/core-components/CoreRootToolbar';
-import CoreRootPlaylistSidebar from '~/core-components/CoreRootPlaylistSidebar';
+import CoreRootContextSidebar from '~/core-components/CoreRootContextSidebar';
 import CoreSignIn from '~/core-components/CoreSignIn';
 
 // NOTE(jim): Media Scene
@@ -578,11 +578,11 @@ export default class CoreApp extends React.Component {
     });
   };
 
-  _handleToggleCurrentPlaylist = () => {
+  _handleToggleCurrentContext = () => {
     const updates = {
       pageMode: null,
       creator: null,
-      sidebarMode: this.state.sidebarMode === 'current-playlist' ? null : 'current-playlist',
+      sidebarMode: this.state.sidebarMode === 'current-context' ? null : 'current-context',
     };
 
     this.determineNextStateOfCEF({
@@ -810,7 +810,7 @@ export default class CoreApp extends React.Component {
             onUserSelect={this._handleUserSelect}
             onMediaSelect={this._handleMediaSelect}
             onSelectRandom={this._handleSelectRandom}
-            onToggleCurrentPlaylist={this._handleToggleCurrentPlaylist}
+            onToggleCurrentPlaylist={this._handleToggleCurrentContext}
           />
         </CoreLayout>
       );
@@ -906,7 +906,7 @@ export default class CoreApp extends React.Component {
           onToggleDashboard={this._handleToggleDashboard}
           onToggleAuthentication={this._handleToggleAuthentication}
           onToggleMediaInfo={this._handleToggleMediaInfo}
-          onToggleCurrentPlaylist={this._handleToggleCurrentPlaylist}
+          onToggleCurrentPlaylist={this._handleToggleCurrentContext}
         />
       );
     }
@@ -922,9 +922,9 @@ export default class CoreApp extends React.Component {
       );
     }
 
-    if (state.isOverlayActive && state.sidebarMode === 'current-playlist') {
+    if (state.isOverlayActive && state.sidebarMode === 'current-context') {
       maybeRightNode = (
-        <CoreRootPlaylistSidebar
+        <CoreRootContextSidebar
           media={state.media}
           playlist={state.playlist}
           onMediaSelect={this._handleMediaSelect}
