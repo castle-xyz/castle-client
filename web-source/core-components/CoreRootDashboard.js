@@ -40,7 +40,6 @@ export default class CoreRootDashboard extends React.Component {
     if (!data) {
       return (
         <div className={STYLES_CONTAINER}>
-          <UIHeaderDismiss onDismiss={this.props.onDismiss} />
           <UIEmptyState title="History">
             As you play different Media using Castle, the last 10 links you visited will appear
             here.
@@ -53,7 +52,6 @@ export default class CoreRootDashboard extends React.Component {
     if (!history) {
       return (
         <div className={STYLES_CONTAINER}>
-          <UIHeaderDismiss onDismiss={this.props.onDismiss} />
           <UIEmptyState title="History">We had an issue retrieving your history.</UIEmptyState>
         </div>
       );
@@ -61,7 +59,6 @@ export default class CoreRootDashboard extends React.Component {
 
     return (
       <div className={STYLES_CONTAINER}>
-        <UIHeaderDismiss onDismiss={this.props.onDismiss} />
         <UIEmptyState title="History">Here is a history of the media you have played.</UIEmptyState>
         <UIListMediaInPlaylist
           media={this.props.media}
