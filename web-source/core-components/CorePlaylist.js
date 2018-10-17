@@ -72,8 +72,6 @@ export default class CorePlaylist extends React.Component {
       rich = Strings.loadEditor(rich);
     }
 
-    console.log(this.props.playlist);
-
     return (
       <div className={STYLES_CONTAINER}>
         <div className={STYLES_PLAYLIST_CARD}>
@@ -95,9 +93,10 @@ export default class CorePlaylist extends React.Component {
             viewer={this.props.viewer}
             creator={this.props.playlist.user}
             mediaItems={this.props.playlist.mediaItems}
+            playlist={this.props.playlist}
             onUserSelect={this.props.onUserSelect}
-            onMediaRemove={this.props.onMediaRemove}
             onMediaSelect={this.props.onMediaSelect}
+            onMediaRemoveFromPlaylist={this.props.onMediaRemoveFromPlaylist}
           />
         ) : (
           <UIEmptyState title="There is nothing here yet">

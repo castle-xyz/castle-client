@@ -85,6 +85,20 @@ const STYLES_ITEM = css`
 `;
 
 export default class UIListMedia extends React.Component {
+  // NOTE(jim): This isn't so great.. but allows us to reuse this component.
+  _handleMediaRemove = media => {
+    console.log('removing');
+    if (this.props.onMediaRemoveFromPlaylist) {
+      this.props.onMediaRemoveFromPlaylist({
+        mediaId: media.mediaId,
+        playlistId: this.props.playlist.playlistId,
+      });
+      return;
+    }
+
+    return this.props.onMediaRemove(media);
+  };
+
   render() {
     return (
       <div className={STYLES_CONTAINER} style={this.props.style}>
@@ -105,7 +119,7 @@ export default class UIListMedia extends React.Component {
                 this.props.creator &&
                 this.props.viewer.userId === this.props.creator.userId ? (
                   <div className={STYLES_COLUMN}>
-                    <span className={STYLES_ITEM} onClick={() => this.props.onMediaRemove(m)}>
+                    <span className={STYLES_ITEM} onClick={() => this._handleMediaRemove(m)}>
                       Delete
                     </span>
                   </div>

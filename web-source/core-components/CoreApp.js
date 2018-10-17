@@ -115,7 +115,17 @@ export default class CoreApp extends React.Component {
       return;
     }
 
-    this.setState({ viewer });
+    const newViewer = JSON.parse(JSON.stringify(viewer));
+    const updates = { viewer: newViewer };
+    if (
+      this.state.viewer &&
+      this.state.creator &&
+      updates.viewer.userId === this.state.creator.userId
+    ) {
+      updates.creator = newViewer;
+    }
+
+    this.setState(updates);
   };
 
   _handleNativeLoadEnd = () => {
@@ -184,14 +194,8 @@ export default class CoreApp extends React.Component {
       return;
     }
 
-    const mediaItems = [...this.state.creator.mediaItems];
-    mediaItems.unshift(response);
-    const updates = { ...this.state.creator, mediaItems };
-    this.setState({
-      viewer: { ...updates },
-      creator: { ...updates },
-      profileMode: 'media',
-    });
+    await this.refreshViewer();
+    this.setState({ profileMode: 'media' });
   };
 
   _handleMediaRemove = async data => {
@@ -200,15 +204,8 @@ export default class CoreApp extends React.Component {
       return;
     }
 
-    const mediaItems = this.state.creator.mediaItems.filter(
-      item => item.mediaId !== response.mediaId
-    );
-    const updates = { ...this.state.creator, mediaItems };
-    this.setState({
-      viewer: { ...updates },
-      creator: { ...updates },
-      profileMode: 'media',
-    });
+    await this.refreshViewer();
+    this.setState({ profileMode: 'media' });
   };
 
   _handlePlaylistAdd = async data => {
@@ -217,14 +214,8 @@ export default class CoreApp extends React.Component {
       return;
     }
 
-    const playlists = [...this.state.creator.playlists];
-    playlists.unshift(response);
-    const updates = { ...this.state.creator, playlists };
-    this.setState({
-      creator: { ...updates },
-      viewer: { ...updates },
-      profileMode: 'playlists',
-    });
+    await this.refreshViewer();
+    this.setState({ profileMode: 'playlists' });
   };
 
   _handlePlaylistRemove = async data => {
@@ -233,15 +224,17 @@ export default class CoreApp extends React.Component {
       return;
     }
 
-    const playlists = this.state.creator.playlists.filter(
-      item => item.playlistId !== response.playlistId
-    );
-    const updates = { ...this.state.creator, playlists };
-    this.setState({
-      creator: { ...updates },
-      viewer: { ...updates },
-      profileMode: 'playlists',
-    });
+    await this.refreshViewer();
+    this.setState({ profileMode: 'playlists' });
+  };
+
+  _handleRemoveMediaFromPlaylist = async data => {
+    const response = await Actions.removeMediaFromPlaylist(data);
+    if (!response) {
+      return;
+    }
+
+    await this.refreshViewer();
   };
 
   setStateWithCEF = state => {
@@ -360,8 +353,6 @@ export default class CoreApp extends React.Component {
 
       return;
     }
-
-    // const data = await Actions.search(this.state.searchQuery);
 
     const allMediaFiltered = this.state.allMedia.filter(m => {
       if (m.name.includes(this.state.searchQuery)) {
@@ -841,7 +832,7 @@ export default class CoreApp extends React.Component {
             playlist={state.playlist}
             onUserSelect={this._handleUserSelect}
             onMediaSelect={this._handleMediaSelect}
-            onMediaRemove={this._handleRemoveMedia}
+            onMediaRemoveFromPlaylist={this._handleRemoveMediaFromPlaylist}
             onDismiss={this._handleToggleCurrentPlaylistDetails}
           />
         </CoreLayout>

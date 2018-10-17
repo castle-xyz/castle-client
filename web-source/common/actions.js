@@ -764,6 +764,32 @@ export async function addMediaToPlaylist({ mediaId, playlistId }) {
   return result.data.addPlaylistMediaItem;
 }
 
+export async function removeMediaFromPlaylist({ mediaId, playlistId }) {
+  const variables = { mediaId, playlistId };
+
+  const result = await API.graphqlAsync({
+    query: `
+      mutation RemovePlaylistMediaItem($mediaId: ID!, $playlistId: ID!) {
+        removePlaylistMediaItem(mediaId: $mediaId, playlistId: $playlistId) {
+          playlistId
+        }
+      }
+    `,
+    variables,
+  });
+
+  // TOOD(jim): Write a global error handler.
+  if (result.error) {
+    return false;
+  }
+
+  if (result.errors) {
+    return false;
+  }
+
+  return result.data.removePlaylistMediaItem;
+}
+
 export async function removeMedia({ mediaId }) {
   const variables = { mediaId };
 
