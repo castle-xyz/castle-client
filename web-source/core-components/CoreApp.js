@@ -115,14 +115,9 @@ export default class CoreApp extends React.Component {
       return;
     }
 
-    const newViewer = JSON.parse(JSON.stringify(viewer));
-    const updates = { viewer: newViewer };
-    if (
-      this.state.viewer &&
-      this.state.creator &&
-      updates.viewer.userId === this.state.creator.userId
-    ) {
-      updates.creator = newViewer;
+    const updates = { viewer };
+    if (this.state.viewer && this.state.creator && viewer.userId === this.state.creator.userId) {
+      updates.creator = viewer;
     }
 
     this.setState(updates);
@@ -432,19 +427,24 @@ export default class CoreApp extends React.Component {
 
   _handleFavoriteMedia = () => window.alert('favorite');
 
-  _handlePlaylistSelect = playlist => {
+  _handlePlaylistSelect = async playlist => {
     if (!this.state.pageMode) {
       this.closeCEF();
+    }
+
+    const serverPlaylist = await Actions.getPlaylist(playlist);
+    if (!serverPlaylist) {
+      return;
     }
 
     this.setStateWithCEF({
       pageMode: 'playlist',
       allMediaFiltered:
-        playlist && playlist.mediaItems && playlist.mediaItems.length
-          ? [...playlist.mediaItems]
+        serverPlaylist.mediaItems && serverPlaylist.mediaItems.length
+          ? [...serverPlaylist.mediaItems]
           : [...this.state.allMediaFiltered],
       creator: null,
-      playlist,
+      playlist: serverPlaylist,
       media: null,
     });
   };

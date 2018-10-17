@@ -108,7 +108,10 @@ export default class ControlPlaylistAdd extends React.Component {
     if (this.props.viewer.playlists && this.props.viewer.playlists.length) {
       playlistElement = this.props.viewer.playlists.map(p => {
         return (
-          <div className={STYLES_PLAYLIST_ITEM} onClick={() => this._handleAddMediaToPlaylist(p)}>
+          <div
+            key={p.playlistId}
+            className={STYLES_PLAYLIST_ITEM}
+            onClick={() => this._handleAddMediaToPlaylist(p)}>
             <div className={STYLES_LEFT}>
               <UIAvatar icon={<SVG.PlaylistIcon height="20px" />} />
             </div>
