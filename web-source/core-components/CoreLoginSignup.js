@@ -151,10 +151,12 @@ export default class CoreLoginSignup extends React.Component {
             <div>{this.state.who.name}</div>
             <div>@{this.state.who.username}</div>
             <div>
-              <img
-                src={this.state.who.photo.url}
-                style={{ height: 200, width: 200 }}
-              />
+              {this.state.who.photo && (
+                <img
+                  src={this.state.who.photo.url}
+                  style={{ height: 200, width: 200 }}
+                />
+              )}
             </div>
           </div>
         )}
