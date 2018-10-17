@@ -21,5 +21,13 @@ const STYLES_LINK = css`
 `;
 
 export default props => {
-  return <a {...props} className={STYLES_LINK} />;
+  return (
+    <span
+      href={props.href}
+      target={props.target}
+      onClick={props.onClick}
+      children={props.children}
+      className={STYLES_LINK}
+    />
+  );
 };

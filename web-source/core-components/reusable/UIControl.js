@@ -26,7 +26,8 @@ export default class UIControl extends React.Component {
     return (
       <span
         className={STYLES_CONTROL}
-        {...this.props}
+        onClick={this.props.onClick}
+        children={this.props.children}
         style={{ ...this.props.style, color: this.props.isActive ? Constants.colors.green : null }}
       />
     );
