@@ -3,7 +3,8 @@ import * as React from 'react';
 import styled, { css } from 'react-emotion';
 
 const STYLES_BOLD = css`
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 0.2px;
 `;
 
 export default () => {

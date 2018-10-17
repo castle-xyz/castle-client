@@ -37,8 +37,8 @@ const STYLES_TOP = css``;
 
 const STYLES_TITLE = css`
   font-size: 48px;
-  line-height: 56px;
-  font-weight: 700;
+  line-height: 52px;
+  font-weight: 400;
 `;
 
 const STYLES_META = css`
@@ -47,9 +47,11 @@ const STYLES_META = css`
 `;
 
 const STYLES_DESCRIPTION = css`
-  line-height: 1.5;
+  line-height: 1.725;
+  font-weight: 200;
   font-size: 16px;
-  font-weight: 300;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `;
 
 const STYLES_NAVIGATION_ITEM = css`
@@ -91,7 +93,11 @@ export default class UICardProfileHeader extends React.Component {
                 Joined on {Strings.toDate(this.props.creator.createdTime)}
               </div>
             </div>
-            {rich ? <ContentEditor readOnly value={rich} /> : <p className={STYLES_DESCRIPTION} />}
+            {rich ? (
+              <ContentEditor readOnly value={rich} className={STYLES_DESCRIPTION} />
+            ) : (
+              <p className={STYLES_DESCRIPTION} />
+            )}
           </div>
         </div>
         <div className={STYLES_ROW}>

@@ -430,8 +430,6 @@ export default class CoreApp extends React.Component {
       this.closeCEF();
     }
 
-    console.log(playlist.mediaItems.length);
-
     this.setStateWithCEF({
       pageMode: 'playlist',
       allMediaFiltered:
@@ -812,10 +810,7 @@ export default class CoreApp extends React.Component {
     // NOTE(jim): Sign in scene
     if (isViewerViewingSignInScene) {
       return (
-        <CoreLayout
-          ref={this._handleGetReference}
-          bottomNode={this.renderRootURLInput()}
-          leftSidebarNode={maybeLeftSidebarNode}>
+        <CoreLayout ref={this._handleGetReference} leftSidebarNode={maybeLeftSidebarNode}>
           <CoreSignIn onSetViewer={this._handleSetViewer} />
         </CoreLayout>
       );

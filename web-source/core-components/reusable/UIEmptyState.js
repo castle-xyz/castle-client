@@ -5,20 +5,21 @@ import { css } from 'react-emotion';
 
 const STYLES_CONTAINER = css`
   padding: 16px;
+  color: ${Constants.colors.white};
 `;
 
 const STYLES_HEADER = css`
   font-weight: 600;
   font-size: 14px;
-  padding-bottom: 8px;
-  color: ${Constants.colors.white};
+  letter-spacing: 0.2px;
   margin-bottom: 8px;
 `;
 
 const STYLES_PARAGRAPH = css`
-  color: ${Constants.colors.white};
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 1.725;
+  margin-bottom: 8px;
 `;
 
 export default class UIEmptyState extends React.Component {

@@ -9,6 +9,7 @@ import UIEmptyState from '~/core-components/reusable/UIEmptyState';
 import UIButtonSecondary from '~/core-components/reusable/UIButtonSecondary';
 import UIInputSecondary from '~/core-components/reusable/UIInputSecondary';
 import UITextArea from '~/core-components/reusable/UITextArea';
+import UIHeaderDismiss from '~/core-components/reusable/UIHeaderDismiss';
 
 import ContentEditor from '~/editor/ContentEditor';
 import DefaultState from '~/editor/default.json';
@@ -103,6 +104,7 @@ export default class CoreProfileSidebar extends React.Component {
   render() {
     return (
       <div className={STYLES_CONTAINER}>
+        <UIHeaderDismiss />
         <div className={STYLES_SECTION}>
           <UIEmptyState
             style={{ padding: `0 0 24px 0`, color: Constants.colors.white }}

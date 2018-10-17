@@ -7,6 +7,7 @@ import { css } from 'react-emotion';
 
 import UIButtonIconHorizontal from '~/core-components/reusable/UIButtonIconHorizontal';
 import UIInputSecondary from '~/core-components/reusable/UIInputSecondary';
+import UILink from '~/core-components/reusable/UILink';
 
 import ContentEditor from '~/editor/ContentEditor';
 
@@ -26,8 +27,9 @@ const STYLES_CONTAINER_PREVIEW_NAME = css`
   overflow-wrap: break-word;
   width: 100%;
   font-size: 48px;
-  line-height: 48px;
-  font-weight: 700;
+  line-height: 52px;
+  font-weight: 400;
+  margin-top: 40px;
 `;
 
 const STYLES_BYLINE = css`
@@ -43,20 +45,22 @@ const STYLES_SECTION = css`
 `;
 
 const STYLES_SECTION_TITLE = css`
-  font-size: 14px;
-  margin-bottom: 8px;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+  margin-bottom: 16px;
   font-weight: 600;
-  padding-bottom: 8px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   width: 100%;
 `;
 
 const STYLES_SECTION_PARAGRAPH = css`
+  line-height: 1.725;
+  font-weight: 200;
   font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 16px;
   overflow-wrap: break-word;
+  white-space: pre-wrap;
+  margin-bottom: 16px;
 `;
 
 export default class UICardMedia extends React.Component {
@@ -119,7 +123,7 @@ export default class UICardMedia extends React.Component {
     if (rich) {
       textElement = (
         <div>
-          <ContentEditor value={rich} readOnly />
+          <ContentEditor value={rich} className={STYLES_SECTION_PARAGRAPH} readOnly />
         </div>
       );
     }
@@ -128,7 +132,9 @@ export default class UICardMedia extends React.Component {
       <div className={STYLES_CONTAINER}>
         <div className={STYLES_CONTAINER_PREVIEW_NAME}>{name}</div>
         <div className={STYLES_BYLINE}>
-          Created by {username} — {createdTime}
+          Created by{' '}
+          <UILink onClick={() => this.props.onUserSelect(this.props.media.user)}>{username}</UILink>{' '}
+          — {createdTime}
         </div>
 
         <div className={STYLES_SECTION}>

@@ -7,6 +7,7 @@ import { css } from 'react-emotion';
 import UIHeaderDismiss from '~/core-components/reusable/UIHeaderDismiss';
 import UIListMedia from '~/core-components/reusable/UIListMedia';
 import UIEmptyState from '~/core-components/reusable/UIEmptyState';
+import UILink from '~/core-components/reusable/UILink';
 import ContentEditor from '~/editor/ContentEditor';
 
 const STYLES_CONTAINER = css`
@@ -43,15 +44,17 @@ const STYLES_PLAYLIST_CARD = css`
 `;
 
 const STYLES_PARAGRAPH = css`
-  line-height: 1.5;
+  line-height: 1.725;
+  font-weight: 200;
   font-size: 16px;
-  font-weight: 300;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `;
 
 const STYLES_HEADING = css`
   font-size: 48px;
-  line-height: 56px;
-  font-weight: 700;
+  line-height: 52px;
+  font-weight: 400;
 `;
 
 const STYLES_META = css`
@@ -69,14 +72,23 @@ export default class CorePlaylist extends React.Component {
       rich = Strings.loadEditor(rich);
     }
 
+    console.log(this.props.playlist);
+
     return (
       <div className={STYLES_CONTAINER}>
         <div className={STYLES_PLAYLIST_CARD}>
           <h1 className={STYLES_HEADING}>{this.props.playlist.name}</h1>
           <div className={STYLES_META}>
-            Created on {Strings.toDate(this.props.playlist.createdTime)}
+            Created on {Strings.toDate(this.props.playlist.createdTime)} by{' '}
+            <UILink onClick={() => this.props.onUserSelect(this.props.playlist.user)}>
+              {this.props.playlist.user.username}
+            </UILink>
           </div>
-          {rich ? <ContentEditor readOnly value={rich} /> : <p className={STYLES_PARAGRAPH} />}
+          {rich ? (
+            <ContentEditor readOnly className={STYLES_PARAGRAPH} value={rich} />
+          ) : (
+            <p className={STYLES_PARAGRAPH} />
+          )}
         </div>
         {this.props.playlist.mediaItems && this.props.playlist.mediaItems.length ? (
           <UIListMedia

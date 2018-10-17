@@ -123,7 +123,11 @@ export default class CoreRootContextSidebar extends React.Component {
           }}>
           {headerNode}
           <div className={STYLES_CONTAINER}>
-            <UICardMedia media={this.props.media} onRegisterMedia={this.props.onRegisterMedia} />
+            <UICardMedia
+              media={this.props.media}
+              onUserSelect={this.props.onUserSelect}
+              onRegisterMedia={this.props.onRegisterMedia}
+            />
           </div>
         </div>
       );

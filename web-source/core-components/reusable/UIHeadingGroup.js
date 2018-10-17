@@ -10,12 +10,14 @@ const STYLES_CONTAINER = css`
 const STYLES_HEADER = css`
   font-weight: 600;
   font-size: 22px;
+  letter-spacing: 0.2px;
   padding-bottom: 8px;
 `;
 
 const STYLES_PARAGRAPH = css`
   font-size: 16px;
-  line-height: 1.5;
+  font-weight: 200;
+  line-height: 1.725;
   margin-bottom: 24px;
 `;
 
