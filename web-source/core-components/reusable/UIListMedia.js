@@ -99,6 +99,11 @@ export default class UIListMedia extends React.Component {
   };
 
   render() {
+    const isOwner =
+      this.props.viewer &&
+      this.props.creator &&
+      this.props.viewer.userId === this.props.creator.userId;
+
     return (
       <div className={STYLES_CONTAINER} style={this.props.style}>
         <div className={STYLES_ROW_TITLE}>
@@ -107,24 +112,19 @@ export default class UIListMedia extends React.Component {
             Author
           </div>
           <div className={STYLES_COLUMN_NO_INTERACTION}>Published</div>
-          <div className={STYLES_COLUMN_NO_INTERACTION} />
+          {isOwner ? <div className={STYLES_COLUMN_NO_INTERACTION} /> : null}
         </div>
 
         {this.props.mediaItems
           ? this.props.mediaItems.map((m, i) => {
               const isSelected = this.props.media && this.props.media.mediaUrl === m.mediaUrl;
-              const actionsElement =
-                this.props.viewer &&
-                this.props.creator &&
-                this.props.viewer.userId === this.props.creator.userId ? (
-                  <div className={STYLES_COLUMN}>
-                    <span className={STYLES_ITEM} onClick={() => this._handleMediaRemove(m)}>
-                      Delete
-                    </span>
-                  </div>
-                ) : (
-                  <div className={STYLES_COLUMN_NO_INTERACTION} />
-                );
+              const actionsElement = isOwner ? (
+                <div className={STYLES_COLUMN}>
+                  <span className={STYLES_ITEM} onClick={() => this._handleMediaRemove(m)}>
+                    Delete
+                  </span>
+                </div>
+              ) : null;
 
               let author = m && m.user && m.user.name ? m.user.name : '-';
               let date = m && m.createdTime ? m.createdTime : '-';

@@ -85,6 +85,10 @@ const STYLES_ITEM = css`
 
 export default class UIListPlaylists extends React.Component {
   render() {
+    const isOwner =
+      this.props.viewer &&
+      this.props.creator &&
+      this.props.viewer.userId === this.props.creator.userId;
     return (
       <div className={STYLES_CONTAINER} style={this.props.style}>
         <div className={STYLES_ROW_TITLE}>
@@ -93,24 +97,19 @@ export default class UIListPlaylists extends React.Component {
             Author
           </div>
           <div className={STYLES_COLUMN_NO_INTERACTION} style={{ width: 88 }}>
-            -
+            Games
           </div>
-          <div className={STYLES_COLUMN_NO_INTERACTION} />
+          {isOwner ? <div className={STYLES_COLUMN_NO_INTERACTION} /> : null}
         </div>
         {this.props.playlists.map((p, i) => {
           const author = p && p.user && p.user.name ? p.user.name : '-';
-          const actionsElement =
-            this.props.viewer &&
-            this.props.creator &&
-            this.props.viewer.userId === this.props.creator.userId ? (
-              <div className={STYLES_COLUMN}>
-                <span className={STYLES_ITEM} onClick={() => this.props.onPlaylistRemove(p)}>
-                  Delete
-                </span>
-              </div>
-            ) : (
-              <div className={STYLES_COLUMN_NO_INTERACTION} />
-            );
+          const actionsElement = isOwner ? (
+            <div className={STYLES_COLUMN}>
+              <span className={STYLES_ITEM} onClick={() => this.props.onPlaylistRemove(p)}>
+                Delete
+              </span>
+            </div>
+          ) : null;
 
           return (
             <div className={STYLES_ROW} key={`playlist-list-item-${p.playlistId}`}>
@@ -124,7 +123,7 @@ export default class UIListPlaylists extends React.Component {
                 {author}
               </div>
               <div className={STYLES_COLUMN_NO_INTERACTION} style={{ width: 88 }}>
-                -
+                {p.mediaItems.length}
               </div>
               {actionsElement}
             </div>
