@@ -12,6 +12,13 @@ const STYLES_ICON_BUTTON = css`
   font-size: 10px;
   border-radius: 4px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.07);
+  user-select: none;
+  opacity: 1;
+  transition: 200ms ease all;
+
+  :hover {
+    opacity: 0.9;
+  }
 `;
 
 const STYLES_ICON_BUTTON_LEFT = css`

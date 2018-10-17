@@ -79,6 +79,8 @@ const STYLES_LINK = css`
   }
 `;
 
+const ENABLE_LEGAL = false;
+
 export default class CoreSignIn extends React.Component {
   state = {
     username: '',
@@ -133,10 +135,12 @@ export default class CoreSignIn extends React.Component {
           </div>
         </div>
 
-        <div className={STYLES_BOTTOM}>
-          <span className={STYLES_LINK}>Terms of Service</span>
-          <span className={STYLES_LINK}>Privacy Policy</span>
-        </div>
+        {ENABLE_LEGAL ? (
+          <div className={STYLES_BOTTOM}>
+            <span className={STYLES_LINK}>Terms of Service</span>
+            <span className={STYLES_LINK}>Privacy Policy</span>
+          </div>
+        ) : null}
       </div>
     );
   }

@@ -108,6 +108,16 @@ export default class CoreApp extends React.Component {
     CEF.openWindowFrame(url);
   };
 
+  refreshViewer = async () => {
+    const viewer = await Actions.getViewer();
+
+    if (!viewer) {
+      return;
+    }
+
+    this.setState({ viewer });
+  };
+
   _handleNativeLoadEnd = () => {
     this.setState({ loadingMedia: false });
   };
@@ -900,10 +910,13 @@ export default class CoreApp extends React.Component {
       maybeRightNode = (
         <CoreRootContextSidebar
           media={state.media}
+          viewer={state.viewer}
           allMedia={state.allMedia}
           allMediaFiltered={state.allMediaFiltered}
+          onRefreshViewer={this.refreshViewer}
           onRegisterMedia={this._handleRegisterGame}
           onToggleBrowse={this._handleToggleBrowse}
+          onToggleProfile={this._handleToggleProfile}
           onMediaSelect={this._handleMediaSelect}
           onUserSelect={this._handleUserSelect}
           onViewCurrentPlaylistDetails={this._handleToggleCurrentPlaylistDetails}

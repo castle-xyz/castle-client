@@ -17,6 +17,7 @@ const STYLES_BUTTON = css`
   border: 0;
   cursor: pointer;
   opacity: 1;
+  user-select: none;
 
   :focus {
     outline: 0;

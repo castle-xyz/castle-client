@@ -124,9 +124,12 @@ export default class CoreRootContextSidebar extends React.Component {
           {headerNode}
           <div className={STYLES_CONTAINER}>
             <UICardMedia
+              viewer={this.props.viewer}
               media={this.props.media}
               onUserSelect={this.props.onUserSelect}
               onRegisterMedia={this.props.onRegisterMedia}
+              onToggleProfile={this.props.onToggleProfile}
+              onRefreshViewer={this.props.onRefreshViewer}
             />
           </div>
         </div>

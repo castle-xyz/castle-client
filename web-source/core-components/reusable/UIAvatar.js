@@ -22,6 +22,17 @@ export default class UIAvatar extends React.Component {
       cursor: this.props.onClick ? 'pointer' : null,
     };
 
+    if (!this.props.src && this.props.icon) {
+      return (
+        <span
+          className={STYLES_ICON}
+          onClick={this.props.onClick}
+          style={{ ...this.props.style, ...avatarContextStyles }}>
+          {this.props.icon}
+        </span>
+      );
+    }
+
     return (
       <span
         className={STYLES_ICON}

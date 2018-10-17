@@ -8,6 +8,7 @@ import { css } from 'react-emotion';
 import UIButtonIconHorizontal from '~/core-components/reusable/UIButtonIconHorizontal';
 import UIInputSecondary from '~/core-components/reusable/UIInputSecondary';
 import UILink from '~/core-components/reusable/UILink';
+import ControlPlaylistAdd from '~/core-components/controls/ControlPlaylistAdd';
 
 import ContentEditor from '~/editor/ContentEditor';
 
@@ -101,10 +102,11 @@ export default class UICardMedia extends React.Component {
           A game on Castle
         </div>
         <div className={STYLES_SECTION_PARAGRAPH}>
-          This user hasn't written anything about their game on Castle yet.
+          This user has not written anything about their game on Castle yet.
         </div>
       </div>
     );
+
     if (!isReal) {
       textElement = (
         <div>
@@ -164,6 +166,17 @@ export default class UICardMedia extends React.Component {
                 icon={<SVG.Mail height="16px" />}>
                 Contact us
               </UIButtonIconHorizontal>
+            </div>
+          ) : null}
+
+          {this.props.viewer ? (
+            <div style={{ marginTop: 8 }}>
+              <ControlPlaylistAdd
+                onToggleProfile={this.props.onToggleProfile}
+                onRefreshViewer={this.props.onRefreshViewer}
+                media={this.props.media}
+                viewer={this.props.viewer}
+              />
             </div>
           ) : null}
         </div>
