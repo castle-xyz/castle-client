@@ -87,7 +87,6 @@ const STYLES_ITEM = css`
 export default class UIListMedia extends React.Component {
   // NOTE(jim): This isn't so great.. but allows us to reuse this component.
   _handleMediaRemove = media => {
-    console.log('removing');
     if (this.props.onMediaRemoveFromPlaylist) {
       this.props.onMediaRemoveFromPlaylist({
         mediaId: media.mediaId,

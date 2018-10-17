@@ -3,6 +3,72 @@ import CastleApiClient from 'castle-api-client';
 export const API = CastleApiClient("http://localhost:1380");
 // export const API = CastleApiClient();
 
+export async function getPlaylist({ playlistId }) {
+  const variables = { playlistId };
+  const result = await API(
+    `
+    query GetPlaylist($playlistId: ID!) {
+      playlist(playlistId: $playlistId) {
+        playlistId
+        name
+        description
+        createdTime
+        user {
+          userId
+          name
+          username
+          createdTime
+          isReal
+          photo {
+            url
+            height
+            width
+          }
+        }
+        mediaItems {
+          name
+          published
+          createdTime
+          instructions
+          description
+          mediaUrl
+          mediaId
+          coverImage {
+            url
+            height
+            width
+          }
+          user {
+            userId
+            name
+            username
+            createdTime
+            isReal
+            photo {
+              url
+              height
+              width
+            }
+          }
+        }
+      }
+    }
+  `,
+    variables
+  );
+
+  // TOOD(jim): Write a global error handler.
+  if (result.error) {
+    return false;
+  }
+
+  if (result.errors) {
+    return false;
+  }
+
+  return result.data.playlist;
+}
+
 export async function getUser({ userId }) {
   const variables = { userId };
   const result = await API(

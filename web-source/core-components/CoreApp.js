@@ -234,6 +234,12 @@ export default class CoreApp extends React.Component {
       return;
     }
 
+    const playlist = await Actions.getPlaylist(data);
+    if (!playlist) {
+      return;
+    }
+
+    this.setState({ playlist });
     await this.refreshViewer();
   };
 

@@ -83,14 +83,11 @@ export default class ControlPlaylistAdd extends React.Component {
   };
 
   _handleAddMediaToPlaylist = async playlist => {
-    alert('lol');
-    console.log(playlist);
-    console.log(this.props.media);
-
     await Actions.addMediaToPlaylist({
       mediaId: this.props.media.mediaId,
       playlistId: playlist.playlistId,
     });
+
     await this.props.onRefreshViewer();
 
     this.setState({ visible: false });
