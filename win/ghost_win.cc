@@ -269,6 +269,8 @@ void ghostStep() {
   if (luaState) {
     if (!lovePaused) {
       stepLove();
+    } else {
+      Sleep(200);
     }
 
     {
