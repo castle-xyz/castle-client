@@ -1,7 +1,7 @@
 import CastleApiClient from 'castle-api-client';
 
-export const API = CastleApiClient("http://localhost:1380");
-// export const API = CastleApiClient();
+// export const API = CastleApiClient("http://localhost:1380");
+export const API = CastleApiClient();
 
 export async function getPlaylist({ playlistId }) {
   const variables = { playlistId };

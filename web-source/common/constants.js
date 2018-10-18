@@ -2,18 +2,18 @@ export const font = {
   default: `-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica,
     ubuntu, roboto, noto, segoe ui, arial, sans-serif`,
   mono: `-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica,
-    ubuntu, roboto, noto, segoe ui, arial, sans-serif`,
+    ubuntu, roboto, noto, segoe ui, arial, sans-serif`
 };
 
 export const base = {
   white: `#ffffff`,
   black: `#010101`,
   green: `#26B21C`,
-  purple: '#6B1AB2',
+  purple: "#6B1AB2",
   yellow: `#F7D002`,
   red: `#C63019`,
   gray: `#ececec`,
-  blue: '#033888',
+  blue: "#033888"
 };
 
 export const colors = {
@@ -37,7 +37,7 @@ export const colors = {
   foreground: `#222`,
   border: `#232323`,
   card: `#444`,
-  subdued: '#666',
+  subdued: "#666",
   white: base.white,
   green: base.green,
   blue: base.blue,
@@ -45,11 +45,14 @@ export const colors = {
   purple: base.purple,
   red: base.red,
   selected: base.yellow,
-  secondaryButtonSelected: '#B2BABB',
+  secondaryButtonSelected: "#B2BABB"
 };
 
 export const brand = {
   background: base.black,
   foreground: colors.card,
-  line: colors.foreground,
+  line: colors.foreground
 };
+
+export const transparentGifDataUrl =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";

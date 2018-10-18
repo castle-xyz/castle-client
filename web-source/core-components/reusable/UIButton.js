@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as Constants from '~/common/constants';
+import * as React from "react";
+import * as Constants from "~/common/constants";
 
-import { css } from 'react-emotion';
+import { css } from "react-emotion";
 
 const STYLES_BUTTON = css`
   background: ${Constants.colors.white};
@@ -28,6 +28,10 @@ const STYLES_BUTTON = css`
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   }
 `;
+
+export function UIInputSubmit(props) {
+  return <input type="submit" className={STYLES_BUTTON} {...props} />;
+}
 
 export default class UIButton extends React.Component {
   render() {

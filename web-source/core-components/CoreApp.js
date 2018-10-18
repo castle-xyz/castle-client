@@ -21,6 +21,7 @@ import CoreRootDashboard from '~/core-components/CoreRootDashboard';
 import CoreRootToolbar from '~/core-components/CoreRootToolbar';
 import CoreRootContextSidebar from '~/core-components/CoreRootContextSidebar';
 import CoreSignIn from '~/core-components/CoreSignIn';
+import CoreLoginSignup from '~/core-components/CoreLoginSignup';
 
 // NOTE(jim): Media Scene
 import CoreMediaScreen from '~/core-components/CoreMediaScreen';
@@ -818,7 +819,8 @@ export default class CoreApp extends React.Component {
     if (isViewerViewingSignInScene) {
       return (
         <CoreLayout ref={this._handleGetReference} leftSidebarNode={maybeLeftSidebarNode}>
-          <CoreSignIn onSetViewer={this._handleSetViewer} />
+          {/* <CoreSignIn onSetViewer={this._handleSetViewer} /> */}
+          <CoreLoginSignup onLogin={this._handleSetViewer} />
         </CoreLayout>
       );
     }
