@@ -258,6 +258,27 @@ bool SimpleHandler::OnBeforeBrowse(CefRefPtr<CefBrowser> browser, CefRefPtr<CefF
   return false;
 }
 
+bool SimpleHandler::OnResourceResponse(CefRefPtr<CefBrowser> browser,
+                        CefRefPtr<CefFrame> frame,
+                        CefRefPtr<CefRequest> request,
+                        CefRefPtr<CefResponse> response)
+{
+  // "To allow the
+  // resource to load normally return false. To redirect or retry the resource
+  // modify |request| (url, headers or post body) and return true."
+  
+  // response:
+  // virtual CefString GetMimeType() = 0;
+  // virtual void SetMimeType(const CefString& mimeType) = 0;
+  // virtual CefString GetHeader(const CefString& name) = 0;
+  // virtual void GetHeaderMap(HeaderMap& headerMap) = 0;
+  
+  auto requestUrl = std::string(request->GetURL());
+  auto responseMimeType = std::string(response->GetMimeType());
+  
+  return false;
+}
+
 bool SimpleHandler::OnDragEnter(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDragData> dragData,
                                 DragOperationsMask mask) {
   // prevents CEF from auto-opening random txt or image files that are dragged into the window.
