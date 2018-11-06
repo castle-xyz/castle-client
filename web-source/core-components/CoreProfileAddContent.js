@@ -49,7 +49,7 @@ const STYLES_SECTION = css`
   }
 `;
 
-export default class CoreProfileSidebar extends React.Component {
+export default class CoreProfileAddContent extends React.Component {
   state = {
     media: {
       name: '',

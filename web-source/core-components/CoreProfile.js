@@ -11,6 +11,7 @@ import UIListPlaylists from '~/core-components/reusable/UIListPlaylists';
 import UIEmptyState from '~/core-components/reusable/UIEmptyState';
 
 import CoreBrowseSearchInput from '~/core-components/CoreBrowseSearchInput';
+import CoreProfileAddContent from '~/core-components/CoreProfileAddContent';
 
 const STYLES_HEADER_TEXT = css`
   font-size: 16px;
@@ -105,6 +106,10 @@ export default class CoreProfile extends React.Component {
         />
         {this.props.profileMode === 'media' || !this.props.profileMode ? mediaListElement : null}
         {this.props.profileMode === 'playlists' ? playlistListElement : null}
+        <CoreProfileAddContent
+          onMediaAdd={this.props.onMediaAdd}
+          onPlaylistAdd={this.props.onPlaylistAdd}
+        />
       </div>
     );
   }

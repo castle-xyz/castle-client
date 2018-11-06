@@ -27,7 +27,6 @@ import CoreBrowserScreen from '~/core-components/CoreBrowserScreen';
 import CoreBrowseResults from '~/core-components/CoreBrowseResults';
 import CoreBrowseSearchInput from '~/core-components/CoreBrowseSearchInput';
 import CoreProfile from '~/core-components/CoreProfile';
-import CoreProfileSidebar from '~/core-components/CoreProfileSidebar';
 import CorePlaylist from '~/core-components/CorePlaylist';
 import CoreDevelopmentLogs from '~/core-components/CoreDevelopmentLogs';
 
@@ -955,15 +954,7 @@ export default class CoreApp extends React.Component {
       return (
         <CoreLayout
           ref={this._handleGetReference}
-          leftSidebarNode={maybeLeftSidebarNode}
-          rightNode={
-            isViewingOwnProfile ? (
-              <CoreProfileSidebar
-                onMediaAdd={this._handleMediaAdd}
-                onPlaylistAdd={this._handlePlaylistAdd}
-              />
-            ) : null
-          }>
+          leftSidebarNode={maybeLeftSidebarNode}>
           {maybeFrameNode}
           <CoreProfile
             viewer={state.viewer}
@@ -979,8 +970,10 @@ export default class CoreApp extends React.Component {
             onClickCreatorAvatar={this._handleClickCreatorAvatar}
             onClickCreatorCreations={() => this.setState({ profileMode: 'media' })}
             onClickCreatorPlaylists={() => this.setState({ profileMode: 'playlists' })}
+            onMediaAdd={this._handleMediaAdd}
             onMediaSelect={this._handleMediaSelect}
             onMediaRemove={this._handleMediaRemove}
+            onPlaylistAdd={this._handlePlaylistAdd}
             onPlaylistSelect={this._handlePlaylistSelect}
             onPlaylistRemove={this._handlePlaylistRemove}
             onUserSelect={this._handleUserSelect}
