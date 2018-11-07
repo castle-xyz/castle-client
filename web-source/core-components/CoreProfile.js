@@ -10,6 +10,7 @@ import UIListPlaylists from '~/core-components/reusable/UIListPlaylists';
 import UIEmptyState from '~/core-components/reusable/UIEmptyState';
 
 import CoreBrowseSearchInput from '~/core-components/CoreBrowseSearchInput';
+import CoreEditProfile from '~/core-components/CoreEditProfile';
 import CoreProfileAddMedia from '~/core-components/CoreProfileAddMedia';
 import CoreProfileAddPlaylist from '~/core-components/CoreProfileAddPlaylist';
 
@@ -64,6 +65,8 @@ export default class CoreProfile extends React.Component {
   _onShowMedia = () => this.setState({ mode: 'media' });
 
   _onShowPlaylists = () => this.setState({ mode: 'playlists' });
+
+  _onShowEditProfile = () => this.setState({ mode: 'edit-profile' });
   
   _renderMediaContent = (isOwnProfile) => {
     const mediaListElement =
@@ -120,6 +123,14 @@ export default class CoreProfile extends React.Component {
       </div>
     );
   }
+
+  _renderEditProfileContent = (isOwnProfile) => {
+    if (!isOwnProfile) return null;
+    
+    return (
+      <CoreEditProfile user={this.props.viewer} />
+    );
+  }
   
   render() {
     const isOwnProfile = (
@@ -131,6 +142,8 @@ export default class CoreProfile extends React.Component {
     const { mode } = this.state;
     if (mode === 'playlists') {
       profileContentElement = this._renderPlaylistContent(isOwnProfile);
+    } else if (mode === 'edit-profile') {
+      profileContentElement = this._renderEditProfileContent(isOwnProfile);
     } else {
       profileContentElement = this._renderMediaContent(isOwnProfile);
     }
@@ -150,6 +163,7 @@ export default class CoreProfile extends React.Component {
           isOwnProfile={isOwnProfile}
           onShowMediaList={this._onShowMedia}
           onShowPlaylistList={this._onShowPlaylists}
+          onShowEditProfile={this._onShowEditProfile}
           onSignOut={this.props.onSignOut}
         />
         {profileContentElement}

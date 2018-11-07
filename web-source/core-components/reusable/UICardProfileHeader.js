@@ -102,6 +102,7 @@ export default class UICardProfileHeader extends React.Component {
   render() {
     const isViewingMedia = this.props.profileMode === 'media' || !this.props.profileMode;
     const isViewingPlaylists = this.props.profileMode === 'playlists';
+    const isViewingEditProfile = this.props.profileMode === 'edit-profile';
 
     let richDescription;
     if (this.props.creator &&
@@ -118,6 +119,30 @@ export default class UICardProfileHeader extends React.Component {
     );
 
     const ownProfileActionsElement = (this.props.isOwnProfile) ? this._renderOwnProfileActions() : null;
+
+    const playlistsNavigationElement = this.props.creator.isReal ? (
+      <div
+        className={STYLES_NAVIGATION_ITEM}
+        style={{
+          marginRight: 16,
+          background: isViewingPlaylists ? null : Constants.colors.background,
+        }}
+        onClick={this.props.onShowPlaylistList}>
+        Playlists
+      </div>
+    ) : null;
+
+    const editProfileNavigationElement = this.props.isOwnProfile ? (
+      <div
+        className={STYLES_NAVIGATION_ITEM}
+        style={{
+          marginRight: 16,
+          background: isViewingEditProfile ? null : Constants.colors.background,
+        }}
+        onClick={this.props.onShowEditProfile}>
+        Edit Profile
+      </div>
+    ) : null;
     
     return (
       <div
@@ -154,17 +179,8 @@ export default class UICardProfileHeader extends React.Component {
             onClick={this.props.onShowMediaList}>
             Media
           </div>
-
-      {this.props.creator.isReal ? (
-          <div
-            className={STYLES_NAVIGATION_ITEM}
-            style={{
-              background: isViewingPlaylists ? null : Constants.colors.background,
-            }}
-            onClick={this.props.onShowPlaylistList}>
-            Playlists
-          </div>
-        ) : null}
+          {playlistsNavigationElement}
+          {editProfileNavigationElement}
         </div>
       </div>
     );

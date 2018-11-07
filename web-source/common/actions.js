@@ -455,6 +455,47 @@ export async function getMediaByURL({ mediaUrl }) {
   return result.data.mediaByMediaUrl;
 }
 
+export async function uploadImageAsync({ file }) {
+  const variables = { file };
+  const result = API.graphqlAsync({
+    query: `
+      mutation($file: Upload!) {
+        uploadFile(file: $file) {
+          fileId
+          hash
+          name
+          encoding
+          mimeType
+          userId
+          user {
+            userId
+            username
+            name
+          }
+          uploadedTime
+          width
+          height
+          originUrl
+          imgixUrl
+        }
+      }
+    `,
+    variables,
+  });
+
+  // TODO(jim): Write a global error handler.
+  if (result.error) {
+    return false;
+  }
+
+  if (result.errors) {
+    return false;
+  }
+
+  console.log(`ben: graphql result: ${JSON.stringify(result, null, 2)}`);
+  return result.data.uploadFile;
+}
+
 export async function addMedia({ name, url, description }) {
   const variables = {
     name,
