@@ -121,6 +121,23 @@ void my_handler(int s) {
     gShouldQuit = true;
 }
 
+// from https://gist.github.com/5at/3671566
+static int l_my_print(lua_State* L) {
+    int nargs = lua_gettop(L);
+    std::cout << "castle lua: ";
+    for (int i=1; i <= nargs; ++i) {
+		std::cout << lua_tostring(L, i);
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+static const struct luaL_Reg printlib [] = {
+  {"print", l_my_print},
+  {NULL, NULL} /* end of array */
+};
+
 static DoneAction runlove(int argc, char **argv, int &retval)
 {
 #ifdef LOVE_LEGENDARY_APP_ARGV_HACK
@@ -197,6 +214,11 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 
     lua_pushstring(L, argv[1]);
     lua_setglobal(L, "GHOST_ROOT_URI");
+
+    // Add custom print lib
+    lua_getglobal(L, "_G");
+	luaL_register(L, NULL, printlib);
+	lua_pop(L, 1);
 
 	int stackpos = lua_gettop(L);
 	while (lua_resume(L, 0) == LUA_YIELD) {
