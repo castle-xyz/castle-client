@@ -21,6 +21,12 @@
 #include "common/version.h"
 #include "modules/love/love.h"
 #include <SDL.h>
+#include <string>
+#include <iostream>
+#include <signal.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #ifdef LOVE_BUILD_EXE
 
@@ -30,35 +36,6 @@ extern "C" {
 	#include <lualib.h>
 	#include <lauxlib.h>
 }
-
-#ifdef LOVE_WINDOWS
-#include <windows.h>
-#endif // LOVE_WINDOWS
-
-#ifdef LOVE_MACOSX
-#include "common/macosx.h"
-#include <unistd.h>
-#endif // LOVE_MACOSX
-
-#ifdef LOVE_IOS
-#include "common/ios.h"
-#endif
-
-#ifdef LOVE_WINDOWS
-extern "C"
-{
-
-// Prefer the higher performance GPU on Windows systems that use nvidia Optimus.
-// http://developer.download.nvidia.com/devzone/devcenter/gamegraphics/files/OptimusRenderingPolicies.pdf
-// TODO: Re-evaluate in the future when the average integrated GPU in Optimus
-// systems is less mediocre?
-LOVE_EXPORT DWORD NvOptimusEnablement = 1;
-
-// Same with AMD GPUs.
-// https://community.amd.com/thread/169965
-LOVE_EXPORT DWORD AmdPowerXpressRequestHighPerformance = 1;
-}
-#endif // LOVE_WINDOWS
 
 #ifdef LOVE_LEGENDARY_APP_ARGV_HACK
 
@@ -138,6 +115,12 @@ enum DoneAction
 	DONE_RESTART,
 };
 
+static bool gShouldQuit = false;
+void my_handler(int s) {
+    printf("Caught signal %d\n",s);
+    gShouldQuit = true;
+}
+
 static DoneAction runlove(int argc, char **argv, int &retval)
 {
 #ifdef LOVE_LEGENDARY_APP_ARGV_HACK
@@ -171,20 +154,18 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 	{
 		lua_newtable(L);
 
-		if (argc > 0)
-		{
-			lua_pushstring(L, argv[0]);
-			lua_rawseti(L, -2, -2);
-		}
+        lua_pushstring(L, "love");
+        lua_rawseti(L, -2, -2);
 
 		lua_pushstring(L, "embedded boot.lua");
 		lua_rawseti(L, -2, -1);
 
-		for (int i = 1; i < argc; i++)
-		{
-			lua_pushstring(L, argv[i]);
-			lua_rawseti(L, -2, i);
-		}
+        std::string::size_type pos = std::string(argv[0]).find_last_of("\\/");
+        std::string path = std::string(argv[0]).substr(0, pos) + "/base";
+
+        printf("Castle lua path: %s\n", path.c_str());
+        lua_pushstring(L, path.c_str());
+        lua_rawseti(L, -2, 0);
 
 		lua_setglobal(L, "arg");
 	}
@@ -213,9 +194,18 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 	// Turn the returned boot function into a coroutine and call it until done.
 	lua_newthread(L);
 	lua_pushvalue(L, -2);
+
+    lua_pushstring(L, argv[1]);
+    lua_setglobal(L, "GHOST_ROOT_URI");
+
 	int stackpos = lua_gettop(L);
-	while (lua_resume(L, 0) == LUA_YIELD)
+	while (lua_resume(L, 0) == LUA_YIELD) {
+        if (gShouldQuit) {
+            return DONE_QUIT;
+        }
+
 		lua_pop(L, lua_gettop(L) - stackpos);
+    }
 
 	retval = 0;
 	DoneAction done = DONE_QUIT;
@@ -250,24 +240,23 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
+    if (argc != 2) {
+        printf("Must run with path to castle app\n");
+		return 1;
+    }
+
+    struct sigaction sigIntHandler;
+    sigIntHandler.sa_handler = my_handler;
+    sigemptyset(&sigIntHandler.sa_mask);
+    sigIntHandler.sa_flags = 0;
+    sigaction(SIGINT, &sigIntHandler, NULL);
+
 	int retval = 0;
 	DoneAction done = DONE_QUIT;
 
-	do
-	{
+	do {
 		done = runlove(argc, argv, retval);
-
-#ifdef LOVE_IOS
-		// on iOS we should never programmatically exit the app, so we'll just
-		// "restart" when that is attempted. Games which use threads might cause
-		// some issues if the threads aren't cleaned up properly...
-		done = DONE_RESTART;
-#endif
 	} while (done != DONE_QUIT);
-
-#ifdef LOVE_ANDROID
-	SDL_Quit();
-#endif
 
 	return retval;
 }

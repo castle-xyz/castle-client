@@ -73,7 +73,10 @@ function main.update(dt)
     end
 end
 
-local debugFont = love.graphics.newFont(12)
+local debugFont
+if love.graphics then
+    debugFont = love.graphics.newFont(12)
+end
 
 function main.draw()
     if home then
