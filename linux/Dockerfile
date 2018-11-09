@@ -9,7 +9,7 @@ RUN apt-get update
 RUN apt-get install -y build-essential autotools-dev automake libtool pkg-config libdevil-dev libfreetype6-dev libluajit-5.1-dev libphysfs-dev libsdl2-dev libopenal-dev libogg-dev libvorbis-dev libflac-dev libflac++-dev libmodplug-dev libmpg123-dev libmng-dev libtheora-dev
 RUN apt-get install -y libturbojpeg; exit 0
 RUN ln -s /usr/lib/x86_64-linux-gnu/libturbojpeg.so.0 /usr/lib/x86_64-linux-gnu/libturbojpeg.so
-RUN apt-get install -y cmake
+RUN apt-get install -y cmake net-tools
 
 WORKDIR /app
 
