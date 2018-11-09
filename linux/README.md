@@ -6,3 +6,6 @@ From this directory:
 
 OpenSSL from
 http://www.openssl.org/source/openssl-1.0.2l.tar.gz
+
+
+./build/castle-server file:///app/linux/sync.lua/example_basic.lua

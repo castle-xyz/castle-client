@@ -152,11 +152,13 @@ function portalMeta:setupLove()
         end
     end
 
-    function newLove.audio.newSource(path, ...)
-        if type(path) == 'string' then
-            return love.audio.newSource(fetchFileData(path), ...)
-        else
-            return love.audio.newSource(path, ...)
+    if newLove.audio then
+        function newLove.audio.newSource(path, ...)
+            if type(path) == 'string' then
+                return love.audio.newSource(fetchFileData(path), ...)
+            else
+                return love.audio.newSource(path, ...)
+            end
         end
     end
 
@@ -276,6 +278,9 @@ function portalMeta:newChild(path, args)
             ]],
         })
     end)
+    if err then
+        print(err)
+    end
     if not succeeded then return nil, err end
 
     -- Call `love.load` callback and set as loaded

@@ -124,7 +124,7 @@ void my_handler(int s) {
 // from https://gist.github.com/5at/3671566
 static int l_my_print(lua_State* L) {
     int nargs = lua_gettop(L);
-    std::cout << "castle lua: ";
+    std::cout << "  ";
     for (int i=1; i <= nargs; ++i) {
 		std::cout << lua_tostring(L, i);
     }
