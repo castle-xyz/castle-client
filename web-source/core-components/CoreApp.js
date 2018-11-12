@@ -6,7 +6,7 @@ import * as Slack from '~/common/slack';
 import * as Actions from '~/common/actions';
 import * as Network from '~/common/network';
 import * as CEF from '~/common/cef';
-import * as Urls from '~/common/urls'
+import * as Urls from '~/common/urls';
 import History from '~/common/history';
 
 import { css } from 'react-emotion';
@@ -159,7 +159,7 @@ export default class CoreApp extends React.Component {
 
   _handleClearHistory = () => {
     this._history.clear();
-  }
+  };
 
   _handleProfileChange = () => this.refreshViewer();
 
@@ -269,6 +269,10 @@ export default class CoreApp extends React.Component {
   _handleURLChange = e => this.setState({ [e.target.name]: e.target.value });
 
   loadURL = mediaUrl => {
+    // Don't `await` this since we don't want to make it
+    // take longer to get the media
+    Actions.startTrackingUserplayAsync({ mediaUrl });
+
     if (Urls.isLua(mediaUrl)) {
       this.goToLUA(mediaUrl);
       return;
@@ -331,7 +335,7 @@ export default class CoreApp extends React.Component {
     this._history.addItem(media ? media : { mediaUrl });
 
     const isLocal = Urls.isLocalUrl(mediaUrl);
-    const sidebarMode = (isLocal) ? 'development' : 'current-context';
+    const sidebarMode = isLocal ? 'development' : 'current-context';
     this.setStateWithCEF({
       media: media ? { ...media } : { mediaUrl },
       mediaUrl,
@@ -552,6 +556,10 @@ export default class CoreApp extends React.Component {
       return;
     }
 
+    // Don't `await` this since we don't want to make it
+    // take longer to get the media
+    Actions.startTrackingUserplayAsync({ mediaUrl: media.mediaUrl, mediaId: media.mediaId });
+
     if (Urls.isLua(media.mediaUrl)) {
       this.goToLUA(media.mediaUrl);
       return;
@@ -664,7 +672,7 @@ export default class CoreApp extends React.Component {
     this.setStateWithCEF({
       sidebarVisible: !this.state.sidebarVisible,
     });
-  }
+  };
 
   _handleShowDevelopmentLogs = () => {
     const updates = {
@@ -682,7 +690,7 @@ export default class CoreApp extends React.Component {
   _handleToggleSidebarMode = () => {
     const updates = {
       sidebarVisible: true,
-      sidebarMode: (this.state.sidebarMode === 'development') ? 'current-context' : 'development',
+      sidebarMode: this.state.sidebarMode === 'development' ? 'current-context' : 'development',
     };
 
     this.setStateWithCEF({
@@ -772,9 +780,7 @@ export default class CoreApp extends React.Component {
 
     // NOTE(jim): Rendering an IFrame while rendering a Lua window will trigger a double Open_URI
     const isRenderingIFrame =
-      state.media &&
-      !Strings.isEmpty(state.media.mediaUrl) &&
-      !Urls.isLua(state.media.mediaUrl);
+      state.media && !Strings.isEmpty(state.media.mediaUrl) && !Urls.isLua(state.media.mediaUrl);
 
     const isRenderingBrowser = !Strings.isEmpty(state.browserUrl);
 
@@ -855,21 +861,21 @@ export default class CoreApp extends React.Component {
       );
     }
 
-  if (isViewerViewingHistoryScene) {
-    return (
-      <CoreLayout ref={this._handleGetReference} leftSidebarNode={maybeLeftSidebarNode}>
-        {maybeFrameNode}
-        <CoreRootDashboard
-          media={state.media}
-          history={this._history}
-          onMediaSelect={this._handleMediaSelect}
-          onUserSelect={this._handleUserSelect}
-          onClearHistory={this._handleClearHistory}
-          onToggleBrowse={this._handleToggleBrowse}
+    if (isViewerViewingHistoryScene) {
+      return (
+        <CoreLayout ref={this._handleGetReference} leftSidebarNode={maybeLeftSidebarNode}>
+          {maybeFrameNode}
+          <CoreRootDashboard
+            media={state.media}
+            history={this._history}
+            onMediaSelect={this._handleMediaSelect}
+            onUserSelect={this._handleUserSelect}
+            onClearHistory={this._handleClearHistory}
+            onToggleBrowse={this._handleToggleBrowse}
           />
-      </CoreLayout>
-    );
-  }
+        </CoreLayout>
+      );
+    }
 
     if (isViewerViewingPlaylistScene) {
       return (
@@ -894,9 +900,7 @@ export default class CoreApp extends React.Component {
 
     if (isViewerViewingProfileScene) {
       return (
-        <CoreLayout
-          ref={this._handleGetReference}
-          leftSidebarNode={maybeLeftSidebarNode}>
+        <CoreLayout ref={this._handleGetReference} leftSidebarNode={maybeLeftSidebarNode}>
           {maybeFrameNode}
           <CoreProfile
             viewer={state.viewer}
@@ -957,10 +961,7 @@ export default class CoreApp extends React.Component {
         );
       } else if (state.sidebarMode === 'development') {
         maybeRightNode = (
-          <CoreDevelopmentLogs
-            logs={state.logs}
-            onClearLogs={this._handleClearLogs}
-          />
+          <CoreDevelopmentLogs logs={state.logs} onClearLogs={this._handleClearLogs} />
         );
       }
     }

@@ -1,6 +1,6 @@
 import CastleApiClient from 'castle-api-client';
 
-// export const API = CastleApiClient("http://localhost:1380");
+// export const API = CastleApiClient('http://localhost:1380');
 // export const API = CastleApiClient('https://ghost-server.app.render.com');
 // export const API = CastleApiClient('http://api.playcastle.io');
 // export const API = CastleApiClient('https://apis.playcastle.io');
@@ -693,4 +693,74 @@ export async function removePlaylist({ playlistId }) {
   }
 
   return { playlistId };
+}
+
+export async function recordUserplayEndAsync(userplayId) {
+  let result = await API.graphqlAsync(
+    /* GraphQL */ `
+      mutation($userplayId: ID!) {
+        recordUserplayEnd(userplayId: $userplayId) {
+          userId
+        }
+      }
+    `,
+    {
+      userplayId,
+    }
+  );
+}
+
+export async function recordUserplayStartAsync(mediaUrl, mediaId) {
+  return await API.graphqlAsync(
+    /* GraphQL */ `
+      mutation($mediaId: ID, $mediaUrl: String) {
+        recordUserplayStart(mediaId: $mediaId, mediaUrl: $mediaUrl) {
+          userplayId
+        }
+      }
+    `,
+    {
+      mediaId,
+      mediaUrl,
+    }
+  );
+}
+
+export async function recordUserplayPingAsync(userplayId) {
+  return await API.graphqlAsync(
+    /* GraphQL */ `
+      mutation($userplayId: ID!) {
+        recordUserplayPing(userplayId: $userplayId) {
+          userplayId
+        }
+      }
+    `,
+    {
+      userplayId,
+    }
+  );
+}
+
+export async function startTrackingUserplayAsync(data) {
+  if (API._currentUserplayId) {
+    await recordUserplayEndAsync(API._currentUserplayId);
+    API._currentUserplayId = null;
+  }
+  let { mediaId, mediaUrl } = data;
+  let result = await recordUserplayStartAsync(mediaUrl, mediaId);
+  API._currentUserplayId =
+    result.data && result.data.recordUserplayStart && result.data.recordUserplayStart.userplayId;
+  if (API._currentUserplayPingInterval) {
+    clearInterval(API._currentUserplayPingInterval);
+  }
+  API._currentUserplayPingInterval = setInterval(
+    () => {
+      if (API._currentUserplayId) {
+        recordUserplayPingAsync(API._currentUserplayId);
+      }
+    },
+    // ping every 25 seconds
+    25 * 1000
+    // 3 * 1000
+  );
 }
