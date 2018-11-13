@@ -4,6 +4,8 @@ FROM debian:latest
 #RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 #RUN yum -y groupinstall "Development Tools"
 
+#luajit mesa-libGL-devel 
+
 
 RUN apt-get update
 RUN apt-get install -y build-essential autotools-dev automake libtool pkg-config libdevil-dev libfreetype6-dev libluajit-5.1-dev libphysfs-dev libsdl2-dev libopenal-dev libogg-dev libvorbis-dev libflac-dev libflac++-dev libmodplug-dev libmpg123-dev libmng-dev libtheora-dev
