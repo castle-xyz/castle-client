@@ -16,6 +16,7 @@ megasource/installer/build
 megasource/CastleSetup.exe
 
 linux/build
+linux/gamelift/GameLift-Cpp-ServerSDK/out
 
 ._*
 

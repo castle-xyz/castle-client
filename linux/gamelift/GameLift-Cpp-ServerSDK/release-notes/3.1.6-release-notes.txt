@@ -1,0 +1,2 @@
+- SDK vending IP/Port on GameSessions.
+- Debug support with CMAKE_BUILD_TYPE.

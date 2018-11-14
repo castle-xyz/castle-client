@@ -186,8 +186,6 @@ Please see http://bitbucket.org/rude/megasource
 		${VORBIS_INCLUDE_DIR}
 	)
 
-	message(STATUS ${OPENGL_gl_LIBRARY})
-
 	set(LOVE_LINK_LIBRARIES
 		${OPENGL_gl_LIBRARY}
 		${SDL2_LIBRARY}

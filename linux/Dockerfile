@@ -28,7 +28,7 @@ RUN cd /opt && wget https://cmake.org/files/v3.12/cmake-3.12.4.tar.gz && tar -zx
 RUN cd /opt && wget https://luajit.org/download/LuaJIT-2.0.5.tar.gz && tar -zxvf LuaJIT-2.0.5.tar.gz && cd LuaJIT-2.0.5 && make && make install
 
 # SDL2-devel
-# --disable-video-vulkan is needed to prevent `xcb/xcb.h: No such file or directory `
+# --disable-video-vulkan is needed to prevent `xcb/xcb.h: No such file or directory`
 RUN cd /opt && hg clone https://hg.libsdl.org/SDL -r 8feb5da6f2fb SDL && cd SDL && mkdir build && cd build && ../configure --disable-video-vulkan && make && make install
 
 # DevIL-devel

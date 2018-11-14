@@ -1,0 +1,7 @@
+- Support for all GameLift server SDK APIs
+- Support for the following client APIs
+-- CreateGameSession
+-- DescribeGameSessions
+-- CreatePlayerSession
+-- CreatePLayerSessions
+-- DescribePlayerSessions

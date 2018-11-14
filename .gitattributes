@@ -2,3 +2,4 @@ cef/Release/cef_sandbox.lib filter=lfs diff=lfs merge=lfs -text
 cef/Release/libcef.dll filter=lfs diff=lfs merge=lfs -text
 cef/Debug/cef_sandbox.lib filter=lfs diff=lfs merge=lfs -text
 cef/Debug/libcef.dll filter=lfs diff=lfs merge=lfs -text
+linux/gamelift/gamelift-download-cache/boost_1_61_0.zip filter=lfs diff=lfs merge=lfs -text

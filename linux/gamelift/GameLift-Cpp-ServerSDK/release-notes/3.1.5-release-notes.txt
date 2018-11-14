@@ -1,0 +1,8 @@
+- Support for Windows and Linux operating systems.
+- Support for Microsoft Visual Studio 2012 or later
+- Support for GNU Compiler Collection (GCC) 4.9 or later
+- Added a STL free interface
+- Requires CMake version 3.1 or later
+- Dependency on Boost 1.61
+- Dependency on Protobuf 3.1.0
+- Dependency on Socket.io Client 1.6.1

@@ -1,0 +1,1 @@
+- Added support for GameSessionData and MatchmakerData on ActivateGameSession.

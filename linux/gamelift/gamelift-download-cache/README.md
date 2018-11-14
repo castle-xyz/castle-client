@@ -1,0 +1,2 @@
+The version of cmake in the Docker image uses a version of curl that doesn't support https.
+Tried following https://github.com/ruslo/hunter/issues/328#issuecomment-198672048 but ran into an issue compiling curl, so we just copy the files it needs into the build directory so it doesn't have to download them.

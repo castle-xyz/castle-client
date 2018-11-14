@@ -1,0 +1,1 @@
+- CreationTime and TerminationTime now returned as a double for PlayerSession

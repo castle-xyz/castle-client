@@ -1,0 +1,7 @@
+LIBAWS_1.0 {
+    global:
+    extern "C++" {
+        Aws::GameLift::Server::*;
+    };
+    local: *;
+};

@@ -24,9 +24,12 @@ else()
 	message(STATUS "LOVE was not found")
 endif()
 
+# GameLift
+include("gamelift/gamelift-build/cmake/aws-cpp-sdk-gamelift-serverConfig.cmake")
+
 set(GHOST_TARGET "castle-server")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
 
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -ldl -lpthread -lm")
 
@@ -35,11 +38,12 @@ set(GHOST_SRCS
 )
 
 add_executable(${GHOST_TARGET} ${GHOST_SRCS})
-target_link_libraries(${GHOST_TARGET} liblove ${CASTLE_LUA_LIBRARY})
+target_link_libraries(${GHOST_TARGET} liblove ${CASTLE_LUA_LIBRARY} ${SERVERSDK_LIBRARIES})
 include_directories(
   ../common
   ../love/src
   ${CASTLE_INCLUDE_DIRS}
+  ${SERVERSDK_INCLUDE_DIRS}
 )
 
 target_link_libraries(${GHOST_TARGET} ${CASTLE_LINK_LIBRARIES} ${CASTLE_3P})
