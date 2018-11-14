@@ -26,6 +26,10 @@ endif()
 
 # GameLift
 include("gamelift/gamelift-build/cmake/aws-cpp-sdk-gamelift-serverConfig.cmake")
+# Boost libs needed by GameLift
+find_library(BOOST_LIBRARY_DATE_TIME NAMES boost_date_time)
+find_library(BOOST_LIBRARY_SYSTEM NAMES boost_system)
+find_library(BOOST_LIBRARY_RANDOM NAMES boost_random)
 
 set(GHOST_TARGET "castle-server")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
@@ -38,7 +42,7 @@ set(GHOST_SRCS
 )
 
 add_executable(${GHOST_TARGET} ${GHOST_SRCS})
-target_link_libraries(${GHOST_TARGET} liblove ${CASTLE_LUA_LIBRARY} ${SERVERSDK_LIBRARIES})
+target_link_libraries(${GHOST_TARGET} liblove ${CASTLE_LUA_LIBRARY} ${SERVERSDK_LIBRARIES} ${BOOST_LIBRARY_DATE_TIME} ${BOOST_LIBRARY_SYSTEM} ${BOOST_LIBRARY_RANDOM})
 include_directories(
   ../common
   ../love/src

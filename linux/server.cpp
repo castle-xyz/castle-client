@@ -18,6 +18,11 @@
  * 3. This notice may not be removed or altered from any source distribution.
  **/
 
+// This is just for the editor
+#ifndef GAMELIFT_USE_STD
+#define GAMELIFT_USE_STD 1
+#endif
+
 #include "common/version.h"
 #include "modules/love/love.h"
 #include <SDL.h>
@@ -27,8 +32,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "aws/gamelift/server/GameLiftServerAPI.h"
+#include "aws/gamelift/server/LogParameters.h"
+#include "aws/gamelift/server/ProcessParameters.h"
 
 #ifdef LOVE_BUILD_EXE
+
+#define PORT 22122
+
+using namespace Aws::GameLift::Server;
 
 // Lua
 extern "C" {
@@ -36,68 +48,6 @@ extern "C" {
 	#include <lualib.h>
 	#include <lauxlib.h>
 }
-
-#ifdef LOVE_LEGENDARY_APP_ARGV_HACK
-
-#include <vector>
-
-static void get_app_arguments(int argc, char **argv, int &new_argc, char **&new_argv)
-{
-	std::vector<std::string> temp_argv;
-	for (int i = 0; i < argc; i++)
-	{
-		// Don't copy -psn_xxx argument from argv.
-		if (i == 0 || strncmp(argv[i], "-psn_", 5) != 0)
-			temp_argv.push_back(std::string(argv[i]));
-	}
-
-#ifdef LOVE_MACOSX
-	// Check for a drop file string, if the app wasn't launched in a terminal.
-	// Checking for the terminal is a pretty big hack, but works around an issue
-	// where OS X will switch Spaces if the terminal launching love is in its
-	// own full-screen Space.
-	std::string dropfilestr;
-	if (!isatty(STDIN_FILENO))
-		dropfilestr = love::macosx::checkDropEvents();
-
-	if (!dropfilestr.empty())
-		temp_argv.insert(temp_argv.begin() + 1, dropfilestr);
-	else
-#endif
-	{
-		// If it exists, add the love file in love.app/Contents/Resources/ to argv.
-		std::string loveResourcesPath;
-		bool fused = true;
-#if defined(LOVE_MACOSX)
-		loveResourcesPath = love::macosx::getLoveInResources();
-#elif defined(LOVE_IOS)
-		loveResourcesPath = love::ios::getLoveInResources(fused);
-#endif
-		if (!loveResourcesPath.empty())
-		{
-			std::vector<std::string>::iterator it = temp_argv.begin();
-			it = temp_argv.insert(it + 1, loveResourcesPath);
-
-			// Run in pseudo-fused mode.
-			if (fused)
-				temp_argv.insert(it + 1, std::string("--fused"));
-		}
-	}
-
-	// Copy temp argv vector to new argv array.
-	new_argc = (int) temp_argv.size();
-	new_argv = new char *[new_argc+1];
-
-	for (int i = 0; i < new_argc; i++)
-	{
-		new_argv[i] = new char[temp_argv[i].length() + 1];
-		strcpy(new_argv[i], temp_argv[i].c_str());
-	}
-
-	new_argv[new_argc] = NULL;
-}
-
-#endif // LOVE_LEGENDARY_APP_ARGV_HACK
 
 static int love_preload(lua_State *L, lua_CFunction f, const char *name)
 {
@@ -115,10 +65,11 @@ enum DoneAction
 	DONE_RESTART,
 };
 
-static bool gShouldQuit = false;
+static bool sShouldQuit = false;
+static std::string sCastleUrl;
 void my_handler(int s) {
     printf("Caught signal %d\n",s);
-    gShouldQuit = true;
+    sShouldQuit = true;
 }
 
 // from https://gist.github.com/5at/3671566
@@ -140,23 +91,10 @@ static const struct luaL_Reg printlib [] = {
 
 static DoneAction runlove(int argc, char **argv, int &retval)
 {
-#ifdef LOVE_LEGENDARY_APP_ARGV_HACK
-	int hack_argc = 0;
-	char **hack_argv = 0;
-	get_app_arguments(argc, argv, hack_argc, hack_argv);
-	argc = hack_argc;
-	argv = hack_argv;
-#endif // LOVE_LEGENDARY_APP_ARGV_HACK
-
-	// Oh, you just want the version? Okay!
-	if (argc > 1 && strcmp(argv[1], "--version") == 0)
-	{
-#ifdef LOVE_LEGENDARY_CONSOLE_IO_HACK
-		const char *err = nullptr;
-		love_openConsole(err);
-#endif
-		printf("LOVE %s (%s)\n", love_version(), love_codename());
-		retval = 0;
+	while (sCastleUrl.empty() && !sShouldQuit) {
+		sleep(10);
+	}
+	if (sShouldQuit) {
 		return DONE_QUIT;
 	}
 
@@ -212,7 +150,7 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 	lua_newthread(L);
 	lua_pushvalue(L, -2);
 
-    lua_pushstring(L, argv[1]);
+    lua_pushstring(L, sCastleUrl.c_str());
     lua_setglobal(L, "GHOST_ROOT_URI");
 
     // Add custom print lib
@@ -220,9 +158,26 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 	luaL_register(L, NULL, printlib);
 	lua_pop(L, 1);
 
+	// TODO: should actually test whether lua is finished initializing
+	struct timespec start, finish;
+	double elapsed;
+	clock_gettime(CLOCK_MONOTONIC, &start);
+	bool hasActivatedGameSession = false;
+
 	int stackpos = lua_gettop(L);
 	while (lua_resume(L, 0) == LUA_YIELD) {
-        if (gShouldQuit) {
+		if (!hasActivatedGameSession) {
+			clock_gettime(CLOCK_MONOTONIC, &finish);
+			elapsed = (finish.tv_sec - start.tv_sec);
+			elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+
+			if (elapsed > 5) {
+				hasActivatedGameSession = true;
+				ActivateGameSession();
+			}
+		}
+
+        if (sShouldQuit) {
             return DONE_QUIT;
         }
 
@@ -241,17 +196,35 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 
 	lua_close(L);
 
-#if defined(LOVE_LEGENDARY_APP_ARGV_HACK) && !defined(LOVE_IOS)
-	if (hack_argv)
-	{
-		for (int i = 0; i<hack_argc; ++i)
-			delete [] hack_argv[i];
-		delete [] hack_argv;
-	}
-#endif // LOVE_LEGENDARY_APP_ARGV_HACK
-
 	return done;
 }
+
+const std::function<void(Model::GameSession)> onStartGameSession = [](Model::GameSession session) {
+	std::vector<Model::GameProperty> properties = session.GetGameProperties();
+	std::vector<Model::GameProperty>::iterator it;
+	std::string castleUrl;
+	for (it = properties.begin(); it != properties.end(); it++)    {
+		Model::GameProperty property = *it;
+		if (property.GetKey() == "castleUrl") {
+			castleUrl = property.GetValue();
+		}
+	}
+
+	if (castleUrl.empty()) {
+		sShouldQuit = true;
+		return;
+	}
+
+	sCastleUrl = castleUrl;
+};
+
+const std::function<void()> onProcessTerminate = []() {
+	sShouldQuit = true;
+};
+
+const std::function<bool()> onHealthCheck = []() {
+	return !sShouldQuit;
+};
 
 int main(int argc, char **argv)
 {
@@ -262,8 +235,8 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-    if (argc != 2) {
-        printf("Must run with path to castle app\n");
+    if (argc != 1) {
+        printf("Does not take any args\n");
 		return 1;
     }
 
@@ -272,6 +245,12 @@ int main(int argc, char **argv)
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, NULL);
+
+	LogParameters logParameters;
+	ProcessParameters gameLiftParams(onStartGameSession, onProcessTerminate, onHealthCheck, PORT, logParameters);
+
+	InitSDK();
+	ProcessReady(gameLiftParams);
 
 	int retval = 0;
 	DoneAction done = DONE_QUIT;
