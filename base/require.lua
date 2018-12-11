@@ -130,6 +130,9 @@ local function explicitRequire(path, opts)
                 childEnv = childEnv,
             }))
         end
+        childEnv.CASTLE_PREFETCH = function(urls)
+            network.prefetch(urls, newBasePath)
+        end
 
         -- TODO(nikki): In process of using below to fix `portal.newPortal` with relative paths
         if parentEnv ~= oldChildEnv then

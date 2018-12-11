@@ -237,6 +237,22 @@ function network.fetch(url, method, skipCache)
     end
 end
 
+-- Start fetching many resources so that their next fetch is faster. Every URL given must return a
+-- 200 response. `baseUrl .. '/'` is prepended to non-absolute URLs.
+local prefetched = {}
+function network.prefetch(urls, baseUrl)
+    for _, url in ipairs(urls) do
+        if baseUrl and not network.isAbsolute(url) then
+            url = baseUrl .. '/' .. url
+        end
+        print('PREFETCH', url)
+        prefetched[url] = true
+        network.async(function()
+            network.fetch(url)
+        end)
+    end
+end
+
 -- Flush the `network.fetch` cache for all URLs matching a given filter function
 function network.flush(filter)
     for method, entries in pairs(fetchEntries) do
@@ -258,8 +274,12 @@ function network.isAbsolute(url)
 end
 
 -- Whether a given URL points to something that exists. If `skipCache` is true, skip looking in the
--- persistent cache (still saves it to the cache after).
+-- persistent cache (still saves it to the cache after). Also assumes any `network.prefetch`'d URLs
+-- exist.
 function network.exists(url, skipCache)
+    if prefetched[url] then
+        return true
+    end
     local _, httpCode = network.fetch(url, 'HEAD', skipCache)
     return httpCode == 200
 end
