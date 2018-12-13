@@ -124,22 +124,8 @@ export default class CoreApp extends React.Component {
     CEF.setWindowFrameVisible(true);
   };
 
-  // TODO(jim):
-  // Someone needs to implement the ability to pause/freeze a LUA game
-  // and make it invisible on screen.
   hideFrame = () => {
-    // TODO(jim): Hide Frame doesn't actually close the CEF. but makes it invisible instead.
-    // this.closeCEF();
     CEF.setWindowFrameVisible(false);
-
-    if (this._isLockedFromCEFUpdates) {
-      return;
-    }
-
-    // TODO(jim): when we are ready to, we can replace this with actual hide code.
-    // const element = this._layout.getMediaContainerRef();
-    // const rect = element.getBoundingClientRect();
-    // CEF.updateWindowFrame(rect);
   };
 
   refreshViewer = async () => {
