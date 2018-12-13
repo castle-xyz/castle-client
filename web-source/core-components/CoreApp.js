@@ -121,6 +121,7 @@ export default class CoreApp extends React.Component {
     const element = this._layout.getMediaContainerRef();
     const rect = element.getBoundingClientRect();
     CEF.updateWindowFrame(rect);
+    CEF.setWindowFrameVisible(true);
   };
 
   // TODO(jim):
@@ -128,16 +129,17 @@ export default class CoreApp extends React.Component {
   // and make it invisible on screen.
   hideFrame = () => {
     // TODO(jim): Hide Frame doesn't actually close the CEF. but makes it invisible instead.
-    this.closeCEF();
+    // this.closeCEF();
+    CEF.setWindowFrameVisible(false);
 
     if (this._isLockedFromCEFUpdates) {
       return;
     }
 
     // TODO(jim): when we are ready to, we can replace this with actual hide code.
-    const element = this._layout.getMediaContainerRef();
-    const rect = element.getBoundingClientRect();
-    CEF.updateWindowFrame(rect);
+    // const element = this._layout.getMediaContainerRef();
+    // const rect = element.getBoundingClientRect();
+    // CEF.updateWindowFrame(rect);
   };
 
   refreshViewer = async () => {
