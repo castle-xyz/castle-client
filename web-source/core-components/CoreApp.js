@@ -88,14 +88,15 @@ export default class CoreApp extends React.Component {
   }
 
   closeCEF = () => {
+    UserPlay.stopAsync();
+    Logs.stopPollingForRemoteLogs();
+
     if (this._isLockedFromCEFUpdates) {
       console.log('closeCEF: already locked');
       return;
     }
 
     this._isLockedFromCEFUpdates = true;
-
-    UserPlay.stopAsync();
     CEF.closeWindowFrame();
   };
 
@@ -109,6 +110,7 @@ export default class CoreApp extends React.Component {
 
     // Don't `await` this since we don't want to make it take longer to get the media
     UserPlay.startAsync(userPlayData);
+    Logs.startPollingForRemoteLogs(url);
 
     CEF.openWindowFrame(url);
   };
