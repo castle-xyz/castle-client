@@ -1,0 +1,1 @@
+../../../FirebaseAuth/Firebase/Auth/Source/FIRAuthInternalErrors.h

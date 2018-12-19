@@ -1,0 +1,1 @@
+../../../../../node_modules/expo-core/ios/EXCore/EXModuleRegistry/EXModuleRegistry.h
