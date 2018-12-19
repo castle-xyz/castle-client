@@ -34,7 +34,6 @@
 		A192DEBE21364E4E00848ABB /* lsqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = A192DEBB21364E4D00848ABB /* lsqlite3.c */; };
 		A192DEBF21364E4E00848ABB /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = A192DEBD21364E4E00848ABB /* sqlite3.c */; };
 		A192DEC521364E7300848ABB /* lmarshal.c in Sources */ = {isa = PBXBuildFile; fileRef = A192DEC421364E7300848ABB /* lmarshal.c */; };
-		A1C72CC62158731000FC47B8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1C72CBE2158731000FC47B8 /* GoogleService-Info.plist */; };
 		A1D5536921366F2B00921012 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5536121366F2B00921012 /* Metal.framework */; };
 		A1D5536B21366F4E00921012 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5536A21366F4E00921012 /* libbz2.tbd */; };
 		A1D5536D21366F5600921012 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5536C21366F5600921012 /* AVFoundation.framework */; };
@@ -143,7 +142,6 @@
 		A192DEBC21364E4D00848ABB /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = "../../ghost-extensions/lsqlite3/sqlite3.h"; sourceTree = "<group>"; };
 		A192DEBD21364E4E00848ABB /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = "../../ghost-extensions/lsqlite3/sqlite3.c"; sourceTree = "<group>"; };
 		A192DEC421364E7300848ABB /* lmarshal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lmarshal.c; path = "../../ghost-extensions/lua-marshal/lmarshal.c"; sourceTree = "<group>"; };
-		A1C72CBE2158731000FC47B8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Supporting/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A1D5536121366F2B00921012 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		A1D5536A21366F4E00921012 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		A1D5536C21366F5600921012 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -424,7 +422,6 @@
 			children = (
 				A10DAD9C21CB1120005C4939 /* brushy.entitlements */,
 				A18CBC372165922F004CEE1E /* EXFileSystem+Brushy.m */,
-				A1C72CBE2158731000FC47B8 /* GoogleService-Info.plist */,
 				A18062D0213A5B2D002B0E53 /* GhostChannels.mm */,
 				A1D58F0921390D3B005CA434 /* FileServer.m */,
 				A1F954E92135719E00503B4F /* GhostView.m */,
@@ -576,7 +573,6 @@
 				B5693E921FABD46800307FA4 /* launch_icon.png in Resources */,
 				B5693E8E1FABD16A00307FA4 /* LaunchScreen.xib in Resources */,
 				B5DB04801F3A684600E91581 /* shell-app-manifest.json in Resources */,
-				A1C72CC62158731000FC47B8 /* GoogleService-Info.plist in Resources */,
 				B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */,
 				B56386511DB9693800A0598C /* Assets.xcassets in Resources */,
 			);
