@@ -154,20 +154,20 @@ NSURLSessionDataDelegate
 - (void)addRequest:(FBSDKGraphRequest *)request
  completionHandler:(FBSDKGraphRequestHandler)handler
 {
-  [self addRequest:request completionHandler:handler batchEntryName:nil];
+  [self addRequest:request batchEntryName:nil completionHandler:handler];
 }
 
 - (void)addRequest:(FBSDKGraphRequest *)request
- completionHandler:(FBSDKGraphRequestHandler)handler
     batchEntryName:(NSString *)name
+ completionHandler:(FBSDKGraphRequestHandler)handler
 {
   NSDictionary *batchParams = (name)? @{kBatchEntryName : name } : nil;
-  [self addRequest:request completionHandler:handler batchParameters:batchParams];
+  [self addRequest:request batchParameters:batchParams completionHandler:handler];
 }
 
 - (void)addRequest:(FBSDKGraphRequest *)request
+   batchParameters:(NSDictionary<NSString *, id> *)batchParameters
  completionHandler:(FBSDKGraphRequestHandler)handler
-   batchParameters:(NSDictionary *)batchParameters
 {
   if (self.state != kStateCreated) {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException
@@ -181,6 +181,20 @@ NSURLSessionDataDelegate
   [self.requests addObject:metadata];
 }
 
+- (void)addRequest:(FBSDKGraphRequest *)request
+ completionHandler:(FBSDKGraphRequestHandler)handler
+    batchEntryName:(NSString *)name
+{
+  [self addRequest:request batchEntryName:name completionHandler:handler];
+}
+
+- (void)addRequest:(FBSDKGraphRequest *)request
+ completionHandler:(FBSDKGraphRequestHandler)handler
+   batchParameters:(NSDictionary *)batchParameters
+{
+  [self addRequest:request batchParameters:batchParameters completionHandler:handler];
+}
+
 - (void)cancel
 {
   self.state = kStateCancelled;
@@ -188,11 +202,16 @@ NSURLSessionDataDelegate
   [self cleanUpSession];
 }
 
-- (void)overrideVersionPartWith:(NSString *)version
+- (void)overrideGraphAPIVersion:(NSString *)version
 {
   if (![_overrideVersionPart isEqualToString:version]) {
     _overrideVersionPart = [version copy];
   }
+}
+
+- (void)overrideVersionPartWith:(NSString *)version
+{
+  [self overrideGraphAPIVersion:version];
 }
 
 - (void)start
@@ -284,13 +303,13 @@ NSURLSessionDataDelegate
     if ([FBSDKGraphRequest isAttachment:value]) {
       NSString *name = [NSString stringWithFormat:@"%@%lu",
                         kBatchFileNamePrefix,
-                        (unsigned long)[attachments count]];
+                        (unsigned long)attachments.count];
       [attachmentNames addObject:name];
       attachments[name] = value;
     }
   }];
 
-  if ([attachmentNames count]) {
+  if (attachmentNames.count) {
     requestElement[kBatchAttachmentKey] = [attachmentNames componentsJoinedByString:@","];
   }
 
@@ -412,16 +431,16 @@ NSURLSessionDataDelegate
 
   [self _validateFieldsParamForGetRequests:requests];
 
-  if ([requests count] == 1) {
-    FBSDKGraphRequestMetadata *metadata = [requests objectAtIndex:0];
+  if (requests.count == 1) {
+    FBSDKGraphRequestMetadata *metadata = requests[0];
     NSURL *url = [NSURL URLWithString:[self urlStringForSingleRequest:metadata.request forBatch:NO]];
     request = [NSMutableURLRequest requestWithURL:url
                                       cachePolicy:NSURLRequestUseProtocolCachePolicy
                                   timeoutInterval:timeout];
 
     // HTTP methods are case-sensitive; be helpful in case someone provided a mixed case one.
-    NSString *httpMethod = [metadata.request.HTTPMethod uppercaseString];
-    [request setHTTPMethod:httpMethod];
+    NSString *httpMethod = metadata.request.HTTPMethod.uppercaseString;
+    request.HTTPMethod = httpMethod;
     [self appendAttachments:metadata.request.parameters
                      toBody:body
                 addFormData:[httpMethod isEqualToString:@"POST"]
@@ -457,11 +476,11 @@ NSURLSessionDataDelegate
     request = [NSMutableURLRequest requestWithURL:url
                                       cachePolicy:NSURLRequestUseProtocolCachePolicy
                                   timeoutInterval:timeout];
-    [request setHTTPMethod:@"POST"];
+    request.HTTPMethod = @"POST";
   }
 
-  [request setHTTPBody:[body data]];
-  NSUInteger bodyLength = [[body data] length] / 1024;
+  request.HTTPBody = body.data;
+  NSUInteger bodyLength = body.data.length / 1024;
 
   [request setValue:[FBSDKGraphRequestConnection userAgent] forHTTPHeaderField:@"User-Agent"];
   [request setValue:[body mimeContentType] forHTTPHeaderField:@"Content-Type"];
@@ -501,17 +520,17 @@ NSURLSessionDataDelegate
     NSString *prefix = kGraphURLPrefix;
     // We special case a graph post to <id>/videos and send it to graph-video.facebook.com
     // We only do this for non batch post requests
-    NSString *graphPath = [request.graphPath lowercaseString];
-    if ([[request.HTTPMethod uppercaseString] isEqualToString:@"POST"] &&
+    NSString *graphPath = request.graphPath.lowercaseString;
+    if ([request.HTTPMethod.uppercaseString isEqualToString:@"POST"] &&
         [graphPath hasSuffix:@"/videos"]) {
       graphPath = [graphPath stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
       NSArray *components = [graphPath componentsSeparatedByString:@"/"];
-      if ([components count] == 2) {
+      if (components.count == 2) {
         prefix = kGraphVideoURLPrefix;
       }
     }
 
-    baseURL = [[FBSDKInternalUtility facebookURLWithHostPrefix:prefix path:request.graphPath queryParameters:nil defaultVersion:request.version error:NULL] absoluteString];
+    baseURL = [FBSDKInternalUtility facebookURLWithHostPrefix:prefix path:request.graphPath queryParameters:nil defaultVersion:request.version error:NULL].absoluteString;
   }
 
   NSString *url = [FBSDKGraphRequest serializeURL:baseURL
@@ -544,7 +563,7 @@ NSURLSessionDataDelegate
     NSInteger statusCode = _URLResponse.statusCode;
 
     if (!error && [response.MIMEType hasPrefix:@"image"]) {
-      error = [FBSDKError errorWithCode:FBSDKGraphRequestNonTextMimeTypeReturnedErrorCode
+      error = [NSError fbErrorWithCode:FBSDKErrorGraphRequestNonTextMimeTypeReturned
                                 message:@"Response is a non-text MIME type; endpoints that return images and other "
                @"binary data should be fetched using NSURLRequest and NSURLSession"];
     } else {
@@ -553,28 +572,28 @@ NSURLSessionDataDelegate
                              statusCode:statusCode];
     }
   } else if (!error) {
-    error = [FBSDKError errorWithCode:FBSDKUnknownErrorCode
+    error = [NSError fbErrorWithCode:FBSDKErrorUnknown
                               message:@"Missing NSURLResponse"];
   }
 
   if (!error) {
-    if ([self.requests count] != [results count]) {
-      error = [FBSDKError errorWithCode:FBSDKGraphRequestProtocolMismatchErrorCode
+    if (self.requests.count != results.count) {
+      error = [NSError fbErrorWithCode:FBSDKErrorGraphRequestProtocolMismatch
                                 message:@"Unexpected number of results returned from server."];
     } else {
       [_logger appendFormat:@"Response <#%lu>\nDuration: %llu msec\nSize: %lu kB\nResponse Body:\n%@\n\n",
-       (unsigned long)[_logger loggerSerialNumber],
+       (unsigned long)_logger.loggerSerialNumber,
        [FBSDKInternalUtility currentTimeInMilliseconds] - _requestStartTime,
-       (unsigned long)[data length],
+       (unsigned long)data.length,
        results];
     }
   }
 
   if (error) {
     [_logger appendFormat:@"Response <#%lu> <Error>:\n%@\n%@\n",
-     (unsigned long)[_logger loggerSerialNumber],
-     [error localizedDescription],
-     [error userInfo]];
+     (unsigned long)_logger.loggerSerialNumber,
+     error.localizedDescription,
+     error.userInfo];
   }
   [_logger emitToNSLog];
 
@@ -607,7 +626,7 @@ NSURLSessionDataDelegate
   id response = [self parseJSONOrOtherwise:responseUTF8 error:error];
 
   if (responseUTF8 == nil) {
-    NSString *base64Data = [data length] != 0 ? [data base64EncodedStringWithOptions:0] : @"";
+    NSString *base64Data = data.length != 0 ? [data base64EncodedStringWithOptions:0] : @"";
     if (base64Data != nil) {
       [FBSDKAppEvents logImplicitEvent:@"fb_response_invalid_utf8"
                             valueToSum:nil
@@ -619,13 +638,13 @@ NSURLSessionDataDelegate
   NSDictionary *responseError = nil;
   if (!response) {
     if ((error != NULL) && (*error == nil)) {
-      *error = [self errorWithCode:FBSDKUnknownErrorCode
+      *error = [self errorWithCode:FBSDKErrorUnknown
                         statusCode:statusCode
                 parsedJSONResponse:nil
                         innerError:nil
                            message:@"The server returned an unexpected response."];
     }
-  } else if ([self.requests count] == 1) {
+  } else if (self.requests.count == 1) {
     // response is the entry, so put it in a dictionary under "body" and add
     // that to array of responses.
     [results addObject:@{
@@ -666,7 +685,7 @@ NSURLSessionDataDelegate
       [results addObject:result];
     }
   } else if (error != NULL) {
-    *error = [self errorWithCode:FBSDKGraphRequestProtocolMismatchErrorCode
+    *error = [self errorWithCode:FBSDKErrorGraphRequestProtocolMismatch
                       statusCode:statusCode
               parsedJSONResponse:results
                       innerError:nil
@@ -703,11 +722,11 @@ NSURLSessionDataDelegate
 - (void)completeWithResults:(NSArray *)results
                networkError:(NSError *)networkError
 {
-  NSUInteger count = [self.requests count];
+  NSUInteger count = self.requests.count;
   _expectingResults = count;
   NSUInteger disabledRecoveryCount = 0;
   for (FBSDKGraphRequestMetadata *metadata in self.requests) {
-    if ([metadata.request isGraphErrorRecoveryDisabled]) {
+    if (metadata.request.graphErrorRecoveryDisabled) {
       disabledRecoveryCount++;
     }
   }
@@ -716,7 +735,7 @@ NSURLSessionDataDelegate
 #endif
 
   [self.requests enumerateObjectsUsingBlock:^(FBSDKGraphRequestMetadata *metadata, NSUInteger i, BOOL *stop) {
-    id result = networkError ? nil : [results objectAtIndex:i];
+    id result = networkError ? nil : results[i];
     NSError *resultError = networkError ?: [self errorFromResult:result request:metadata.request];
 
     id body = nil;
@@ -726,7 +745,7 @@ NSURLSessionDataDelegate
     }
 
 #if !TARGET_OS_TV
-    if (resultError && ![metadata.request isGraphErrorRecoveryDisabled] && isSingleRequestToRecover) {
+    if (resultError && !metadata.request.graphErrorRecoveryDisabled && isSingleRequestToRecover) {
       self->_recoveringRequestMetadata = metadata;
       self->_errorRecoveryProcessor = [[FBSDKGraphErrorRecoveryProcessor alloc] init];
       if ([self->_errorRecoveryProcessor processError:resultError request:metadata.request delegate:self]) {
@@ -748,7 +767,7 @@ NSURLSessionDataDelegate
 - (void)processResultBody:(NSDictionary *)body error:(NSError *)error metadata:(FBSDKGraphRequestMetadata *)metadata canNotifyDelegate:(BOOL)canNotifyDelegate
 {
   void (^finishAndInvokeCompletionHandler)(void) = ^{
-    NSDictionary *graphDebugDict = [body objectForKey:@"__debug__"];
+    NSDictionary<NSString *, id> *graphDebugDict = body[@"__debug__"];
     if ([graphDebugDict isKindOfClass:[NSDictionary class]]) {
       [self processResultDebugDictionary: graphDebugDict];
     }
@@ -781,8 +800,8 @@ NSURLSessionDataDelegate
   BOOL isAccountStoreLogin = [metadataTokenString isEqualToString:accountStoreTokenString];
 
   if ([metadataTokenString isEqualToString:currentTokenString] || isAccountStoreLogin) {
-    NSInteger errorCode = [error.userInfo[FBSDKGraphRequestErrorGraphErrorCode] integerValue];
-    NSInteger errorSubcode = [error.userInfo[FBSDKGraphRequestErrorGraphErrorSubcode] integerValue];
+    NSInteger errorCode = [error.userInfo[FBSDKGraphRequestErrorGraphErrorCodeKey] integerValue];
+    NSInteger errorSubcode = [error.userInfo[FBSDKGraphRequestErrorGraphErrorSubcodeKey] integerValue];
     if (errorCode == 190 || errorCode == 102) {
       if (isAccountStoreLogin) {
         if (errorSubcode == 460) {
@@ -821,7 +840,7 @@ NSURLSessionDataDelegate
 - (void)processResultDebugDictionary:(NSDictionary *)dict
 {
   NSArray *messages = [FBSDKTypeUtility arrayValue:dict[@"messages"]];
-  if (![messages count]) {
+  if (!messages.count) {
     return;
   }
 
@@ -854,8 +873,8 @@ NSURLSessionDataDelegate
 
     if ([errorDictionary isKindOfClass:[NSDictionary class]]) {
       NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-      [FBSDKInternalUtility dictionary:userInfo setObject:errorDictionary[@"code"] forKey:FBSDKGraphRequestErrorGraphErrorCode];
-      [FBSDKInternalUtility dictionary:userInfo setObject:errorDictionary[@"error_subcode"] forKey:FBSDKGraphRequestErrorGraphErrorSubcode];
+      [FBSDKInternalUtility dictionary:userInfo setObject:errorDictionary[@"code"] forKey:FBSDKGraphRequestErrorGraphErrorCodeKey];
+      [FBSDKInternalUtility dictionary:userInfo setObject:errorDictionary[@"error_subcode"] forKey:FBSDKGraphRequestErrorGraphErrorSubcodeKey];
       //"message" is preferred over error_msg or error_reason.
       [FBSDKInternalUtility dictionary:userInfo setObject:errorDictionary[@"error_msg"] forKey:FBSDKErrorDeveloperMessageKey];
       [FBSDKInternalUtility dictionary:userInfo setObject:errorDictionary[@"error_reason"] forKey:FBSDKErrorDeveloperMessageKey];
@@ -867,20 +886,20 @@ NSURLSessionDataDelegate
       [FBSDKInternalUtility dictionary:userInfo setObject:result forKey:FBSDKGraphRequestErrorParsedJSONResponseKey];
 
       FBSDKErrorRecoveryConfiguration *recoveryConfiguration = [g_errorConfiguration
-                                                                recoveryConfigurationForCode:[userInfo[FBSDKGraphRequestErrorGraphErrorCode] stringValue]
-                                                                subcode:[userInfo[FBSDKGraphRequestErrorGraphErrorSubcode] stringValue]
+                                                                recoveryConfigurationForCode:[userInfo[FBSDKGraphRequestErrorGraphErrorCodeKey] stringValue]
+                                                                subcode:[userInfo[FBSDKGraphRequestErrorGraphErrorSubcodeKey] stringValue]
                                                                 request:request];
       if ([errorDictionary[@"is_transient"] boolValue]) {
-        userInfo[FBSDKGraphRequestErrorCategoryKey] = @(FBSDKGraphRequestErrorCategoryTransient);
+        userInfo[FBSDKGraphRequestErrorKey] = @(FBSDKGraphRequestErrorTransient);
       } else {
-        [FBSDKInternalUtility dictionary:userInfo setObject:@(recoveryConfiguration.errorCategory) forKey:FBSDKGraphRequestErrorCategoryKey];
+        [FBSDKInternalUtility dictionary:userInfo setObject:@(recoveryConfiguration.errorCategory) forKey:FBSDKGraphRequestErrorKey];
       }
       [FBSDKInternalUtility dictionary:userInfo setObject:recoveryConfiguration.localizedRecoveryDescription forKey:NSLocalizedRecoverySuggestionErrorKey];
       [FBSDKInternalUtility dictionary:userInfo setObject:recoveryConfiguration.localizedRecoveryOptionDescriptions forKey:NSLocalizedRecoveryOptionsErrorKey];
       FBSDKErrorRecoveryAttempter *attempter = [FBSDKErrorRecoveryAttempter recoveryAttempterFromConfiguration:recoveryConfiguration];
       [FBSDKInternalUtility dictionary:userInfo setObject:attempter forKey:NSRecoveryAttempterErrorKey];
 
-      return [FBSDKError errorWithCode:FBSDKGraphRequestGraphAPIErrorCode
+      return [NSError fbErrorWithCode:FBSDKErrorGraphRequestGraphAPI
                               userInfo:userInfo
                                message:nil
                        underlyingError:nil];
@@ -890,7 +909,7 @@ NSURLSessionDataDelegate
   return nil;
 }
 
-- (NSError *)errorWithCode:(FBSDKErrorCode)code
+- (NSError *)errorWithCode:(FBSDKError)code
                 statusCode:(NSInteger)statusCode
         parsedJSONResponse:(id)response
                 innerError:(NSError *)innerError
@@ -927,8 +946,8 @@ NSURLSessionDataDelegate
 {
   if (_logger.isActive) {
     [_logger appendFormat:@"Request <#%lu>:\n", (unsigned long)_logger.loggerSerialNumber];
-    [_logger appendKey:@"URL" value:[[request URL] absoluteString]];
-    [_logger appendKey:@"Method" value:[request HTTPMethod]];
+    [_logger appendKey:@"URL" value:request.URL.absoluteString];
+    [_logger appendKey:@"Method" value:request.HTTPMethod];
     [_logger appendKey:@"UserAgent" value:[request valueForHTTPHeaderField:@"User-Agent"]];
     [_logger appendKey:@"MIME" value:[request valueForHTTPHeaderField:@"Content-Type"]];
 
@@ -1054,7 +1073,7 @@ totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
     if (comma) {
       [result appendString:@",\n"];
     }
-    [result appendString:[request description]];
+    [result appendString:request.description];
     comma = YES;
   }
   [result appendString:@"\n)>"];

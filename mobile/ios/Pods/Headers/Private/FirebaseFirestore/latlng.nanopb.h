@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/Firestore/Protos/nanopb/google/type/latlng.nanopb.h

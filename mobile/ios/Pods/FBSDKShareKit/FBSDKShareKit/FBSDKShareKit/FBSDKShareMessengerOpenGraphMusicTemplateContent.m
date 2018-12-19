@@ -67,23 +67,33 @@ static NSArray<NSDictionary<NSString *, id> *> *_SerializableOpenGraphMusicTempl
 - (void)addToParameters:(NSMutableDictionary<NSString *, id> *)parameters
           bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
 {
+  [parameters addEntriesFromDictionary:[self addParameters:parameters bridgeOptions:bridgeOptions]];
+}
+
+- (NSDictionary<NSString *, id> *)addParameters:(NSDictionary<NSString *, id> *)existingParameters
+                                  bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
+{
+  NSMutableDictionary<NSString *, id> *updatedParameters = [NSMutableDictionary dictionaryWithDictionary:existingParameters];
+
   NSMutableDictionary<NSString *, id> *payload = [NSMutableDictionary dictionary];
-  [payload setObject:@"open_graph" forKey:kFBSDKShareMessengerTemplateTypeKey];
-  [payload setObject:_SerializableOpenGraphMusicTemplateContentFromContent(self) forKey:kFBSDKShareMessengerElementsKey];
+  payload[kFBSDKShareMessengerTemplateTypeKey] = @"open_graph";
+  payload[kFBSDKShareMessengerElementsKey] = _SerializableOpenGraphMusicTemplateContentFromContent(self);
 
   NSMutableDictionary<NSString *, id> *attachment = [NSMutableDictionary dictionary];
-  [attachment setObject:kFBSDKShareMessengerTemplateKey forKey:kFBSDKShareMessengerTypeKey];
-  [attachment setObject:payload forKey:kFBSDKShareMessengerPayloadKey];
+  attachment[kFBSDKShareMessengerTypeKey] = kFBSDKShareMessengerTemplateKey;
+  attachment[kFBSDKShareMessengerPayloadKey] = payload;
 
   NSMutableDictionary<NSString *, id> *contentForShare = [NSMutableDictionary dictionary];
-  [contentForShare setObject:attachment forKey:kFBSDKShareMessengerAttachmentKey];
+  contentForShare[kFBSDKShareMessengerAttachmentKey] = attachment;
 
   NSMutableDictionary<NSString *, id> *contentForPreview = [NSMutableDictionary dictionary];
   [FBSDKInternalUtility dictionary:contentForPreview setObject:@"OPEN_GRAPH" forKey:@"preview_type"];
   [FBSDKInternalUtility dictionary:contentForPreview setObject:_url.absoluteString forKey:@"open_graph_url"];
   AddToContentPreviewDictionaryForButton(contentForPreview, _button);
 
-  [FBSDKShareMessengerContentUtility addToParameters:parameters contentForShare:contentForShare contentForPreview:contentForPreview];
+  [FBSDKShareMessengerContentUtility addToParameters:updatedParameters contentForShare:contentForShare contentForPreview:contentForPreview];
+
+  return updatedParameters;
 }
 
 #pragma mark - FBSDKSharingValidation

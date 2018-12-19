@@ -1,1 +1,0 @@
-../../../../../../../gRPC-Core/src/core/tsi/alts_transport_security.h

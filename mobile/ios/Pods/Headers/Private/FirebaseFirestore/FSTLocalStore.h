@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/Firestore/Source/Local/FSTLocalStore.h

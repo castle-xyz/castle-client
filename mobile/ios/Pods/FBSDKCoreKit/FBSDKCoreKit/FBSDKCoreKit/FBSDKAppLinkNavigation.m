@@ -37,9 +37,9 @@ static id<FBSDKAppLinkResolving> defaultResolver;
 
 @interface FBSDKAppLinkNavigation ()
 
-@property (nonatomic, copy, readwrite) NSDictionary<NSString *, id> *extras;
-@property (nonatomic, copy, readwrite) NSDictionary<NSString *, id> *appLinkData;
-@property (nonatomic, strong, readwrite) FBSDKAppLink *appLink;
+@property (nonatomic, copy) NSDictionary<NSString *, id> *extras;
+@property (nonatomic, copy) NSDictionary<NSString *, id> *appLinkData;
+@property (nonatomic, strong) FBSDKAppLink *appLink;
 
 @end
 
@@ -61,15 +61,7 @@ static id<FBSDKAppLinkResolving> defaultResolver;
 }
 
 - (NSString *)stringByEscapingQueryString:(NSString *)string {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_7_0 || __MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_9
     return [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-#else
-    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL,
-                                                                                 (CFStringRef)string,
-                                                                                 NULL,
-                                                                                 (CFStringRef) @":/?#[]@!$&'()*+,;=",
-                                                                                 kCFStringEncodingUTF8));
-#endif
 }
 
 - (NSURL *)appLinkURLWithTargetURL:(NSURL *)targetUrl error:(NSError **)error {
@@ -96,7 +88,7 @@ static id<FBSDKAppLinkResolving> defaultResolver;
         NSString *encoded = [self stringByEscapingQueryString:jsonString];
 
         NSString *endUrlString = [NSString stringWithFormat:@"%@%@%@=%@",
-                                  [targetUrl absoluteString],
+                                  targetUrl.absoluteString,
                                   targetUrl.query ? @"&" : @"?",
                                   FBSDKAppLinkDataParameterName,
                                   encoded];
@@ -158,8 +150,8 @@ static id<FBSDKAppLinkResolving> defaultResolver;
     NSMutableDictionary<NSString *, id> *logData =
     [[NSMutableDictionary alloc] init];
 
-    NSString *outputURLScheme = [outputURL scheme];
-    NSString *outputURLString = [outputURL absoluteString];
+    NSString *outputURLScheme = outputURL.scheme;
+    NSString *outputURLString = outputURL.absoluteString;
     if (outputURLScheme) {
         logData[@"outputURLScheme"] = outputURLScheme;
     }
@@ -167,9 +159,9 @@ static id<FBSDKAppLinkResolving> defaultResolver;
         logData[@"outputURL"] = outputURLString;
     }
 
-    NSString *sourceURLString = [self.appLink.sourceURL absoluteString];
-    NSString *sourceURLHost = [self.appLink.sourceURL host];
-    NSString *sourceURLScheme = [self.appLink.sourceURL scheme];
+    NSString *sourceURLString = self.appLink.sourceURL.absoluteString;
+    NSString *sourceURLHost = self.appLink.sourceURL.host;
+    NSString *sourceURLScheme = self.appLink.sourceURL.scheme;
     if (sourceURLString) {
         logData[@"sourceURL"] = sourceURLString;
     }
@@ -179,8 +171,8 @@ static id<FBSDKAppLinkResolving> defaultResolver;
     if (sourceURLScheme) {
         logData[@"sourceScheme"] = sourceURLScheme;
     }
-    if ([error localizedDescription]) {
-        logData[@"error"] = [error localizedDescription];
+    if (error.localizedDescription) {
+        logData[@"error"] = error.localizedDescription;
     }
     NSString *success = nil; //no
     NSString *linkType = nil; // unknown;
@@ -207,7 +199,7 @@ static id<FBSDKAppLinkResolving> defaultResolver;
         logData[@"type"] = linkType;
     }
 
-    if ([self.appLink isBackToReferrer]) {
+    if (self.appLink.backToReferrer) {
         [FBSDKMeasurementEvent postNotificationForEventName:FBSDKAppLinkNavigateBackToReferrerEventName args:logData];
     } else {
         [FBSDKMeasurementEvent postNotificationForEventName:FBSDKAppLinkNavigateOutEventName args:logData];

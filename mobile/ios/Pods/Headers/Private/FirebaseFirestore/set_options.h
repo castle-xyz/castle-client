@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/Firestore/core/include/firebase/firestore/set_options.h

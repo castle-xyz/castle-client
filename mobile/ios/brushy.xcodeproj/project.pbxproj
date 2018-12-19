@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6A4C114314DF41DEA0C263E1 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C9689000F924194AF857965 /* libRNFirebase.a */; };
 		A1693B3821368F5600549E0B /* package.love in Resources */ = {isa = PBXBuildFile; fileRef = A1693B3721368F5500549E0B /* package.love */; };
 		A18062D1213A5B2D002B0E53 /* GhostChannels.mm in Sources */ = {isa = PBXBuildFile; fileRef = A18062D0213A5B2D002B0E53 /* GhostChannels.mm */; };
 		A18CBC402165922F004CEE1E /* EXFileSystem+Brushy.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CBC372165922F004CEE1E /* EXFileSystem+Brushy.m */; };
@@ -96,19 +95,11 @@
 			remoteGlobalIDString = FAB598141BB5C1B100BE72C5;
 			remoteInfo = "libSDL-tvOS";
 		};
-		A1C72CD62158C4AC00FC47B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 879FA2BDE3A847F0AB9369C3 /* RNFirebase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNFirebase;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		2C1548D9E4CB1AEFA5CCAE6D /* Pods-brushy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brushy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-brushy/Pods-brushy.debug.xcconfig"; sourceTree = "<group>"; };
-		879FA2BDE3A847F0AB9369C3 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
-		9C9689000F924194AF857965 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
+		A10DAD9C21CB1120005C4939 /* brushy.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = brushy.entitlements; sourceTree = "<group>"; };
 		A1693B3721368F5500549E0B /* package.love */ = {isa = PBXFileReference; lastKnownFileType = file; name = package.love; path = ../package.love; sourceTree = "<group>"; };
 		A18062D0213A5B2D002B0E53 /* GhostChannels.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GhostChannels.mm; sourceTree = "<group>"; };
 		A18CBC372165922F004CEE1E /* EXFileSystem+Brushy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EXFileSystem+Brushy.m"; sourceTree = "<group>"; };
@@ -178,7 +169,6 @@
 		A1E12FE72136544700DB4163 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../openssl/lib/iOS/libcrypto.a; sourceTree = "<group>"; };
 		A1E12FE82136544700DB4163 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../openssl/lib/iOS/libssl.a; sourceTree = "<group>"; };
 		A1E12FEC2136572C00DB4163 /* ghost */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ghost; path = ../ghost; sourceTree = "<group>"; };
-		A1E3113C2164245500437ECB /* brushy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = brushy.entitlements; sourceTree = "<group>"; };
 		A1F954E92135719E00503B4F /* GhostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhostView.m; sourceTree = "<group>"; };
 		A47FE4D7F70906B7DC8CE39B /* Pods-brushy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brushy.release.xcconfig"; path = "Pods/Target Support Files/Pods-brushy/Pods-brushy.release.xcconfig"; sourceTree = "<group>"; };
 		B501732A1DC01252003445D9 /* EXShell.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXShell.plist; sourceTree = "<group>"; };
@@ -217,7 +207,6 @@
 				A192DE54213646EF00848ABB /* libSDL2.a in Frameworks */,
 				A192DE52213646D900848ABB /* liblove.a in Frameworks */,
 				EBB8117C1BFA0514F79CAF74 /* libPods-brushy.a in Frameworks */,
-				6A4C114314DF41DEA0C263E1 /* libRNFirebase.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +246,6 @@
 		6C0E0EF2CC854F95AB632DB9 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				879FA2BDE3A847F0AB9369C3 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -403,17 +391,8 @@
 		A1C72CCB2158C4AB00FC47B8 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				9C9689000F924194AF857965 /* libRNFirebase.a */,
 			);
 			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		A1C72CD32158C4AC00FC47B8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A1C72CD72158C4AC00FC47B8 /* libRNFirebase.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		B56386381DB9693800A0598C = {
@@ -443,8 +422,8 @@
 		B56386431DB9693800A0598C /* brushy */ = {
 			isa = PBXGroup;
 			children = (
+				A10DAD9C21CB1120005C4939 /* brushy.entitlements */,
 				A18CBC372165922F004CEE1E /* EXFileSystem+Brushy.m */,
-				A1E3113C2164245500437ECB /* brushy.entitlements */,
 				A1C72CBE2158731000FC47B8 /* GoogleService-Info.plist */,
 				A18062D0213A5B2D002B0E53 /* GhostChannels.mm */,
 				A1D58F0921390D3B005CA434 /* FileServer.m */,
@@ -542,10 +521,6 @@
 					ProjectRef = A192DE342136465100848ABB /* liblove.xcodeproj */;
 				},
 				{
-					ProductGroup = A1C72CD32158C4AC00FC47B8 /* Products */;
-					ProjectRef = 879FA2BDE3A847F0AB9369C3 /* RNFirebase.xcodeproj */;
-				},
-				{
 					ProductGroup = A192DE3E2136468400848ABB /* Products */;
 					ProjectRef = A192DE3D2136468400848ABB /* SDL.xcodeproj */;
 				},
@@ -584,13 +559,6 @@
 			fileType = archive.ar;
 			path = libSDL2.a;
 			remoteRef = A192DE472136468500848ABB /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A1C72CD72158C4AC00FC47B8 /* libRNFirebase.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFirebase.a;
-			remoteRef = A1C72CD62158C4AC00FC47B8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -707,7 +675,6 @@
 				"${PODS_ROOT}/GoogleAuthUtilities/Frameworks/frameworks/GoogleAuthUtilities.framework/Resources/GTMOAuth2ViewTouch.xib",
 				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/gRPC/gRPCCertificates.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -719,7 +686,6 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMOAuth2ViewTouch.nib",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/gRPCCertificates.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -912,10 +878,7 @@
 				DEVELOPMENT_TEAM = 6PUB3623F7;
 				INFOPLIST_FILE = "$(SRCROOT)/brushy/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = info.nikhilesh.brushy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -931,10 +894,7 @@
 				DEVELOPMENT_TEAM = 6PUB3623F7;
 				INFOPLIST_FILE = "$(SRCROOT)/brushy/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = info.nikhilesh.brushy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -20,8 +20,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import <FBSDKCoreKit/FBSDKMacros.h>
-
 #import "FBSDKApplicationDelegate+Internal.h"
 #import "FBSDKBase64.h"
 #import "FBSDKBridgeAPIRequest.h"
@@ -125,12 +123,6 @@ static const struct
   return self;
 }
 
-- (instancetype)init
-{
-  FBSDK_NOT_DESIGNATED_INITIALIZER(initWithAppScheme:);
-  return [self initWithAppScheme:nil];
-}
-
 #pragma mark - FBSDKBridgeAPIProtocol
 
 - (NSURL *)requestURLWithActionID:(NSString *)actionID
@@ -140,28 +132,33 @@ static const struct
                        parameters:(NSDictionary *)parameters
                             error:(NSError *__autoreleasing *)errorRef
 {
-  NSString *host = @"dialog";
-  NSString *path = [@"/" stringByAppendingString:methodName];
+  NSString *const host = @"dialog";
+  NSString *const path = [@"/" stringByAppendingString:methodName];
 
-  NSMutableDictionary *queryParameters = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary<NSString *, id> *const queryParameters = [[NSMutableDictionary alloc] init];
   [FBSDKInternalUtility dictionary:queryParameters setObject:methodVersion
                             forKey:FBSDKBridgeAPIProtocolNativeV1OutputKeys.methodVersion];
 
-  if ([parameters count]) {
-    NSString *parametersString = [self _JSONStringForObject:parameters enablePasteboard:YES error:errorRef];
+  if (parameters.count) {
+    NSString *const parametersString = [self _JSONStringForObject:parameters enablePasteboard:YES error:errorRef];
     if (!parametersString) {
       return nil;
     }
+    NSString *const escapedParametersString = [parametersString stringByReplacingOccurrencesOfString:@"&"
+                                                                                          withString:@"%26"
+                                                                                             options:NSCaseInsensitiveSearch
+                                                                                               range:NSMakeRange(0,
+                                                                                                                 parametersString.length)];
     [FBSDKInternalUtility dictionary:queryParameters
-                           setObject:parametersString
+                           setObject:escapedParametersString
                               forKey:FBSDKBridgeAPIProtocolNativeV1OutputKeys.methodArgs];
   }
 
-  NSDictionary *bridgeParameters = [self _bridgeParametersWithActionID:actionID error:errorRef];
+  NSDictionary<NSString *, id> *const bridgeParameters = [self _bridgeParametersWithActionID:actionID error:errorRef];
   if (!bridgeParameters) {
     return nil;
   }
-  NSString *bridgeParametersString = [self _JSONStringForObject:bridgeParameters enablePasteboard:NO error:errorRef];
+  NSString *const bridgeParametersString = [self _JSONStringForObject:bridgeParameters enablePasteboard:NO error:errorRef];
   if (!bridgeParametersString) {
     return nil;
   }
@@ -194,7 +191,7 @@ static const struct
   bridgeParameters = [FBSDKTypeUtility dictionaryValue:bridgeParameters];
   if (!bridgeParameters) {
     if (error && (errorRef != NULL)) {
-      *errorRef = [FBSDKError invalidArgumentErrorWithName:FBSDKBridgeAPIProtocolNativeV1InputKeys.bridgeArgs
+      *errorRef = [NSError fbInvalidArgumentErrorWithName:FBSDKBridgeAPIProtocolNativeV1InputKeys.bridgeArgs
                                                      value:bridgeParametersJSON
                                                    message:@"Invalid bridge_args."
                                            underlyingError:error];
@@ -219,7 +216,7 @@ static const struct
   NSDictionary *resultParameters = [FBSDKInternalUtility objectForJSONString:resultParametersJSON error:&error];
   if (!resultParameters) {
     if (errorRef != NULL) {
-      *errorRef = [FBSDKError invalidArgumentErrorWithName:FBSDKBridgeAPIProtocolNativeV1InputKeys.methodResults
+      *errorRef = [NSError fbInvalidArgumentErrorWithName:FBSDKBridgeAPIProtocolNativeV1InputKeys.methodResults
                                                      value:resultParametersJSON
                                                    message:@"Invalid method_results."
                                            underlyingError:error];
@@ -243,7 +240,7 @@ static const struct
   NSArray *files = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIcons"]
   [@"CFBundlePrimaryIcon"]
   [@"CFBundleIconFiles"];
-  if (![files count]) {
+  if (!files.count) {
     return nil;
   }
   return [UIImage imageNamed:files[0]];
@@ -271,7 +268,7 @@ static const struct
   NSString *domain = [FBSDKTypeUtility stringValue:dictionary[FBSDKBridgeAPIProtocolNativeV1ErrorKeys.domain]] ?:
     FBSDKErrorDomain;
   NSInteger code = [FBSDKTypeUtility integerValue:dictionary[FBSDKBridgeAPIProtocolNativeV1ErrorKeys.code]] ?:
-    FBSDKUnknownErrorCode;
+    FBSDKErrorUnknown;
   NSDictionary *userInfo = [FBSDKTypeUtility dictionaryValue:dictionary[FBSDKBridgeAPIProtocolNativeV1ErrorKeys.userInfo]];
   return [NSError errorWithDomain:domain code:code userInfo:userInfo];
 }
@@ -315,7 +312,7 @@ static const struct
       }
       return dictionary;
     } else if ([invalidObject isKindOfClass:[NSURL class]]) {
-      return [(NSURL *)invalidObject absoluteString];
+      return ((NSURL *)invalidObject).absoluteString;
     }
     return invalidObject;
   }];

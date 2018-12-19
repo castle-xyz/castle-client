@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/Firestore/Source/API/FIRDocumentChange+Internal.h

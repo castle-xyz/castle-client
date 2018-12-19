@@ -8,8 +8,6 @@
 
 #import "../../../ghost-extensions/SDL2-2.0.8/src/video/uikit/SDL_uikitappdelegate.h"
 
-@import Firebase;
-
 @implementation SDLUIKitDelegate (Zorro)
 
 // SDL defines its own `int main(...)` function:
@@ -51,9 +49,6 @@ int SDL_main(int argc, char *argv[]) {
   [self.sdlDelegate hideLaunchScreen];
   SDL_SetMainReady();
   SDL_iPhoneSetEventPump(SDL_FALSE);
-
-  // Firebase
-  [FIRApp configure];
 
   return YES;
 }

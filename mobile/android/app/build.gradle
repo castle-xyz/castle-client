@@ -96,7 +96,6 @@ apply from: 'expo.gradle'
 
 
 dependencies {
-    compile project(':react-native-firebase')
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
   implementation 'com.android.support:multidex:1.0.1'

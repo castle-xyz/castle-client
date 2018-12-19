@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/Firestore/Source/API/FIRQuery+Internal.h

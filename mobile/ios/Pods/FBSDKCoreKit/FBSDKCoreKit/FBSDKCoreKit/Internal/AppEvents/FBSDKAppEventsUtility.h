@@ -39,6 +39,9 @@ typedef NS_ENUM(NSUInteger, FBSDKAppEventsFlushReason)
 
 @interface FBSDKAppEventsUtility : NSObject
 
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
 + (NSMutableDictionary *)activityParametersDictionaryForEvent:(NSString *)eventCategory
                                            implicitEventsOnly:(BOOL)implicitEventsOnly
                                     shouldAccessAdvertisingID:(BOOL)shouldAccessAdvertisingID;
@@ -55,5 +58,7 @@ typedef NS_ENUM(NSUInteger, FBSDKAppEventsFlushReason)
 + (BOOL)validateIdentifier:(NSString *)identifier;
 + (id)getVariable:(NSString *)variableName fromInstance:(NSObject *)instance;
 + (NSNumber *)getNumberValue:(NSString *)text;
++ (BOOL)isDebugBuild;
++ (BOOL)isSensitiveUserData:(NSString *)text;
 
 @end

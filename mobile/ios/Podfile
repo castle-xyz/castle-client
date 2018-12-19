@@ -3,10 +3,6 @@ platform :ios, '9.0'
 
 target 'brushy' do
   pod 'GCDWebServer/WebDAV', '~> 3.0'
-  pod 'Firebase/Core'
-  pod 'Firebase/Auth'
-  pod 'Firebase/Storage'
-  pod 'Firebase/Firestore'
 
   pod 'ExpoKit',
     :git => "http://github.com/expo/expo.git",

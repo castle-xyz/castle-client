@@ -87,19 +87,26 @@ static NSArray<NSDictionary<NSString *, id> *> *_SerializableGenericTemplateElem
 - (void)addToParameters:(NSMutableDictionary<NSString *, id> *)parameters
           bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
 {
+  [parameters addEntriesFromDictionary:[self addParameters:parameters bridgeOptions:bridgeOptions]];
+}
+
+- (NSDictionary<NSString *, id> *)addParameters:(NSDictionary<NSString *, id> *)existingParameters
+                                  bridgeOptions:(FBSDKShareBridgeOptions)bridgeOptions
+{
+  NSMutableDictionary<NSString *, id> *updatedParameters = [NSMutableDictionary dictionaryWithDictionary:existingParameters];
+
   NSMutableDictionary<NSString *, id> *payload = [NSMutableDictionary dictionary];
-  [payload setObject:@"generic" forKey:kFBSDKShareMessengerTemplateTypeKey];
-  [payload setObject:@(_isSharable) forKey:@"sharable"];
-  [payload setObject:_ImageAspectRatioString(_imageAspectRatio) forKey:@"image_aspect_ratio"];
-  [payload setObject:_SerializableGenericTemplateElementsFromElements(@[_element]) forKey:kFBSDKShareMessengerElementsKey];
+  payload[kFBSDKShareMessengerTemplateTypeKey] = @"generic";
+  payload[@"sharable"] = @(_isSharable);
+  payload[@"image_aspect_ratio"] = _ImageAspectRatioString(_imageAspectRatio);
+  payload[kFBSDKShareMessengerElementsKey] = _SerializableGenericTemplateElementsFromElements(@[_element]);
 
   NSMutableDictionary<NSString *, id> *attachment = [NSMutableDictionary dictionary];
-  [attachment setObject:kFBSDKShareMessengerTemplateKey forKey:kFBSDKShareMessengerTypeKey];
-  [attachment setObject:payload forKey:kFBSDKShareMessengerPayloadKey];
+  attachment[kFBSDKShareMessengerTypeKey] = kFBSDKShareMessengerTemplateKey;
+  attachment[kFBSDKShareMessengerPayloadKey] = payload;
 
-  NSMutableDictionary<NSString
-  *, id> *contentForShare = [NSMutableDictionary dictionary];
-  [contentForShare setObject:attachment forKey:kFBSDKShareMessengerAttachmentKey];
+  NSMutableDictionary<NSString *, id> *contentForShare = [NSMutableDictionary dictionary];
+  contentForShare[kFBSDKShareMessengerAttachmentKey] = attachment;
 
   FBSDKShareMessengerGenericTemplateElement *firstElement = _element;
   NSMutableDictionary<NSString *, id> *contentForPreview = [NSMutableDictionary dictionary];
@@ -113,7 +120,9 @@ static NSArray<NSDictionary<NSString *, id> *> *_SerializableGenericTemplateElem
     AddToContentPreviewDictionaryForButton(contentForPreview, firstElement.defaultAction);
   }
 
-  [FBSDKShareMessengerContentUtility addToParameters:parameters contentForShare:contentForShare contentForPreview:contentForPreview];
+  [FBSDKShareMessengerContentUtility addToParameters:updatedParameters contentForShare:contentForShare contentForPreview:contentForPreview];
+
+  return updatedParameters;
 }
 
 #pragma mark - FBSDKSharingValidation

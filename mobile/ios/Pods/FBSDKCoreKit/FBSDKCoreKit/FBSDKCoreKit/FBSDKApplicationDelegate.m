@@ -29,6 +29,7 @@
 #import "FBSDKConstants.h"
 #import "FBSDKDynamicFrameworkLoader.h"
 #import "FBSDKError.h"
+#import "FBSDKGateKeeperManager.h"
 #import "FBSDKInternalUtility.h"
 #import "FBSDKLogger.h"
 #import "FBSDKServerConfiguration.h"
@@ -45,7 +46,15 @@
 #import "FBSDKProfile+Internal.h"
 #endif
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
+
+NSNotificationName const FBSDKApplicationDidBecomeActiveNotification = @"com.facebook.sdk.FBSDKApplicationDidBecomeActiveNotification";
+
+#else
+
 NSString *const FBSDKApplicationDidBecomeActiveNotification = @"com.facebook.sdk.FBSDKApplicationDidBecomeActiveNotification";
+
+#endif
 
 static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
 
@@ -95,7 +104,6 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
   [FBSDKTimeSpentData registerAutoResetSourceApplication];
 
   [FBSDKInternalUtility validateFacebookReservedURLSchemes];
-
   // Remove the observer
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -141,10 +149,14 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  return [self application:application
-                   openURL:url
-         sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
-                annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+  if (@available(iOS 9.0, *)) {
+    return [self application:application
+                     openURL:url
+           sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                  annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+  }
+
+  return NO;
 }
 #endif
 
@@ -208,12 +220,14 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
   }
 
   _isAppLaunched = YES;
-  FBSDKAccessToken *cachedToken = [[FBSDKSettings accessTokenCache] fetchAccessToken];
+  FBSDKAccessToken *cachedToken = [FBSDKSettings accessTokenCache].accessToken;
   [FBSDKAccessToken setCurrentAccessToken:cachedToken];
   // fetch app settings
   [FBSDKServerConfigurationManager loadServerConfigurationWithCompletionBlock:NULL];
+  // fetch gate keepers
+  [FBSDKGateKeeperManager loadGateKeepers];
 
-  if ([[FBSDKSettings autoLogAppEventsEnabled] boolValue]) {
+  if ([FBSDKSettings autoLogAppEventsEnabled].boolValue) {
     [self _logSDKInitialize];
   }
 #if !TARGET_OS_TV
@@ -249,7 +263,7 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
   // Auto log basic events in case autoLogAppEventsEnabled is set
-  if ([[FBSDKSettings autoLogAppEventsEnabled] boolValue]) {
+  if ([FBSDKSettings autoLogAppEventsEnabled].boolValue) {
     [FBSDKAppEvents activateApp];
   }
   //  _expectingBackground can be YES if the caller started doing work (like login)
@@ -267,7 +281,7 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
   if (notExpectingBackground) {
     _active = YES;
 #if !TARGET_OS_TV
-    [_pendingURLOpen applicationDidBecomeActive:[notification object]];
+    [_pendingURLOpen applicationDidBecomeActive:notification.object];
     [self _cancelBridgeRequest];
 #endif
     [[NSNotificationCenter defaultCenter] postNotificationName:FBSDKApplicationDidBecomeActiveNotification object:self];
@@ -288,9 +302,11 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
     // Dispatch openURL calls to prevent hangs if we're inside the current app delegate's openURL flow already
     NSOperatingSystemVersion iOS10Version = { .majorVersion = 10, .minorVersion = 0, .patchVersion = 0 };
     if ([FBSDKInternalUtility isOSRunTimeVersionAtLeast:iOS10Version]) {
-      [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
-        handler(success, nil);
-      }];
+      if (@available(iOS 10.0, *)) {
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
+          handler(success, nil);
+        }];
+      }
     } else {
       BOOL opened = [[UIApplication sharedApplication] openURL:url];
 
@@ -332,10 +348,10 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
       self->_pendingRequestCompletionBlock = nil;
       NSError *openedURLError;
       if ([request.scheme hasPrefix:@"http"]) {
-        openedURLError = [FBSDKError errorWithCode:FBSDKBrowserUnavailableErrorCode
+        openedURLError = [NSError fbErrorWithCode:FBSDKErrorBrowserUnavailable
                                            message:@"the app switch failed because the browser is unavailable"];
       } else {
-        openedURLError = [FBSDKError errorWithCode:FBSDKAppVersionUnsupportedErrorCode
+        openedURLError = [NSError fbErrorWithCode:FBSDKErrorAppVersionUnsupported
                                            message:@"the app switch failed because the destination app is out of date"];
       }
       FBSDKBridgeAPIResponse *response = [FBSDKBridgeAPIResponse bridgeAPIResponseWithRequest:request
@@ -409,7 +425,7 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
 
     NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
     NSURLQueryItem *sfvcQueryItem = [[NSURLQueryItem alloc] initWithName:@"sfvc" value:@"1"];
-    [components setQueryItems:[components.queryItems arrayByAddingObject:sfvcQueryItem]];
+    components.queryItems = [components.queryItems arrayByAddingObject:sfvcQueryItem];
     url = components.URL;
     FBSDKContainerViewController *container = [[FBSDKContainerViewController alloc] init];
     container.delegate = self;
@@ -499,8 +515,8 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
   NSURL *targetURL = [targetURLString isKindOfClass:[NSString class]] ? [NSURL URLWithString:targetURLString] : nil;
 
   NSMutableDictionary *logData = [[NSMutableDictionary alloc] init];
-  [FBSDKInternalUtility dictionary:logData setObject:[targetURL absoluteString] forKey:@"targetURL"];
-  [FBSDKInternalUtility dictionary:logData setObject:[targetURL host] forKey:@"targetURLHost"];
+  [FBSDKInternalUtility dictionary:logData setObject:targetURL.absoluteString forKey:@"targetURL"];
+  [FBSDKInternalUtility dictionary:logData setObject:targetURL.host forKey:@"targetURLHost"];
 
   NSDictionary *refererData = applinkData[@"referer_data"];
   if (refererData) {
@@ -508,8 +524,8 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
     [FBSDKInternalUtility dictionary:logData setObject:refererData[@"url"] forKey:@"referralURL"];
     [FBSDKInternalUtility dictionary:logData setObject:refererData[@"app_name"] forKey:@"referralAppName"];
   }
-  [FBSDKInternalUtility dictionary:logData setObject:[url absoluteString] forKey:@"inputURL"];
-  [FBSDKInternalUtility dictionary:logData setObject:[url scheme] forKey:@"inputURLScheme"];
+  [FBSDKInternalUtility dictionary:logData setObject:url.absoluteString forKey:@"inputURL"];
+  [FBSDKInternalUtility dictionary:logData setObject:url.scheme forKey:@"inputURLScheme"];
 
   [FBSDKAppEvents logImplicitEvent:FBSDKAppLinkInboundEvent
                         valueToSum:nil
@@ -520,27 +536,27 @@ static NSString *const FBSDKAppLinkInboundEvent = @"fb_al_inbound";
 - (void)_logSDKInitialize
 {
   NSMutableDictionary *params = [NSMutableDictionary new];
-  [params setObject:@1 forKey:@"core_lib_included"];
+  params[@"core_lib_included"] = @1;
   if (objc_lookUpClass("FBSDKShareDialog") != nil) {
-    [params setObject:@1 forKey:@"share_lib_included"];
+    params[@"share_lib_included"] = @1;
   }
   if (objc_lookUpClass("FBSDKLoginManager") != nil) {
-    [params setObject:@1 forKey:@"login_lib_included"];
+    params[@"login_lib_included"] = @1;
   }
   if (objc_lookUpClass("FBSDKPlacesManager") != nil) {
-    [params setObject:@1 forKey:@"places_lib_included"];
+    params[@"places_lib_included"] = @1;
   }
   if (objc_lookUpClass("FBSDKMessengerButton") != nil) {
-    [params setObject:@1 forKey:@"messenger_lib_included"];
+    params[@"messenger_lib_included"] = @1;
   }
   if (objc_lookUpClass("FBSDKMessengerButton") != nil) {
-    [params setObject:@1 forKey:@"messenger_lib_included"];
+    params[@"messenger_lib_included"] = @1;
   }
   if (objc_lookUpClass("FBSDKTVInterfaceFactory.m") != nil) {
-    [params setObject:@1 forKey:@"tv_lib_included"];
+    params[@"tv_lib_included"] = @1;
   }
   if (objc_lookUpClass("FBSDKAutoLog") != nil) {
-    [params setObject:@1 forKey:@"marketing_lib_included"];
+    params[@"marketing_lib_included"] = @1;
   }
   [FBSDKAppEvents logEvent:@"fb_sdk_initialize" parameters:params];
 }

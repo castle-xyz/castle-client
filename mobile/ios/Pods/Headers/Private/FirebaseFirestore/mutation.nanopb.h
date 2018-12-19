@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/Firestore/Protos/nanopb/firestore/local/mutation.nanopb.h

@@ -18,10 +18,8 @@
 
 #import "FBSDKShareVideo.h"
 
-#import <Photos/Photos.h>
-
 #import "FBSDKCoreKit+Internal.h"
-#import "FBSDKShareError.h"
+#import "FBSDKShareConstants.h"
 #import "FBSDKSharePhoto.h"
 #import "FBSDKShareUtility.h"
 
@@ -110,10 +108,10 @@ NSString *const kFBSDKShareVideoURLKey = @"videoURL";
 - (NSUInteger)hash
 {
   NSUInteger subhashes[] = {
-    [_data hash],
-    [_videoAsset hash],
-    [_videoURL hash],
-    [_previewPhoto hash],
+    _data.hash,
+    _videoAsset.hash,
+    _videoURL.hash,
+    _previewPhoto.hash,
   };
   return [FBSDKMath hashWithIntegerArray:subhashes count:sizeof(subhashes) / sizeof(subhashes[0])];
 }
@@ -150,9 +148,10 @@ NSString *const kFBSDKShareVideoURLKey = @"videoURL";
     }
   }
   if ((errorRef != NULL) && !*errorRef) {
-    *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"data"
-                                                        value:data
-                                                      message:@"Cannot share video data."];
+    *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                     name:@"data"
+                                                    value:data
+                                                  message:@"Cannot share video data."];
   }
   return NO;
 }
@@ -170,9 +169,10 @@ NSString *const kFBSDKShareVideoURLKey = @"videoURL";
       }
     } else {
       if (errorRef != NULL) {
-        *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"videoAsset"
-                                                            value:videoAsset
-                                                          message:@"Must refer to a video file."];
+        *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                         name:@"videoAsset"
+                                                        value:videoAsset
+                                                      message:@"Must refer to a video file."];
       }
       return NO;
     }
@@ -185,7 +185,7 @@ NSString *const kFBSDKShareVideoURLKey = @"videoURL";
                     error:(NSError *__autoreleasing *)errorRef
 {
   if (videoURL) {
-    if ([[videoURL.scheme lowercaseString] isEqualToString:@"assets-library"]) {
+    if ([videoURL.scheme.lowercaseString isEqualToString:@"assets-library"]) {
       return YES; // will bridge the legacy "assets-library" URL
     } else if (videoURL.isFileURL) {
       if (bridgeOptions & FBSDKShareBridgeOptionsVideoData) {
@@ -194,9 +194,10 @@ NSString *const kFBSDKShareVideoURLKey = @"videoURL";
     }
   }
   if ((errorRef != NULL) && !*errorRef) {
-    *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"videoURL"
-                                                        value:videoURL
-                                                      message:@"Must refer to an asset file."];
+    *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                     name:@"videoURL"
+                                                    value:videoURL
+                                                  message:@"Must refer to an asset file."];
   }
   return NO;
 }
@@ -213,9 +214,10 @@ NSString *const kFBSDKShareVideoURLKey = @"videoURL";
     return [self _validateVideoURL:_videoURL withOptions:bridgeOptions error:errorRef];
   } else {
     if ((errorRef != NULL) && !*errorRef) {
-      *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"video"
-                                                          value:self
-                                                        message:@"Must have an asset, data, or videoURL value."];
+      *errorRef = [NSError fbInvalidArgumentErrorWithDomain:FBSDKShareErrorDomain
+                                                       name:@"video"
+                                                      value:self
+                                                    message:@"Must have an asset, data, or videoURL value."];
     }
     return NO;
   }
@@ -228,7 +230,7 @@ NSString *const kFBSDKShareVideoURLKey = @"videoURL";
   return YES;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [self init])) {
     _data = [decoder decodeObjectOfClass:[NSData class] forKey:kFBSDKShareVideoDataKey];
@@ -260,6 +262,38 @@ NSString *const kFBSDKShareVideoURLKey = @"videoURL";
   copy->_videoURL = [_videoURL copy];
   copy->_previewPhoto = [_previewPhoto copy];
   return copy;
+}
+
+@end
+
+@implementation PHAsset (FBSDKShareVideo)
+
+- (NSURL *)videoURL
+{
+  __block NSURL *videoURL = nil;
+  // obtain the legacy "assets-library" URL from AVAsset
+  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+  PHVideoRequestOptions *const options = [PHVideoRequestOptions new];
+  options.version = PHVideoRequestOptionsVersionCurrent;
+  options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
+  options.networkAccessAllowed = YES;
+  [[PHImageManager defaultManager] requestAVAssetForVideo:self
+                                                  options:options
+                                            resultHandler:^(AVAsset *avAsset, AVAudioMix *audioMix, NSDictionary<NSString *, id> *info) {
+                                              NSURL *const filePathURL = ((AVURLAsset *)avAsset).URL.filePathURL;
+                                              NSString *const pathExtension = filePathURL.pathExtension;
+                                              NSString *const localIdentifier = self.localIdentifier;
+                                              const NSRange range = [localIdentifier rangeOfString:@"/"];
+                                              NSString *const uuid = [localIdentifier substringToIndex:range.location];
+                                              NSString *const assetPath = [NSString stringWithFormat:@"assets-library://asset/asset.%@?id=%@&ext=%@",
+                                                                           pathExtension,
+                                                                           uuid,
+                                                                           pathExtension];
+                                              videoURL = [NSURL URLWithString:assetPath];
+                                              dispatch_semaphore_signal(semaphore);
+                                            }];
+  dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 500 * NSEC_PER_MSEC));
+  return videoURL;
 }
 
 @end

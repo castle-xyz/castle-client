@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/Firestore/core/include/firebase/firestore/snapshot_metadata.h

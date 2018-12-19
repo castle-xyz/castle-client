@@ -22,7 +22,6 @@
 #import "FBSDKInternalUtility.h"
 #import "FBSDKMaleSilhouetteIcon.h"
 #import "FBSDKMath.h"
-#import "FBSDKURLConnection.h"
 #import "FBSDKUtility.h"
 
 @interface FBSDKProfilePictureViewState : NSObject
@@ -70,7 +69,7 @@
     (NSUInteger)_size.height,
     (NSUInteger)_scale,
     (NSUInteger)_pictureMode,
-    [_profileID hash],
+    _profileID.hash,
   };
   return [FBSDKMath hashWithIntegerArray:subhashes count:sizeof(subhashes) / sizeof(subhashes[0])];
 }
@@ -120,7 +119,7 @@
   return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder *)decoder
 {
   if ((self = [super initWithCoder:decoder])) {
     [self _configureProfilePictureView];
@@ -139,7 +138,7 @@
 {
   CGRect currentBounds = self.bounds;
   if (!CGRectEqualToRect(currentBounds, bounds)) {
-    [super setBounds:bounds];
+    super.bounds = bounds;
     if (!CGSizeEqualToSize(currentBounds.size, bounds.size)) {
       _placeholderImageIsValid = NO;
       [self setNeedsImageUpdate];
@@ -156,7 +155,7 @@
 {
   if (_imageView.contentMode != contentMode) {
     _imageView.contentMode = contentMode;
-    [super setContentMode:contentMode];
+    super.contentMode = contentMode;
     [self setNeedsImageUpdate];
   }
 }
@@ -212,16 +211,16 @@
   if (!imageURL) {
     return;
   }
-  FBSDKURLConnectionHandler completionHandler = ^(FBSDKURLConnection *connection,
-                                                  NSError *error,
-                                                  NSURLResponse *response,
-                                                  NSData *responseData) {
-    if (!error && [responseData length]) {
-      completionBlock(responseData);
-    }
-  };
+
   NSURLRequest *request = [[NSURLRequest alloc] initWithURL:imageURL];
-  [[[FBSDKURLConnection alloc] initWithRequest:request completionHandler:completionHandler] start];
+  NSURLSession *session = [NSURLSession sharedSession];
+  [[session
+    dataTaskWithRequest:request
+    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+      if (!error && data.length) {
+        completionBlock(data);
+      }
+    }] resume];
 }
 
 + (NSURL *)_imageURLWithState:(FBSDKProfilePictureViewState *)state
@@ -241,7 +240,7 @@
 
 - (void)_accessTokenDidChangeNotification:(NSNotification *)notification
 {
-  if (![_profileID isEqualToString:@"me"] || !notification.userInfo[FBSDKAccessTokenDidChangeUserID]) {
+  if (![_profileID isEqualToString:@"me"] || !notification.userInfo[FBSDKAccessTokenDidChangeUserIDKey]) {
     return;
   }
   _lastState = nil;
@@ -328,7 +327,7 @@
   // leave the current value until the new resolution image is downloaded
   BOOL imageShouldFit = [self _imageShouldFit];
   UIScreen *screen = self.window.screen ?: [UIScreen mainScreen];
-  CGFloat scale = [screen scale];
+  CGFloat scale = screen.scale;
   CGSize imageSize = [self _imageSize:imageShouldFit scale:scale];
   FBSDKProfilePictureViewState *state = [[FBSDKProfilePictureViewState alloc] initWithProfileID:_profileID
                                                                                            size:imageSize

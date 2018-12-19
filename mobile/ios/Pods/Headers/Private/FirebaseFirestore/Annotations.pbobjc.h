@@ -1,1 +1,0 @@
-../../../FirebaseFirestore/Firestore/Protos/objc/google/api/Annotations.pbobjc.h

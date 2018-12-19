@@ -77,6 +77,8 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookAutoLogAppEvent
   setAutoLogAppEventsEnabled, @1);
 FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookCodelessDebugLogEnabled, codelessDebugLogEnabled,
   setCodelessDebugLogEnabled, @0);
+FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookAdvertiserIDCollectionEnabled, advertiserIDCollectionEnabled,
+  setAdvertiserIDCollectionEnabled, @1);
 
 + (void)setGraphErrorRecoveryDisabled:(BOOL)disableGraphErrorRecovery {
   g_disableErrorRecovery = disableGraphErrorRecovery;
@@ -88,7 +90,7 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookCodelessDebugLo
 
 + (CGFloat)JPEGCompressionQuality
 {
-  return [[self _JPEGCompressionQualityNumber] floatValue];
+  return [self _JPEGCompressionQualityNumber].floatValue;
 }
 
 + (void)setJPEGCompressionQuality:(CGFloat)JPEGCompressionQuality
@@ -171,14 +173,6 @@ FBSDKSETTINGS_PLIST_CONFIGURATION_SETTING_IMPL(NSNumber, FacebookCodelessDebugLo
 + (NSString *)sdkVersion
 {
   return FBSDK_VERSION_STRING;
-}
-
-#pragma mark - Object Lifecycle
-
-- (instancetype)init
-{
-  FBSDK_NO_DESIGNATED_INITIALIZER();
-  return nil;
 }
 
 #pragma mark - Internal
