@@ -2,7 +2,7 @@ import React from 'React';
 import GhostView from './GhostView';
 import { Button as RNButton, View, TextInput } from 'react-native';
 
-import { textInputStyle } from './Components';
+import Styles from './Styles';
 
 const DEFAULT_GAME_URI =
   'https://raw.githubusercontent.com/nikki93/procjam-oct-2018/4fe417f846c5d752adcac59f56e64e823116dfe1/main.lua';
@@ -22,7 +22,7 @@ export default class GameScreen extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <TextInput
-          style={textInputStyle}
+          style={Styles.urlBar}
           returnKeyType="go"
           value={this.state.editedUri}
           placeholder={'enter a castle uri here'}
