@@ -112,46 +112,46 @@
 		A1693B3721368F5500549E0B /* package.love */ = {isa = PBXFileReference; lastKnownFileType = file; name = package.love; path = ../package.love; sourceTree = "<group>"; };
 		A18062D0213A5B2D002B0E53 /* GhostChannels.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GhostChannels.mm; sourceTree = "<group>"; };
 		A18CBC372165922F004CEE1E /* EXFileSystem+Brushy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EXFileSystem+Brushy.m"; sourceTree = "<group>"; };
-		A192DE342136465100848ABB /* liblove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = liblove.xcodeproj; path = ../ghost/love/platform/xcode/liblove.xcodeproj; sourceTree = "<group>"; };
-		A192DE3D2136468400848ABB /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "../ghost/ghost-extensions/SDL2-2.0.8/Xcode-iOS/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
-		A192DE5A2136499D00848ABB /* UITextField+Love.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "UITextField+Love.mm"; path = "../ghost/ghost-extensions/common/UITextField+Love.mm"; sourceTree = "<group>"; };
-		A192DE5B2136499D00848ABB /* ui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui.cpp; path = "../ghost/ghost-extensions/common/ui.cpp"; sourceTree = "<group>"; };
-		A192DE5F21364A5E00848ABB /* cimgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cimgui.cpp; path = "../ghost/ghost-extensions/cimgui/cimgui/cimgui.cpp"; sourceTree = "<group>"; };
-		A192DE6121364A7400848ABB /* listClipper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = listClipper.cpp; path = "../ghost/ghost-extensions/cimgui/cimgui/listClipper.cpp"; sourceTree = "<group>"; };
-		A192DE6221364A7400848ABB /* fontAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fontAtlas.cpp; path = "../ghost/ghost-extensions/cimgui/cimgui/fontAtlas.cpp"; sourceTree = "<group>"; };
-		A192DE6321364A7500848ABB /* cimgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cimgui.h; path = "../ghost/ghost-extensions/cimgui/cimgui/cimgui.h"; sourceTree = "<group>"; };
-		A192DE6421364A7500848ABB /* drawList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = drawList.cpp; path = "../ghost/ghost-extensions/cimgui/cimgui/drawList.cpp"; sourceTree = "<group>"; };
-		A192DE6921364AA900848ABB /* lpcap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lpcap.c; path = "../ghost/ghost-extensions/lpeg/lpcap.c"; sourceTree = "<group>"; };
-		A192DE6A21364AA900848ABB /* lpcap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpcap.h; path = "../ghost/ghost-extensions/lpeg/lpcap.h"; sourceTree = "<group>"; };
-		A192DE6C21364AD300848ABB /* lpcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpcode.h; path = "../ghost/ghost-extensions/lpeg/lpcode.h"; sourceTree = "<group>"; };
-		A192DE6D21364AD300848ABB /* lptree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lptree.h; path = "../ghost/ghost-extensions/lpeg/lptree.h"; sourceTree = "<group>"; };
-		A192DE6E21364AD300848ABB /* lpvm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpvm.h; path = "../ghost/ghost-extensions/lpeg/lpvm.h"; sourceTree = "<group>"; };
-		A192DE6F21364AD300848ABB /* lpprint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpprint.h; path = "../ghost/ghost-extensions/lpeg/lpprint.h"; sourceTree = "<group>"; };
-		A192DE7021364AD300848ABB /* lpcode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lpcode.c; path = "../ghost/ghost-extensions/lpeg/lpcode.c"; sourceTree = "<group>"; };
-		A192DE7121364AD300848ABB /* lpprint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lpprint.c; path = "../ghost/ghost-extensions/lpeg/lpprint.c"; sourceTree = "<group>"; };
-		A192DE7221364AD400848ABB /* lpvm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lpvm.c; path = "../ghost/ghost-extensions/lpeg/lpvm.c"; sourceTree = "<group>"; };
-		A192DE7321364AD400848ABB /* lptree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lptree.c; path = "../ghost/ghost-extensions/lpeg/lptree.c"; sourceTree = "<group>"; };
-		A192DE7421364AD400848ABB /* lptypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lptypes.h; path = "../ghost/ghost-extensions/lpeg/lptypes.h"; sourceTree = "<group>"; };
-		A192DE7A21364B1C00848ABB /* lcrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lcrypto.h; path = "../ghost/ghost-extensions/luacrypto/src/lcrypto.h"; sourceTree = "<group>"; };
-		A192DE7B21364B1C00848ABB /* lcrypto.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lcrypto.c; path = "../ghost/ghost-extensions/luacrypto/src/lcrypto.c"; sourceTree = "<group>"; };
-		A192DE9321364D3C00848ABB /* ssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ssl.c; path = "../ghost/ghost-extensions/luasec/src/ssl.c"; sourceTree = "<group>"; };
-		A192DE9421364D3D00848ABB /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = context.c; path = "../ghost/ghost-extensions/luasec/src/context.c"; sourceTree = "<group>"; };
-		A192DE9521364D3D00848ABB /* compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = compat.h; path = "../ghost/ghost-extensions/luasec/src/compat.h"; sourceTree = "<group>"; };
-		A192DE9621364D3D00848ABB /* ec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ec.h; path = "../ghost/ghost-extensions/luasec/src/ec.h"; sourceTree = "<group>"; };
-		A192DE9721364D3D00848ABB /* x509.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = x509.c; path = "../ghost/ghost-extensions/luasec/src/x509.c"; sourceTree = "<group>"; };
-		A192DE9821364D3D00848ABB /* context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = context.h; path = "../ghost/ghost-extensions/luasec/src/context.h"; sourceTree = "<group>"; };
-		A192DE9921364D3D00848ABB /* x509.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = x509.h; path = "../ghost/ghost-extensions/luasec/src/x509.h"; sourceTree = "<group>"; };
-		A192DE9A21364D3D00848ABB /* ssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ssl.h; path = "../ghost/ghost-extensions/luasec/src/ssl.h"; sourceTree = "<group>"; };
-		A192DE9B21364D3D00848ABB /* ec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ec.c; path = "../ghost/ghost-extensions/luasec/src/ec.c"; sourceTree = "<group>"; };
-		A192DE9C21364D3E00848ABB /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = config.c; path = "../ghost/ghost-extensions/luasec/src/config.c"; sourceTree = "<group>"; };
-		A192DE9D21364D3E00848ABB /* options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = options.h; path = "../ghost/ghost-extensions/luasec/src/options.h"; sourceTree = "<group>"; };
-		A192DEAE21364DEB00848ABB /* strbuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = strbuf.c; path = "../ghost/ghost-extensions/lua-cjson/strbuf.c"; sourceTree = "<group>"; };
-		A192DEB021364DEB00848ABB /* lua_cjson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lua_cjson.c; path = "../ghost/ghost-extensions/lua-cjson/lua_cjson.c"; sourceTree = "<group>"; };
-		A192DEB121364DEB00848ABB /* strbuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = strbuf.h; path = "../ghost/ghost-extensions/lua-cjson/strbuf.h"; sourceTree = "<group>"; };
-		A192DEBB21364E4D00848ABB /* lsqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lsqlite3.c; path = "../ghost/ghost-extensions/lsqlite3/lsqlite3.c"; sourceTree = "<group>"; };
-		A192DEBC21364E4D00848ABB /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = "../ghost/ghost-extensions/lsqlite3/sqlite3.h"; sourceTree = "<group>"; };
-		A192DEBD21364E4E00848ABB /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = "../ghost/ghost-extensions/lsqlite3/sqlite3.c"; sourceTree = "<group>"; };
-		A192DEC421364E7300848ABB /* lmarshal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lmarshal.c; path = "../ghost/ghost-extensions/lua-marshal/lmarshal.c"; sourceTree = "<group>"; };
+		A192DE342136465100848ABB /* liblove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = liblove.xcodeproj; path = ../../love/platform/xcode/liblove.xcodeproj; sourceTree = "<group>"; };
+		A192DE3D2136468400848ABB /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "../../ghost-extensions/SDL2-2.0.8/Xcode-iOS/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
+		A192DE5A2136499D00848ABB /* UITextField+Love.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = "UITextField+Love.mm"; path = "../../ghost-extensions/common/UITextField+Love.mm"; sourceTree = "<group>"; };
+		A192DE5B2136499D00848ABB /* ui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ui.cpp; path = "../../ghost-extensions/common/ui.cpp"; sourceTree = "<group>"; };
+		A192DE5F21364A5E00848ABB /* cimgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cimgui.cpp; path = "../../ghost-extensions/cimgui/cimgui/cimgui.cpp"; sourceTree = "<group>"; };
+		A192DE6121364A7400848ABB /* listClipper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = listClipper.cpp; path = "../../ghost-extensions/cimgui/cimgui/listClipper.cpp"; sourceTree = "<group>"; };
+		A192DE6221364A7400848ABB /* fontAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fontAtlas.cpp; path = "../../ghost-extensions/cimgui/cimgui/fontAtlas.cpp"; sourceTree = "<group>"; };
+		A192DE6321364A7500848ABB /* cimgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cimgui.h; path = "../../ghost-extensions/cimgui/cimgui/cimgui.h"; sourceTree = "<group>"; };
+		A192DE6421364A7500848ABB /* drawList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = drawList.cpp; path = "../../ghost-extensions/cimgui/cimgui/drawList.cpp"; sourceTree = "<group>"; };
+		A192DE6921364AA900848ABB /* lpcap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lpcap.c; path = "../../ghost-extensions/lpeg/lpcap.c"; sourceTree = "<group>"; };
+		A192DE6A21364AA900848ABB /* lpcap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpcap.h; path = "../../ghost-extensions/lpeg/lpcap.h"; sourceTree = "<group>"; };
+		A192DE6C21364AD300848ABB /* lpcode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpcode.h; path = "../../ghost-extensions/lpeg/lpcode.h"; sourceTree = "<group>"; };
+		A192DE6D21364AD300848ABB /* lptree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lptree.h; path = "../../ghost-extensions/lpeg/lptree.h"; sourceTree = "<group>"; };
+		A192DE6E21364AD300848ABB /* lpvm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpvm.h; path = "../../ghost-extensions/lpeg/lpvm.h"; sourceTree = "<group>"; };
+		A192DE6F21364AD300848ABB /* lpprint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lpprint.h; path = "../../ghost-extensions/lpeg/lpprint.h"; sourceTree = "<group>"; };
+		A192DE7021364AD300848ABB /* lpcode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lpcode.c; path = "../../ghost-extensions/lpeg/lpcode.c"; sourceTree = "<group>"; };
+		A192DE7121364AD300848ABB /* lpprint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lpprint.c; path = "../../ghost-extensions/lpeg/lpprint.c"; sourceTree = "<group>"; };
+		A192DE7221364AD400848ABB /* lpvm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lpvm.c; path = "../../ghost-extensions/lpeg/lpvm.c"; sourceTree = "<group>"; };
+		A192DE7321364AD400848ABB /* lptree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lptree.c; path = "../../ghost-extensions/lpeg/lptree.c"; sourceTree = "<group>"; };
+		A192DE7421364AD400848ABB /* lptypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lptypes.h; path = "../../ghost-extensions/lpeg/lptypes.h"; sourceTree = "<group>"; };
+		A192DE7A21364B1C00848ABB /* lcrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lcrypto.h; path = "../../ghost-extensions/luacrypto/src/lcrypto.h"; sourceTree = "<group>"; };
+		A192DE7B21364B1C00848ABB /* lcrypto.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lcrypto.c; path = "../../ghost-extensions/luacrypto/src/lcrypto.c"; sourceTree = "<group>"; };
+		A192DE9321364D3C00848ABB /* ssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ssl.c; path = "../../ghost-extensions/luasec/src/ssl.c"; sourceTree = "<group>"; };
+		A192DE9421364D3D00848ABB /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = context.c; path = "../../ghost-extensions/luasec/src/context.c"; sourceTree = "<group>"; };
+		A192DE9521364D3D00848ABB /* compat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = compat.h; path = "../../ghost-extensions/luasec/src/compat.h"; sourceTree = "<group>"; };
+		A192DE9621364D3D00848ABB /* ec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ec.h; path = "../../ghost-extensions/luasec/src/ec.h"; sourceTree = "<group>"; };
+		A192DE9721364D3D00848ABB /* x509.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = x509.c; path = "../../ghost-extensions/luasec/src/x509.c"; sourceTree = "<group>"; };
+		A192DE9821364D3D00848ABB /* context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = context.h; path = "../../ghost-extensions/luasec/src/context.h"; sourceTree = "<group>"; };
+		A192DE9921364D3D00848ABB /* x509.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = x509.h; path = "../../ghost-extensions/luasec/src/x509.h"; sourceTree = "<group>"; };
+		A192DE9A21364D3D00848ABB /* ssl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ssl.h; path = "../../ghost-extensions/luasec/src/ssl.h"; sourceTree = "<group>"; };
+		A192DE9B21364D3D00848ABB /* ec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ec.c; path = "../../ghost-extensions/luasec/src/ec.c"; sourceTree = "<group>"; };
+		A192DE9C21364D3E00848ABB /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = config.c; path = "../../ghost-extensions/luasec/src/config.c"; sourceTree = "<group>"; };
+		A192DE9D21364D3E00848ABB /* options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = options.h; path = "../../ghost-extensions/luasec/src/options.h"; sourceTree = "<group>"; };
+		A192DEAE21364DEB00848ABB /* strbuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = strbuf.c; path = "../../ghost-extensions/lua-cjson/strbuf.c"; sourceTree = "<group>"; };
+		A192DEB021364DEB00848ABB /* lua_cjson.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lua_cjson.c; path = "../../ghost-extensions/lua-cjson/lua_cjson.c"; sourceTree = "<group>"; };
+		A192DEB121364DEB00848ABB /* strbuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = strbuf.h; path = "../../ghost-extensions/lua-cjson/strbuf.h"; sourceTree = "<group>"; };
+		A192DEBB21364E4D00848ABB /* lsqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lsqlite3.c; path = "../../ghost-extensions/lsqlite3/lsqlite3.c"; sourceTree = "<group>"; };
+		A192DEBC21364E4D00848ABB /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = "../../ghost-extensions/lsqlite3/sqlite3.h"; sourceTree = "<group>"; };
+		A192DEBD21364E4E00848ABB /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = "../../ghost-extensions/lsqlite3/sqlite3.c"; sourceTree = "<group>"; };
+		A192DEC421364E7300848ABB /* lmarshal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lmarshal.c; path = "../../ghost-extensions/lua-marshal/lmarshal.c"; sourceTree = "<group>"; };
 		A1C72CBE2158731000FC47B8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Supporting/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A1D5536121366F2B00921012 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		A1D5536A21366F4E00921012 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
@@ -163,20 +163,20 @@
 		A1D5537621366FA500921012 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		A1D58F0921390D3B005CA434 /* FileServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileServer.m; sourceTree = "<group>"; };
 		A1E036E0213658EC002299ED /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
-		A1E12FD62136529500DB4163 /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = "../ghost/ghost-extensions/cimgui/imgui/stb_textedit.h"; sourceTree = "<group>"; };
-		A1E12FD72136529500DB4163 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = "../ghost/ghost-extensions/cimgui/imgui/imgui_draw.cpp"; sourceTree = "<group>"; };
-		A1E12FD82136529500DB4163 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = "../ghost/ghost-extensions/cimgui/imgui/stb_truetype.h"; sourceTree = "<group>"; };
-		A1E12FD92136529500DB4163 /* imgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imgui.h; path = "../ghost/ghost-extensions/cimgui/imgui/imgui.h"; sourceTree = "<group>"; };
-		A1E12FDA2136529500DB4163 /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imconfig.h; path = "../ghost/ghost-extensions/cimgui/imgui/imconfig.h"; sourceTree = "<group>"; };
-		A1E12FDB2136529500DB4163 /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = "../ghost/ghost-extensions/cimgui/imgui/imgui_demo.cpp"; sourceTree = "<group>"; };
-		A1E12FDC2136529600DB4163 /* imgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui.cpp; path = "../ghost/ghost-extensions/cimgui/imgui/imgui.cpp"; sourceTree = "<group>"; };
-		A1E12FDD2136529600DB4163 /* imgui_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imgui_internal.h; path = "../ghost/ghost-extensions/cimgui/imgui/imgui_internal.h"; sourceTree = "<group>"; };
-		A1E12FDE2136529600DB4163 /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = "../ghost/ghost-extensions/cimgui/imgui/stb_rect_pack.h"; sourceTree = "<group>"; };
-		A1E12FE22136541800DB4163 /* fpconv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fpconv.c; path = "../ghost/ghost-extensions/lua-cjson/fpconv.c"; sourceTree = "<group>"; };
-		A1E12FE32136541900DB4163 /* fpconv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fpconv.h; path = "../ghost/ghost-extensions/lua-cjson/fpconv.h"; sourceTree = "<group>"; };
-		A1E12FE52136543000DB4163 /* openssl */ = {isa = PBXFileReference; lastKnownFileType = folder; name = openssl; path = ../ghost/openssl; sourceTree = "<group>"; };
-		A1E12FE72136544700DB4163 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../ghost/openssl/lib/iOS/libcrypto.a; sourceTree = "<group>"; };
-		A1E12FE82136544700DB4163 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../ghost/openssl/lib/iOS/libssl.a; sourceTree = "<group>"; };
+		A1E12FD62136529500DB4163 /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = "../../ghost-extensions/cimgui/imgui/stb_textedit.h"; sourceTree = "<group>"; };
+		A1E12FD72136529500DB4163 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = "../../ghost-extensions/cimgui/imgui/imgui_draw.cpp"; sourceTree = "<group>"; };
+		A1E12FD82136529500DB4163 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = "../../ghost-extensions/cimgui/imgui/stb_truetype.h"; sourceTree = "<group>"; };
+		A1E12FD92136529500DB4163 /* imgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imgui.h; path = "../../ghost-extensions/cimgui/imgui/imgui.h"; sourceTree = "<group>"; };
+		A1E12FDA2136529500DB4163 /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imconfig.h; path = "../../ghost-extensions/cimgui/imgui/imconfig.h"; sourceTree = "<group>"; };
+		A1E12FDB2136529500DB4163 /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = "../../ghost-extensions/cimgui/imgui/imgui_demo.cpp"; sourceTree = "<group>"; };
+		A1E12FDC2136529600DB4163 /* imgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui.cpp; path = "../../ghost-extensions/cimgui/imgui/imgui.cpp"; sourceTree = "<group>"; };
+		A1E12FDD2136529600DB4163 /* imgui_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imgui_internal.h; path = "../../ghost-extensions/cimgui/imgui/imgui_internal.h"; sourceTree = "<group>"; };
+		A1E12FDE2136529600DB4163 /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = "../../ghost-extensions/cimgui/imgui/stb_rect_pack.h"; sourceTree = "<group>"; };
+		A1E12FE22136541800DB4163 /* fpconv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = fpconv.c; path = "../../ghost-extensions/lua-cjson/fpconv.c"; sourceTree = "<group>"; };
+		A1E12FE32136541900DB4163 /* fpconv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fpconv.h; path = "../../ghost-extensions/lua-cjson/fpconv.h"; sourceTree = "<group>"; };
+		A1E12FE52136543000DB4163 /* openssl */ = {isa = PBXFileReference; lastKnownFileType = folder; name = openssl; path = ../../openssl; sourceTree = "<group>"; };
+		A1E12FE72136544700DB4163 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../openssl/lib/iOS/libcrypto.a; sourceTree = "<group>"; };
+		A1E12FE82136544700DB4163 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../openssl/lib/iOS/libssl.a; sourceTree = "<group>"; };
 		A1E12FEC2136572C00DB4163 /* ghost */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ghost; path = ../ghost; sourceTree = "<group>"; };
 		A1E3113C2164245500437ECB /* brushy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = brushy.entitlements; sourceTree = "<group>"; };
 		A1F954E92135719E00503B4F /* GhostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhostView.m; sourceTree = "<group>"; };
@@ -676,7 +676,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}\"/../ghost/base\nzip -r package.love .\nmv package.love ../..";
+			shellScript = "cd \"${SRCROOT}\"/../../base\nzip -r package.love .\nmv package.love ../..";
 		};
 		A1693B3621368EF100549E0B /* Remove temporary '.love' package */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -834,13 +834,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../ghost/love/platform/xcode/ios/include/luajit,
-					../ghost/openssl/include,
-					"../ghost/ghost-extensions/SDL2-2.0.8/include",
-					../ghost/love/src,
+					../../love/platform/xcode/ios/include/luajit,
+					../../openssl/include,
+					"../../ghost-extensions/SDL2-2.0.8/include",
+					../../love/src,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = ../ghost/openssl/lib/iOS;
+				LIBRARY_SEARCH_PATHS = ../../openssl/lib/iOS;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -890,13 +890,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					../ghost/love/platform/xcode/ios/include/luajit,
-					../ghost/openssl/include,
-					"../ghost/ghost-extensions/SDL2-2.0.8/include",
-					../ghost/love/src,
+					../../love/platform/xcode/ios/include/luajit,
+					../../openssl/include,
+					"../../ghost-extensions/SDL2-2.0.8/include",
+					../../love/src,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LIBRARY_SEARCH_PATHS = ../ghost/openssl/lib/iOS;
+				LIBRARY_SEARCH_PATHS = ../../openssl/lib/iOS;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
