@@ -116,9 +116,10 @@ const AuthNavigator = createStackNavigator({
 });
 
 const RootNavigator = createSwitchNavigator({
-  AuthLoadingScreen,
-  AppNavigator,
-  AuthNavigator,
+  GameNavigator,
+  // AuthLoadingScreen,
+  // AppNavigator,
+  // AuthNavigator,
 });
 
 // Based on https://reactnavigation.org/docs/en/screen-tracking.html
