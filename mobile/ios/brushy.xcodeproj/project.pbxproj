@@ -676,7 +676,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"${SRCROOT}\"/../../base\nzip -r package.love .\nmv package.love ../..";
+			shellScript = "cd \"${SRCROOT}\"/../../base\nzip -r package.love .\nmv package.love ../mobile\n";
 		};
 		A1693B3621368EF100549E0B /* Remove temporary '.love' package */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -690,7 +690,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm \"${SRCROOT}\"/../package.love";
+			shellScript = "rm \"${SRCROOT}\"/../package.love\n";
 		};
 		AA38385B7D8D0854176B72FC /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
