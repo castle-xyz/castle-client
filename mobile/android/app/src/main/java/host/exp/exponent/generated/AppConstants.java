@@ -12,7 +12,7 @@ import host.exp.exponent.Constants;
 public class AppConstants {
 
   public static final String VERSION_NAME = "2.7.2";
-  public static String INITIAL_URL = "exp://exp.host/@nikki/brushy";
+  public static String INITIAL_URL = "exp://exp.host/@nikki/castle";
   public static final boolean IS_DETACHED = true;
   public static final String SHELL_APP_SCHEME = "expa988c6d467e64bd69e23f73802ce3ea9";
   public static final String RELEASE_CHANNEL = "default";

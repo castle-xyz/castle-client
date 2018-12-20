@@ -5,11 +5,11 @@
   xmlns:tools="http://schemas.android.com/tools">
 
   <permission
-    android:name="io.expo.brushy.permission.C2D_MESSAGE"
+    android:name="io.expo.castle.permission.C2D_MESSAGE"
     android:protectionLevel="signature"/>
 
   <!-- These are required permissions to make the app run -->
-  <uses-permission android:name="io.expo.brushy.permission.C2D_MESSAGE" />
+  <uses-permission android:name="io.expo.castle.permission.C2D_MESSAGE" />
   <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
@@ -153,7 +153,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="io.expo.brushy" android:path="oauthredirect"/>
+        <data android:scheme="io.expo.castle" android:path="oauthredirect"/>
       </intent-filter>
     </activity>
 
@@ -231,7 +231,7 @@
         <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
         <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
 
-        <category android:name="io.expo.brushy"/>
+        <category android:name="io.expo.castle"/>
       </intent-filter>
     </receiver>
 

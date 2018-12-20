@@ -17,7 +17,7 @@ if (!__DEV__) {
         const fetching = Updates.fetchUpdateAsync();
         Alert.alert(
           'Update Available',
-          'Would you like to restart to use the latest version of brushy? You will lose unsaved changes.',
+          'Would you like to restart to use the latest version of castle? You will lose unsaved changes.',
           [
             {
               text: 'No',

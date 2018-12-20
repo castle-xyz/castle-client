@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # deploy
-ios-deploy --debug --bundle /tmp/brushy-build/brushy.app
+ios-deploy --debug --bundle /tmp/castle-build/castle.app

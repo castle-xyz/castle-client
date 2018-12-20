@@ -20,7 +20,7 @@ android {
   buildToolsVersion '27.0.3'
 
   defaultConfig {
-    applicationId 'io.expo.brushy'
+    applicationId 'io.expo.castle'
     targetSdkVersion 26
     versionCode 1
     versionName '1.0.0'

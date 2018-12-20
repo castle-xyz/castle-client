@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>brushy</string>
+	<string>castle</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>brushy</string>
+	<string>castle</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -31,7 +31,7 @@
 			<string>OAuthRedirect</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>io.expo.brushy</string>
+				<string>io.expo.castle</string>
 			</array>
 		</dict>
 		<dict>
@@ -67,23 +67,23 @@
 		<true/>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Allow brushy to access your calendar</string>
+	<string>Allow castle to access your calendar</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow brushy to use your camera</string>
+	<string>Allow castle to use your camera</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Allow brushy to access your contacts</string>
+	<string>Allow castle to access your contacts</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow brushy to use your location</string>
+	<string>Allow castle to use your location</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Allow brushy to access your microphone</string>
+	<string>Allow castle to access your microphone</string>
 	<key>NSMotionUsageDescription</key>
-	<string>Allow brushy to access your device's accelerometer</string>
+	<string>Allow castle to access your device's accelerometer</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Give brushy permission to save photos</string>
+	<string>Give castle permission to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Give brushy permission to access your photos</string>
+	<string>Give castle permission to access your photos</string>
 	<key>NSRemindersUsageDescription</key>
-	<string>Allow brushy to access your reminders</string>
+	<string>Allow castle to access your reminders</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

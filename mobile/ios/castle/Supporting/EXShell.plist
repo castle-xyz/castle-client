@@ -7,7 +7,7 @@
 	<key>isShell</key>
 	<true/>
 	<key>manifestUrl</key>
-	<string>exp://exp.host/@nikki/brushy</string>
+	<string>exp://exp.host/@nikki/castle</string>
 	<key>releaseChannel</key>
 	<string>default</string>
 </dict>

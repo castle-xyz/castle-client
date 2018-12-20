@@ -62,7 +62,7 @@
 		B5CFBF4F1EDE419400B4BE24 /* EXBuildConstants.plist in Resources */ = {isa = PBXBuildFile; fileRef = B5CFBF4E1EDE419400B4BE24 /* EXBuildConstants.plist */; };
 		B5DB04801F3A684600E91581 /* shell-app-manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = B5DB047E1F3A684600E91581 /* shell-app-manifest.json */; };
 		B5DB04811F3A684600E91581 /* shell-app.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B5DB047F1F3A684600E91581 /* shell-app.bundle */; };
-		EBB8117C1BFA0514F79CAF74 /* libPods-brushy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A88D15726AD99E8A257BC7 /* libPods-brushy.a */; };
+		EBB8117C1BFA0514F79CAF74 /* libPods-castle.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A88D15726AD99E8A257BC7 /* libPods-castle.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,8 +97,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2C1548D9E4CB1AEFA5CCAE6D /* Pods-brushy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brushy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-brushy/Pods-brushy.debug.xcconfig"; sourceTree = "<group>"; };
-		A10DAD9C21CB1120005C4939 /* brushy.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = brushy.entitlements; sourceTree = "<group>"; };
+		2C1548D9E4CB1AEFA5CCAE6D /* Pods-castle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-castle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-castle/Pods-castle.debug.xcconfig"; sourceTree = "<group>"; };
+		A10DAD9C21CB1120005C4939 /* castle.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = castle.entitlements; sourceTree = "<group>"; };
 		A1693B3721368F5500549E0B /* package.love */ = {isa = PBXFileReference; lastKnownFileType = file; name = package.love; path = ../package.love; sourceTree = "<group>"; };
 		A18062D0213A5B2D002B0E53 /* GhostChannels.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GhostChannels.mm; sourceTree = "<group>"; };
 		A18CBC372165922F004CEE1E /* EXFileSystem+Brushy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EXFileSystem+Brushy.m"; sourceTree = "<group>"; };
@@ -168,9 +168,9 @@
 		A1E12FE82136544700DB4163 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../openssl/lib/iOS/libssl.a; sourceTree = "<group>"; };
 		A1E12FEC2136572C00DB4163 /* ghost */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ghost; path = ../ghost; sourceTree = "<group>"; };
 		A1F954E92135719E00503B4F /* GhostView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhostView.m; sourceTree = "<group>"; };
-		A47FE4D7F70906B7DC8CE39B /* Pods-brushy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-brushy.release.xcconfig"; path = "Pods/Target Support Files/Pods-brushy/Pods-brushy.release.xcconfig"; sourceTree = "<group>"; };
+		A47FE4D7F70906B7DC8CE39B /* Pods-castle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-castle.release.xcconfig"; path = "Pods/Target Support Files/Pods-castle/Pods-castle.release.xcconfig"; sourceTree = "<group>"; };
 		B501732A1DC01252003445D9 /* EXShell.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXShell.plist; sourceTree = "<group>"; };
-		B56386411DB9693800A0598C /* brushy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = brushy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B56386411DB9693800A0598C /* castle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = castle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B56386471DB9693800A0598C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B56386481DB9693800A0598C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		B56386501DB9693800A0598C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -183,7 +183,7 @@
 		B5CFBF4E1EDE419400B4BE24 /* EXBuildConstants.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EXBuildConstants.plist; sourceTree = "<group>"; };
 		B5DB047E1F3A684600E91581 /* shell-app-manifest.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "shell-app-manifest.json"; sourceTree = "<group>"; };
 		B5DB047F1F3A684600E91581 /* shell-app.bundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "shell-app.bundle"; sourceTree = "<group>"; };
-		C4A88D15726AD99E8A257BC7 /* libPods-brushy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-brushy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4A88D15726AD99E8A257BC7 /* libPods-castle.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-castle.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,7 +204,7 @@
 				A1E12FEB213656FF00DB4163 /* libssl.a in Frameworks */,
 				A192DE54213646EF00848ABB /* libSDL2.a in Frameworks */,
 				A192DE52213646D900848ABB /* liblove.a in Frameworks */,
-				EBB8117C1BFA0514F79CAF74 /* libPods-brushy.a in Frameworks */,
+				EBB8117C1BFA0514F79CAF74 /* libPods-castle.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,7 +227,7 @@
 				A1E12FE72136544700DB4163 /* libcrypto.a */,
 				A1E12FE82136544700DB4163 /* libssl.a */,
 				A1E12FE52136543000DB4163 /* openssl */,
-				C4A88D15726AD99E8A257BC7 /* libPods-brushy.a */,
+				C4A88D15726AD99E8A257BC7 /* libPods-castle.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,8 +235,8 @@
 		5B29BC350A332C58878A9F13 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2C1548D9E4CB1AEFA5CCAE6D /* Pods-brushy.debug.xcconfig */,
-				A47FE4D7F70906B7DC8CE39B /* Pods-brushy.release.xcconfig */,
+				2C1548D9E4CB1AEFA5CCAE6D /* Pods-castle.debug.xcconfig */,
+				A47FE4D7F70906B7DC8CE39B /* Pods-castle.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -400,7 +400,7 @@
 				A192DE562136494E00848ABB /* ghost-extensions */,
 				A192DE3D2136468400848ABB /* SDL.xcodeproj */,
 				A192DE342136465100848ABB /* liblove.xcodeproj */,
-				B56386431DB9693800A0598C /* brushy */,
+				B56386431DB9693800A0598C /* castle */,
 				B56386421DB9693800A0598C /* Products */,
 				5B29BC350A332C58878A9F13 /* Pods */,
 				1A42804E64B7E9E0AB8B6799 /* Frameworks */,
@@ -412,15 +412,15 @@
 		B56386421DB9693800A0598C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B56386411DB9693800A0598C /* brushy.app */,
+				B56386411DB9693800A0598C /* castle.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B56386431DB9693800A0598C /* brushy */ = {
+		B56386431DB9693800A0598C /* castle */ = {
 			isa = PBXGroup;
 			children = (
-				A10DAD9C21CB1120005C4939 /* brushy.entitlements */,
+				A10DAD9C21CB1120005C4939 /* castle.entitlements */,
 				A18CBC372165922F004CEE1E /* EXFileSystem+Brushy.m */,
 				A18062D0213A5B2D002B0E53 /* GhostChannels.mm */,
 				A1D58F0921390D3B005CA434 /* FileServer.m */,
@@ -430,7 +430,7 @@
 				B56386501DB9693800A0598C /* Assets.xcassets */,
 				B563865B1DB96A5E00A0598C /* Supporting */,
 			);
-			path = brushy;
+			path = castle;
 			sourceTree = "<group>";
 		};
 		B563865B1DB96A5E00A0598C /* Supporting */ = {
@@ -453,9 +453,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B56386401DB9693800A0598C /* brushy */ = {
+		B56386401DB9693800A0598C /* castle */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B56386581DB9693800A0598C /* Build configuration list for PBXNativeTarget "brushy" */;
+			buildConfigurationList = B56386581DB9693800A0598C /* Build configuration list for PBXNativeTarget "castle" */;
 			buildPhases = (
 				23539343DCC44EF8449429EE /* [CP] Check Pods Manifest.lock */,
 				B5722AD01DFB7E3F0084848F /* Prepare Expo */,
@@ -472,9 +472,9 @@
 			);
 			dependencies = (
 			);
-			name = brushy;
-			productName = brushy;
-			productReference = B56386411DB9693800A0598C /* brushy.app */;
+			name = castle;
+			productName = castle;
+			productReference = B56386411DB9693800A0598C /* castle.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -501,7 +501,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B563863C1DB9693800A0598C /* Build configuration list for PBXProject "brushy" */;
+			buildConfigurationList = B563863C1DB9693800A0598C /* Build configuration list for PBXProject "castle" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -524,7 +524,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				B56386401DB9693800A0598C /* brushy */,
+				B56386401DB9693800A0598C /* castle */,
 			);
 		};
 /* End PBXProject section */
@@ -606,7 +606,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-brushy-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-castle-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -625,7 +625,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-brushy/Pods-brushy-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-castle/Pods-castle-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A1693B2C21368E4A00549E0B /* Create temporary '.love' package */ = {
@@ -662,7 +662,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-brushy/Pods-brushy-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-castle/Pods-castle-resources.sh",
 				"${PODS_ROOT}/Amplitude-iOS/Amplitude/api.amplitude.com.der",
 				"${PODS_ROOT}/Amplitude-iOS/Amplitude/ComodoCaLimitedRsaCertificationAuthority.der",
 				"${PODS_ROOT}/Amplitude-iOS/Amplitude/ComodoRsaCA.der",
@@ -685,7 +685,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-brushy/Pods-brushy-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-castle/Pods-castle-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B5722AD01DFB7E3F0084848F /* Prepare Expo */ = {
@@ -867,15 +867,15 @@
 		};
 		B56386591DB9693800A0598C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C1548D9E4CB1AEFA5CCAE6D /* Pods-brushy.debug.xcconfig */;
+			baseConfigurationReference = 2C1548D9E4CB1AEFA5CCAE6D /* Pods-castle.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = brushy/brushy.entitlements;
+				CODE_SIGN_ENTITLEMENTS = castle/castle.entitlements;
 				DEVELOPMENT_TEAM = 6PUB3623F7;
-				INFOPLIST_FILE = "$(SRCROOT)/brushy/Supporting/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/castle/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = info.nikhilesh.brushy;
+				PRODUCT_BUNDLE_IDENTIFIER = info.nikhilesh.castle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -883,15 +883,15 @@
 		};
 		B563865A1DB9693800A0598C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A47FE4D7F70906B7DC8CE39B /* Pods-brushy.release.xcconfig */;
+			baseConfigurationReference = A47FE4D7F70906B7DC8CE39B /* Pods-castle.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = brushy/brushy.entitlements;
+				CODE_SIGN_ENTITLEMENTS = castle/castle.entitlements;
 				DEVELOPMENT_TEAM = 6PUB3623F7;
-				INFOPLIST_FILE = "$(SRCROOT)/brushy/Supporting/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/castle/Supporting/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = info.nikhilesh.brushy;
+				PRODUCT_BUNDLE_IDENTIFIER = info.nikhilesh.castle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -900,7 +900,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B563863C1DB9693800A0598C /* Build configuration list for PBXProject "brushy" */ = {
+		B563863C1DB9693800A0598C /* Build configuration list for PBXProject "castle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B56386561DB9693800A0598C /* Debug */,
@@ -909,7 +909,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B56386581DB9693800A0598C /* Build configuration list for PBXNativeTarget "brushy" */ = {
+		B56386581DB9693800A0598C /* Build configuration list for PBXNativeTarget "castle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B56386591DB9693800A0598C /* Debug */,

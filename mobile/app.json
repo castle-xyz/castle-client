@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "brushy",
+    "name": "castle",
     "description": "This project is really great.",
-    "slug": "brushy",
+    "slug": "castle",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": [
@@ -25,12 +25,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "io.expo.brushy",
-      "publishBundlePath": "ios/brushy/Supporting/shell-app.bundle",
-      "publishManifestPath": "ios/brushy/Supporting/shell-app-manifest.json"
+      "bundleIdentifier": "io.expo.castle",
+      "publishBundlePath": "ios/castle/Supporting/shell-app.bundle",
+      "publishManifestPath": "ios/castle/Supporting/shell-app-manifest.json"
     },
     "android": {
-      "package": "io.expo.brushy",
+      "package": "io.expo.castle",
       "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
       "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
     },

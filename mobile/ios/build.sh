@@ -2,10 +2,10 @@
 
 # build
 xcodebuild \
-	-workspace brushy.xcworkspace \
-	-scheme brushy \
+	-workspace castle.xcworkspace \
+	-scheme castle \
 	-sdk iphoneos11.4 \
   -jobs 6 \
-	CONFIGURATION_BUILD_DIR=/tmp/brushy-build \
+	CONFIGURATION_BUILD_DIR=/tmp/castle-build \
 	build \
 	| xcpretty -r json-compilation-database --output compile_commands.json

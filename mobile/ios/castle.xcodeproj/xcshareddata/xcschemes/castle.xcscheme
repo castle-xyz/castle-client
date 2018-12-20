@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B56386401DB9693800A0598C"
-               BuildableName = "brushy.app"
-               BlueprintName = "brushy"
-               ReferencedContainer = "container:brushy.xcodeproj">
+               BuildableName = "castle.app"
+               BlueprintName = "castle"
+               ReferencedContainer = "container:castle.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B56386401DB9693800A0598C"
-            BuildableName = "brushy.app"
-            BlueprintName = "brushy"
-            ReferencedContainer = "container:brushy.xcodeproj">
+            BuildableName = "castle.app"
+            BlueprintName = "castle"
+            ReferencedContainer = "container:castle.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B56386401DB9693800A0598C"
-            BuildableName = "brushy.app"
-            BlueprintName = "brushy"
-            ReferencedContainer = "container:brushy.xcodeproj">
+            BuildableName = "castle.app"
+            BlueprintName = "castle"
+            ReferencedContainer = "container:castle.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -88,9 +88,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B56386401DB9693800A0598C"
-            BuildableName = "brushy.app"
-            BlueprintName = "brushy"
-            ReferencedContainer = "container:brushy.xcodeproj">
+            BuildableName = "castle.app"
+            BlueprintName = "castle"
+            ReferencedContainer = "container:castle.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
