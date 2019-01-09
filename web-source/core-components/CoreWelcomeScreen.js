@@ -5,6 +5,7 @@ import * as SVG from '~/core-components/primitives/svg';
 import Logs from '~/common/logs';
 import shuffle from 'lodash.shuffle';
 import { css } from 'react-emotion';
+import ChatTest from '~/core-components/ChatTest';
 
 import UIButtonIconHorizontal from '~/core-components/reusable/UIButtonIconHorizontal';
 import UIControl from '~/core-components/reusable/UIControl';
@@ -140,12 +141,12 @@ export default class CoreWelcomeScreen extends React.Component {
       }
     }
     return result;
-  }
+  };
 
   render() {
     const featuredMedia = this._getFeaturedMedia();
-    const externalIcon = (<SVG.Share height="16px" />);
-    const createIcon = (<SVG.Play height="16px" />);
+    const externalIcon = <SVG.Share height="16px" />;
+    const createIcon = <SVG.Play height="16px" />;
 
     return (
       <div className={STYLES_CONTAINER}>
@@ -167,9 +168,7 @@ export default class CoreWelcomeScreen extends React.Component {
                 Click this button to create a new minimal Castle project and start tinkering.
               </p>
               <div className={STYLES_BUTTON_CONTAINER}>
-                <UIButtonIconHorizontal
-                  onClick={this.props.onCreateProject}
-                  icon={createIcon}>
+                <UIButtonIconHorizontal onClick={this.props.onCreateProject} icon={createIcon}>
                   Create a Castle Project
                 </UIButtonIconHorizontal>
               </div>
@@ -186,7 +185,7 @@ export default class CoreWelcomeScreen extends React.Component {
                 <div className={STYLES_HELP_GLYPH}>&gt;</div>
                 <span>View Example Projects</span>
               </div>
-              <div onClick={this._handleClickDiscord}  className={STYLES_HELP_ACTION}>
+              <div onClick={this._handleClickDiscord} className={STYLES_HELP_ACTION}>
                 <div className={STYLES_HELP_GLYPH}>&gt;</div>
                 <span>Join Discord</span>
               </div>
@@ -199,6 +198,7 @@ export default class CoreWelcomeScreen extends React.Component {
             <img height="24px" src="static/castle-wordmark.png" />
           </div>
         </div>
+        <ChatTest />
       </div>
     );
   }
