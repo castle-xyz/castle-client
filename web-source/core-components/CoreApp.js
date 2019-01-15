@@ -250,9 +250,22 @@ export default class CoreApp extends React.Component {
   _onUrlInputChange = (e) => this.setState({ urlBarInputValue: e.target.value });
 
   requestMediaAtUrlAsync = async (mediaUrl) => {
+    let metadataUrl = mediaUrl;
     let entryPoint = mediaUrl;
+
+    if (Urls.isCastleHostedUrl(mediaUrl)) {
+      try {
+        // look up underlying .castle url to retrieve metadata
+        let { username, slug } = Urls.parseIdFromCastleHostedUrl(mediaUrl);
+        metadataUrl = await Actions.getPrimaryUrlForRegisteredMediaByIdAsync(username, slug);
+      } catch (e) {
+        // this didn't work, try to get metadata from the original url
+        metadataUrl = mediaUrl;
+      }
+    }
+    
     try {
-      let m = await metadatalib.fetchMetadataForUrlAsync(mediaUrl, {
+      let m = await metadatalib.fetchMetadataForUrlAsync(metadataUrl, {
         readFileUrlAsyncFunction: CEF.readFileUrl,
       });
       let { metadata, info, errors, warnings } = m;
@@ -261,7 +274,7 @@ export default class CoreApp extends React.Component {
         // If its a public URL, index it on the server
         // Don't `await` since we don't want to block
         // loading the media
-        Actions.indexPublicUrlAsync(mediaUrl);
+        Actions.indexPublicUrlAsync(metadataUrl);
       }
       if (info && info.main) {
         // TODO: metadata: actually read metadata when available

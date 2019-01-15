@@ -838,3 +838,28 @@ export async function indexPublicUrlAsync(mediaUrl) {
   }
   return true;
 }
+
+export async function getPrimaryUrlForRegisteredMediaByIdAsync(username, slug) {
+  let result;
+  try {
+    let registeredMediaPath = `@${username}/${slug}`;
+    result = await API.graphqlAsync({
+      query: /* GraphQL */ `
+      query CastleUrlForRegisteredMediaPath($registeredMediaPath: String!) {
+        castleUrlForRegisteredMediaPath(registeredMediaPath:$registeredMediaPath)
+      }`,
+      variables: {
+        registeredMediaPath,
+      }
+    });
+  } catch (e) {
+    return false;
+  }
+  if (result.error) {
+    return false;
+  }
+  if (result.errors) {
+    return false;
+  }
+  return result.data.castleUrlForRegisteredMediaPath;
+}

@@ -76,4 +76,46 @@ const canonizeUserProvidedUrl = (urlStr) => {
   return { urlToDisplay, urlToOpen };
 };
 
-export { canonizeUserProvidedUrl, githubUserContentToRepoUrl, isPrivateUrl, isLua, isOpenSource };
+const isCastleHostedUrl = (urlStr) => {
+  let isCastle = false;
+  try {
+    const components = url.parse(urlStr);
+    isCastle = (
+      components.hostname === 'playcastle.io' ||
+      components.hostname === 'www.playcastle.io'
+    );
+  } catch (_) {}
+  return isCastle;
+};
+
+const parseIdFromCastleHostedUrl = (mediaUrl) => {
+  let username, slug;
+  try {
+    const components = url.parse(mediaUrl);
+    const pathComponents = components.pathname
+          .split('/')
+          .filter(pathComponent => pathComponent.length > 0);
+    if (pathComponents[0].startsWith('@') && pathComponents.length >= 2) {
+      username = pathComponents[0].substring(1);
+      slug = pathComponents[1];
+    } else {
+      throw new Error(`${mediaUrl} is not a valid castle hosted url`);
+    }
+  } catch (e) {
+    throw new Error(`Unable to parse castle user/slug: ${e}`);
+  }
+  return {
+    username,
+    slug
+  };
+};
+
+export {
+  canonizeUserProvidedUrl,
+  githubUserContentToRepoUrl,
+  isCastleHostedUrl,
+  isPrivateUrl,
+  isLua,
+  isOpenSource,
+  parseIdFromCastleHostedUrl,
+};
