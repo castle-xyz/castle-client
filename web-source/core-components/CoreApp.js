@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import metadatalib from 'castle-metadata';
-
+import * as Browser from '~/common/browser';
 import * as Strings from '~/common/strings';
 import * as Utilities from '~/common/utilities';
 import * as ReactDOM from 'react-dom';
@@ -250,50 +249,8 @@ export default class CoreApp extends React.Component {
   _onUrlInputChange = (e) => this.setState({ urlBarInputValue: e.target.value });
 
   requestMediaAtUrlAsync = async (mediaUrl) => {
-    let metadataUrl = mediaUrl;
-    let entryPoint = mediaUrl;
-    let metadataFetched = {};
-
-    if (Urls.isCastleHostedUrl(mediaUrl)) {
-      try {
-        // look up underlying .castle url to retrieve metadata
-        let { username, slug } = Urls.parseIdFromCastleHostedUrl(mediaUrl);
-        metadataUrl = await Actions.getPrimaryUrlForRegisteredMediaByIdAsync(username, slug);
-      } catch (e) {
-        // this didn't work, try to get metadata from the original url
-        metadataUrl = mediaUrl;
-      }
-    }
-    
-    try {
-      let m = await metadatalib.fetchMetadataForUrlAsync(metadataUrl, {
-        readFileUrlAsyncFunction: CEF.readFileUrl,
-      });
-      let { metadata, info, errors, warnings } = m;
-
-      if (errors && errors.length) {
-        throw new Error(`Error fetching metadata: ${errors.join(',')}`);
-      } else {
-        if (info && info.isPublicUrl) {
-          // If its a public URL, index it on the server
-          // Don't `await` since we don't want to block
-          // loading the media
-          Actions.indexPublicUrlAsync(metadataUrl);
-        }
-        if (info && info.main) {
-          // TODO: metadata: actually read metadata when available
-          entryPoint = info.main;
-        }
-      }
-      metadataFetched = metadata;
-    } catch (e) {
-      console.warn(`Couldn't fetch metadata when opening Castle url: ${e}`);
-    }
-    this.loadMediaAsync({
-      mediaUrl,
-      entryPoint,
-      ...metadataFetched,
-    });
+    const media = await Browser.resolveMediaAtUrlAsync(mediaUrl);
+    this.loadMediaAsync(media);
   };
 
   loadMediaAsync = async (media) => {
@@ -528,21 +485,6 @@ export default class CoreApp extends React.Component {
         });
       }
     );
-  };
-
-  _handleRegisterGame = ({ email, message }) => {
-    // TODO(jim): Handle this better
-    if (Strings.isEmpty(email)) {
-      return;
-    }
-
-    // TODO(jim): Handle this better
-    if (Strings.isEmpty(message)) {
-      return;
-    }
-
-    const emailUrl = `<mailto:${email}|${email}>`;
-    Slack.sendMessage(`*${emailUrl} who is playing "${this.state.mediaUrl}" said:*\n ${message}`);
   };
 
   _handlePlaylistSelect = async (playlist) => {
@@ -964,7 +906,6 @@ export default class CoreApp extends React.Component {
             searchQuery={state.searchQuery}
             onNavigateToBrowserPage={this._handleNavigateToBrowserPage}
             onRefreshViewer={this.refreshViewer}
-            onRegisterMedia={this._handleRegisterGame}
             onToggleBrowse={this._handleToggleBrowse}
             onToggleProfile={this._handleToggleProfile}
             onMediaSelect={this._handleMediaSelect}

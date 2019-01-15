@@ -72,21 +72,22 @@ const STYLES_SECTION_PARAGRAPH = css`
 `;
 
 export default class UICardMedia extends React.Component {
-  state = {
-    email: '',
-    message: '',
-  };
-
-  _handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
   _handleShare = media => {
     let name = media.name ? media.name : 'untitled';
-    let author = media.user ? media.user.username : 'anonymous';
-    let mediaUrl = media.mediaUrl;
-
-    const url = `https://www.playcastle.io/games?name=${name}&author=${author}&url=${mediaUrl}`;
+    let url;
+    if (media.slug && media.username) {
+      // registered media
+      url = `https://www.playcastle.io/@${media.username}/${media.slug}`;
+    } else {
+      let author = 'anonymous';
+      if (media.user && media.user.username) {
+        // TODO: deprecated: unregistered media shouldn't have a `user` object.
+        author = media.user.username;
+      } else if (media.username) {
+        author = media.username;
+      }
+      url = `https://www.playcastle.io/games?name=${name}&author=${author}&url=${media.mediaUrl}`;
+    }
 
     if (window.cefQuery) {
       CEF.openExternalURL(window.encodeURI(url));
@@ -100,31 +101,56 @@ export default class UICardMedia extends React.Component {
     CEF.openExternalURL(Urls.githubUserContentToRepoUrl(this.props.media.mediaUrl));
   };
   
-  _handleSubmit = async () => {
-    await this.props.onRegisterMedia({ email: this.state.email, message: this.state.message });
-
-    this.setState({ email: '', message: '' });
-  };
-
   render() {
-    const name = this.props.media && this.props.media.name ? this.props.media.name : 'Untitled';
-    const username =
-      this.props.media && this.props.media.user ? this.props.media.user.username : 'Anonymous';
-    const createdTime =
-      this.props.media && this.props.media.published
-        ? Strings.toDate(this.props.media.published)
-        : Strings.toDate(this.props.media.createdTime);
-    const isReal = this.props.media && this.props.media.user && this.props.media.user.isReal;
-
-    let rich =
-      this.props.media && this.props.media.description && this.props.media.description.rich;
-    if (rich) {
-      rich = Strings.loadEditor(rich);
+    let name = 'Untitled';
+    let username = 'Anonymous';
+    let createdTime = '';
+    let isRegistered = false;
+    let description = '';
+    let legacyRichDescription;
+    
+    let { media } = this.props;
+    if (media) {
+      name = (media.name) ? media.name : name;
+      isRegistered = (media.slug && media.user);
+      if (media.published) {
+        createdTime = Strings.toDate(media.published);
+      } else if (media.createdTime) {
+        createdTime = Strings.toDate(media.createdTime);
+      }
+      if (isRegistered) {
+        username = media.user.username;
+      } else {
+        username = media.username ? media.username : username;
+        if (media.user && media.user.username) {
+          // TODO: deprecated: unregistered media shouldn't have a `user`,
+          // so we can just delete this case once that's true.
+          username = media.user.username;
+        }
+      }
+      if (media.description && media.description.hasOwnProperty('rich')) {
+        // TODO: media should only be able to provide its description from
+        // its .castle file, so we can remove deprecated behavior here after
+        // the data reflects this.
+        legacyRichDescription = Strings.loadEditor(media.description.rich);
+      } else {
+        description = (media.description) ? media.description : description;
+      }
     }
 
     let textElement = <div />;
 
-    if (!isReal) {
+    if (legacyRichDescription) {
+      textElement = (
+        <div>
+          <ContentEditor value={legacyRichDescription} className={STYLES_SECTION_PARAGRAPH} readOnly />
+        </div>
+      );
+    } else if (description) {
+      textElement = (
+        <div className={STYLES_SECTION_PARAGRAPH}>{description}</div>
+      );
+    } else {
       textElement = (
         <div>
           <div className={STYLES_SECTION_TITLE} style={{ marginTop: 32 }}>
@@ -139,24 +165,13 @@ export default class UICardMedia extends React.Component {
       );
     }
 
-    if (rich) {
-      textElement = (
-        <div>
-          <ContentEditor value={rich} className={STYLES_SECTION_PARAGRAPH} readOnly />
-        </div>
+    let creatorElement;
+    if (isRegistered) {
+      creatorElement = (
+        <UILink onClick={() => this.props.onUserSelect(this.props.media.user)}>{username}</UILink>
       );
-    }
-
-    let maybeAddToPlaylistElement;
-    if (this.props.viewer) {
-      maybeAddToPlaylistElement = (
-        <ControlPlaylistAdd
-          onToggleProfile={this.props.onToggleProfile}
-          onRefreshViewer={this.props.onRefreshViewer}
-          media={this.props.media}
-          viewer={this.props.viewer}
-        />
-      )
+    } else {
+      creatorElement = (<span>{username}</span>);
     }
 
     let maybeViewSourceElement;
@@ -176,39 +191,13 @@ export default class UICardMedia extends React.Component {
         <div className={STYLES_CONTAINER_PREVIEW_NAME}>{name}</div>
         <div className={STYLES_BYLINE}>
           Created by{' '}
-          <UILink onClick={() => this.props.onUserSelect(this.props.media.user)}>{username}</UILink>{' '}
-          — {createdTime}
+          {creatorElement}{' '}
+          {(createdTime) ? `- ${createdTime}` : ''}
         </div>
 
         <div className={STYLES_SECTION}>
           {textElement}
-
-          {!isReal ? (
-            <div className={STYLES_FORM}>
-              <UIInputSecondary
-                value={this.state.email}
-                label="E-mail"
-                name="email"
-                onChange={this._handleChange}
-                style={{ marginBottom: 16 }}
-              />
-
-              <UIInputSecondary
-                value={this.state.message}
-                label="message"
-                name="message"
-                onChange={this._handleChange}
-                onSubmit={this._handleSubmit}
-              />
-
-              <UIControl onClick={this._handleSubmit} style={{ marginTop: 16 }}>
-                Send message
-              </UIControl>
-            </div>
-          ) : null}
-
           <div style={{ marginTop: 32 }}>
-            {maybeAddToPlaylistElement}
             <div>
               <UIButtonIconHorizontal icon={<SVG.Share height="16px" />}
                                       onClick={() => this._handleShare(this.props.media)}>

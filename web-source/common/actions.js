@@ -840,26 +840,16 @@ export async function indexPublicUrlAsync(mediaUrl) {
 }
 
 export async function getPrimaryUrlForRegisteredMediaByIdAsync(username, slug) {
-  let result;
-  try {
-    let registeredMediaPath = `@${username}/${slug}`;
-    result = await API.graphqlAsync({
-      query: /* GraphQL */ `
+  let registeredMediaPath = `@${username}/${slug}`;
+  let result = await API.graphqlAsync({
+    query: /* GraphQL */ `
       query CastleUrlForRegisteredMediaPath($registeredMediaPath: String!) {
         castleUrlForRegisteredMediaPath(registeredMediaPath:$registeredMediaPath)
       }`,
-      variables: {
-        registeredMediaPath,
-      }
-    });
-  } catch (e) {
-    return false;
-  }
-  if (result.error) {
-    return false;
-  }
-  if (result.errors) {
-    return false;
-  }
+    variables: {
+      registeredMediaPath,
+    }
+  });
+  // let this throw if it's invalid
   return result.data.castleUrlForRegisteredMediaPath;
 }
