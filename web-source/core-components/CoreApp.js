@@ -252,6 +252,7 @@ export default class CoreApp extends React.Component {
   requestMediaAtUrlAsync = async (mediaUrl) => {
     let metadataUrl = mediaUrl;
     let entryPoint = mediaUrl;
+    let metadataFetched = {};
 
     if (Urls.isCastleHostedUrl(mediaUrl)) {
       try {
@@ -270,22 +271,28 @@ export default class CoreApp extends React.Component {
       });
       let { metadata, info, errors, warnings } = m;
 
-      if (info && info.isPublicUrl) {
-        // If its a public URL, index it on the server
-        // Don't `await` since we don't want to block
-        // loading the media
-        Actions.indexPublicUrlAsync(metadataUrl);
+      if (errors && errors.length) {
+        throw new Error(`Error fetching metadata: ${errors.join(',')}`);
+      } else {
+        if (info && info.isPublicUrl) {
+          // If its a public URL, index it on the server
+          // Don't `await` since we don't want to block
+          // loading the media
+          Actions.indexPublicUrlAsync(metadataUrl);
+        }
+        if (info && info.main) {
+          // TODO: metadata: actually read metadata when available
+          entryPoint = info.main;
+        }
       }
-      if (info && info.main) {
-        // TODO: metadata: actually read metadata when available
-        entryPoint = info.main;
-      }
+      metadataFetched = metadata;
     } catch (e) {
       console.warn(`Couldn't fetch metadata when opening Castle url: ${e}`);
     }
     this.loadMediaAsync({
       mediaUrl,
       entryPoint,
+      ...metadataFetched,
     });
   };
 
