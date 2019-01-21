@@ -92,6 +92,10 @@ const PLAYLISTS = `
   }
 `;
 
+export async function getHeadersAsync() {
+  return await API.client._getRequestHeadersAsync();
+}
+
 export const delay = ms =>
   new Promise(resolve => {
     window.setTimeout(resolve, ms);
@@ -136,6 +140,7 @@ export async function signup({ name, username, email, password }) {
           ${FULL_USER_FIELDS}
           ${PLAYLISTS}
           ${MEDIA_ITEMS}
+          token
         }
       }
     `,
@@ -146,6 +151,8 @@ export async function signup({ name, username, email, password }) {
       password,
     }
   );
+
+  await API.client.setTokenAsync(response.data.signup.token);
 
   return response;
 }
@@ -158,6 +165,7 @@ export async function login({ userId, password }) {
           ${FULL_USER_FIELDS}
           ${PLAYLISTS}
           ${MEDIA_ITEMS}
+          token
         }
       }
     `,
@@ -177,6 +185,8 @@ export async function login({ userId, password }) {
   }
 
   CEF.sendLuaEvent('CASTLE_SET_LOGGED_IN', !!response.data.login);
+  await API.client.setTokenAsync(response.data.login.token);
+
   return response.data.login;
 }
 
@@ -390,7 +400,13 @@ export async function logout() {
     return false;
   }
 
+<<<<<<< HEAD
   CEF.sendLuaEvent('CASTLE_SET_LOGGED_IN', false);
+||||||| merged common ancestors
+=======
+  await API.client.setTokenAsync(null);
+
+>>>>>>> hide chat component
   return true;
 }
 

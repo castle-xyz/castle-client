@@ -5,7 +5,6 @@ import * as SVG from '~/core-components/primitives/svg';
 import Logs from '~/common/logs';
 import shuffle from 'lodash.shuffle';
 import { css } from 'react-emotion';
-import ChatTest from '~/core-components/ChatTest';
 
 import UIButtonIconHorizontal from '~/core-components/reusable/UIButtonIconHorizontal';
 import UIControl from '~/core-components/reusable/UIControl';
@@ -198,7 +197,6 @@ export default class CoreWelcomeScreen extends React.Component {
             <img height="24px" src="static/castle-wordmark.png" />
           </div>
         </div>
-        <ChatTest />
       </div>
     );
   }

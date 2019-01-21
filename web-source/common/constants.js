@@ -1,4 +1,5 @@
-export const API_HOST = 'https://apis.playcastle.io';
+//export const API_HOST = 'https://apis.playcastle.io';
+export const API_HOST = 'http://localhost:1380';
 
 export const font = {
   default: `-apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica,
