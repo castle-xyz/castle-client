@@ -96,8 +96,8 @@ export async function getHeadersAsync() {
   return await API.client._getRequestHeadersAsync();
 }
 
-export const delay = ms =>
-  new Promise(resolve => {
+export const delay = (ms) =>
+  new Promise((resolve) => {
     window.setTimeout(resolve, ms);
   });
 
@@ -400,13 +400,9 @@ export async function logout() {
     return false;
   }
 
-<<<<<<< HEAD
   CEF.sendLuaEvent('CASTLE_SET_LOGGED_IN', false);
-||||||| merged common ancestors
-=======
   await API.client.setTokenAsync(null);
 
->>>>>>> hide chat component
   return true;
 }
 
@@ -831,16 +827,16 @@ export async function indexPublicUrlAsync(mediaUrl) {
   try {
     result = await API.graphqlAsync(
       /* GraphQL */ `
-      mutation($mediaUrl: String!) {
-        fetchMediaMetadata(url: $mediaUrl) {
-          # npref
-          # metadata
-          # mainUrl
-          # canonicalUrl
-          updatedTime
-          # createdTime
+        mutation($mediaUrl: String!) {
+          fetchMediaMetadata(url: $mediaUrl) {
+            # npref
+            # metadata
+            # mainUrl
+            # canonicalUrl
+            updatedTime
+            # createdTime
+          }
         }
-      }
       `,
       {
         mediaUrl,
@@ -863,11 +859,12 @@ export async function getPrimaryUrlForRegisteredMediaByIdAsync(username, slug) {
   let result = await API.graphqlAsync({
     query: /* GraphQL */ `
       query CastleUrlForRegisteredMediaPath($registeredMediaPath: String!) {
-        castleUrlForRegisteredMediaPath(registeredMediaPath:$registeredMediaPath)
-      }`,
+        castleUrlForRegisteredMediaPath(registeredMediaPath: $registeredMediaPath)
+      }
+    `,
     variables: {
       registeredMediaPath,
-    }
+    },
   });
   // let this throw if it's invalid
   return result.data.castleUrlForRegisteredMediaPath;
