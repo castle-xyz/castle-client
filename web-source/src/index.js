@@ -58,18 +58,15 @@ const INITIAL_STATE_OFFLINE = {
   urlBarInputValue: '',
   mediaUrl: '',
   media: null,
-  playlist: null,
   creator: null,
   viewer: null,
   local: null,
   searchQuery: '',
   allContent: {
     media: [],
-    playlists: [],
   },
   searchResults: {
     media: [],
-    playlists: [],
   },
   featuredPlaylists: [],
   featuredMedia: [],

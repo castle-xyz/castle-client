@@ -75,23 +75,6 @@ const MEDIA_ITEMS = `
   }
 `;
 
-const PLAYLISTS = `
-  playlists {
-    playlistId
-    name
-    description
-    createdTime
-    coverImage {
-      url
-      imgixUrl
-      height
-      width
-    }
-    ${NESTED_USER}
-    ${MEDIA_ITEMS}
-  }
-`;
-
 export const delay = ms =>
   new Promise(resolve => {
     window.setTimeout(resolve, ms);
@@ -134,7 +117,6 @@ export async function signup({ name, username, email, password }) {
       mutation($name: String!, $username: String!, $email: String!, $password: String!) {
         signup(user: { name: $name, username: $username }, email: $email, password: $password) {
           ${FULL_USER_FIELDS}
-          ${PLAYLISTS}
           ${MEDIA_ITEMS}
         }
       }
@@ -156,7 +138,6 @@ export async function login({ userId, password }) {
       mutation($userId: ID!, $password: String!) {
         login(userId: $userId, password: $password) {
           ${FULL_USER_FIELDS}
-          ${PLAYLISTS}
           ${MEDIA_ITEMS}
         }
       }
@@ -226,7 +207,6 @@ export async function getUser({ userId }) {
     query GetUser($userId: ID!) {
       user(userId: $userId) {
         ${FULL_USER_FIELDS}
-        ${PLAYLISTS}
         ${MEDIA_ITEMS}
       }
     }
@@ -252,7 +232,6 @@ export async function getViewer() {
       me {
         ${FULL_USER_FIELDS}
         ${MEDIA_ITEMS}
-        ${PLAYLISTS}
       }
     }
   `);
@@ -275,7 +254,6 @@ export async function getInitialData() {
       me {
         ${FULL_USER_FIELDS}
         ${MEDIA_ITEMS}
-        ${PLAYLISTS}
       }
 
       allMedia {
@@ -305,20 +283,6 @@ export async function getInitialData() {
           height
           width
         }
-      }
-
-      allPlaylists {
-        playlistId
-        name
-        description
-        createdTime
-        coverImage {
-          height
-          width
-          imgixUrl
-        }
-        ${NESTED_USER}
-        ${MEDIA_ITEMS}
       }
     }
   `);
@@ -353,7 +317,6 @@ export async function search(query) {
           limit: $limit
         ) {
           ${MEDIA_ITEMS}
-          ${PLAYLISTS}
         }
       }
     `,
@@ -605,89 +568,6 @@ export async function updateMediaAsync({ mediaId, media }) {
   return result.data.updateMedia;
 }
 
-export async function addPlaylist({ name, description }) {
-  const variables = { name, description: JSON.stringify(description) };
-
-  const result = await API.graphqlAsync({
-    query: `
-      mutation AddPlaylist($name: String, $description: String) {
-        addPlaylist(playlist: {
-          name: $name
-          description: {
-            rich: $description
-          }
-        }) {
-          playlistId
-        }
-      }
-    `,
-    variables,
-  });
-
-  // TOOD(jim): Write a global error handler.
-  if (result.error) {
-    return false;
-  }
-
-  if (result.errors) {
-    return false;
-  }
-
-  return result.data.addPlaylist;
-}
-
-export async function addMediaToPlaylist({ mediaId, playlistId }) {
-  const variables = { mediaId, playlistId };
-
-  const result = await API.graphqlAsync({
-    query: `
-      mutation AddPlaylistMediaItem($mediaId: ID!, $playlistId: ID!) {
-        addPlaylistMediaItem(mediaId: $mediaId, playlistId: $playlistId) {
-          playlistId
-        }
-      }
-    `,
-    variables,
-  });
-
-  // TOOD(jim): Write a global error handler.
-  if (result.error) {
-    return false;
-  }
-
-  if (result.errors) {
-    return false;
-  }
-
-  return result.data.addPlaylistMediaItem;
-}
-
-export async function removeMediaFromPlaylist({ mediaId, playlistId }) {
-  const variables = { mediaId, playlistId };
-
-  const result = await API.graphqlAsync({
-    query: `
-      mutation RemovePlaylistMediaItem($mediaId: ID!, $playlistId: ID!) {
-        removePlaylistMediaItem(mediaId: $mediaId, playlistId: $playlistId) {
-          playlistId
-        }
-      }
-    `,
-    variables,
-  });
-
-  // TOOD(jim): Write a global error handler.
-  if (result.error) {
-    return false;
-  }
-
-  if (result.errors) {
-    return false;
-  }
-
-  return result.data.removePlaylistMediaItem;
-}
-
 export async function removeMedia({ mediaId }) {
   const variables = { mediaId };
 
@@ -710,30 +590,6 @@ export async function removeMedia({ mediaId }) {
   }
 
   return { mediaId };
-}
-
-export async function removePlaylist({ playlistId }) {
-  const variables = { playlistId };
-
-  const result = await API.graphqlAsync({
-    query: `
-      mutation RemovePlaylist($playlistId: ID!) {
-        deletePlaylist(playlistId: $playlistId)
-      }
-    `,
-    variables,
-  });
-
-  // TOOD(jim): Write a global error handler.
-  if (result.error) {
-    return false;
-  }
-
-  if (result.errors) {
-    return false;
-  }
-
-  return { playlistId };
 }
 
 export async function recordUserplayEndAsync(userplayId) {

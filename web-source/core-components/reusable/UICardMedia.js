@@ -10,7 +10,6 @@ import { css } from 'react-emotion';
 import UIButtonIconHorizontal from '~/core-components/reusable/UIButtonIconHorizontal';
 import UIInputSecondary from '~/core-components/reusable/UIInputSecondary';
 import UILink from '~/core-components/reusable/UILink';
-import ControlPlaylistAdd from '~/core-components/controls/ControlPlaylistAdd';
 import UIControl from '~/core-components/reusable/UIControl';
 
 import ContentEditor from '~/editor/ContentEditor';

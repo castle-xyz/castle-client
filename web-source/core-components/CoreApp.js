@@ -30,7 +30,6 @@ import CoreBrowserScreen from '~/core-components/CoreBrowserScreen';
 import CoreBrowseResults from '~/core-components/CoreBrowseResults';
 import CoreBrowseSearchInput from '~/core-components/CoreBrowseSearchInput';
 import CoreProfile from '~/core-components/CoreProfile';
-import CorePlaylist from '~/core-components/CorePlaylist';
 import CoreDevelopmentLogs from '~/core-components/CoreDevelopmentLogs';
 
 const isOverlayHotkey = isKeyHotkey('mod+e');
@@ -168,21 +167,6 @@ export default class CoreApp extends React.Component {
   };
 
   _handleProfileChange = () => this.refreshViewer();
-
-  _handleRemoveMediaFromPlaylist = async (data) => {
-    const response = await Actions.removeMediaFromPlaylist(data);
-    if (!response) {
-      return;
-    }
-
-    const playlist = await Actions.getPlaylist(data);
-    if (!playlist) {
-      return;
-    }
-
-    this.setState({ playlist });
-    await this.refreshViewer();
-  };
 
   setStateWithCEF = (state) => {
     if (this._isLockedFromCEFUpdates) {
@@ -427,27 +411,6 @@ export default class CoreApp extends React.Component {
     return false;
   };
 
-  _filterPlaylistWithSearchState = (p) => {
-    if (!p) {
-      return false;
-    }
-    const query = this._stringAsSearchInvariant(this.state.searchQuery);
-    if (this._stringIncludesSearchQuery(p.name, query)) {
-      return true;
-    }
-
-    if (p.user) {
-      if (this._stringIncludesSearchQuery(p.user.name, query)) {
-        return true;
-      }
-      if (this._stringIncludesSearchQuery(p.user.username, query)) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
   _filterUserWithSearchState = (u) => {
     if (!u) {
       return false;
@@ -500,33 +463,11 @@ export default class CoreApp extends React.Component {
         this.setState({
           searchResults: {
             media: this.state.allContent.media.filter(this._filterMediaItemWithSearchState),
-            playlists: this.state.allContent.playlists.filter(this._filterPlaylistWithSearchState),
             users: this.state.allContent.users.filter(this._filterUserWithSearchState),
           },
         });
       }
     );
-  };
-
-  _handlePlaylistSelect = async (playlist) => {
-    const serverPlaylist = await Actions.getPlaylist(playlist);
-    if (!serverPlaylist) {
-      return;
-    }
-
-    this.setState({
-      pageMode: 'playlist',
-      searchResults: {
-        ...this.state.searchResults,
-        media:
-          serverPlaylist.mediaItems && serverPlaylist.mediaItems.length
-            ? [...serverPlaylist.mediaItems]
-            : [...this.state.searchResults.media],
-      },
-      creator: null,
-      playlist: serverPlaylist,
-      searchQuery: Strings.isEmpty(playlist.name) ? '' : playlist.name.slice(0),
-    });
   };
 
   _handleUserSelect = async (user) => {
@@ -563,7 +504,6 @@ export default class CoreApp extends React.Component {
 
     if (isHistory) {
       this.setState({
-        playlist: null,
         searchQuery: '',
         searchResults: {
           ...this.state.allContent,
@@ -608,12 +548,6 @@ export default class CoreApp extends React.Component {
   };
 
   _handleToggleBrowse = () => {
-    // NOTE(jim):
-    // We can probably make this more elegant later.
-    if (this.state.pageMode === 'playlist') {
-      return;
-    }
-
     const isOwner =
       this.state.viewer &&
       this.state.creator &&
@@ -640,17 +574,6 @@ export default class CoreApp extends React.Component {
     this.setStateHideCEF({
       pageMode: 'history',
       creator: null,
-    });
-  };
-
-  _handleToggleCurrentPlaylistDetails = () => {
-    const updates = {
-      pageMode: 'playlist',
-      creator: null,
-    };
-
-    this.setStateHideCEF({
-      ...updates,
     });
   };
 
@@ -765,7 +688,6 @@ export default class CoreApp extends React.Component {
     const isViewerViewingBrowseScene = state.pageMode === 'browse';
     const isViewerViewingSignInScene = state.pageMode === 'sign-in';
     const isViewerViewingProfileScene = state.pageMode === 'profile';
-    const isViewerViewingPlaylistScene = state.pageMode === 'playlist';
     const isViewerViewingHistoryScene = state.pageMode === 'history';
     const isViewerPlayingMedia = !state.pageMode;
 
@@ -797,7 +719,6 @@ export default class CoreApp extends React.Component {
           isPlaying={isViewerPlayingMedia}
           isBrowsing={
             isViewerViewingBrowseScene ||
-            isViewerViewingPlaylistScene ||
             (isViewerViewingProfileScene && !isViewingOwnProfile)
           }
           isSignIn={isViewerViewingSignInScene}
@@ -826,7 +747,6 @@ export default class CoreApp extends React.Component {
             onUserSelect={this._handleUserSelect}
             onMediaSelect={this._handleMediaSelect}
             onCreateProject={this._handleCreateProjectAsync}
-            onPlaylistSelect={this._handlePlaylistSelect}
             onLoadHelp={this._handleLoadTutorial}
             onLoadURL={this.requestMediaAtUrlAsync}
           />
@@ -857,26 +777,6 @@ export default class CoreApp extends React.Component {
       );
     }
 
-    if (isViewerViewingPlaylistScene) {
-      return (
-        <CoreLayout
-          ref={(reference) => {
-            this._layout = reference;
-          }}
-          leftSidebarNode={maybeLeftSidebarNode}>
-          <CorePlaylist
-            viewer={state.viewer}
-            playlist={state.playlist}
-            onSearchReset={this._handleSearchReset}
-            onDismiss={this._handleSearchReset}
-            onUserSelect={this._handleUserSelect}
-            onMediaSelect={this._handleMediaSelect}
-            onMediaRemoveFromPlaylist={this._handleRemoveMediaFromPlaylist}
-          />
-        </CoreLayout>
-      );
-    }
-
     if (isViewerViewingProfileScene) {
       return (
         <CoreLayout ref={this._handleGetReference} leftSidebarNode={maybeLeftSidebarNode}>
@@ -885,7 +785,6 @@ export default class CoreApp extends React.Component {
             creator={state.creator}
             onSearchReset={this._handleSearchReset}
             onMediaSelect={this._handleMediaSelect}
-            onPlaylistSelect={this._handlePlaylistSelect}
             onAfterSave={this._handleProfileChange}
             onUserSelect={this._handleUserSelect}
             onSignOut={this._handleSignOut}
@@ -905,7 +804,6 @@ export default class CoreApp extends React.Component {
         <CoreRootHeader
           viewer={state.viewer}
           media={state.media}
-          playlist={state.playlist}
           isContextSidebarActive={!!state.sidebarVisible}
           isOffline={state.isOffline}
           onToggleSidebar={this._handleToggleSidebar}
@@ -931,7 +829,6 @@ export default class CoreApp extends React.Component {
             onToggleProfile={this._handleToggleProfile}
             onMediaSelect={this._handleMediaSelect}
             onUserSelect={this._handleUserSelect}
-            onViewCurrentPlaylistDetails={this._handleToggleCurrentPlaylistDetails}
           />
         );
       } else if (state.sidebarMode === 'development') {

@@ -5,7 +5,6 @@ import { css } from 'react-emotion';
 
 import UIButtonSecondary from '~/core-components/reusable/UIButtonSecondary';
 import UIListMedia from '~/core-components/reusable/UIListMedia';
-import UIListPlaylists from '~/core-components/reusable/UIListPlaylists';
 import UIListUsers from '~/core-components/reusable/UIListUsers';
 import UIEmptyState from '~/core-components/reusable/UIEmptyState';
 import UIGridMedia from '~/core-components/reusable/UIGridMedia';
@@ -47,7 +46,6 @@ export default class CoreBrowseResults extends React.Component {
     searchQuery: '',
     results: {
       media: [],
-      playlists: [],
       users: [],
     },
   };
@@ -76,7 +74,7 @@ export default class CoreBrowseResults extends React.Component {
     } else {
       return (
         <span>
-          We didn't find any games or playlists matching your search. If you're not sure what
+          We didn't find any games matching your search. If you're not sure what
           to play, try one of the following games...
         </span>
       );
@@ -86,7 +84,6 @@ export default class CoreBrowseResults extends React.Component {
   _isEmpty = () => {
     return (
       !this.props.results.media.length &&
-      !this.props.results.playlists.length &&
       !this.props.results.users.length
     );
   };
@@ -108,19 +105,6 @@ export default class CoreBrowseResults extends React.Component {
       </div>
     );
   }
-
-  _renderPlaylists = () => {
-    if (this.props.results.playlists.length) {
-      return (
-        <UIListPlaylists
-          playlists={this.props.results.playlists}
-          onUserSelect={this.props.onUserSelect}
-          onPlaylistSelect={this.props.onPlaylistSelect}
-        />
-      );
-    }
-    return null;
-  };
 
   _renderMedia = () => {
     if (this.props.results.media.length) {
@@ -155,7 +139,6 @@ export default class CoreBrowseResults extends React.Component {
             onSelectRandom={this.props.onSelectRandom}
             onUserSelect={this.props.onUserSelect}
             onCreateProject={this.props.onCreateProject}
-            onPlaylistSelect={this.props.onPlaylistSelect}
             onMediaSelect={this.props.onMediaSelect}
             onLoadHelp={this.props.onLoadHelp}
             featuredMedia={this.props.featuredMedia}
@@ -170,7 +153,6 @@ export default class CoreBrowseResults extends React.Component {
       return (
         <div className={STYLES_CONTAINER}>
           {this._renderMedia()}
-          {this._renderPlaylists()}
           {this._renderUsers()}
         </div>
       );
