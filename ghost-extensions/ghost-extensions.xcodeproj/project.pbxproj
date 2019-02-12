@@ -173,7 +173,7 @@
 		B5E9FA73211B67100068BEB9 /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = context.c; sourceTree = "<group>"; };
 		B5E9FBF2211B68110068BEB9 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../openssl/lib/iOS/libssl.a; sourceTree = "<group>"; };
 		B5E9FBF3211B68110068BEB9 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../openssl/lib/iOS/libcrypto.a; sourceTree = "<group>"; };
-		B5E9FBF6211B69190068BEB9 /* Lua.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lua.framework; path = ../../../../../../../Library/Frameworks/Lua.framework; sourceTree = "<group>"; };
+		B5E9FBF6211B69190068BEB9 /* Lua.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lua.framework; path = ../macosx/Frameworks/Lua.framework; sourceTree = "<group>"; };
 		B5E9FBFD211B69E00068BEB9 /* ghost_extensions_macos.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ghost_extensions_macos.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5E9FBFF211B69E00068BEB9 /* ghost_extensions_macos.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ghost_extensions_macos.h; sourceTree = "<group>"; };
 		B5E9FC00211B69E00068BEB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -686,7 +686,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../openssl/include\"",
-					/Library/Frameworks/Lua.framework/Headers,
+					"\"$(SRCROOT)/../macosx/Frameworks/Lua.framework/Headers\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -745,7 +745,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../openssl/include\"",
-					/Library/Frameworks/Lua.framework/Headers,
+					"\"$(SRCROOT)/../macosx/Frameworks/Lua.framework/Headers\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -769,6 +769,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/../macosx/Frameworks\"",
 				);
 				INFOPLIST_FILE = "ghost-extensions/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -798,6 +799,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/../macosx/Frameworks\"",
 				);
 				INFOPLIST_FILE = "ghost-extensions/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -828,6 +830,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/../macosx/Frameworks\"",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
@@ -862,6 +865,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)/../macosx/Frameworks\"",
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;

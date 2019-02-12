@@ -9,12 +9,9 @@ do that!
 ### macOS
 
 - You must have git-lfs installed. Do not clone the repository without git-lfs. Install [Homebrew](https://brew.sh/). Then run `brew install git-lfs`. Then run `git lfs install`.
-- Copy the '.framework' files in https://love2d.org/sdk/love-osx-frameworks-0.10.zip to
-'/Library/Frameworks' (at the root of your file system) if you haven't done that before.
-- Download the `macosx` build from https://github.com/expo/cef-builds/tree/master/builds and copy 'Chromium Embedded Framework.framework' from 'Release/` to '/Library/Frameworks'.
 - Open './macosx/ghost.xcodeproj' with Xcode.
 - Run the 'ghost-macosx' target:
-![Run Ghost on macOS](run-mac.png)
+  ![Run Ghost on macOS](run-mac.png)
 
 ### Windows
 
@@ -26,6 +23,7 @@ do that!
 - Install http://nsis.sourceforge.net.
 
 #### Debug build
+
 - Make sure `git lfs` is initialized.
 - Open the Git Bash utility that comes with Git for Windows and navigate to the `megasource` directory.
 - In 'megasource/', run './run_cmake.sh'.
@@ -34,6 +32,7 @@ do that!
 - If the build succeeds but is unable to write Castle.exe, make sure any existing Castle processes are terminated and try again.
 
 #### Release build
+
 - Run './release.sh' in 'megasource/'. Use the installer at 'megasource/CastleSetup.exe' and then run Castle from the start menu.
 
 ### Linux
@@ -49,12 +48,11 @@ do that!
 - Now from the 'base/' directory at the root of your checkout of this
   repository, run `../love/build/love .`.
 
-
 ## Portals
 
 Portals offer views into content from the web to render as a Lua/Love game. That's how the 'Base'
 experience included with Ghost loads other experiences. You can load your own portals that you
-create, and have those portals load other portals, and so on. You have full freedom now how 
+create, and have those portals load other portals, and so on. You have full freedom now how
 your portal loads are displayed, given input, and managed.
 
 Edit 'base/main.lua' to change the default portal(s) opened by the Base.
@@ -71,6 +69,7 @@ sub-portals work. 'base/main.lua' has an example of creating portals and control
 - Lua is mostly sort of like JavaScript and hopefully should be easy to pick up! Here's [a good introduction](http://lua-users.org/wiki/TutorialDirectory) to the language.
 - There are a lot of good benefits from using Lua, and also of course tradeoffs, vs. other languages
   (JavaScript probably being the main other one). Here are some of the many benefits:
+
   - Quite small and easy to pick up for people new to programming (subjective I guess).
   - LuaJIT makes Lua extremely fast. The JIT runs on macOS, Windows and Linux. On iOS and Android,
     only the interpreter runs, but LuaJIT's interpreter is still much faster than the original Lua
@@ -79,11 +78,11 @@ sub-portals work. 'base/main.lua' has an example of creating portals and control
     approximately once every 3 years, and the code is small and neat enough for it to be
     well-understood by the whole team. It's well-documented. It's API is the same across all
     the desktop and mobile platforms Ghost supports.
-  - Coroutines make non-blocking asynchronous calls possible without having to explicitly `await `
+  - Coroutines make non-blocking asynchronous calls possible without having to explicitly `await`
     them. This made it possible to wrap the `require` call in Lua to add network fetching, which lies
     at the core of Ghost.
   - There's a lot more...
-  
+
 ### Style
 
 I let IntelliJ's auto-format handle styling personally. We're not using an auto-formatter like
