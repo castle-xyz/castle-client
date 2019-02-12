@@ -1,0 +1,9 @@
+trigger:
+  - win_ci_test
+
+pool:
+  vmImage: "vs2017-win2016"
+
+steps:
+  - bash: "./release.sh"
+    workingDirectory: "megasource"
