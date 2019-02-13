@@ -5,9 +5,7 @@
 
 trigger:
   - release/macos
-
-#pr:
-#  - release/macos
+  - ci_test
 
 pool:
   vmImage: "macOS-10.13"
@@ -20,3 +18,4 @@ steps:
       secureFile: "ci-secret-file.txt"
   - bash: "npm i && node ./upload_script.js mac ../macosx/Castle.pkg"
     workingDirectory: ci
+    condition: ne(variables['Build.Reason'], 'PullRequest')
