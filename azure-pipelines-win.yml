@@ -7,3 +7,8 @@ pool:
 steps:
   - bash: "./release.sh"
     workingDirectory: "megasource"
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: "ci-secret-file.txt"
+  - bash: "npm i && node ./upload_script.js win ../megasource/CastleSetup.exe"
+    workingDirectory: ci
