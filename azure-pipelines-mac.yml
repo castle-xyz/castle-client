@@ -10,11 +10,10 @@ pool:
   vmImage: "macOS-10.13"
 
 steps:
-  - task: Xcode@5
+  - bash: "./release.sh"
+    workingDirectory: macosx
+  - task: DownloadSecureFile@1
     inputs:
-      actions: "build"
-      scheme: "ghost-macosx"
-      sdk: "macosx"
-      configuration: "Release"
-      xcWorkspacePath: "macosx/ghost.xcodeproj/project.xcworkspace"
-      xcodeVersion: "10"
+      secureFile: "ci-secret-file.txt"
+  - bash: "npm i && node ./upload_script.js mac ../macosx/Castle.pkg"
+    workingDirectory: ci

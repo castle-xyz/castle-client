@@ -9,6 +9,7 @@ xcodebuild -project ghost.xcodeproj -config Release -scheme ghost-macosx -archiv
 mkdir -p pkg-root/Applications
 mv archive.xcarchive/Products/Applications/Castle.app pkg-root/Applications/
 pkgbuild --root pkg-root --component-plist Supporting/ghost-pkg.plist --identifier io.playcastle.castle --version $VERSION Castle-$VERSION.pkg
+cp Castle-$VERSION.pkg Castle.pkg
 
 rm -rf archive.xcarchive
 rm -rf pkg-root
