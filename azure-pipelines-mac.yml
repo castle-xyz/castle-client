@@ -6,8 +6,8 @@
 trigger:
   - release/macos
 
-pr:
-  - release/macos
+#pr:
+#  - release/macos
 
 pool:
   vmImage: "macOS-10.13"
