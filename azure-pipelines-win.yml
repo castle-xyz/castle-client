@@ -1,8 +1,8 @@
 trigger:
   - release/win
 
-pr:
-  - release/win
+#pr:
+#  - release/win
 
 pool:
   vmImage: "vs2017-win2016"
@@ -15,3 +15,4 @@ steps:
       secureFile: "ci-secret-file.txt"
   - bash: "npm i && node ./upload_script.js win ../megasource/CastleSetup.exe"
     workingDirectory: ci
+    condition: ne(variables['Build.Reason'], 'PullRequest')
