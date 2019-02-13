@@ -1,6 +1,9 @@
 trigger:
   - release/win
 
+pr:
+  - release/win
+
 pool:
   vmImage: "vs2017-win2016"
 
