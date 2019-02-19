@@ -77,7 +77,7 @@ const canonizeUserProvidedUrl = (urlStr) => {
 };
 
 const isMetadataFileUrl = (urlStr) => {
-  return (urlStr && urlStr.endsWith('.castle'));
+  return urlStr && urlStr.endsWith('.castle');
 };
 
 const parseIdFromCastleHostedUrl = (mediaUrl) => {
@@ -85,8 +85,8 @@ const parseIdFromCastleHostedUrl = (mediaUrl) => {
   try {
     const components = url.parse(mediaUrl);
     const pathComponents = components.pathname
-          .split('/')
-          .filter(pathComponent => pathComponent.length > 0);
+      .split('/')
+      .filter((pathComponent) => pathComponent.length > 0);
     if (pathComponents[0].startsWith('@') && pathComponents.length >= 2) {
       username = pathComponents[0].substring(1);
       slug = pathComponents[1];
@@ -98,8 +98,13 @@ const parseIdFromCastleHostedUrl = (mediaUrl) => {
   }
   return {
     username,
-    slug
+    slug,
   };
+};
+
+const isGameUrl = (urlStr) => {
+  let parsedUrl = url.parse(urlStr);
+  return parsedUrl.protocol.startsWith('castle') || parsedUrl.pathname.endsWith('.castle');
 };
 
 export {
@@ -110,4 +115,5 @@ export {
   isOpenSource,
   isMetadataFileUrl,
   parseIdFromCastleHostedUrl,
+  isGameUrl,
 };

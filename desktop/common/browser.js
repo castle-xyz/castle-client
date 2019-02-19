@@ -4,6 +4,7 @@ import * as Actions from '~/common/actions';
 import * as NativeUtil from '~/native/nativeutil';
 import * as Strings from '~/common/strings';
 import * as Urls from '~/common/urls';
+import URL from 'url';
 
 function _validateMetadata(metadata, isRegistered) {
   if (!metadata) {
@@ -88,6 +89,20 @@ async function resolveGameAtUrlAsync(gameUrl) {
     game = {
       url: gameUrl,
     };
+  }
+
+  // if game didn't come from the server, then parse the sessionId and format it correctly
+  if (!game.gameId) {
+    try {
+      let parsedUrl = URL.parse(gameUrl);
+
+      if (parsedUrl.hash) {
+        game.sessionId = parsedUrl.hash.substr(1);
+      }
+
+      parsedUrl.hash = null;
+      game.url = URL.format(parsedUrl);
+    } catch (e) {}
   }
 
   return game;

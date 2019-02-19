@@ -27,6 +27,7 @@ const STYLES_CONNECTING = css`
 `;
 
 const ROOM_NAME = 'general';
+const NOTIFICATIONS_USER_ID = -1;
 
 class ChatContainer extends React.Component {
   constructor(props) {
@@ -44,7 +45,36 @@ class ChatContainer extends React.Component {
 
   componentWillMount() {
     this._startChatAsync();
+    window.addEventListener('CASTLE_ADD_CHAT_NOTIFICATION', this._addChatNotificationAsync);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener('CASTLE_ADD_CHAT_NOTIFICATION', this._addChatNotificationAsync);
+  }
+
+  _addChatNotificationAsync = async (event) => {
+    await this._acquireLockAsync();
+
+    this.setState((state) => {
+      state.chatMessages.push({
+        ...event.params,
+        roomName: ROOM_NAME,
+        userId: NOTIFICATIONS_USER_ID,
+        timestamp: new Date().toString(),
+        key: Math.random(),
+      });
+
+      state.chatMessages.sort((a, b) => {
+        return new Date(a.timestamp) - new Date(b.timestamp);
+      });
+
+      this._releaseLock();
+
+      return {
+        chatMessages: state.chatMessages,
+      };
+    });
+  };
 
   _startChatAsync = async () => {
     let { user } = this.props;
@@ -95,11 +125,18 @@ class ChatContainer extends React.Component {
     return this.props.social.userIdToUser[userId];
   };
 
-  _handleMessagesAsync = async (messages) => {
+  _acquireLockAsync = async () => {
     while (this._handleMessagesLock) {
       await this._sleep(100);
     }
+    this._handleMessagesLock = true;
+  };
 
+  _releaseLock = () => {
+    this._handleMessagesLock = false;
+  };
+
+  _handleMessagesAsync = async (messages) => {
     // load all users first
     let userIdsToLoad = {};
     for (let i = 0; i < messages.length; i++) {
@@ -115,7 +152,7 @@ class ChatContainer extends React.Component {
       this.props.social.addUsers(users);
     } catch (e) {}
 
-    this._handleMessagesLock = true;
+    await this._acquireLockAsync();
 
     this.setState((state) => {
       for (let i = 0; i < messages.length; i++) {
@@ -138,7 +175,7 @@ class ChatContainer extends React.Component {
         return new Date(a.timestamp) - new Date(b.timestamp);
       });
 
-      this._handleMessagesLock = false;
+      this._releaseLock();
       return {
         chatMessages: state.chatMessages,
       };

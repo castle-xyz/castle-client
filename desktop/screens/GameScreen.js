@@ -73,7 +73,7 @@ class GameScreen extends React.Component {
     amplitude.getInstance().logEvent('OPEN_LUA', {
       url,
     });
-    Share.addEventListeners();
+    Share.addEventListeners(this.props.game);
     UserStatus.startAsync(this.props.game);
     await GameWindow.open(url);
 

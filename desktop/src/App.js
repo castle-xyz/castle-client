@@ -14,6 +14,7 @@ import Logs from '~/common/logs';
 import { NavigatorContext, NavigationContextProvider } from '~/contexts/NavigationContext';
 import * as NativeUtil from '~/native/nativeutil';
 import { linkify } from 'react-linkify';
+import * as Urls from '~/common/urls';
 
 import ContentContainer from '~/components/ContentContainer.js';
 import SocialContainer from '~/components/SocialContainer.js';
@@ -59,7 +60,7 @@ class App extends React.Component {
         e.preventDefault();
 
         let url = e.target.href;
-        if (url.startsWith('castle') || url.endsWith('.castle')) {
+        if (Urls.isGameUrl(url)) {
           this.props.navigator.navigateToGameUrl(url);
         } else {
           NativeUtil.openExternalURL(url);

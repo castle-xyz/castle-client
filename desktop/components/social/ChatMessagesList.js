@@ -5,6 +5,8 @@ import Linkify from 'react-linkify';
 
 import * as Constants from '~/common/constants';
 
+const NOTIFICATIONS_USER_ID = -1;
+
 const STYLES_MESSAGES_CONTAINER = css`
   width: 100%;
   height: 100%;
@@ -81,6 +83,10 @@ class ChatMessagesList extends React.Component {
           userId: chatMessage.userId,
           username: chatMessage.userId,
         };
+
+        if (chatMessage.userId === NOTIFICATIONS_USER_ID) {
+          user = { userId: NOTIFICATIONS_USER_ID, username: 'Notification' };
+        }
 
         maybeUsername = (
           <div

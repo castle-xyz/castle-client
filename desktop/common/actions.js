@@ -624,17 +624,18 @@ async function _recordUserStatusRegisteredGame(status, isNewSession, gameId) {
 }
 
 // TODO: media -> game
-export async function multiplayerJoinAsync(mediaUrl) {
+export async function multiplayerJoinAsync(mediaUrl, sessionId) {
   let result;
   try {
     result = await API.graphqlAsync(
       /* GraphQL */ `
-        mutation($mediaUrl: String!) {
-          multiplayerJoin(mediaUrl: $mediaUrl)
+        mutation($mediaUrl: String!, $sessionId: String) {
+          multiplayerJoin(mediaUrl: $mediaUrl, sessionId: $sessionId)
         }
       `,
       {
         mediaUrl,
+        sessionId,
       }
     );
   } catch (e) {
