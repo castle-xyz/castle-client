@@ -6,7 +6,10 @@ import * as Actions from '~/common/actions';
 import * as Browser from '~/common/browser';
 import * as Constants from '~/common/constants';
 import { CurrentUserContext } from '~/contexts/CurrentUserContext';
-import { DevelopmentContext } from '~/contexts/DevelopmentContext';
+import {
+  DevelopmentContextConsumer,
+  DevelopmentContextProvider,
+} from '~/contexts/DevelopmentContext';
 import { SocialContext } from '~/contexts/SocialContext';
 import Logs from '~/common/logs';
 import { NavigationContext } from '~/contexts/NavigationContext';
@@ -36,14 +39,14 @@ const STYLES_CONTAINER = css`
   display: flex;
 `;
 
-export default class App extends React.Component {
+class App extends React.Component {
   _nativeChannelsPollTimeout;
 
   constructor(props) {
     super();
 
     this.state = props.state;
-    ['navigator', 'currentUser', 'development', 'social'].forEach((contextName) => {
+    ['navigator', 'currentUser', 'social'].forEach((contextName) => {
       this._applyContextFunctions(contextName);
     });
   }
@@ -99,12 +102,7 @@ export default class App extends React.Component {
     const logs = Logs.consume();
 
     if (logs && logs.length) {
-      this.setState({
-        development: {
-          ...this.state.development,
-          logs: [...this.state.development.logs, ...logs],
-        },
-      });
+      this.props.development.addLogs(logs);
     }
 
     this._nativeChannelsPollTimeout = window.setTimeout(
@@ -145,7 +143,7 @@ export default class App extends React.Component {
       return;
     }
     if (isDevelopmentHotkey(e)) {
-      return this.setIsDeveloping(!this.state.development.isDeveloping);
+      return this.props.development.setIsDeveloping(!this.props.development.isDeveloping);
     }
   };
 
@@ -174,7 +172,7 @@ export default class App extends React.Component {
       },
     });
     const isLocal = Urls.isPrivateUrl(url);
-    this.setIsDeveloping(isLocal);
+    this.props.development.setIsDeveloping(isLocal);
   };
 
   // navigator actions
@@ -324,25 +322,6 @@ export default class App extends React.Component {
     this.setState(updates);
   };
 
-  // development actions
-  setIsDeveloping = (isDeveloping) => {
-    this.setState({
-      development: {
-        ...this.state.development,
-        isDeveloping,
-      },
-    });
-  };
-
-  clearLogs = () => {
-    this.setState({
-      development: {
-        ...this.state.development,
-        logs: [],
-      },
-    });
-  };
-
   // social actions
   addUser = (user) => {
     this.setState((state) => {
@@ -385,20 +364,38 @@ export default class App extends React.Component {
       <NavigatorContext.Provider value={this.state.navigator}>
         <NavigationContext.Provider value={this.state.navigation}>
           <CurrentUserContext.Provider value={this.state.currentUser}>
-            <DevelopmentContext.Provider value={this.state.development}>
-              <SocialContext.Provider value={this.state.social}>
-                <div className={STYLES_CONTAINER}>
-                  <SocialContainer />
-                  <ContentContainer
-                    featuredGames={this.state.featuredGames}
-                    allContent={this.state.allContent}
-                  />
-                </div>
-              </SocialContext.Provider>
-            </DevelopmentContext.Provider>
+            <SocialContext.Provider value={this.state.social}>
+              <div className={STYLES_CONTAINER}>
+                <SocialContainer />
+                <ContentContainer
+                  featuredGames={this.state.featuredGames}
+                  allContent={this.state.allContent}
+                />
+              </div>
+            </SocialContext.Provider>
           </CurrentUserContext.Provider>
         </NavigationContext.Provider>
       </NavigatorContext.Provider>
+    );
+  }
+}
+
+class AppWithContext extends React.Component {
+  render() {
+    return (
+      <DevelopmentContextConsumer>
+        {(development) => <App development={development} {...this.props} />}
+      </DevelopmentContextConsumer>
+    );
+  }
+}
+
+export default class AppWithProvider extends React.Component {
+  render() {
+    return (
+      <DevelopmentContextProvider>
+        <AppWithContext {...this.props} />
+      </DevelopmentContextProvider>
     );
   }
 }

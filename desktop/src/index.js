@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import * as React from 'react';
 import * as Constants from '~/common/constants';
 import { CurrentUserContextDefaults } from '~/contexts/CurrentUserContext';
-import { DevelopmentContextDefaults } from '~/contexts/DevelopmentContext';
 import { NavigationContextDefaults } from '~/contexts/NavigationContext';
 import { NavigatorContextDefaults } from '~/contexts/NavigatorContext';
 import { SocialContextDefaults } from '~/contexts/SocialContext';
@@ -91,7 +90,6 @@ const INITIAL_STATE_OFFLINE = {
   navigation: NavigationContextDefaults,
   navigator: NavigatorContextDefaults,
   currentUser: CurrentUserContextDefaults,
-  development: DevelopmentContextDefaults,
   social: SocialContextDefaults,
 };
 
