@@ -2,7 +2,6 @@ import ReactDOM from 'react-dom';
 
 import * as React from 'react';
 import * as Constants from '~/common/constants';
-import { CurrentUserContextDefaults } from '~/contexts/CurrentUserContext';
 import { NavigationContextDefaults } from '~/contexts/NavigationContext';
 import { NavigatorContextDefaults } from '~/contexts/NavigatorContext';
 import { SocialContextDefaults } from '~/contexts/SocialContext';
@@ -89,7 +88,6 @@ const INITIAL_STATE_OFFLINE = {
   isOffline: true,
   navigation: NavigationContextDefaults,
   navigator: NavigatorContextDefaults,
-  currentUser: CurrentUserContextDefaults,
   social: SocialContextDefaults,
 };
 
@@ -106,7 +104,7 @@ const run = async () => {
     isOffline,
   });
 
-  state.currentUser.user = viewer;
+  state.currentUser = { user: viewer };
   state.navigation.contentMode = isOffline ? 'game' : 'home';
 
   ReactDOM.render(<App state={state} storage={storage} />, document.getElementById('root'));

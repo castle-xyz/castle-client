@@ -5,7 +5,10 @@ import { isKeyHotkey } from 'is-hotkey';
 import * as Actions from '~/common/actions';
 import * as Browser from '~/common/browser';
 import * as Constants from '~/common/constants';
-import { CurrentUserContext } from '~/contexts/CurrentUserContext';
+import {
+  CurrentUserContextConsumer,
+  CurrentUserContextProvider,
+} from '~/contexts/CurrentUserContext';
 import {
   DevelopmentContextConsumer,
   DevelopmentContextProvider,
@@ -46,7 +49,7 @@ class App extends React.Component {
     super();
 
     this.state = props.state;
-    ['navigator', 'currentUser', 'social'].forEach((contextName) => {
+    ['navigator', 'social'].forEach((contextName) => {
       this._applyContextFunctions(contextName);
     });
   }
@@ -81,6 +84,38 @@ class App extends React.Component {
     window.removeEventListener('keydown', this._handleKeyDownEvent);
     window.removeEventListener('CASTLE_SYSTEM_KEY_PRESSED', this._handleLuaSystemKeyDownEvent);
     window.clearTimeout(this._nativeChannelsPollTimeout);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevProps.currentUser.user &&
+      !!prevProps.currentUser.user !== !!this.props.currentUser.user
+    ) {
+      // current user logged in or out
+      this.navigateToCurrentUserProfile();
+    }
+    if (
+      prevProps.currentUser.timeLastLoaded !== 0 &&
+      prevProps.currentUser.timeLastLoaded !== this.props.currentUser.timeLastLoaded
+    ) {
+      // current user was refreshed
+      const viewer = this.props.currentUser.user;
+      this.state.social.userIdToUser[viewer.userId] = viewer;
+      let updates = {
+        social: {
+          ...this.state.social,
+          userIdToUser: this.state.social.userIdToUser,
+        },
+      };
+      const userProfileShown = this.state.navigation.userProfileShown;
+      if (viewer && userProfileShown && viewer.userId === userProfileShown.userId) {
+        updates.navigation = {
+          ...this.state.navigation,
+          userProfileShown: viewer,
+        };
+      }
+      this.setState({ updates });
+    }
   }
 
   // the App component uses its own state as the value for our ContextProviders.
@@ -181,6 +216,7 @@ class App extends React.Component {
       navigation: {
         ...this.state.navigation,
         contentMode: mode,
+        userProfileShown: null,
         timeLastNavigated: Date.now(),
       },
     });
@@ -227,9 +263,9 @@ class App extends React.Component {
   };
 
   navigateToCurrentUserProfile = () => {
-    if (this.state.currentUser.user) {
-      this.navigateToUserProfile(this.state.currentUser.user);
-      this.refreshCurrentUser();
+    if (this.props.currentUser.user) {
+      this.navigateToUserProfile(this.props.currentUser.user);
+      this.props.currentUser.refreshCurrentUser();
     } else {
       // show sign in
       this._navigateToContentMode('signin');
@@ -255,71 +291,6 @@ class App extends React.Component {
         timeLastNavigated: Date.now(),
       },
     });
-  };
-
-  // currentUser actions
-  setCurrentUser = (user) => {
-    this.setState(
-      {
-        currentUser: {
-          ...this.state.currentUser,
-          user,
-        },
-      },
-      () => {
-        if (user) {
-          this.navigateToCurrentUserProfile();
-        } else {
-          this.navigateToHome();
-        }
-      }
-    );
-  };
-
-  clearCurrentUser = () => {
-    if (!Actions.logout()) {
-      return;
-    }
-    this.setState(
-      {
-        currentUser: {
-          ...this.state.currentUser,
-          user: null,
-          userStatusHistory: [],
-        },
-      },
-      () => {
-        this.navigateToCurrentUserProfile();
-      }
-    );
-  };
-
-  refreshCurrentUser = async () => {
-    const viewer = await Actions.getViewer();
-    if (!viewer) {
-      return;
-    }
-    const userStatusHistory = await Actions.getUserStatusHistory(viewer.userId);
-    this.state.social.userIdToUser[viewer.userId] = viewer;
-    const updates = {
-      currentUser: {
-        ...this.state.currentUser,
-        user: viewer,
-        userStatusHistory,
-      },
-      social: {
-        ...this.state.social,
-        userIdToUser: this.state.social.userIdToUser,
-      },
-    };
-    const userProfileShown = this.state.navigation.userProfileShown;
-    if (viewer && userProfileShown && viewer.userId === userProfileShown.userId) {
-      updates.navigation = {
-        ...this.state.navigation,
-        userProfileShown: viewer,
-      };
-    }
-    this.setState(updates);
   };
 
   // social actions
@@ -363,17 +334,15 @@ class App extends React.Component {
     return (
       <NavigatorContext.Provider value={this.state.navigator}>
         <NavigationContext.Provider value={this.state.navigation}>
-          <CurrentUserContext.Provider value={this.state.currentUser}>
-            <SocialContext.Provider value={this.state.social}>
-              <div className={STYLES_CONTAINER}>
-                <SocialContainer />
-                <ContentContainer
-                  featuredGames={this.state.featuredGames}
-                  allContent={this.state.allContent}
-                />
-              </div>
-            </SocialContext.Provider>
-          </CurrentUserContext.Provider>
+          <SocialContext.Provider value={this.state.social}>
+            <div className={STYLES_CONTAINER}>
+              <SocialContainer />
+              <ContentContainer
+                featuredGames={this.state.featuredGames}
+                allContent={this.state.allContent}
+              />
+            </div>
+          </SocialContext.Provider>
         </NavigationContext.Provider>
       </NavigatorContext.Provider>
     );
@@ -383,9 +352,15 @@ class App extends React.Component {
 class AppWithContext extends React.Component {
   render() {
     return (
-      <DevelopmentContextConsumer>
-        {(development) => <App development={development} {...this.props} />}
-      </DevelopmentContextConsumer>
+      <CurrentUserContextConsumer>
+        {(currentUser) => (
+          <DevelopmentContextConsumer>
+            {(development) => (
+              <App currentUser={currentUser} development={development} {...this.props} />
+            )}
+          </DevelopmentContextConsumer>
+        )}
+      </CurrentUserContextConsumer>
     );
   }
 }
@@ -393,9 +368,11 @@ class AppWithContext extends React.Component {
 export default class AppWithProvider extends React.Component {
   render() {
     return (
-      <DevelopmentContextProvider>
-        <AppWithContext {...this.props} />
-      </DevelopmentContextProvider>
+      <CurrentUserContextProvider value={this.props.currentUser}>
+        <DevelopmentContextProvider>
+          <AppWithContext {...this.props} />
+        </DevelopmentContextProvider>
+      </CurrentUserContextProvider>
     );
   }
 }
