@@ -13,7 +13,7 @@ import {
   DevelopmentContextConsumer,
   DevelopmentContextProvider,
 } from '~/contexts/DevelopmentContext';
-import { SocialContext } from '~/contexts/SocialContext';
+import { SocialContextConsumer, SocialContextProvider } from '~/contexts/SocialContext';
 import Logs from '~/common/logs';
 import { NavigationContext } from '~/contexts/NavigationContext';
 import { NavigatorContext } from '~/contexts/NavigatorContext';
@@ -49,7 +49,7 @@ class App extends React.Component {
     super();
 
     this.state = props.state;
-    ['navigator', 'social'].forEach((contextName) => {
+    ['navigator'].forEach((contextName) => {
       this._applyContextFunctions(contextName);
     });
   }
@@ -100,21 +100,16 @@ class App extends React.Component {
     ) {
       // current user was refreshed
       const viewer = this.props.currentUser.user;
-      this.state.social.userIdToUser[viewer.userId] = viewer;
-      let updates = {
-        social: {
-          ...this.state.social,
-          userIdToUser: this.state.social.userIdToUser,
-        },
-      };
+      this.props.social.addUser(viewer);
       const userProfileShown = this.state.navigation.userProfileShown;
       if (viewer && userProfileShown && viewer.userId === userProfileShown.userId) {
-        updates.navigation = {
-          ...this.state.navigation,
-          userProfileShown: viewer,
-        };
+        this.setState({
+          navigation: {
+            ...this.state.navigation,
+            userProfileShown: viewer,
+          },
+        });
       }
-      this.setState({ updates });
     }
   }
 
@@ -273,11 +268,11 @@ class App extends React.Component {
   };
 
   navigateToUserProfile = async (user) => {
-    let fullUser = this.state.social.userIdToUser[user.userId];
+    let fullUser = this.props.social.userIdToUser[user.userId];
     if (!fullUser) {
       try {
         fullUser = await Actions.getUser({ userId: user.userId });
-        this.state.social.addUser(fullUser);
+        this.props.social.addUser(fullUser);
       } catch (e) {
         // fall back to whatever we were given
         fullUser = user;
@@ -293,56 +288,17 @@ class App extends React.Component {
     });
   };
 
-  // social actions
-  addUser = (user) => {
-    this.setState((state) => {
-      state.social.userIdToUser[user.userId] = user;
-      return {
-        social: {
-          ...this.state.social,
-          userIdToUser: state.social.userIdToUser,
-        },
-      };
-    });
-  };
-
-  addUsers = (users) => {
-    this.setState((state) => {
-      users.forEach((user) => {
-        state.social.userIdToUser[user.userId] = user;
-      });
-
-      return {
-        social: {
-          ...this.state.social,
-          userIdToUser: state.social.userIdToUser,
-        },
-      };
-    });
-  };
-
-  setOnlineUserIds = (userIds) => {
-    this.setState({
-      social: {
-        ...this.state.social,
-        onlineUserIds: userIds,
-      },
-    });
-  };
-
   render() {
     return (
       <NavigatorContext.Provider value={this.state.navigator}>
         <NavigationContext.Provider value={this.state.navigation}>
-          <SocialContext.Provider value={this.state.social}>
-            <div className={STYLES_CONTAINER}>
-              <SocialContainer />
-              <ContentContainer
-                featuredGames={this.state.featuredGames}
-                allContent={this.state.allContent}
-              />
-            </div>
-          </SocialContext.Provider>
+          <div className={STYLES_CONTAINER}>
+            <SocialContainer />
+            <ContentContainer
+              featuredGames={this.state.featuredGames}
+              allContent={this.state.allContent}
+            />
+          </div>
         </NavigationContext.Provider>
       </NavigatorContext.Provider>
     );
@@ -356,7 +312,16 @@ class AppWithContext extends React.Component {
         {(currentUser) => (
           <DevelopmentContextConsumer>
             {(development) => (
-              <App currentUser={currentUser} development={development} {...this.props} />
+              <SocialContextConsumer>
+                {(social) => (
+                  <App
+                    currentUser={currentUser}
+                    development={development}
+                    social={social}
+                    {...this.props}
+                  />
+                )}
+              </SocialContextConsumer>
             )}
           </DevelopmentContextConsumer>
         )}
@@ -370,7 +335,9 @@ export default class AppWithProvider extends React.Component {
     return (
       <CurrentUserContextProvider value={this.props.currentUser}>
         <DevelopmentContextProvider>
-          <AppWithContext {...this.props} />
+          <SocialContextProvider>
+            <AppWithContext {...this.props} />
+          </SocialContextProvider>
         </DevelopmentContextProvider>
       </CurrentUserContextProvider>
     );

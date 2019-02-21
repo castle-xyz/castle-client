@@ -4,7 +4,6 @@ import * as React from 'react';
 import * as Constants from '~/common/constants';
 import { NavigationContextDefaults } from '~/contexts/NavigationContext';
 import { NavigatorContextDefaults } from '~/contexts/NavigatorContext';
-import { SocialContextDefaults } from '~/contexts/SocialContext';
 import * as Network from '~/common/network';
 import * as Actions from '~/common/actions';
 
@@ -88,7 +87,6 @@ const INITIAL_STATE_OFFLINE = {
   isOffline: true,
   navigation: NavigationContextDefaults,
   navigator: NavigatorContextDefaults,
-  social: SocialContextDefaults,
 };
 
 const run = async () => {
