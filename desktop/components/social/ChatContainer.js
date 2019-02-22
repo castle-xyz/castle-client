@@ -56,7 +56,11 @@ class ChatContainer extends React.Component {
 
     this.setState((state) => {
       state.chatMessages.push({
-        ...event.params,
+        message: [
+          {
+            text: event.params.message,
+          },
+        ],
         roomName: ROOM_NAME,
         userId: NOTIFICATIONS_USER_ID,
         timestamp: new Date().toString(),
@@ -131,6 +135,54 @@ class ChatContainer extends React.Component {
     this._handleMessagesLock = false;
   };
 
+  _unescapeChatMessage = (message) => {
+    return message
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>');
+  };
+
+  _convertToRichMessage = (message) => {
+    let items = [];
+    let start = 0;
+    let i = 0;
+
+    while (i < message.length) {
+      let c = message.charAt(i);
+
+      if (c === '<') {
+        if (i > start) {
+          items.push({
+            text: this._unescapeChatMessage(message.substr(start, i - start)),
+          });
+        }
+
+        let j = i + 1;
+        while (message.charAt(j) !== '>' && j < message.length) {
+          j++;
+        }
+
+        let tagBody = message.substr(i + 1, j - i - 1);
+        if (tagBody.startsWith('user:')) {
+          items.push({
+            userId: tagBody.substr(5),
+          });
+        }
+
+        i = j + 1;
+        start = i;
+      } else {
+        i++;
+      }
+    }
+
+    if (i > start) {
+      items.push({ text: this._unescapeChatMessage(message.substr(start, i - start)) });
+    }
+
+    return items;
+  };
+
   _handleMessagesAsync = async (messages) => {
     // load all users first
     let userIdsToLoad = {};
@@ -139,6 +191,17 @@ class ChatContainer extends React.Component {
       let fromUser = this._getUserForId(fromUserId);
       if (!fromUser) {
         userIdsToLoad[fromUserId] = true;
+      }
+
+      messages[i].richMessage = this._convertToRichMessage(messages[i].message.body);
+      for (let j = 0; j < messages[i].richMessage.length; j++) {
+        let richMessagePart = messages[i].richMessage[j];
+        if (richMessagePart.userId) {
+          let fromUser = this._getUserForId(richMessagePart.userId);
+          if (!fromUser) {
+            userIdsToLoad[fromUserId] = true;
+          }
+        }
       }
     }
 
@@ -154,13 +217,13 @@ class ChatContainer extends React.Component {
         let msg = messages[i];
         let roomName = msg.roomName;
         let fromUserId = msg.message.name;
-        let messageBody = msg.message.body;
+        let message = msg.richMessage;
         let timestamp = msg.timestamp;
 
         state.chatMessages.push({
           key: Math.random(),
           userId: fromUserId,
-          message: messageBody,
+          message,
           roomName,
           timestamp,
         });
@@ -190,10 +253,6 @@ class ChatContainer extends React.Component {
   };
 
   _onSendMessage = (message) => {
-    // testing
-    alert(message);
-    return;
-
     if (this._castleChat) {
       this._castleChat.sendMessage(ROOM_NAME, message);
     }

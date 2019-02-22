@@ -172,7 +172,7 @@ export default class ChatInput extends React.Component {
         inputValue = inputValue.substr(0, i) + '&amp;' + inputValue.substr(i + 1);
         i += 5;
       } else if (inputValue.charAt(i) === '<') {
-        inputValue = inputValue.substr(0, i) + '&gt;' + inputValue.substr(i + 1);
+        inputValue = inputValue.substr(0, i) + '&lt;' + inputValue.substr(i + 1);
         i += 4;
       } else {
         i++;

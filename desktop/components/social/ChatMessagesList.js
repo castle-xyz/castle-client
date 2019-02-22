@@ -40,6 +40,12 @@ const STYLES_MESSAGE = css`
   overflow-wrap: break-word;
 `;
 
+const STYLES_MESSAGE_TAG = css`
+  cursor: pointer;
+  font-weight: 900;
+  background: #feff00;
+`;
+
 const STYLES_BOTTOM = css`
   height: 8px;
 `;
@@ -66,6 +72,28 @@ class ChatMessagesList extends React.Component {
     window.setTimeout(() => {
       if (this._containerBottom) {
         this._containerBottom.scrollIntoView(false);
+      }
+    });
+  };
+
+  _renderChatMessage = (message) => {
+    return message.map((messagePart) => {
+      if (messagePart.text) {
+        return <span>{messagePart.text}</span>;
+      } else if (messagePart.userId) {
+        let isRealUser = !!this.props.social.userIdToUser[messagePart.userId];
+        let user = this.props.social.userIdToUser[messagePart.userId] || {
+          userId: messagePart.userId,
+          username: messagePart.userId,
+        };
+
+        return (
+          <span
+            className={STYLES_MESSAGE_TAG}
+            onClick={isRealUser ? () => this.props.navigateToUserProfile(user) : null}>{`@${
+            user.username
+          }`}</span>
+        );
       }
     });
   };
@@ -101,7 +129,7 @@ class ChatMessagesList extends React.Component {
         <div key={chatMessage.key} className={STYLES_CHAT_ITEM}>
           {maybeUsername}
           <div className={STYLES_MESSAGE}>
-            <Linkify>{chatMessage.message}</Linkify>
+            <Linkify>{this._renderChatMessage(chatMessage.message)}</Linkify>
           </div>
         </div>
       );
