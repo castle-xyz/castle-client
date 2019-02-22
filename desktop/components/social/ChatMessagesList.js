@@ -77,10 +77,11 @@ class ChatMessagesList extends React.Component {
   };
 
   _renderChatMessage = (message) => {
+    let result = [];
     for (let i = 0; i < message.length; i++) {
       let messagePart = message[i];
       if (messagePart.text) {
-        return <span key={i}>{messagePart.text}</span>;
+        result.push(<span key={i}>{messagePart.text}</span>);
       } else if (messagePart.userId) {
         let isRealUser = !!this.props.social.userIdToUser[messagePart.userId];
         let user = this.props.social.userIdToUser[messagePart.userId] || {
@@ -88,7 +89,7 @@ class ChatMessagesList extends React.Component {
           username: messagePart.userId,
         };
 
-        return (
+        result.push(
           <span
             key={i}
             className={STYLES_MESSAGE_TAG}
@@ -98,6 +99,8 @@ class ChatMessagesList extends React.Component {
         );
       }
     }
+
+    return result;
   };
 
   render() {
