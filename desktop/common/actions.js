@@ -652,3 +652,23 @@ export async function multiplayerJoinAsync(mediaUrl, sessionId) {
 
   return result.data.multiplayerJoin;
 }
+
+export async function getAutocompleteAsync(text) {
+  const result = await API(
+    `
+    query($text: String!) {
+      autocomplete(text: $text) {
+        users {
+          userId
+          username
+          name
+        }
+      }
+    }`,
+    { text }
+  );
+  if (result.error || result.errors) {
+    return false;
+  }
+  return result.data.autocomplete;
+}

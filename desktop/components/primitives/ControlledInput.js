@@ -13,6 +13,7 @@ export default class ControlledInput extends React.Component {
   static defaultProps = {
     onChange: () => {},
     onSubmit: () => {},
+    onKeyDown: () => {},
     onKeyUp: () => {},
     onBlur: () => {},
     onFocus: () => {},
@@ -24,27 +25,35 @@ export default class ControlledInput extends React.Component {
     }
   };
 
-  focus = e => {
+  focus = (e) => {
     this._input.focus();
     this._handleFocus(e);
   };
 
-  blur = e => {
+  blur = (e) => {
     this._input.blur();
     this._handleBlur(e);
   };
 
-  _handleFocus = e => {
+  getRef = () => {
+    return this._input;
+  };
+
+  _handleFocus = (e) => {
     this.setState({ focus: true });
     this.props.onFocus(e);
   };
 
-  _handleBlur = e => {
+  _handleBlur = (e) => {
     this.setState({ focus: false });
     this.props.onBlur(e);
   };
 
-  _handleKeyUp = e => {
+  _handleKeyDown = (e) => {
+    this.props.onKeyDown(e);
+  };
+
+  _handleKeyUp = (e) => {
     if (e.which === 13) {
       this.props.onSubmit(e);
       return;
@@ -62,7 +71,7 @@ export default class ControlledInput extends React.Component {
   render() {
     return (
       <input
-        ref={r => {
+        ref={(r) => {
           this._input = r;
         }}
         id={this.props.name ? `${this.props.name}-unique-input` : null}
@@ -74,6 +83,7 @@ export default class ControlledInput extends React.Component {
         onChange={this.props.onChange}
         onFocus={this._handleFocus}
         onBlur={this._handleBlur}
+        onKeyDown={this._handleKeyDown}
         onKeyUp={this._handleKeyUp}
         value={this.props.value}
         name={this.props.name}

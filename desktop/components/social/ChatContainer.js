@@ -34,7 +34,6 @@ class ChatContainer extends React.Component {
     super(props);
 
     this.state = {
-      inputValue: '',
       chatMessages: [],
       onlineUsers: [],
       connectionStatus: ConnectionStatus.CONNECTING,
@@ -190,16 +189,13 @@ class ChatContainer extends React.Component {
     }
   };
 
-  _onChangeInput = (event) => {
-    this.setState({ inputValue: event.target.value });
-  };
-
-  _onSubmit = (e) => {
-    e.preventDefault();
+  _onSendMessage = (message) => {
+    // testing
+    alert(message);
+    return;
 
     if (this._castleChat) {
-      this._castleChat.sendMessage(ROOM_NAME, this.state.inputValue);
-      this.setState({ inputValue: '' });
+      this._castleChat.sendMessage(ROOM_NAME, message);
     }
   };
 
@@ -241,9 +237,7 @@ class ChatContainer extends React.Component {
       <div className={STYLES_CONTAINER}>
         {this._renderContent()}
         <ChatInput
-          value={this.state.inputValue}
-          onChange={this._onChangeInput}
-          onSubmit={this._onSubmit}
+          onSendMessage={this._onSendMessage}
           readOnly={readOnly}
           placeholder={placeholder}
         />
