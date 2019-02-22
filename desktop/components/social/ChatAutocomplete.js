@@ -138,6 +138,7 @@ export default class ChatAutocomplete extends React.Component {
 
       e.preventDefault();
     } else if (keyCode == 13) {
+      // enter
       if (
         this.state.selectedRowIndex >= 0 &&
         this.state.selectedRowIndex < this.state.users.length
@@ -145,6 +146,11 @@ export default class ChatAutocomplete extends React.Component {
         this.props.onSelectUser(this.state.users[this.state.selectedRowIndex]);
         e.preventDefault();
       }
+    } else if (keyCode == 27) {
+      // escape
+      this.setState({
+        users: [],
+      });
     }
   };
 
