@@ -1,5 +1,5 @@
 import EmojisJSON from 'emoji-datasource';
-import SpriteSheet from 'emoji-datasource/img/messenger/sheets/32.png';
+import SpriteSheet from 'emoji-datasource/img/twitter/sheets/32.png';
 import * as React from 'react';
 
 const NUM_BLOCKS = 52;
