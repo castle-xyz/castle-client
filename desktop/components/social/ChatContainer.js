@@ -142,6 +142,8 @@ class ChatContainer extends React.Component {
       .replace(/&gt;/g, '>');
   };
 
+  // rich messages are arrays of objects
+  // each object has either a 'text' or a 'userId' field
   _convertToRichMessage = (message) => {
     let items = [];
     let start = 0;

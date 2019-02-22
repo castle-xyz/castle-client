@@ -91,6 +91,7 @@ export default class ChatInput extends React.Component {
       let inputValue = state.inputValue;
       let selectionStart = state.selectionStart;
 
+      // First find the beginning and end of the word that is using autocomplete
       let index = selectionStart - 1;
       while (index >= 0 && !/\s/.test(inputValue.charAt(index))) {
         index--;
@@ -104,6 +105,8 @@ export default class ChatInput extends React.Component {
 
       // Don't add an extra space if there's already a space after this user
       let optionalSpace = inputValue.substr(endOfWord).startsWith(' ') ? '' : ' ';
+
+      // Update the input field and set the cursor to the end of the autocompleted word
       inputValue =
         inputValue.substr(0, startOfWord) +
         `@${user.username}${optionalSpace}` +
@@ -127,6 +130,7 @@ export default class ChatInput extends React.Component {
 
     while (i < inputValue.length) {
       if (inputValue.charAt(i) === '@') {
+        // Try converting all @... words into <user:USER_ID> tags
         if (i > 0 && !/\s/.test(inputValue.charAt(i - 1))) {
           i++;
           continue;
