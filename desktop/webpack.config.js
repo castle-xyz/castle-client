@@ -30,6 +30,14 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCSSExtractPlugin.loader, 'css-loader'],
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -43,7 +51,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: path.join(__dirname, 'static', '**/*'), to: path.join(__dirname, '../web') },
-    ])
+    ]),
   ],
   output: {
     path: path.join(__dirname, '../web'),

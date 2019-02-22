@@ -2,6 +2,7 @@ import * as React from 'react';
 import { css } from 'react-emotion';
 import { SocialContext } from '~/contexts/SocialContext';
 import Linkify from 'react-linkify';
+import { getEmojiComponent } from '~/common/emojis';
 
 import * as Constants from '~/common/constants';
 
@@ -97,6 +98,8 @@ class ChatMessagesList extends React.Component {
             user.username
           }`}</span>
         );
+      } else if (messagePart.emoji) {
+        result.push(<span key={i}>{getEmojiComponent(messagePart.emoji, 16)}</span>);
       }
     }
 

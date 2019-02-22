@@ -5,6 +5,7 @@ import * as Actions from '~/common/actions';
 import { CastleChat, ConnectionStatus } from 'castle-chat-lib';
 import ChatInput from '~/components/social/ChatInput';
 import ChatMessagesList from '~/components/social/ChatMessagesList';
+import { isEmoji } from '~/common/emojis';
 import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 import { SocialContext } from '~/contexts/SocialContext';
 import { NavigatorContext } from '~/contexts/NavigationContext';
@@ -28,6 +29,7 @@ const STYLES_CONNECTING = css`
 
 const ROOM_NAME = 'general';
 const NOTIFICATIONS_USER_ID = -1;
+const TEST_MESSAGE = null;
 
 class ChatContainer extends React.Component {
   constructor(props) {
@@ -173,6 +175,29 @@ class ChatContainer extends React.Component {
 
         i = j + 1;
         start = i;
+      } else if (c === ':') {
+        let j = i + 1;
+        while (message.charAt(j) !== ':' && j < message.length) {
+          j++;
+        }
+
+        let emojiBody = message.substr(i + 1, j - i - 1);
+        if (isEmoji(emojiBody)) {
+          if (i > start) {
+            items.push({
+              text: this._unescapeChatMessage(message.substr(start, i - start)),
+            });
+          }
+
+          items.push({
+            emoji: emojiBody,
+          });
+
+          i = j + 1;
+          start = i;
+        } else {
+          i++;
+        }
       } else {
         i++;
       }
@@ -186,6 +211,17 @@ class ChatContainer extends React.Component {
   };
 
   _handleMessagesAsync = async (messages) => {
+    if (TEST_MESSAGE) {
+      messages.push({
+        message: {
+          name: '1',
+          body: TEST_MESSAGE,
+        },
+        roomName: ROOM_NAME,
+        timestamp: new Date().toString(),
+      });
+    }
+
     // load all users first
     let userIdsToLoad = {};
     for (let i = 0; i < messages.length; i++) {
