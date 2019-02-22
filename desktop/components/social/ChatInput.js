@@ -120,21 +120,17 @@ export default class ChatInput extends React.Component {
     this._controllerInput.current.getRef().setSelectionRange(cursorPosition, cursorPosition);
   };
 
-  _addRichObjects = (inputValue) => {
+  _formatMessage = (inputValue) => {
+    // Follows Slack's rules for escaping characters https://api.slack.com/docs/message-formatting
+
     let i = 0;
-    let isBeginningOfWord = true;
 
     while (i < inputValue.length) {
-      if (/\s/.test(inputValue.charAt(i))) {
-        isBeginningOfWord = true;
-        i++;
-      } else if (inputValue.charAt(i) === '@') {
-        if (!isBeginningOfWord) {
+      if (inputValue.charAt(i) === '@') {
+        if (i > 0 && !/\s/.test(inputValue.charAt(i - 1))) {
           i++;
           continue;
         }
-
-        isBeginningOfWord = false;
 
         let j;
         for (j = i + 1; j < inputValue.length; j++) {
@@ -160,7 +156,6 @@ export default class ChatInput extends React.Component {
 
         if (j >= inputValue.length || /\s/.test(inputValue.charAt(j))) {
           let tag = inputValue.substr(i + 1, j - i - 1);
-          console.log(tag);
           if (this._autocompleteCache.users[tag]) {
             let richObject = `<user:${this._autocompleteCache.users[tag].userId}>`;
             inputValue = inputValue.substr(0, i) + richObject + inputValue.substr(j);
@@ -170,57 +165,15 @@ export default class ChatInput extends React.Component {
         }
 
         i = j + 1;
-      } else {
-        isBeginningOfWord = false;
-        i++;
-      }
-    }
-
-    return inputValue;
-  };
-
-  _escapeMessage = (inputValue) => {
-    // Follows Slack's rules for escaping characters https://api.slack.com/docs/message-formatting
-    let i = 0;
-    while (i < inputValue.length) {
-      if (inputValue.charAt(i) === '>') {
+      } else if (inputValue.charAt(i) === '>') {
         inputValue = inputValue.substr(0, i) + '&gt;' + inputValue.substr(i + 1);
         i += 4;
       } else if (inputValue.charAt(i) === '&') {
-        let substringFromI = inputValue.substr(i);
-        if (substringFromI.startsWith('&gt;') || substringFromI.startsWith('&lt;')) {
-          i += 4;
-        } else if (substringFromI.startsWith('&amp;')) {
-          i += 5;
-        } else {
-          inputValue = inputValue.substr(0, i) + '&amp;' + inputValue.substr(i + 1);
-          i += 5;
-        }
+        inputValue = inputValue.substr(0, i) + '&amp;' + inputValue.substr(i + 1);
+        i += 5;
       } else if (inputValue.charAt(i) === '<') {
-        let isTag = false;
-        for (let j = i + 1; j < inputValue.length; j++) {
-          let c = inputValue.charAt(j);
-          let isTagValue =
-            (c >= '0' && c <= '9') ||
-            (c >= 'a' && c <= 'z') ||
-            (c >= 'A' && c <= 'Z') ||
-            c === ':' ||
-            c === '>';
-          if (!isTagValue) {
-            break;
-          }
-
-          if (c === '>') {
-            i = j + 1;
-            isTag = true;
-            break;
-          }
-        }
-
-        if (!isTag) {
-          inputValue = inputValue.substr(0, i) + '&lt;' + inputValue.substr(i + 1);
-          i += 4;
-        }
+        inputValue = inputValue.substr(0, i) + '&gt;' + inputValue.substr(i + 1);
+        i += 4;
       } else {
         i++;
       }
@@ -256,7 +209,7 @@ export default class ChatInput extends React.Component {
       return;
     }
 
-    this.props.onSendMessage(this._escapeMessage(this._addRichObjects(this.state.inputValue)));
+    this.props.onSendMessage(this._formatMessage(this.state.inputValue));
     this.setState({ inputValue: '' });
   };
 
