@@ -5,7 +5,7 @@ import * as Actions from '~/common/actions';
 import { CastleChat, ConnectionStatus } from 'castle-chat-lib';
 import ChatInput from '~/components/social/ChatInput';
 import ChatMessagesList from '~/components/social/ChatMessagesList';
-import { isEmoji } from '~/common/emojis';
+import * as ChatUtils from '~/common/chatutils';
 import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 import { SocialContext } from '~/contexts/SocialContext';
 import { NavigatorContext } from '~/contexts/NavigationContext';
@@ -137,79 +137,6 @@ class ChatContainer extends React.Component {
     this._handleMessagesLock = false;
   };
 
-  _unescapeChatMessage = (message) => {
-    return message
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>');
-  };
-
-  // rich messages are arrays of objects
-  // each object has either a 'text' or a 'userId' field
-  _convertToRichMessage = (message) => {
-    let items = [];
-    let start = 0;
-    let i = 0;
-
-    while (i < message.length) {
-      let c = message.charAt(i);
-
-      if (c === '<') {
-        if (i > start) {
-          items.push({
-            text: this._unescapeChatMessage(message.substr(start, i - start)),
-          });
-        }
-
-        let j = i + 1;
-        while (message.charAt(j) !== '>' && j < message.length) {
-          j++;
-        }
-
-        let tagBody = message.substr(i + 1, j - i - 1);
-        if (tagBody.startsWith('user:')) {
-          items.push({
-            userId: tagBody.substr(5),
-          });
-        }
-
-        i = j + 1;
-        start = i;
-      } else if (c === ':') {
-        let j = i + 1;
-        while (message.charAt(j) !== ':' && j < message.length) {
-          j++;
-        }
-
-        let emojiBody = message.substr(i + 1, j - i - 1);
-        if (isEmoji(emojiBody)) {
-          if (i > start) {
-            items.push({
-              text: this._unescapeChatMessage(message.substr(start, i - start)),
-            });
-          }
-
-          items.push({
-            emoji: emojiBody,
-          });
-
-          i = j + 1;
-          start = i;
-        } else {
-          i++;
-        }
-      } else {
-        i++;
-      }
-    }
-
-    if (i > start) {
-      items.push({ text: this._unescapeChatMessage(message.substr(start, i - start)) });
-    }
-
-    return items;
-  };
-
   _handleMessagesAsync = async (messages) => {
     if (TEST_MESSAGE) {
       messages.push({
@@ -231,7 +158,7 @@ class ChatContainer extends React.Component {
         userIdsToLoad[fromUserId] = true;
       }
 
-      messages[i].richMessage = this._convertToRichMessage(messages[i].message.body);
+      messages[i].richMessage = ChatUtils.convertToRichMessage(messages[i].message.body);
       for (let j = 0; j < messages[i].richMessage.length; j++) {
         let richMessagePart = messages[i].richMessage[j];
         if (richMessagePart.userId) {
@@ -290,7 +217,7 @@ class ChatContainer extends React.Component {
     }
   };
 
-  _onSendMessage = (message) => {
+  _onSubmit = (message) => {
     if (this._castleChat) {
       this._castleChat.sendMessage(ROOM_NAME, message);
     }
@@ -333,11 +260,7 @@ class ChatContainer extends React.Component {
     return (
       <div className={STYLES_CONTAINER}>
         {this._renderContent()}
-        <ChatInput
-          onSendMessage={this._onSendMessage}
-          readOnly={readOnly}
-          placeholder={placeholder}
-        />
+        <ChatInput onSubmit={this._onSubmit} readOnly={readOnly} placeholder={placeholder} />
       </div>
     );
   }

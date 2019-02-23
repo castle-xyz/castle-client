@@ -1,6 +1,7 @@
 import * as React from 'react';
 import _ from 'lodash';
 import * as Constants from '~/common/constants';
+import * as ChatUtils from '~/common/chatutils';
 import ChatAutocomplete from '~/components/social/ChatAutocomplete';
 
 import { css } from 'react-emotion';
@@ -55,7 +56,7 @@ export default class ChatInput extends React.Component {
   static defaultProps = {
     onFocus: () => {},
     onBlur: () => {},
-    onSendMessage: () => {},
+    onSubmit: () => {},
   };
 
   state = {
@@ -78,10 +79,9 @@ export default class ChatInput extends React.Component {
   }
 
   _onFetchAutocomplete = (results) => {
-    for (let i = 0; i < results.users.length; i++) {
-      let user = results.users[i];
+    results.users.forEach((user) => {
       this._autocompleteCache.users[user.username] = user;
-    }
+    });
   };
 
   _onSelectUserAsync = async (user) => {
@@ -123,69 +123,6 @@ export default class ChatInput extends React.Component {
     this._controllerInput.current.getRef().setSelectionRange(cursorPosition, cursorPosition);
   };
 
-  _formatMessage = (inputValue) => {
-    // Follows Slack's rules for escaping characters https://api.slack.com/docs/message-formatting
-
-    let i = 0;
-
-    while (i < inputValue.length) {
-      if (inputValue.charAt(i) === '@') {
-        // Try converting all @... words into <user:USER_ID> tags
-        if (i > 0 && !/\s/.test(inputValue.charAt(i - 1))) {
-          i++;
-          continue;
-        }
-
-        let j;
-        for (j = i + 1; j < inputValue.length; j++) {
-          let c = inputValue.charAt(j);
-
-          let isUserTagValue =
-            (c >= '0' && c <= '9') ||
-            (c >= 'a' && c <= 'z') ||
-            (c >= 'A' && c <= 'Z') ||
-            c === '-' ||
-            c === '_' ||
-            c === '/';
-
-          if (/\s/.test(c)) {
-            break;
-          }
-
-          if (!isUserTagValue) {
-            i = j + 1;
-            continue;
-          }
-        }
-
-        if (j >= inputValue.length || /\s/.test(inputValue.charAt(j))) {
-          let tag = inputValue.substr(i + 1, j - i - 1);
-          if (this._autocompleteCache.users[tag]) {
-            let richObject = `<user:${this._autocompleteCache.users[tag].userId}>`;
-            inputValue = inputValue.substr(0, i) + richObject + inputValue.substr(j);
-            i += richObject.length;
-            continue;
-          }
-        }
-
-        i = j + 1;
-      } else if (inputValue.charAt(i) === '>') {
-        inputValue = inputValue.substr(0, i) + '&gt;' + inputValue.substr(i + 1);
-        i += 4;
-      } else if (inputValue.charAt(i) === '&') {
-        inputValue = inputValue.substr(0, i) + '&amp;' + inputValue.substr(i + 1);
-        i += 5;
-      } else if (inputValue.charAt(i) === '<') {
-        inputValue = inputValue.substr(0, i) + '&lt;' + inputValue.substr(i + 1);
-        i += 4;
-      } else {
-        i++;
-      }
-    }
-
-    return inputValue;
-  };
-
   _onChangeInput = (event) => {
     let inputValue = event.target.value;
     let selectionStart = event.target.selectionStart;
@@ -206,14 +143,16 @@ export default class ChatInput extends React.Component {
     this.setState({ inputValue, selectionStart, autocompleteValue });
   };
 
-  _onSubmit = (e) => {
+  _onSubmitAsync = async (e) => {
     e.preventDefault();
 
     if (this.state.ignoreSubmitUntil && new Date() < this.state.ignoreSubmitUntil) {
       return;
     }
 
-    this.props.onSendMessage(this._formatMessage(this.state.inputValue));
+    this.props.onSubmit(
+      await ChatUtils.formatMessageAsync(this.state.inputValue, this._autocompleteCache)
+    );
     this.setState({ inputValue: '' });
   };
 
@@ -259,7 +198,7 @@ export default class ChatInput extends React.Component {
           onChange={this._onChangeInput}
           onFocus={this._handleFocus}
           onBlur={this._handleBlur}
-          onSubmit={this._onSubmit}
+          onSubmit={this._onSubmitAsync}
           onKeyDown={this._onKeyDown}
           name={this.props.name}
           placeholder={this.props.placeholder}

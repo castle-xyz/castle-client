@@ -1,8 +1,12 @@
 import * as React from 'react';
 import * as Constants from '~/common/constants';
 import * as Actions from '~/common/actions';
+import _ from 'lodash';
 
 import { css } from 'react-emotion';
+
+const DEBOUNCE_WAIT_MS = 50;
+const DEBOUNCE_MAX_WAIT_MS = 100;
 
 const STYLES_CONTAINER = css`
   position: relative;
@@ -65,11 +69,19 @@ export default class ChatAutocomplete extends React.Component {
       users: [],
       selectedRowIndex: 0,
     };
+
+    this._autocompleteTextAsyncDebounced = _.debounce(
+      this._autocompleteTextAsync,
+      DEBOUNCE_WAIT_MS,
+      {
+        maxWait: DEBOUNCE_MAX_WAIT_MS,
+      }
+    );
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.text !== prevProps.text) {
-      this._autocompleteTextAsync(this.props.text);
+      this._autocompleteTextAsyncDebounced(this.props.text);
     }
   }
 
