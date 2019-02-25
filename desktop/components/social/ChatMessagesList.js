@@ -48,15 +48,17 @@ export default class ChatMessagesList extends React.Component {
     let prevUserId = null;
     for (let ii = 0, nn = this.props.messages.length; ii < nn; ii++) {
       let chatMessage = this.props.messages[ii];
-      listItems.push(
-        <ChatMessage
-          key={chatMessage.key}
-          message={chatMessage}
-          prevUserId={prevUserId}
-          navigateToUserProfile={this.props.navigateToUserProfile}
-        />
-      );
-      prevUserId = chatMessage.userId;
+      if (chatMessage.richMessage.message) {
+        listItems.push(
+          <ChatMessage
+            key={chatMessage.key}
+            message={chatMessage}
+            prevUserId={prevUserId}
+            navigateToUserProfile={this.props.navigateToUserProfile}
+          />
+        );
+        prevUserId = chatMessage.userId;
+      }
     }
     return (
       <div

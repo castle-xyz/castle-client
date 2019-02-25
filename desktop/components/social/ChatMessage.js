@@ -147,7 +147,7 @@ class ChatMessage extends React.Component {
         {maybeAvatar}
         <div className={STYLES_MESSAGE}>
           {maybeUsername}
-          <Linkify>{this._renderChatMessage(chatMessage.message)}</Linkify>
+          <Linkify>{this._renderChatMessage(chatMessage.richMessage.message)}</Linkify>
         </div>
       </div>
     );

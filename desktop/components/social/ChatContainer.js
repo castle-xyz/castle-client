@@ -58,11 +58,7 @@ class ChatContainer extends React.Component {
 
     this.setState((state) => {
       state.chatMessages.push({
-        message: [
-          {
-            text: event.params.message,
-          },
-        ],
+        richMessage: { message: [{ text: event.params.message }] },
         roomName: ROOM_NAME,
         userId: NOTIFICATIONS_USER_ID,
         timestamp: new Date().toString(),
@@ -159,12 +155,14 @@ class ChatContainer extends React.Component {
       }
 
       messages[i].richMessage = ChatUtils.convertToRichMessage(messages[i].message.body);
-      for (let j = 0; j < messages[i].richMessage.length; j++) {
-        let richMessagePart = messages[i].richMessage[j];
-        if (richMessagePart.userId) {
-          let fromUser = this._getUserForId(richMessagePart.userId);
-          if (!fromUser) {
-            userIdsToLoad[fromUserId] = true;
+      if (messages[i].richMessage.message) {
+        for (let j = 0; j < messages[i].richMessage.message.length; j++) {
+          let richMessagePart = messages[i].richMessage.message[j];
+          if (richMessagePart.userId) {
+            let fromUser = this._getUserForId(richMessagePart.userId);
+            if (!fromUser) {
+              userIdsToLoad[richMessagePart.userId] = true;
+            }
           }
         }
       }
@@ -182,16 +180,18 @@ class ChatContainer extends React.Component {
         let msg = messages[i];
         let roomName = msg.roomName;
         let fromUserId = msg.message.name;
-        let message = msg.richMessage;
+        let richMessage = msg.richMessage;
         let timestamp = msg.timestamp;
 
-        state.chatMessages.push({
-          key: Math.random(),
-          userId: fromUserId,
-          message,
-          roomName,
-          timestamp,
-        });
+        if (richMessage) {
+          state.chatMessages.push({
+            key: Math.random(),
+            userId: fromUserId,
+            richMessage,
+            roomName,
+            timestamp,
+          });
+        }
       }
 
       state.chatMessages.sort((a, b) => {

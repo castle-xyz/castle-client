@@ -14,22 +14,40 @@ async function _getAutocompleteUserAsync(text) {
   return null;
 }
 
-export async function formatMessageAsync(inputValue, autocompleteCache) {
-  // Follows Slack's rules for escaping characters https://api.slack.com/docs/message-formatting
+/*
+Formats messages into an object that looks like:
+{
+  message: [
+    {
+      text: 'this is some text',
+    },
+    {
+      emoji: 'smile',
+    },
+    {
+      userId: 1,
+    },
+  ]
+}
 
+If the message has no users or emojis, it is sent as plain text.
+*/
+export async function formatMessageAsync(message, autocompleteCache) {
+  let items = [];
+  let start = 0;
   let i = 0;
 
-  while (i < inputValue.length) {
-    if (inputValue.charAt(i) === '@') {
-      // Try converting all @... words into <user:USER_ID> tags
-      if (i > 0 && !/\s/.test(inputValue.charAt(i - 1))) {
+  while (i < message.length) {
+    if (message.charAt(i) === '@') {
+      // Try converting all @... words into {userId: 1} items
+      if (i > 0 && !/\s/.test(message.charAt(i - 1))) {
         i++;
         continue;
       }
 
       let j;
-      for (j = i + 1; j < inputValue.length; j++) {
-        let c = inputValue.charAt(j);
+      for (j = i + 1; j < message.length; j++) {
+        let c = message.charAt(j);
 
         let isUserTagValue =
           (c >= '0' && c <= '9') ||
@@ -49,80 +67,34 @@ export async function formatMessageAsync(inputValue, autocompleteCache) {
         }
       }
 
-      if (j >= inputValue.length || /\s/.test(inputValue.charAt(j))) {
-        let tag = inputValue.substr(i + 1, j - i - 1);
+      if (j >= message.length || /\s/.test(message.charAt(j))) {
+        let tag = message.substr(i + 1, j - i - 1);
         let user = autocompleteCache.users[tag];
 
-        // This should be needed most of the time
+        // This should not be needed most of the time
         if (!user) {
           user = await _getAutocompleteUserAsync(tag);
         }
 
         if (user) {
-          let richObject = `<user:${autocompleteCache.users[tag].userId}>`;
-          inputValue = inputValue.substr(0, i) + richObject + inputValue.substr(j);
-          i += richObject.length;
+          if (i > start) {
+            items.push({
+              text: message.substr(start, i - start),
+            });
+          }
+
+          items.push({
+            userId: user.userId,
+          });
+
+          i = j;
+          start = i;
           continue;
         }
       }
 
       i = j + 1;
-    } else if (inputValue.charAt(i) === '>') {
-      inputValue = inputValue.substr(0, i) + '&gt;' + inputValue.substr(i + 1);
-      i += 4;
-    } else if (inputValue.charAt(i) === '&') {
-      inputValue = inputValue.substr(0, i) + '&amp;' + inputValue.substr(i + 1);
-      i += 5;
-    } else if (inputValue.charAt(i) === '<') {
-      inputValue = inputValue.substr(0, i) + '&lt;' + inputValue.substr(i + 1);
-      i += 4;
-    } else {
-      i++;
-    }
-  }
-
-  return inputValue;
-}
-
-function _unescapeChatMessage(message) {
-  return message
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>');
-}
-
-// rich messages are arrays of objects
-// each object has either a 'text', 'userId', or 'emoji' field
-export function convertToRichMessage(message) {
-  let items = [];
-  let start = 0;
-  let i = 0;
-
-  while (i < message.length) {
-    let c = message.charAt(i);
-
-    if (c === '<') {
-      if (i > start) {
-        items.push({
-          text: _unescapeChatMessage(message.substr(start, i - start)),
-        });
-      }
-
-      let j = i + 1;
-      while (message.charAt(j) !== '>' && j < message.length) {
-        j++;
-      }
-
-      let tagBody = message.substr(i + 1, j - i - 1);
-      if (tagBody.startsWith('user:')) {
-        items.push({
-          userId: tagBody.substr(5),
-        });
-      }
-
-      i = j + 1;
-      start = i;
-    } else if (c === ':') {
+    } else if (message.charAt(i) === ':') {
       let j = i + 1;
       while (message.charAt(j) !== ':' && j < message.length) {
         j++;
@@ -132,7 +104,7 @@ export function convertToRichMessage(message) {
       if (isEmoji(emojiBody)) {
         if (i > start) {
           items.push({
-            text: _unescapeChatMessage(message.substr(start, i - start)),
+            text: message.substr(start, i - start),
           });
         }
 
@@ -140,6 +112,7 @@ export function convertToRichMessage(message) {
           emoji: emojiBody,
         });
 
+        // +1 for the last :
         i = j + 1;
         start = i;
       } else {
@@ -151,8 +124,34 @@ export function convertToRichMessage(message) {
   }
 
   if (i > start) {
-    items.push({ text: _unescapeChatMessage(message.substr(start, i - start)) });
+    items.push({ text: message.substr(start, i - start) });
   }
 
-  return items;
+  if (items.length === 1 && items[0].text) {
+    return items[0].text;
+  } else {
+    return JSON.stringify({
+      message: items,
+    });
+  }
+}
+
+export function convertToRichMessage(message) {
+  let plainTextMessage = {
+    message: [
+      {
+        text: message,
+      },
+    ],
+  };
+
+  if (message.charAt(0) !== '{') {
+    return plainTextMessage;
+  } else {
+    try {
+      return JSON.parse(message);
+    } catch (e) {
+      return plainTextMessage;
+    }
+  }
 }

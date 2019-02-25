@@ -150,9 +150,11 @@ export default class ChatInput extends React.Component {
       return;
     }
 
-    this.props.onSubmit(
-      await ChatUtils.formatMessageAsync(this.state.inputValue, this._autocompleteCache)
+    let formattedMessage = await ChatUtils.formatMessageAsync(
+      this.state.inputValue,
+      this._autocompleteCache
     );
+    this.props.onSubmit(formattedMessage);
     this.setState({ inputValue: '' });
   };
 
