@@ -154,6 +154,12 @@ class ChatMessage extends React.Component {
   }
 }
 
+// TODO (jesse): this is inefficient right now. Every ChatMessage component
+// gets rerendered when social is updated. It's a little complicated to fix this
+// because the ChatMessage component cares about both the author of the message and
+// each user tagged in the message. The correct way to fix this is probably to use
+// an immutable library to pass in the subset of users that ChatMessage actually cares
+// about.
 export default class ChatMessageWithContext extends React.Component {
   render() {
     return (
