@@ -63,6 +63,8 @@
 		B5BAE39A215ABA89001354F9 /* GhostMainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B5BAE38E215ABA89001354F9 /* GhostMainMenu.m */; };
 		B5BAE39D215ABA9A001354F9 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5BAE39C215ABA9A001354F9 /* main.mm */; };
 		B5BAE39E215ABAA2001354F9 /* process_helper_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5BAE388215ABA89001354F9 /* process_helper_mac.cpp */; };
+		B5CC96732225F90D00F5C4AC /* NSApplication+Ghost.h in Headers */ = {isa = PBXBuildFile; fileRef = B5CC96712225F90D00F5C4AC /* NSApplication+Ghost.h */; };
+		B5CC96742225F90D00F5C4AC /* NSApplication+Ghost.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5CC96722225F90D00F5C4AC /* NSApplication+Ghost.mm */; };
 		B5E9FC48211B6C190068BEB9 /* ghost_extensions_macos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9FC43211B6BA00068BEB9 /* ghost_extensions_macos.framework */; };
 		B5E9FC4B211B6E610068BEB9 /* ghost_extensions_macos.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = B5E9FC43211B6BA00068BEB9 /* ghost_extensions_macos.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -275,6 +277,8 @@
 		B5BAE38D215ABA89001354F9 /* GhostAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GhostAppDelegate.h; sourceTree = "<group>"; };
 		B5BAE38E215ABA89001354F9 /* GhostMainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GhostMainMenu.m; sourceTree = "<group>"; };
 		B5BAE39C215ABA9A001354F9 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		B5CC96712225F90D00F5C4AC /* NSApplication+Ghost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSApplication+Ghost.h"; sourceTree = "<group>"; };
+		B5CC96722225F90D00F5C4AC /* NSApplication+Ghost.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "NSApplication+Ghost.mm"; sourceTree = "<group>"; };
 		B5E9FC3B211B6B9F0068BEB9 /* ghost-extensions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "ghost-extensions.xcodeproj"; path = "../ghost-extensions/ghost-extensions.xcodeproj"; sourceTree = "<group>"; };
 		CE73F7FF1EEB64150052DAB3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		FA08F69116C765A200F007B5 /* love.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = love.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -477,6 +481,8 @@
 				B5BAE385215ABA89001354F9 /* GhostMainMenu.h */,
 				B5BAE38E215ABA89001354F9 /* GhostMainMenu.m */,
 				B5BAE38A215ABA89001354F9 /* simple_handler_mac.mm */,
+				B5CC96712225F90D00F5C4AC /* NSApplication+Ghost.h */,
+				B5CC96722225F90D00F5C4AC /* NSApplication+Ghost.mm */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -544,6 +550,7 @@
 				B5BAE390215ABA89001354F9 /* json.hpp in Headers */,
 				B5BAE397215ABA89001354F9 /* GhostFileSystem.h in Headers */,
 				B5B06A4A2151A8EB001C4382 /* ghost.h in Headers */,
+				B5CC96732225F90D00F5C4AC /* NSApplication+Ghost.h in Headers */,
 				A1F9225521EFFB1100D8F23D /* debug_utils.h in Headers */,
 				A18221D121ACB2FE0018B6DD /* js_binds.h in Headers */,
 				B5000233215AEBED00CD2309 /* GhostEnv.h in Headers */,
@@ -821,6 +828,7 @@
 				B53E72AD2152F8D2003C8616 /* ghost_constants.cpp in Sources */,
 				A18221D021ACB2FE0018B6DD /* js_binds.cpp in Sources */,
 				B5B06A482150751A001C4382 /* simple_handler.cpp in Sources */,
+				B5CC96742225F90D00F5C4AC /* NSApplication+Ghost.mm in Sources */,
 				B5BAE39A215ABA89001354F9 /* GhostMainMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
