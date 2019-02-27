@@ -174,6 +174,11 @@ bool ghostChooseDirectoryWithDialog(const char *title, const char *message, cons
   return true;
 }
 
+bool ghostShowOpenProjectDialog(const char **projectFilePathChosen) {
+  // TODO: implement
+  return false;
+}
+
 void ghostHandleOpenUri(const char *uri) {
   // Windows deep links add extra quotes around uri
   std::string stringUri = std::string(uri);

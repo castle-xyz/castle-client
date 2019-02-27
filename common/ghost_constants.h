@@ -6,6 +6,7 @@
 
 extern const char *kGhostLoadEndEventName;
 extern const char *kGhostLoadErrorEventName;
+extern const char *kGhostNativeMenuSelectedEventName;
 extern const char *kGhostOpenUrlEventName;
 extern const char *kGhostUpdateAvailableEventName;
 extern const char *kGhostUrlScheme;

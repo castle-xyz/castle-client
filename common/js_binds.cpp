@@ -1,9 +1,9 @@
 #include "js_binds.h"
 
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <unordered_map>
-#include <sstream>
-#include <fstream>
 
 namespace JSBinds {
 
@@ -54,6 +54,18 @@ JS_BIND_DEFINE(chooseDirectoryWithDialog) {
     std::free((void *)result);
   } else {
     failure("Unable to choose directory");
+  }
+}
+
+JS_BIND_DEFINE(chooseOpenProjectPathWithDialog) {
+  const char *result;
+
+  bool didChooseDirectory = ghostShowOpenProjectDialog(&result);
+  if (didChooseDirectory) {
+    success(result);
+    std::free((void *)result);
+  } else {
+    failure("Unable to choose open project path");
   }
 }
 

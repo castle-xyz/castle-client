@@ -37,6 +37,16 @@ export const chooseDirectoryWithDialogAsync = async ({ title, message, action })
   return chosenDirectory;
 };
 
+export const chooseOpenProjectPathWithDialogAsync = async () => {
+  let chosenDirectory;
+  try {
+    chosenDirectory = await NativeBinds.chooseOpenProjectPathWithDialog();
+  } catch (e) {
+    return null;
+  }
+  return chosenDirectory;
+};
+
 export const createProjectAtPathAsync = async (path) => NativeBinds.createProjectAtPath({ path });
 
 export const setMultiplayerSessionInfo = async (info) => {

@@ -21,18 +21,19 @@
       [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@"q"];
   quitItem.target = [NSApplication sharedApplication];
   [appMenu addItem:quitItem];
-  
+
   // file menu
   NSMenuItem *fileMenuItem =
-  [[NSMenuItem alloc] initWithTitle:@"File" action:nil keyEquivalent:@""];
+      [[NSMenuItem alloc] initWithTitle:@"File" action:nil keyEquivalent:@""];
   [mainMenu addItem:fileMenuItem];
-  
+
   NSMenu *fileMenu = [[NSMenu alloc] init];
   fileMenu.title = @"File";
   fileMenuItem.submenu = fileMenu;
-  
-  NSMenuItem *openItem =
-  [[NSMenuItem alloc] initWithTitle:@"Open" action:@selector(openProjectWithDialog:) keyEquivalent:@"o"];
+
+  NSMenuItem *openItem = [[NSMenuItem alloc] initWithTitle:@"Open Project"
+                                                    action:@selector(openProject:)
+                                             keyEquivalent:@"o"];
   openItem.target = [NSApplication sharedApplication];
   [fileMenu addItem:openItem];
 

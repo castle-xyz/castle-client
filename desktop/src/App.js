@@ -35,6 +35,7 @@ class App extends React.Component {
     window.addEventListener('keydown', this._handleKeyDownEvent);
     window.addEventListener('CASTLE_SYSTEM_KEY_PRESSED', this._handleLuaSystemKeyDownEvent);
     window.addEventListener('nativeUpdateAvailable', this._handleNativeUpdateAvailableEvent);
+    window.addEventListener('nativeMenuSelected', this._handleNativeMenuSelectedEvent);
 
     NativeUtil.setBrowserReady(() => {
       this._processNativeChannels();
@@ -59,6 +60,7 @@ class App extends React.Component {
     window.removeEventListener('nativeOpenUrl', this._handleNativeOpenUrlEvent);
     window.removeEventListener('keydown', this._handleKeyDownEvent);
     window.removeEventListener('CASTLE_SYSTEM_KEY_PRESSED', this._handleLuaSystemKeyDownEvent);
+    window.removeEventListener('nativeMenuSelected', this._handleNativeMenuSelectedEvent);
     window.clearTimeout(this._nativeChannelsPollTimeout);
   }
 
@@ -80,6 +82,15 @@ class App extends React.Component {
   // event listeners
   _handleNativeOpenUrlEvent = (e) => {
     this.props.navigator.navigateToGameUrl(e.params.url);
+  };
+
+  _handleNativeMenuSelectedEvent = async (e) => {
+    const { action } = e.params;
+    const openProjectPath = await NativeUtil.chooseOpenProjectPathWithDialogAsync();
+    if (openProjectPath) {
+      const gameUrl = `file://${openProjectPath}`;
+      return this.props.navigator.navigateToGameUrl(gameUrl);
+    }
   };
 
   _handleLuaSystemKeyDownEvent = async (e) => {

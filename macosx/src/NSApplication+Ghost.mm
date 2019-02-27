@@ -1,21 +1,22 @@
 #import "NSApplication+Ghost.h"
 
 #include "ghost.h"
+#include "ghost_constants.h"
+
 #include <string>
+
+NSString *const kNativeMenuFileOpenAction = @"file.open";
 
 @implementation NSApplication (Ghost)
 
-- (void)openProjectWithDialog:(__unused id)sender
-{
-  const char *result;
+- (void)openProject:(__unused id)sender {
+  [self _sendJSNativeMenuEventWithAction:kNativeMenuFileOpenAction];
+}
 
-  bool didChooseDirectory = ghostChooseDirectoryWithDialog("Open a Castle Project", "Select a Castle Project file to open", "Open Project", &result);
-  if (didChooseDirectory) {
-    NSLog(@"chose directory: %s", result);
-    std::free((void *)result);
-  } else {
-    NSLog(@"fail");
-  }
+- (void)_sendJSNativeMenuEventWithAction:(NSString *)action {
+  NSString *params = [NSString stringWithFormat:@"{ action: \"%@\" }", action];
+  ghostSendJSEvent(kGhostNativeMenuSelectedEventName,
+                   [params cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
 @end

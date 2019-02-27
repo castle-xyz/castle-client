@@ -11,18 +11,39 @@
 extern __weak NSWindow *ghostMacMainWindow;
 extern __weak NSWindow *ghostMacChildWindow;
 
-extern "C" NSWindow *ghostMacGetMainWindow() {
-  return ghostMacMainWindow;
-}
+extern "C" NSWindow *ghostMacGetMainWindow() { return ghostMacMainWindow; }
 
-extern "C" void ghostMacSetMainWindow(NSWindow *window) {
-  ghostMacMainWindow = window;
-}
+extern "C" void ghostMacSetMainWindow(NSWindow *window) { ghostMacMainWindow = window; }
 
 static void _ghostSendNativeOpenUrlEvent(const char *uri) {
   std::stringstream params;
   params << "{ url: '" << uri << "' }";
   ghostSendJSEvent(kGhostOpenUrlEventName, params.str().c_str());
+}
+
+typedef enum GhostOpenPanelAction {
+  kGhostOpenPanelActionChooseNewProjectDirectory,
+  kGhostOpenPanelActionOpenProjectFile,
+} GhostOpenPanelAction;
+
+void _configureOpenPanelForAction(NSOpenPanel *openPanel, GhostOpenPanelAction action) {
+  [openPanel setAllowsMultipleSelection:NO];
+  [openPanel setCanCreateDirectories:YES];
+  switch (action) {
+  case kGhostOpenPanelActionOpenProjectFile: {
+    [openPanel setCanChooseDirectories:NO];
+    [openPanel setCanChooseFiles:YES];
+    // delegate shouldEnableUrl is possible as well
+    [openPanel setAllowedFileTypes:@[ @"castle", @"lua" ]];
+    break;
+  }
+  case kGhostOpenPanelActionChooseNewProjectDirectory: {
+    [openPanel setCanChooseDirectories:YES];
+    [openPanel setCanChooseFiles:NO];
+    break;
+  }
+  }
+  // NOTE: we might want [openPanel setDirectoryURL:]
 }
 
 #pragma mark - macos implementation of ghost.h
@@ -102,9 +123,7 @@ GHOST_EXPORT void ghostSetChildWindowFullscreen(bool fullscreen) {
   }
 }
 
-GHOST_EXPORT bool ghostGetChildWindowFullscreen() {
-  return isFullscreen;
-}
+GHOST_EXPORT bool ghostGetChildWindowFullscreen() { return isFullscreen; }
 
 void ghostSetChildWindowFrame(float left, float top, float width, float height) {
   if (isFullscreen) {
@@ -112,12 +131,12 @@ void ghostSetChildWindowFrame(float left, float top, float width, float height) 
   }
   left = fmax(0, left);
   top = fmax(0, top);
-  
+
   childLeft = left;
   childTop = top;
   childWidth = width;
   childHeight = height;
-  
+
   if (ghostMacMainWindow) {
     if (ghostMacChildWindow) {
       width = fmin(width, ghostMacMainWindow.contentLayoutRect.size.width - left);
@@ -125,11 +144,12 @@ void ghostSetChildWindowFrame(float left, float top, float width, float height) 
 
       CGRect frame;
       frame.origin.x = ghostMacMainWindow.frame.origin.x + left;
-      frame.origin.y = ghostMacMainWindow.frame.origin.y + ghostMacMainWindow.contentLayoutRect.size.height - top - height;
+      frame.origin.y = ghostMacMainWindow.frame.origin.y +
+                       ghostMacMainWindow.contentLayoutRect.size.height - top - height;
       frame.size.width = width;
       frame.size.height = height;
       [ghostMacChildWindow setFrame:frame display:NO];
-      
+
       // Focus-follows-mouse
       NSPoint mouse = [NSEvent mouseLocation];
       if (frame.origin.x <= mouse.x && mouse.x <= frame.origin.x + width &&
@@ -204,11 +224,7 @@ bool ghostChooseDirectoryWithDialog(const char *title, const char *message, cons
   [openPanel setTitle:[NSString stringWithCString:title encoding:NSUTF8StringEncoding]];
   [openPanel setPrompt:[NSString stringWithCString:action encoding:NSUTF8StringEncoding]];
   [openPanel setMessage:[NSString stringWithCString:message encoding:NSUTF8StringEncoding]];
-  [openPanel setAllowsMultipleSelection:NO];
-  [openPanel setCanChooseDirectories:YES];
-  [openPanel setCanCreateDirectories:YES];
-  [openPanel setCanChooseFiles:NO];
-  // NOTE: we might want [openPanel setDirectoryURL:]
+  _configureOpenPanelForAction(openPanel, kGhostOpenPanelActionChooseNewProjectDirectory);
   NSModalResponse response = [openPanel runModal];
   if (response == NSFileHandlingPanelOKButton) {
     NSURL *url = [[openPanel URLs] lastObject];
@@ -216,6 +232,25 @@ bool ghostChooseDirectoryWithDialog(const char *title, const char *message, cons
   }
   if (chosenPathCStr) {
     *result = strdup(chosenPathCStr);
+    return true;
+  }
+  return false;
+}
+
+bool ghostShowOpenProjectDialog(const char **projectFilePathChosen) {
+  const char *chosenPathCStr = NULL;
+  NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+  [openPanel setTitle:@"Open a Castle Project"];
+  [openPanel setPrompt:@"Select a Castle Project file to open"];
+  [openPanel setMessage:@"Open Project"];
+  _configureOpenPanelForAction(openPanel, kGhostOpenPanelActionOpenProjectFile);
+  NSModalResponse response = [openPanel runModal];
+  if (response == NSFileHandlingPanelOKButton) {
+    NSURL *url = [[openPanel URLs] lastObject];
+    chosenPathCStr = [[url path] cStringUsingEncoding:NSUTF8StringEncoding];
+  }
+  if (chosenPathCStr) {
+    *projectFilePathChosen = strdup(chosenPathCStr);
     return true;
   }
   return false;

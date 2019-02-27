@@ -4,7 +4,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSApplication (Ghost)
 
-- (void)openProjectWithDialog:(id)sender;
+- (void)openProject:(id)sender;
 
 @end
 
