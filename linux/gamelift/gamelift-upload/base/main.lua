@@ -1,3 +1,6 @@
+local ffi = require 'ffi'
+local C = ffi.C
+
 math.randomseed(10000 * require('socket').gettime())
 
 local theOS = love.system.getOS()
@@ -102,6 +105,8 @@ function main.load(arg)
     end)
 end
 
+ffi.cdef 'bool ghostGetBackgrounded();'
+
 function main.update(dt)
     network.update(dt)
 
@@ -110,7 +115,13 @@ function main.update(dt)
     updateLogs()
 
     if home then
-        home:update(dt)
+        if not isMobile and C.ghostGetBackgrounded() then -- FFI `ghost*` calls are desktop-only
+            if home.globals.castle.backgroundupdate then
+                home:safeCall(home.globals.castle.backgroundupdate, dt)
+            end
+        else
+            home:update(dt)
+        end
     elseif not CASTLE_SERVER then
         splash:update(dt)
     end
@@ -205,13 +216,6 @@ local function softReload()
     end
 end
 
-local ffi = require 'ffi'
-ffi.cdef [[
-void ghostSetChildWindowFullscreen(bool fullscreen);
-bool ghostGetChildWindowFullscreen();
-]]
-local C = ffi.C
-
 function main.keypressed(key, ...)
     -- Intercept system hotkeys
     if not isMobile then
@@ -235,12 +239,6 @@ function main.keypressed(key, ...)
         network.async(function()
             softReload()
         end)
-        return
-    end
-
-    -- F11: Fullscreen
-    if key == 'f10' then
-        C.ghostSetChildWindowFullscreen(not C.ghostGetChildWindowFullscreen())
         return
     end
 

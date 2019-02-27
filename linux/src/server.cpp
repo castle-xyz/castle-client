@@ -338,13 +338,6 @@ void findFreePort() {
   close(fd);
 }
 
-void tickLogs() {
-  while (!sShouldQuit) {
-    sCastleLogs->tick();
-    sleep(1);
-  }
-}
-
 int main(int argc, char **argv) {
   Aws::SDKOptions options;
   Aws::InitAPI(options);
@@ -353,9 +346,7 @@ int main(int argc, char **argv) {
   sBinaryDirectory = std::string(argv[0]).substr(0, pos) + "/";
 
   sCastleLogs = new Logs(sBinaryDirectory);
-  std::thread logsThread(tickLogs);
 
-  sCastleLogs->log("\n\n\n\n");
   findFreePort();
 
   sCastleLogs->setPort(sPort);
@@ -397,11 +388,9 @@ int main(int argc, char **argv) {
   } while (done != DONE_QUIT);
 
   sCastleLogs->log("Done running Lua");
-  sCastleLogs->forceFlush();
   Aws::ShutdownAPI(options);
 
   sShouldQuit = true;
-  logsThread.join();
 
   ProcessEnding();
 

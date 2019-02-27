@@ -309,6 +309,9 @@ function portalMeta:newChild(path, args)
     -- Set up the `love` global
     child:setupLove()
 
+    -- Set up the `castle` global
+    child.globals.castle = setmetatable({}, { __index = castle })
+
     -- Copy in `extraGlobals` if given
     if child.args.extraGlobals then
         for k, v in pairs(child.args.extraGlobals) do

@@ -11,5 +11,5 @@ cd aws-sdk-cpp
 mkdir build
 cd build
 
-cmake -DOPENSSL_ROOT_DIR=/usr/local/ssl -DBUILD_ONLY="s3;gamelift" ..
+cmake -DOPENSSL_ROOT_DIR=/usr/local/ssl -DBUILD_ONLY="gamelift" ..
 make

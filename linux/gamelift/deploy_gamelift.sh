@@ -2,6 +2,8 @@
 
 # Run this outside of Docker
 
+cp ../../../ghost-secret/filebeat.yml gamelift-upload/filebeat.yml
+
 cp ../build/castle-server gamelift-upload/
 rm -rf gamelift-upload/base
 cp -r ../build/base gamelift-upload/
