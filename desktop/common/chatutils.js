@@ -127,7 +127,9 @@ export async function formatMessageAsync(message, autocompleteCache) {
     items.push({ text: message.substr(start, i - start) });
   }
 
-  if (items.length === 1 && items[0].text) {
+  if (items.length === 0) {
+    return '';
+  } else if (items.length === 1 && items[0].text) {
     return items[0].text;
   } else {
     return JSON.stringify({
