@@ -46,6 +46,15 @@ void _configureOpenPanelForAction(NSOpenPanel *openPanel, GhostOpenPanelAction a
   // NOTE: we might want [openPanel setDirectoryURL:]
 }
 
+static bool ghostIsShowingNativeModal = false;
+
+NSModalResponse _runNativeModal(NSSavePanel *panel) {
+  ghostIsShowingNativeModal = true;
+  NSModalResponse response = [panel runModal];
+  ghostIsShowingNativeModal = false;
+  return response;
+}
+
 #pragma mark - macos implementation of ghost.h
 
 static float childLeft = 0, childTop = 0, childWidth = 200, childHeight = 200;
@@ -160,7 +169,7 @@ void ghostSetChildWindowFrame(float left, float top, float width, float height) 
       } else if (![ghostMacMainWindow isKeyWindow]) {
         [ghostMacMainWindow makeKeyWindow];
       }
-    } else if (![ghostMacMainWindow isKeyWindow]) {
+    } else if (![ghostMacMainWindow isKeyWindow] && !ghostIsShowingNativeModal) {
       [ghostMacMainWindow makeKeyWindow];
     }
   }
@@ -225,7 +234,7 @@ bool ghostChooseDirectoryWithDialog(const char *title, const char *message, cons
   [openPanel setPrompt:[NSString stringWithCString:action encoding:NSUTF8StringEncoding]];
   [openPanel setMessage:[NSString stringWithCString:message encoding:NSUTF8StringEncoding]];
   _configureOpenPanelForAction(openPanel, kGhostOpenPanelActionChooseNewProjectDirectory);
-  NSModalResponse response = [openPanel runModal];
+  NSModalResponse response = _runNativeModal(openPanel);
   if (response == NSFileHandlingPanelOKButton) {
     NSURL *url = [[openPanel URLs] lastObject];
     chosenPathCStr = [[url path] cStringUsingEncoding:NSUTF8StringEncoding];
@@ -244,7 +253,7 @@ bool ghostShowOpenProjectDialog(const char **projectFilePathChosen) {
   [openPanel setPrompt:@"Select a Castle Project file to open"];
   [openPanel setMessage:@"Open Project"];
   _configureOpenPanelForAction(openPanel, kGhostOpenPanelActionOpenProjectFile);
-  NSModalResponse response = [openPanel runModal];
+  NSModalResponse response = _runNativeModal(openPanel);
   if (response == NSFileHandlingPanelOKButton) {
     NSURL *url = [[openPanel URLs] lastObject];
     chosenPathCStr = [[url path] cStringUsingEncoding:NSUTF8StringEncoding];
