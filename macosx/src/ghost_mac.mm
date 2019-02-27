@@ -250,8 +250,8 @@ bool ghostShowOpenProjectDialog(const char **projectFilePathChosen) {
   const char *chosenPathCStr = NULL;
   NSOpenPanel *openPanel = [NSOpenPanel openPanel];
   [openPanel setTitle:@"Open a Castle Project"];
-  [openPanel setPrompt:@"Select a Castle Project file to open"];
-  [openPanel setMessage:@"Open Project"];
+  [openPanel setPrompt:@"Open Project"];
+  [openPanel setMessage:@"Select a Castle Project file to open"];
   _configureOpenPanelForAction(openPanel, kGhostOpenPanelActionOpenProjectFile);
   NSModalResponse response = _runNativeModal(openPanel);
   if (response == NSFileHandlingPanelOKButton) {

@@ -86,10 +86,12 @@ class App extends React.Component {
 
   _handleNativeMenuSelectedEvent = async (e) => {
     const { action } = e.params;
-    const openProjectPath = await NativeUtil.chooseOpenProjectPathWithDialogAsync();
-    if (openProjectPath) {
-      const gameUrl = `file://${openProjectPath}`;
-      return this.props.navigator.navigateToGameUrl(gameUrl);
+    if (action === 'file.open') {
+      const openProjectPath = await NativeUtil.chooseOpenProjectPathWithDialogAsync();
+      if (openProjectPath) {
+        const gameUrl = `file://${openProjectPath}`;
+        return this.props.navigator.navigateToGameUrl(gameUrl);
+      }
     }
   };
 
