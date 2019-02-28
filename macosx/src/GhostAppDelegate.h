@@ -18,7 +18,7 @@
 
 #import <Sparkle/SUUpdaterDelegate.h>
 
-@interface GhostAppDelegate : NSObject <NSApplicationDelegate, SUUpdaterDelegate>
+@interface GhostAppDelegate : NSObject <NSApplicationDelegate, SUUpdaterDelegate, NSUserNotificationCenterDelegate>
 
 - (void)stopLove;
 - (void)bootLoveWithUri:(NSString *)uri;

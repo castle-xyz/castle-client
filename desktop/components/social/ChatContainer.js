@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as Actions from '~/common/actions';
 import * as ChatUtils from '~/common/chatutils';
-import * as Strings from '~/common/strings';
 
 import { css } from 'react-emotion';
 
