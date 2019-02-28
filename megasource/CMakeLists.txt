@@ -345,6 +345,7 @@ set(GHOST_SRCS
   ../win/ghost_win.cc
   ../win/simple_handler_win.cc
   ../win/json.hpp
+  ../win/wintoastlib.cpp
   ../common/ghost.cpp
   ../common/ghost_constants.cpp
   ../common/simple_app.cpp

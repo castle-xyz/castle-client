@@ -42,6 +42,9 @@ extern "C" {
 
 #include "ghost_constants.h"
 #include "simple_handler.h"
+#include "wintoastlib.h"
+
+using namespace WinToastLib;
 
 extern "C" {
 HWND ghostWinGetMainWindow();
@@ -585,3 +588,34 @@ void ghostOpenExternalUrl(const char *url) {
 }
 
 void ghostInstallUpdate() {}
+
+class WinToastHandlerExample : public IWinToastHandler {
+public:
+	WinToastHandlerExample() {};
+	// Public interfaces
+	void toastActivated() const override {};
+	void toastActivated(int action) const override {};
+	void toastDismissed(WinToastDismissalReason state) const override {};
+	void toastFailed() const override {};
+};
+
+void ghostDesktopNotification(const char *title, const char *body) {
+  if (!WinToast::isCompatible()) {
+    return;
+  }
+
+  WinToast::instance()->setAppName(L"Castle");
+  const auto aumi = WinToast::configureAUMI(L"games", L"castle", L"castle", L"1.0.0");
+  WinToast::instance()->setAppUserModelId(aumi);
+
+  if (!WinToast::instance()->initialize()) {
+    return;
+  }
+
+  WinToastHandlerExample* handler = new WinToastHandlerExample();
+  WinToastTemplate templ = WinToastTemplate(WinToastTemplate::Text02);
+  templ.setTextField(convertCharArrayToLPCWSTR(title), WinToastTemplate::FirstLine);
+  templ.setTextField(convertCharArrayToLPCWSTR(body), WinToastTemplate::SecondLine);
+
+  WinToast::instance()->showToast(templ, handler);
+}
