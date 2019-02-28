@@ -591,15 +591,15 @@ void ghostInstallUpdate() {}
 
 class WinToastHandlerExample : public IWinToastHandler {
 public:
-	WinToastHandlerExample() {};
-	// Public interfaces
-	void toastActivated() const override {};
-	void toastActivated(int action) const override {};
-	void toastDismissed(WinToastDismissalReason state) const override {};
-	void toastFailed() const override {};
+  WinToastHandlerExample(){};
+  // Public interfaces
+  void toastActivated() const override{};
+  void toastActivated(int action) const override{};
+  void toastDismissed(WinToastDismissalReason state) const override{};
+  void toastFailed() const override{};
 };
 
-void ghostDesktopNotification(const char *title, const char *body) {
+void ghostShowDesktopNotification(const char *title, const char *body) {
   if (!WinToast::isCompatible()) {
     return;
   }
@@ -612,7 +612,7 @@ void ghostDesktopNotification(const char *title, const char *body) {
     return;
   }
 
-  WinToastHandlerExample* handler = new WinToastHandlerExample();
+  WinToastHandlerExample *handler = new WinToastHandlerExample();
   WinToastTemplate templ = WinToastTemplate(WinToastTemplate::Text02);
   templ.setTextField(convertCharArrayToLPCWSTR(title), WinToastTemplate::FirstLine);
   templ.setTextField(convertCharArrayToLPCWSTR(body), WinToastTemplate::SecondLine);

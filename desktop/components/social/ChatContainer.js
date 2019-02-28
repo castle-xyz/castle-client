@@ -145,7 +145,7 @@ class ChatContainer extends React.Component {
         title = `${title} from @${this.props.social.userIdToUser[fromUserId].username}`;
       }
 
-      NativeBinds.desktopNotification({
+      NativeBinds.showDesktopNotification({
         title,
         body: ChatUtils.messageToString(message, this.props.social),
       });

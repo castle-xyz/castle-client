@@ -176,9 +176,9 @@ JS_BIND_DEFINE(readFile) {
   success(buffer.str());
 }
 
-JS_BIND_DEFINE(desktopNotification) {
+JS_BIND_DEFINE(showDesktopNotification) {
   std::string title = arg["title"];
   std::string body = arg["body"];
-  ghostDesktopNotification(title.c_str(), body.c_str());
+  ghostShowDesktopNotification(title.c_str(), body.c_str());
   success("success");
 }

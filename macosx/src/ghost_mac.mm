@@ -286,17 +286,19 @@ void ghostInstallUpdate() {
   [delegate installUpdate];
 }
 
-void ghostDesktopNotification(const char *title, const char *body) {
+void ghostShowDesktopNotification(const char *title, const char *body) {
   NSString *_title = [NSString stringWithCString:title encoding:NSUTF8StringEncoding];
   NSString *_body = [NSString stringWithCString:body encoding:NSUTF8StringEncoding];
 
-  NSUserNotification *notification = [[NSUserNotification alloc] init];
-  [notification setTitle:_title];
-  [notification setInformativeText:_body];
-  [notification setSoundName:nil];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    [notification setTitle:_title];
+    [notification setInformativeText:_body];
+    [notification setSoundName:nil];
 
-  NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
-  GhostAppDelegate *delegate = [NSApplication sharedApplication].delegate;
-  [center setDelegate:delegate];
-  [center deliverNotification:notification];
+    NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+    GhostAppDelegate *delegate = [NSApplication sharedApplication].delegate;
+    [center setDelegate:delegate];
+    [center deliverNotification:notification];
+  });
 }
