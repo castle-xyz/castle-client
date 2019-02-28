@@ -1,4 +1,4 @@
-import { isEmoji } from '~/common/emojis';
+import { isEmoji, emojiToString } from '~/common/emojis';
 import * as Actions from '~/common/actions';
 
 async function _getAutocompleteUserAsync(text) {
@@ -156,4 +156,24 @@ export function convertToRichMessage(message) {
       return plainTextMessage;
     }
   }
+}
+
+export function messageToString(message, social) {
+  let txt = '';
+
+  for (let i = 0; i < message.richMessage.message.length; i++) {
+    let messagePart = message.richMessage.message[i];
+
+    if (messagePart.text) {
+      txt += messagePart.text;
+    } else if (messagePart.userId) {
+      if (social.userIdToUser[messagePart.userId]) {
+        txt += `@${social.userIdToUser[messagePart.userId].username}`;
+      }
+    } else if (messagePart.emoji) {
+      txt += emojiToString(messagePart.emoji);
+    }
+  }
+
+  return txt;
 }

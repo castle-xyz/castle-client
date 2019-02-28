@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Actions from '~/common/actions';
 import * as ChatUtils from '~/common/chatutils';
+import { NativeBinds } from '~/native/nativebinds';
 
 import { css } from 'react-emotion';
 
@@ -134,6 +135,23 @@ class ChatContainer extends React.Component {
     this._handleMessagesLock = false;
   };
 
+  _triggerLocalNotifications = (messages) => {
+    for (let i = 0; i < messages.length; i++) {
+      let message = messages[i];
+
+      let title = 'Castle Chat';
+      let fromUserId = message.message.name;
+      if (this.props.social.userIdToUser[fromUserId]) {
+        title = `${title} from @${this.props.social.userIdToUser[fromUserId].username}`;
+      }
+
+      NativeBinds.desktopNotification({
+        title,
+        body: ChatUtils.messageToString(message, this.props.social),
+      });
+    }
+  };
+
   _handleMessagesAsync = async (messages) => {
     if (TEST_MESSAGE) {
       messages.push({
@@ -148,6 +166,7 @@ class ChatContainer extends React.Component {
 
     // load all users first
     let userIdsToLoad = {};
+    let localNotifications = [];
     for (let i = 0; i < messages.length; i++) {
       let fromUserId = messages[i].message.name;
       let fromUser = this._getUserForId(fromUserId);
@@ -164,6 +183,10 @@ class ChatContainer extends React.Component {
             if (!fromUser) {
               userIdsToLoad[richMessagePart.userId] = true;
             }
+
+            if (richMessagePart.userId === this.props.currentUserId && !messages[i].message.delay) {
+              localNotifications.push(messages[i]);
+            }
           }
         }
       }
@@ -171,8 +194,12 @@ class ChatContainer extends React.Component {
 
     try {
       let users = await Actions.getUsers({ userIds: _.keys(userIdsToLoad) });
-      this.props.social.addUsers(users);
+      await this.props.social.addUsers(users);
     } catch (e) {}
+
+    if (localNotifications.length > 0) {
+      this._triggerLocalNotifications(localNotifications);
+    }
 
     await this._acquireLockAsync();
 

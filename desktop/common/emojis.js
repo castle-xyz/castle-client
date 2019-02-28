@@ -31,3 +31,19 @@ export function getEmojiComponent(text, size = 20) {
 
   return <span style={style} />;
 }
+
+export function emojiToString(text) {
+  let emoji = SHORT_NAME_TO_OBJECT[text];
+  if (!emoji || !emoji.unified) {
+    return '';
+  }
+
+  try {
+    return String.fromCodePoint.apply(
+      this,
+      emoji.unified.split('-').map((codePoint) => parseInt(codePoint, 16))
+    );
+  } catch (e) {
+    return '';
+  }
+}

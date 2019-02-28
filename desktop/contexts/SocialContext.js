@@ -33,7 +33,7 @@ class SocialContextProvider extends React.Component {
   };
 
   addUsers = (users) => {
-    this.setState((state) => {
+    return this.setState((state) => {
       users.forEach((user) => {
         state.userIdToUser[user.userId] = user;
       });
