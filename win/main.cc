@@ -14,6 +14,8 @@
 
 #include "ghost.h"
 
+#include "WinReg.hpp"
+
 extern "C" {
 void ghostRunMessageLoop();
 }
@@ -86,15 +88,49 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
   if (args) {
 #define ARGS_STARTS_WITH(prefix) (args && !strncmp(args, prefix, strlen(prefix)))
     if (ARGS_STARTS_WITH("--squirrel")) {
+      // Full path to Squirrel's 'Update.exe' (one directory up)
       wchar_t updateCmd[MAX_PATH + 256];
       GetModuleFileName(NULL, updateCmd, MAX_PATH);
       *wcsrchr(updateCmd, L'\\') = L'\0';
       wcscpy(wcsrchr(updateCmd, L'\\'), L"\\Update.exe");
 
       if (ARGS_STARTS_WITH("--squirrel-install")) {
+        // Set 'URL Protocol' to open 'castle://' links
+        try {
+          // Full path to 'Castle.exe'
+          wchar_t exe[MAX_PATH + 256];
+          GetModuleFileName(NULL, exe, MAX_PATH);
+          *wcsrchr(exe, L'\\') = L'\0';
+          wcscpy(wcsrchr(exe, L'\\'), L"\\Castle.exe");
+          {
+            winreg::RegKey key{HKEY_CURRENT_USER, L"Software\\Classes\\castle"};
+            key.SetStringValue(L"", L"URL:Castle Protocol");
+            key.SetStringValue(L"URL Protocol", L"");
+          }
+          {
+            (winreg::RegKey{HKEY_CURRENT_USER, L"Software\\Classes\\castle\\DefaultIcon"})
+                .SetStringValue(L"", exe);
+          }
+          {
+            (winreg::RegKey{HKEY_CURRENT_USER, L"Software\\Classes\\castle\\shell"})
+                .SetStringValue(L"", L"open");
+          }
+          {
+            (winreg::RegKey{HKEY_CURRENT_USER, L"Software\\Classes\\castle\\shell\\open"})
+                .SetStringValue(L"", L"Open in Castle");
+          }
+          {
+            (winreg::RegKey{HKEY_CURRENT_USER, L"Software\\Classes\\castle\\shell\\open\\command"})
+                .SetStringValue(L"", L"\"" + std::wstring(exe) + L"\" \"%1\"");
+          }
+        } catch (winreg::RegException &) {
+        }
+
+        // Create shortcut to 'Castle.exe'
         wcscat(updateCmd, L" --createShortcut Castle.exe");
         _wsystem(updateCmd);
-        //MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
+
+        // MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
         return 0;
       }
       if (ARGS_STARTS_WITH("--squirrel-firstrun")) {
@@ -104,24 +140,34 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
         args = nullptr;
       }
       if (ARGS_STARTS_WITH("--squirrel-updated")) {
+        // Update shortcut to 'Castle.exe'
         wcscat(updateCmd, L" --createShortcut Castle.exe");
         _wsystem(updateCmd);
-        //MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
+        // MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
         return 0;
       }
       if (ARGS_STARTS_WITH("--squirrel-obsolete")) {
-        //MessageBox(nullptr, L"doing nothing", lpCmdLine, MB_OK);
+        // MessageBox(nullptr, L"doing nothing", lpCmdLine, MB_OK);
         return 0;
       }
       if (ARGS_STARTS_WITH("--squirrel-uninstall")) {
+        // Remove 'URL Protocol' to open 'castle://' links
+        try {
+          winreg::RegKey key{HKEY_CURRENT_USER, L"Software\\Classes"};
+          key.DeleteKey(L"castle", KEY_WOW64_32KEY);
+        } catch (winreg::RegException &) {
+        }
+
+        // Remove shortcut to 'Castle.exe'
         wcscat(updateCmd, L" --removeShortcut Castle.exe");
         _wsystem(updateCmd);
-        //MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
+
+        // MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
         return 0;
       }
     }
-  }
 #undef ARGS_STARTS_WITH
+  }
 
   // Enable High-DPI support on Windows 7 or newer.
   CefEnableHighDPISupport();
