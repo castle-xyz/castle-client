@@ -82,29 +82,43 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
     }
   }
 
-  // Check for Squirrel events
+  // Check for Squirrel events -- most of these do some administrative work and just exit
   if (args) {
 #define ARGS_STARTS_WITH(prefix) (args && !strncmp(args, prefix, strlen(prefix)))
-    if (ARGS_STARTS_WITH("--squirrel-install")) {
-      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
-      return 0;
-    }
-    if (ARGS_STARTS_WITH("--squirrel-firstrun")) {
-      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
-      delete args; // Consume `args`
-      args = nullptr;
-    }
-    if (ARGS_STARTS_WITH("--squirrel-updated")) {
-      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
-      return 0;
-    }
-    if (ARGS_STARTS_WITH("--squirrel-obsolete")) {
-      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
-      return 0;
-    }
-    if (ARGS_STARTS_WITH("--squirrel-uninstall")) {
-      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
-      return 0;
+    if (ARGS_STARTS_WITH("--squirrel")) {
+      wchar_t updateCmd[MAX_PATH + 256];
+      GetModuleFileName(NULL, updateCmd, MAX_PATH);
+      *wcsrchr(updateCmd, L'\\') = L'\0';
+      wcscpy(wcsrchr(updateCmd, L'\\'), L"\\Update.exe");
+
+      if (ARGS_STARTS_WITH("--squirrel-install")) {
+        wcscat(updateCmd, L" --createShortcut Castle.exe");
+        _wsystem(updateCmd);
+        //MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
+        return 0;
+      }
+      if (ARGS_STARTS_WITH("--squirrel-firstrun")) {
+        // MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
+        // DON'T exit the app because this is our first run! Just consume `args`.
+        delete args;
+        args = nullptr;
+      }
+      if (ARGS_STARTS_WITH("--squirrel-updated")) {
+        wcscat(updateCmd, L" --createShortcut Castle.exe");
+        _wsystem(updateCmd);
+        //MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
+        return 0;
+      }
+      if (ARGS_STARTS_WITH("--squirrel-obsolete")) {
+        //MessageBox(nullptr, L"doing nothing", lpCmdLine, MB_OK);
+        return 0;
+      }
+      if (ARGS_STARTS_WITH("--squirrel-uninstall")) {
+        wcscat(updateCmd, L" --removeShortcut Castle.exe");
+        _wsystem(updateCmd);
+        //MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
+        return 0;
+      }
     }
   }
 #undef ARGS_STARTS_WITH
