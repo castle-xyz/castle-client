@@ -69,6 +69,22 @@ private:
 // #pragma comment(lib, "cef_sandbox.lib")
 #endif
 
+static int spawn(wchar_t *cmd) {
+  PROCESS_INFORMATION pInfo;
+  STARTUPINFO sInfo;
+  DWORD exitCode;
+  memset(&sInfo, 0, sizeof(sInfo));
+  memset(&pInfo, 0, sizeof(pInfo));
+  sInfo.cb = sizeof(sInfo);
+  if (CreateProcessW(nullptr, cmd, nullptr, nullptr, 0, 0, nullptr, nullptr, &sInfo, &pInfo)) {
+    WaitForSingleObject(pInfo.hProcess, INFINITE);
+    GetExitCodeProcess(pInfo.hProcess, &exitCode);
+    CloseHandle(pInfo.hProcess);
+    CloseHandle(pInfo.hThread);
+  }
+  return exitCode;
+}
+
 // Entry point function for all processes.
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine,
                       int nCmdShow) {
@@ -127,8 +143,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
         }
 
         // Create shortcut to 'Castle.exe'
-        wcscat(updateCmd, L" --createShortcut Castle.exe");
-        _wsystem(updateCmd);
+        wcscat(updateCmd, L" --silent --createShortcut Castle.exe");
+        spawn(updateCmd);
 
         // MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
         return 0;
@@ -141,8 +157,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
       }
       if (ARGS_STARTS_WITH("--squirrel-updated")) {
         // Update shortcut to 'Castle.exe'
-        wcscat(updateCmd, L" --createShortcut Castle.exe");
-        _wsystem(updateCmd);
+        wcscat(updateCmd, L" --silent --createShortcut Castle.exe");
+        spawn(updateCmd);
         // MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
         return 0;
       }
@@ -163,8 +179,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
         }
 
         // Remove shortcut to 'Castle.exe'
-        wcscat(updateCmd, L" --removeShortcut Castle.exe");
-        _wsystem(updateCmd);
+        wcscat(updateCmd, L" --silent --removeShortcut Castle.exe");
+        spawn(updateCmd);
 
         // MessageBox(nullptr, updateCmd, lpCmdLine, MB_OK);
         return 0;
