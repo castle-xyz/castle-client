@@ -3,7 +3,9 @@
 // can be found in the LICENSE file.
 
 #include <windows.h>
+
 #include <KnownFolders.h>
+
 #include <ShlObj.h>
 
 #include "include/cef_sandbox_win.h"
@@ -66,16 +68,51 @@ private:
 #endif
 
 // Entry point function for all processes.
-int APIENTRY wWinMain(HINSTANCE hInstance,
-                      HINSTANCE hPrevInstance,
-                      LPTSTR lpCmdLine,
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine,
                       int nCmdShow) {
   UNREFERENCED_PARAMETER(hPrevInstance);
+
+  // Convert arguments to a C string
+  char *args = nullptr;
+  if (lpCmdLine) {
+    size_t size = wcstombs(NULL, lpCmdLine, 0);
+    if (size > 0) {
+      args = new char[size + 1];
+      wcstombs(args, lpCmdLine, size + 1);
+    }
+  }
+
+  // Check for Squirrel events
+  if (args) {
+#define ARGS_STARTS_WITH(prefix) (args && !strncmp(args, prefix, strlen(prefix)))
+    if (ARGS_STARTS_WITH("--squirrel-install")) {
+      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
+      return 0;
+    }
+    if (ARGS_STARTS_WITH("--squirrel-firstrun")) {
+      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
+      delete args; // Consume `args`
+      args = nullptr;
+    }
+    if (ARGS_STARTS_WITH("--squirrel-updated")) {
+      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
+      return 0;
+    }
+    if (ARGS_STARTS_WITH("--squirrel-obsolete")) {
+      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
+      return 0;
+    }
+    if (ARGS_STARTS_WITH("--squirrel-uninstall")) {
+      MessageBox(nullptr, lpCmdLine, lpCmdLine, MB_OK);
+      return 0;
+    }
+  }
+#undef ARGS_STARTS_WITH
 
   // Enable High-DPI support on Windows 7 or newer.
   CefEnableHighDPISupport();
 
-  void* sandbox_info = NULL;
+  void *sandbox_info = NULL;
 
 #if defined(CEF_USE_SANDBOX)
   // Manage the life span of the sandbox information object. This is necessary
@@ -97,16 +134,11 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     return exit_code;
   }
 
-  // Deep linking
-  if (lpCmdLine) {
-	  size_t size = wcstombs(NULL, lpCmdLine, 0);
-	  if (size > 0) {
-		  char* deepLink = new char[size + 1];
-		  wcstombs(deepLink, lpCmdLine, size + 1);
-		  ghostHandleOpenUri(deepLink);
-	  }
+  // Handle URI argument
+  if (args) {
+    ghostHandleOpenUri(args);
+    // ghostHandleOpenUri("https://raw.githubusercontent.com/schazers/badboxart/master/main.lua");
   }
-  //ghostHandleOpenUri("https://raw.githubusercontent.com/schazers/badboxart/master/main.lua");
 
   // Get appdata path for CEF
   PWSTR appDataPath = NULL;
@@ -137,7 +169,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
   std::string url = exeDir + "/web/index.html";
 #endif
 
-  //url = "http://localhost:3000/index.html";
+  // url = "http://localhost:3000/index.html";
 
   int screenSizeWidth = 1440;
   int screenSizeHeight = 877;
