@@ -152,10 +152,14 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
       }
       if (ARGS_STARTS_WITH("--squirrel-uninstall")) {
         // Remove 'URL Protocol' to open 'castle://' links
-        try {
-          winreg::RegKey key{HKEY_CURRENT_USER, L"Software\\Classes"};
-          key.DeleteKey(L"castle", KEY_WOW64_32KEY);
-        } catch (winreg::RegException &) {
+        {
+          HKEY hKey;
+          if (RegOpenKeyEx(HKEY_CURRENT_USER, L"Software\\Classes\\castle", 0, KEY_ALL_ACCESS,
+                           &hKey) == ERROR_SUCCESS) {
+            RegDeleteTree(hKey, nullptr);
+            RegCloseKey(hKey);
+            RegDeleteKeyEx(HKEY_CURRENT_USER, L"Software\\Classes\\castle", KEY_WOW64_32KEY, 0);
+          }
         }
 
         // Remove shortcut to 'Castle.exe'
