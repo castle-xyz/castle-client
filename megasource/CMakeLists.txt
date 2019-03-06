@@ -397,5 +397,5 @@ COPY_FILES("${GHOST_TARGET}" "${GHOST_FILES}" "${CMAKE_CURRENT_SOURCE_DIR}/.." "
 
 #COPY_FILES("${GHOST_TARGET}" "castle.ico" "${CMAKE_CURRENT_SOURCE_DIR}/extra" "${CEF_TARGET_OUT_DIR}")
 
-COPY_FILES("${GHOST_TARGET}" "vc_redist.x86.exe" "${CMAKE_CURRENT_SOURCE_DIR}/extra" "${CEF_TARGET_OUT_DIR}")
-COPY_FILES("${GHOST_TARGET}" "install_redist.bat" "${CMAKE_CURRENT_SOURCE_DIR}/extra" "${CEF_TARGET_OUT_DIR}")
+set(GHOST_MSVC_DLLS concrt140.dll  msvcp140_1.dll  vccorlib140.dll msvcp140.dll   msvcp140_2.dll  vcruntime140.dll)
+COPY_FILES("${GHOST_TARGET}" "${GHOST_MSVC_DLLS}" "${CMAKE_CURRENT_SOURCE_DIR}/extra" "${CEF_TARGET_OUT_DIR}")
