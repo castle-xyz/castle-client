@@ -7,7 +7,7 @@ import { SocialContext } from '~/contexts/SocialContext';
 import { getEmojiComponent } from '~/common/emojis';
 
 import Linkify from 'react-linkify';
-import UIAvatar from '~/components/reusable/UIAvatar';
+import UIUserStatusIndicator from '~/components/reusable/UIUserStatusIndicator';
 
 // NOTE(jim): experiment.
 const HIGHLIGHT_COLOR = `#3d3d3d`;
@@ -15,15 +15,6 @@ const LEFT_CONTEXT_COLOR = `#282828`;
 const TIMESTAMP_COLOR = `#bebebe`;
 
 const NOTIFICATIONS_USER_ID = -1;
-
-const STYLES_AVATAR = css`
-  background-size: cover;
-  background-position: 50% 50%;
-  height: 24px;
-  width: 24px;
-  border-radius: 4px;
-  cursor: pointer;
-`;
 
 const STYLES_CHAT_ITEM = css`
   font-family: ${Constants.font.system};
@@ -50,12 +41,6 @@ const STYLES_CHAT_ITEM = css`
   }
 `;
 
-const STYLES_LEFT = css`
-  padding: 4px 8px 8px 0;
-  width: 32px;
-  flex-shrink: 0;
-`;
-
 const STYLES_CONTENT = css`
   min-width: 25%;
   width: 100%;
@@ -75,6 +60,8 @@ const STYLES_MESSAGE_HEADING_LEFT = css`
   cursor: pointer;
   overflow-wrap: break-word;
   font-family: ${Constants.font.system};
+  display: flex;
+  align-items: center;
 
   @media (max-width: 960px) {
     min-width: 24px;
@@ -146,6 +133,7 @@ const STYLES_MESSAGE_ELEMENT = css`
   display: block;
   width: 100%;
   overflow-wrap: break-word;
+  padding-left: 16px;
 `;
 
 class ChatMessage extends React.Component {
@@ -189,7 +177,6 @@ class ChatMessage extends React.Component {
   render() {
     const chatMessage = this.props.message;
     const userId = chatMessage.userId;
-    let maybeAvatar;
     let maybeUsernameAndTimestamp;
 
     if (!this.props.prevUserId || this.props.prevUserId !== userId) {
@@ -201,19 +188,6 @@ class ChatMessage extends React.Component {
 
       if (chatMessage.userId === NOTIFICATIONS_USER_ID) {
         user = { userId: NOTIFICATIONS_USER_ID, username: 'Castle' };
-      }
-
-      if (user.photo && user.photo.url) {
-        maybeAvatar = (
-          <div
-            className={STYLES_AVATAR}
-            onClick={isRealUser ? () => this.props.navigateToUserProfile(user) : null}
-            style={{
-              backgroundImage: `url('${user.photo.url}')`,
-              boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.07)',
-            }}
-          />
-        );
       }
 
       let date = new Date(chatMessage.timestamp);
@@ -237,7 +211,10 @@ class ChatMessage extends React.Component {
         <div
           className={STYLES_MESSAGE_HEADING}
           onClick={isRealUser ? () => this.props.navigateToUserProfile(user) : null}>
-          <span className={STYLES_MESSAGE_HEADING_LEFT}>{user.username}</span>
+          <span className={STYLES_MESSAGE_HEADING_LEFT}>
+            {user.username}
+            <UIUserStatusIndicator user={user} smallIndicator style={{ marginLeft: 8 }} />
+          </span>
           <span className={STYLES_MESSAGE_HEADING_RIGHT}>{timeString}</span>
         </div>
       );
@@ -245,7 +222,6 @@ class ChatMessage extends React.Component {
 
     return (
       <div className={STYLES_CHAT_ITEM}>
-        <div className={STYLES_LEFT}>{maybeAvatar}</div>
         <div className={STYLES_CONTENT}>
           {maybeUsernameAndTimestamp}
           <Linkify className={STYLES_MESSAGE_ELEMENT}>

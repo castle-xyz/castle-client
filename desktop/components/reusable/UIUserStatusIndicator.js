@@ -6,6 +6,8 @@ import { SocialContext } from '~/contexts/SocialContext';
 
 const STYLES_CONTAINER = css`
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const STYLES_INDICATOR_CONTAINER = css`
@@ -13,6 +15,12 @@ const STYLES_INDICATOR_CONTAINER = css`
   height: 12px;
   margin: 2px 4px 2px 0;
   border-radius: 6px;
+`;
+
+const STYLES_INDICATOR_CONTAINER_SMALL = css`
+  width: 9px;
+  height: 9px;
+  border-radius: 4.5px;
 `;
 
 class UIUserStatusIndicator extends React.Component {
@@ -25,7 +33,10 @@ class UIUserStatusIndicator extends React.Component {
         background: Constants.colors.userStatus.online,
       };
     }
-    return <div className={STYLES_INDICATOR_CONTAINER} style={indicatorStyle} />;
+    const indicatorClass = this.props.smallIndicator
+      ? STYLES_INDICATOR_CONTAINER_SMALL
+      : STYLES_INDICATOR_CONTAINER;
+    return <div className={indicatorClass} style={indicatorStyle} />;
   };
 
   render() {
