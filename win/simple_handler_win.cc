@@ -10,6 +10,11 @@
 #include <string>
 #include <windows.h>
 
+#include "dirent.h"
+#include <fstream>
+#include <regex>
+#include <sstream>
+
 #include "include/cef_browser.h"
 
 #define ICON_ID 1
@@ -53,9 +58,6 @@ LRESULT CALLBACK GhostSubclassProc(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l
 
 static bool checkingForUpdates = false;
 
-static HANDLE updateCheckStdOutRead;
-static HANDLE updateCheckStdOutWrite;
-
 // static VOID NTAPI checkForUpdatesProcessFinished(PVOID lpParameter, BOOLEAN timerOrWaitFired) {
 //   // checkingForUpdates = false;
 //   // UnregisterWait(updateCheckWaitObject);
@@ -70,35 +72,16 @@ static VOID CALLBACK checkForUpdates(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWO
   }
   checkingForUpdates = true;
 
-  printf("hello, wornd\n");
-
-  // Full path to Squirrel's 'Update.exe' (one directory up)
+  // Full path to Squirrel's 'Update.exe' ('../Update.exe')
   wchar_t updateCmd[MAX_PATH + 256];
   GetModuleFileName(NULL, updateCmd, MAX_PATH);
   *wcsrchr(updateCmd, L'\\') = L'\0';
   wcscpy(wcsrchr(updateCmd, L'\\'), L"\\Update.exe");
 
-  // Add the `--checkForUpdates` command
-  // wcscat(updateCmd, L" --checkForUpdate "
-  //                   L"https://raw.githubusercontent.com/castle-games/castle-releases/win2/win");
-  wcscat(updateCmd, L" --update "
-                    L"C:\\Users\\nikki\\Development\\ghost\\megasource\\castle-releases\\win");
-
-  // Create a pipe to capture `stdout` of the child process
-  // See:
-  // https://docs.microsoft.com/en-us/windows/desktop/ProcThread/creating-a-child-process-with-redirected-input-and-output
-  SECURITY_ATTRIBUTES sAttr;
-  sAttr.nLength = sizeof(sAttr);
-  sAttr.bInheritHandle = TRUE;
-  sAttr.lpSecurityDescriptor = NULL;
-  if (!CreatePipe(&updateCheckStdOutRead, &updateCheckStdOutWrite, &sAttr, 0)) {
-    checkingForUpdates = false;
-    return;
-  }
-  if (!SetHandleInformation(updateCheckStdOutRead, HANDLE_FLAG_INHERIT, 0)) {
-    checkingForUpdates = false;
-    return;
-  }
+  // Add the `--download` command
+#define UPDATES_URL L"C:\\Users\\nikki\\Development\\ghost\\megasource\\castle-releases\\win"
+// #define UPDATES_URL L"https://raw.githubusercontent.com/castle-games/castle-releases/win2/win"
+  wcscat(updateCmd, L" --download " UPDATES_URL);
 
   // Call `CreateProcessW` and wait for it
   PROCESS_INFORMATION pInfo;
@@ -106,8 +89,6 @@ static VOID CALLBACK checkForUpdates(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWO
   memset(&sInfo, 0, sizeof(sInfo));
   memset(&pInfo, 0, sizeof(pInfo));
   sInfo.cb = sizeof(sInfo);
-  sInfo.hStdOutput = updateCheckStdOutWrite;
-  sInfo.dwFlags |= STARTF_USESTDHANDLES;
   if (!CreateProcessW(nullptr, updateCmd, nullptr, nullptr, 0, 0, nullptr, nullptr, &sInfo,
                       &pInfo)) {
     checkingForUpdates = false;
@@ -121,14 +102,57 @@ static VOID CALLBACK checkForUpdates(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWO
   CloseHandle(pInfo.hProcess);
   CloseHandle(pInfo.hThread);
 
-  // Read `stdout`
-  CloseHandle(updateCheckStdOutWrite);
-  char buf[520];
-  DWORD bufLength;
-  ReadFile(updateCheckStdOutRead, buf, 512, &bufLength, NULL);
-  buf[bufLength] = '\0';
-  MessageBoxA(NULL, buf, "Read!", MB_OK);
-  CloseHandle(updateCheckStdOutRead);
+  // Full path to Squirrel's 'packages' directory ('../packages')
+  wchar_t packagesDir[MAX_PATH + 256];
+  GetModuleFileName(NULL, packagesDir, MAX_PATH);
+  *wcsrchr(packagesDir, L'\\') = L'\0';
+  wcscpy(wcsrchr(packagesDir, L'\\'), L"\\packages\\");
+
+  // Regex to extract actual version name
+  const std::regex versionRegex("Castle-0\\.1\\.([0-9]+).*");
+
+  // Find current version
+  int currentVersion;
+  {
+    std::ifstream readReleases(std::wstring(packagesDir) + L"RELEASES");
+    std::string currentPkg;
+    readReleases >> currentPkg;
+    readReleases >> currentPkg;
+    std::smatch regexMatches;
+    if (!std::regex_match(currentPkg, regexMatches, versionRegex)) {
+      checkingForUpdates = false;
+      return;
+    }
+    std::stringstream ss(regexMatches[1].str());
+    ss >> currentVersion;
+  }
+
+  // Enumerate '../packages' contents and see if any higher version number exists
+  bool foundHigherVersion = false;
+  auto dir = _wopendir(packagesDir);
+  _wdirent *de;
+  while ((de = _wreaddir(dir)) != NULL) {
+    std::string filename;
+    std::wstring wfilename(de->d_name);
+    filename.assign(wfilename.begin(), wfilename.end());
+    std::smatch regexMatches;
+    int version;
+    if (std::regex_match(filename, regexMatches, versionRegex)) {
+      std::stringstream ss(regexMatches[1].str());
+      ss >> version;
+      if (version > currentVersion) {
+        foundHigherVersion = true;
+        break;
+      }
+    }
+  }
+
+  // Do thing!
+  if (foundHigherVersion) {
+    printf("Found higher version!\n");
+  } else {
+    printf("No higher version!\n");
+  }
 }
 
 void SimpleHandler::PlatformTitleChange(CefRefPtr<CefBrowser> browser, const CefString &title) {
