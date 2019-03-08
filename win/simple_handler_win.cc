@@ -21,6 +21,8 @@
 
 #define FILE_MENU_OPEN 1
 
+static HWND mainWindow;
+
 extern "C" {
 void ghostWinSetMainWindow(HWND window);
 }
@@ -56,51 +58,20 @@ LRESULT CALLBACK GhostSubclassProc(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l
   return DefSubclassProc(hwnd, msg, w_param, l_param);
 }
 
-static bool checkingForUpdates = false;
+static auto updateCheckInProgress = false;
+static HANDLE updateCheckWait;
+static PROCESS_INFORMATION updateCheckProcessInfo;
+const UINT_PTR updateCheckTimerId = 2000;
 
-// static VOID NTAPI checkForUpdatesProcessFinished(PVOID lpParameter, BOOLEAN timerOrWaitFired) {
-//   // checkingForUpdates = false;
-//   // UnregisterWait(updateCheckWaitObject);
-
-//   // Read `stdout`
-// }
-
-static VOID CALLBACK checkForUpdates(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
-  // Only run at most one check simultaneously
-  if (checkingForUpdates) {
-    return;
-  }
-  checkingForUpdates = true;
-
-  // Full path to Squirrel's 'Update.exe' ('../Update.exe')
-  wchar_t updateCmd[MAX_PATH + 256];
-  GetModuleFileName(NULL, updateCmd, MAX_PATH);
-  *wcsrchr(updateCmd, L'\\') = L'\0';
-  wcscpy(wcsrchr(updateCmd, L'\\'), L"\\Update.exe");
-
-  // Add the `--download` command
-#define UPDATES_URL L"C:\\Users\\nikki\\Development\\ghost\\megasource\\castle-releases\\win"
-// #define UPDATES_URL L"https://raw.githubusercontent.com/castle-games/castle-releases/win2/win"
-  wcscat(updateCmd, L" --download " UPDATES_URL);
-
-  // Call `CreateProcessW` and wait for it
-  PROCESS_INFORMATION pInfo;
-  STARTUPINFO sInfo;
-  memset(&sInfo, 0, sizeof(sInfo));
-  memset(&pInfo, 0, sizeof(pInfo));
-  sInfo.cb = sizeof(sInfo);
-  if (!CreateProcessW(nullptr, updateCmd, nullptr, nullptr, 0, 0, nullptr, nullptr, &sInfo,
-                      &pInfo)) {
-    checkingForUpdates = false;
-    return;
-  }
-  WaitForSingleObject(pInfo.hProcess, INFINITE);
+static VOID NTAPI finishUpdateCheck(PVOID lpParameter, BOOLEAN timerOrWaitFired) {
+  updateCheckInProgress = false;
 
   // Clean up the process
+  UnregisterWait(updateCheckWait);
   DWORD exitCode;
-  GetExitCodeProcess(pInfo.hProcess, &exitCode);
-  CloseHandle(pInfo.hProcess);
-  CloseHandle(pInfo.hThread);
+  GetExitCodeProcess(updateCheckProcessInfo.hProcess, &exitCode);
+  CloseHandle(updateCheckProcessInfo.hProcess);
+  CloseHandle(updateCheckProcessInfo.hThread);
 
   // Full path to Squirrel's 'packages' directory ('../packages')
   wchar_t packagesDir[MAX_PATH + 256];
@@ -120,7 +91,7 @@ static VOID CALLBACK checkForUpdates(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWO
     readReleases >> currentPkg;
     std::smatch regexMatches;
     if (!std::regex_match(currentPkg, regexMatches, versionRegex)) {
-      checkingForUpdates = false;
+      updateCheckInProgress = false;
       return;
     }
     std::stringstream ss(regexMatches[1].str());
@@ -128,7 +99,8 @@ static VOID CALLBACK checkForUpdates(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWO
   }
 
   // Enumerate '../packages' contents and see if any higher version number exists
-  bool foundHigherVersion = false;
+  int maxVersion = 0;
+  auto foundHigherVersion = false;
   auto dir = _wopendir(packagesDir);
   _wdirent *de;
   while ((de = _wreaddir(dir)) != NULL) {
@@ -142,22 +114,67 @@ static VOID CALLBACK checkForUpdates(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWO
       ss >> version;
       if (version > currentVersion) {
         foundHigherVersion = true;
-        break;
+        if (version > maxVersion) {
+          maxVersion = version;
+        }
       }
     }
   }
 
   // Do thing!
   if (foundHigherVersion) {
-    printf("Found higher version!\n");
-  } else {
-    printf("No higher version!\n");
+    std::stringstream params;
+    params << "{"
+           << " versionString: \"1." << maxVersion << "\", "
+           << " dateString: \"\", "
+           << "}";
+    ghostSendJSEvent(kGhostUpdateAvailableEventName, params.str().c_str());
   }
+}
+
+static VOID CALLBACK beginUpdateCheck(HWND hwnd, UINT uMsg, UINT_PTR timerId, DWORD dwTime) {
+  // Schedule this for every hour after the first one
+  static auto firstCheck = true;
+  if (firstCheck) {
+    firstCheck = false;
+    SetTimer(hwnd, updateCheckTimerId, 5 * 1000, &beginUpdateCheck);
+  }
+
+  // Only run at most one check simultaneously
+  if (updateCheckInProgress) {
+    return;
+  }
+  updateCheckInProgress = true;
+
+  // Full path to Squirrel's 'Update.exe' ('../Update.exe')
+  wchar_t updateCmd[MAX_PATH + 256];
+  GetModuleFileName(NULL, updateCmd, MAX_PATH);
+  *wcsrchr(updateCmd, L'\\') = L'\0';
+  wcscpy(wcsrchr(updateCmd, L'\\'), L"\\Update.exe");
+
+  // Add the `--download` command
+#define UPDATES_URL L"C:\\Users\\nikki\\Development\\ghost\\megasource\\castle-releases\\win"
+  // #define UPDATES_URL L"https://raw.githubusercontent.com/castle-games/castle-releases/win2/win"
+  wcscat(updateCmd, L" --download " UPDATES_URL);
+
+  // Call `CreateProcessW` and wait for it
+  STARTUPINFO sInfo;
+  memset(&sInfo, 0, sizeof(sInfo));
+  memset(&updateCheckProcessInfo, 0, sizeof(updateCheckProcessInfo));
+  sInfo.cb = sizeof(sInfo);
+  if (!CreateProcessW(nullptr, updateCmd, nullptr, nullptr, 0, 0, nullptr, nullptr, &sInfo,
+                      &updateCheckProcessInfo)) {
+    updateCheckInProgress = false;
+    return;
+  }
+  RegisterWaitForSingleObject(&updateCheckWait, updateCheckProcessInfo.hProcess, &finishUpdateCheck,
+                              0, 60 * 1000, WT_EXECUTEONLYONCE);
 }
 
 void SimpleHandler::PlatformTitleChange(CefRefPtr<CefBrowser> browser, const CefString &title) {
   CefWindowHandle hwnd = browser->GetHost()->GetWindowHandle();
   ghostWinSetMainWindow(hwnd);
+  mainWindow = hwnd;
   SetWindowText(hwnd, std::wstring(title).c_str());
 
   HINSTANCE hInstance = (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE);
@@ -165,8 +182,8 @@ void SimpleHandler::PlatformTitleChange(CefRefPtr<CefBrowser> browser, const Cef
   SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
   SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 
-  // SetTimer(hwnd, 0, 10 * 1000, &checkForUpdates);
-  checkForUpdates(0, 0, 0, 0);
+  // Do first update check 5 seconds after boot, it sets itself for ever hour after the first one
+  SetTimer(hwnd, updateCheckTimerId, 5 * 1000, &beginUpdateCheck);
 }
 
 void SimpleHandler::SubclassWndProc(CefWindowHandle hwnd) {
