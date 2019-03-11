@@ -14,6 +14,7 @@ import { NavigatorContext, NavigationContextProvider } from '~/contexts/Navigati
 import * as NativeUtil from '~/native/nativeutil';
 import { linkify } from 'react-linkify';
 import * as Urls from '~/common/urls';
+import * as PingUtils from '~/common/pingutils';
 
 const isReloadHotkey = isKeyHotkey('mod+r');
 const isFullscreenHotkey = isKeyHotkey('mod+shift+f');
@@ -37,6 +38,8 @@ class App extends React.Component {
     window.addEventListener('CASTLE_SYSTEM_KEY_PRESSED', this._handleLuaSystemKeyDownEvent);
     window.addEventListener('nativeUpdateAvailable', this._handleNativeUpdateAvailableEvent);
     window.addEventListener('nativeMenuSelected', this._handleNativeMenuSelectedEvent);
+    window.addEventListener('online', PingUtils.reportPingsAsync);
+    PingUtils.reportPingsAsync();
 
     NativeUtil.setBrowserReady(() => {
       this._processNativeChannels();
@@ -62,6 +65,7 @@ class App extends React.Component {
     window.removeEventListener('keydown', this._handleKeyDownEvent);
     window.removeEventListener('CASTLE_SYSTEM_KEY_PRESSED', this._handleLuaSystemKeyDownEvent);
     window.removeEventListener('nativeMenuSelected', this._handleNativeMenuSelectedEvent);
+    window.removeEventListener('online', PingUtils.reportPingsAsync);
     window.clearTimeout(this._nativeChannelsPollTimeout);
   }
 
