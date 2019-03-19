@@ -126,18 +126,20 @@ const STYLES_DESCRIPTION = css`
 
 export default class NowPlayingBar extends React.Component {
   state = {
-    isDescriptionVisible: false,
+    isMuted: false,
   };
 
   _handleViewSource = (gameEntryPoint) => {
     NativeUtil.openExternalURL(Urls.githubUserContentToRepoUrl(gameEntryPoint));
   };
 
-  _handleToggleMute = () => {
+  _handleToggleMute = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    this.props.onToggleMute();
+    const isMuted = !this.state.isMuted;
+    NativeUtil.sendLuaEvent('CASTLE_SET_VOLUME', isMuted ? 0 : 1);
+    this.setState({ isMuted });
   };
 
   _handleNavigatePlaying = (e) => {
@@ -159,22 +161,10 @@ export default class NowPlayingBar extends React.Component {
     this.props.navigator.clearCurrentGame();
   };
 
-  _handleDescriptionToggle = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    this.setState(
-      {
-        isDescriptionVisible: !this.state.isDescriptionVisible,
-      },
-      this.props.onUpdateGameWindowFrame
-    );
-  };
-
   render() {
     const { game } = this.props;
 
-    let muteIcon = this.props.isMuted ? <SVG.Mute height="14px" /> : <SVG.Audio height="14px" />;
+    let muteIcon = this.state.isMuted ? <SVG.Mute height="14px" /> : <SVG.Audio height="14px" />;
     let muteElement = (
       <span className={STYLES_BUTTON} onClick={this._handleToggleMute}>
         {muteIcon}
@@ -189,37 +179,20 @@ export default class NowPlayingBar extends React.Component {
     }
 
     let title = 'Untitled';
-    let publishedInfo = 'Anonymous';
-    let isRegistered = false;
-    let description = '';
     if (game) {
-      title = game.title ? (
-        <span onClick={this.props.navigator.navigateToCurrentGame}>{game.title}</span>
-      ) : (
-        <span onClick={this.props.navigator.navigateToCurrentGame}>{title}</span>
-      );
-      isRegistered = !Strings.isEmpty(game.gameId);
-      description = game.description ? game.description : description;
+      title = game.title ? `${game.title}` : title;
+    }
 
-      let username = 'Anonymous';
-      let updated;
-      if (isRegistered) {
-        username = (
-          <span
-            className={STYLES_CREATOR_LINK}
-            onClick={() => this.props.navigator.navigateToUserProfile(game.owner)}>
-            {game.owner.username}
+    if (this.props.mode !== 'game') {
+      return (
+        <div
+          className={STYLES_CONTAINER}
+          onClick={this._handleNavigatePlaying}
+          style={{ cursor: 'pointer' }}>
+          <span className={STYLES_GAME_STRIP}>
+            <span className={STYLES_GAME_STRIP_LEFT}>► Return to {title}</span>
           </span>
-        );
-        updated = Strings.toDate(game.updatedTime);
-      } else {
-        username = game.owner ? game.owner : username;
-        updated = 'in development';
-      }
-      publishedInfo = (
-        <React.Fragment>
-          {username}&nbsp;╱&nbsp;{updated}
-        </React.Fragment>
+        </div>
       );
     }
 
@@ -237,31 +210,15 @@ export default class NowPlayingBar extends React.Component {
 
     return (
       <div className={STYLES_CONTAINER}>
-        <div className={STYLES_GAME_STRIP} style={{ backgroundColor }}>
-          <div className={STYLES_GAME_STRIP_LEFT}>
-            {title}&nbsp;╱&nbsp;{publishedInfo}
-          </div>
+        <div className={STYLES_GAME_STRIP}>
+          <div className={STYLES_GAME_STRIP_LEFT}>{muteElement}</div>
           <div className={STYLES_GAME_STRIP_RIGHT}>
-            <UINavigationLink style={{ marginRight: 24 }} onClick={this._handleDescriptionToggle}>
-              {this.state.isDescriptionVisible ? `Description` : `Description`}
-            </UINavigationLink>
             {maybeViewSource}
-            {this.props.mode !== 'game' ? (
-              <UINavigationLink style={{ marginRight: 24 }} onClick={this._handleNavigatePlaying}>
-                Now playing
-              </UINavigationLink>
-            ) : null}
             <UINavigationLink style={{ marginRight: 20 }} onClick={this._handleCloseGame}>
               End game
             </UINavigationLink>
-            {muteElement}
           </div>
         </div>
-        {this.state.isDescriptionVisible ? (
-          <div className={STYLES_METADATA}>
-            <div className={STYLES_DESCRIPTION}>{description}</div>
-          </div>
-        ) : null}
       </div>
     );
   }

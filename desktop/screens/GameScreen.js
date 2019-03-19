@@ -124,8 +124,6 @@ class GameScreen extends React.Component {
         <GameActionsBar
           game={this.props.game}
           timeGameLoaded={this.props.timeGameLoaded}
-          isMuted={this.state.isMuted}
-          onToggleMute={this._toggleIsMuted}
           navigateToUserProfile={this.props.navigateToUserProfile}
           closeGame={this.props.closeGame}
           onUpdateGameWindowFrame={this._updateGameWindowFrame}
@@ -143,7 +141,7 @@ export default class GameScreenWithContext extends React.Component {
       return this._game;
     }
     return null;
-  }
+  };
 
   render() {
     return (
@@ -154,7 +152,9 @@ export default class GameScreenWithContext extends React.Component {
               <CurrentUserContext.Consumer>
                 {(currentUser) => (
                   <GameScreen
-                    ref={c => {this._game = c;}}
+                    ref={(c) => {
+                      this._game = c;
+                    }}
                     game={navigation.game}
                     timeGameLoaded={navigation.timeGameLoaded}
                     timeNavigatedToGame={navigation.timeLastNavigated}
