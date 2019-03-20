@@ -38,7 +38,7 @@ const STYLES_BUTTON = css`
 const STYLES_GAME_STRIP = css`
   height: 32px;
   width: 100%;
-  background-color: #272727;
+  background: #232323;
   color: ${Constants.colors.white};
   display: flex;
   align-items: center;
@@ -71,57 +71,6 @@ const STYLES_GAME_STRIP_RIGHT = css`
 const STYLES_CONTAINER = css`
   background: ${Constants.colors.background};
   width: 100%;
-`;
-
-const STYLES_LOG_CONTAINER = css`
-  background: ${Constants.colors.background};
-  width: 100%;
-  display: flex;
-  height: 172px;
-  min-height: 96px;
-  flex-direction: column;
-`;
-
-const STYLES_LEFT_ACTIONS = css`
-  padding-left: 16px;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-`;
-
-const STYLES_METADATA = css`
-  padding: 16px 16px 0 16px;
-  height: 172px;
-  min-height: 96px;
-  overflow-y: scroll;
-
-  ::-webkit-scrollbar {
-    display: none;
-    width: 1px;
-  }
-`;
-
-const STYLES_CREATOR_LINK = css`
-  cursor: pointer;
-  font-weight: 400;
-  font-family: ${Constants.font.monobold};
-  transition: 200ms ease color;
-  color: ${Constants.colors.white};
-
-  :hover {
-    color: ${Constants.colors.brand2};
-  }
-
-  :visited {
-    color: ${Constants.colors.white};
-  }
-`;
-
-const STYLES_DESCRIPTION = css`
-  margin: 16px 0 16px 0;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
 `;
 
 export default class NowPlayingBar extends React.Component {
