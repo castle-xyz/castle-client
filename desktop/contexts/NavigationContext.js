@@ -16,7 +16,7 @@ import * as Strings from '~/common/strings';
  *  should have an effect on values here.
  */
 const NavigationContextDefaults = {
-  contentMode: 'home', // game | profile | home | signin | notifications
+  contentMode: 'home', // game | profile | home | signin | notifications | create
   timeLastNavigated: 0,
   gameUrl: '',
   game: null,
@@ -42,6 +42,7 @@ const NavigatorContextDefaults = {
   navigateToCurrentUserProfile: (options) => {},
   navigateToUserProfile: async (user) => {},
   navigateToNotifications: () => {},
+  navigateToCreate: () => {},
   reloadGame: (onlyIfVisible) => {},
   clearCurrentGame: async () => {},
   setNavigationState: () => {},
@@ -71,6 +72,7 @@ class NavigationContextManager extends React.Component {
         navigateToCurrentUserProfile: this.navigateToCurrentUserProfile,
         navigateToUserProfile: this.navigateToUserProfile,
         navigateToNotifications: this.navigateToNotifications,
+        navigateToCreate: this.navigateToCreate,
         reloadGame: this.reloadGame,
         clearCurrentGame: this.clearCurrentGame,
       },
@@ -149,6 +151,8 @@ class NavigationContextManager extends React.Component {
   navigateToHome = () => this._navigateToContentMode('home');
 
   navigateToNotifications = () => this._navigateToContentMode('notifications');
+
+  navigateToCreate = () => this._navigateToContentMode('create');
 
   navigateToCurrentGame = () => {
     if (!this.state.navigation.game) {

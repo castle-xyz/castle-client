@@ -7,6 +7,7 @@ import * as Constants from '~/common/constants';
 import * as Strings from '~/common/strings';
 import * as Urls from '~/common/urls';
 
+import CreateProjectScreen from '~/screens/CreateProjectScreen';
 import GameWindow from '~/native/gamewindow';
 import GameScreen from '~/screens/GameScreen';
 import HomeScreen from '~/screens/HomeScreen';
@@ -128,6 +129,8 @@ class ContentContainer extends React.Component {
           timeLastNavigated={this.props.timeLastNavigated}
         />
       );
+    } else if (mode === 'create') {
+      return <CreateProjectScreen templates={this.props.featuredExamples} />;
     } else if (mode === 'profile') {
       return <ProfileScreen />;
     } else if (mode === 'signin') {
@@ -160,6 +163,7 @@ class ContentContainer extends React.Component {
         {this.props.mode === 'home' ? (
           <HomeMakeBanner
             navigator={this.props.navigator}
+            navigateToCreate={this.props.navigator.navigateToCreate}
             navigateToGameUrl={this.props.navigator.navigateToGameUrl}
             navigateToCurrentUserProfile={() =>
               this.props.navigator.navigateToCurrentUserProfile({ mode: 'add-game' })

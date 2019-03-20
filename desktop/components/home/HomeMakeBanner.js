@@ -2,7 +2,6 @@ import * as React from 'react';
 import { css } from 'react-emotion';
 
 import * as Constants from '~/common/constants';
-import Logs from '~/common/logs';
 import * as NativeUtil from '~/native/nativeutil';
 import UIButton from '~/components/reusable/UIButton';
 import UIHeading from '~/components/reusable/UIHeading';
@@ -45,6 +44,7 @@ const STYLES_ACTION_PARAGRAPH = css`
 
 export default class HomeMakeBanner extends React.Component {
   static defaultProps = {
+    navigateToCreate: () => {},
     navigateToGameUrl: async (url) => {},
   };
 
@@ -62,26 +62,8 @@ export default class HomeMakeBanner extends React.Component {
     NativeUtil.openExternalURL(`${Constants.WEB_HOST}/documentation`);
   };
 
-  _handleCreateProject = async () => {
-    const newProjectDirectory = await NativeUtil.chooseDirectoryWithDialogAsync({
-      title: 'Create a New Castle Project',
-      message: 'Choose a folder where the project will be created.',
-      action: 'Create Project',
-    });
-    if (newProjectDirectory) {
-      let entryPointFilePath;
-      try {
-        entryPointFilePath = await NativeUtil.createProjectAtPathAsync(newProjectDirectory);
-      } catch (_) {}
-      if (entryPointFilePath) {
-        const gameUrl = `file://${entryPointFilePath}`;
-        await this.props.navigateToGameUrl(gameUrl);
-        Logs.system('Welcome to Castle!');
-        Logs.system(`We created your project at ${gameUrl}.`);
-        Logs.system(`Open that file in your favorite text editor to get started.`);
-        Logs.system(`Need help? Check out ${Constants.WEB_HOST}/documentation`);
-      }
-    }
+  _handleCreateProject = () => {
+    this.props.navigateToCreate();
   };
 
   _handleOpenProject = async () => {
