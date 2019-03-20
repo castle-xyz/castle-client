@@ -69,6 +69,18 @@ JS_BIND_DEFINE(chooseOpenProjectPathWithDialog) {
   }
 }
 
+JS_BIND_DEFINE(getDocumentsPath) {
+  const char *result;
+
+  bool didFindPath = ghostGetDocumentsPath(&result);
+  if (didFindPath) {
+    success(result);
+    std::free((void *)result);
+  } else {
+    failure("Unable to get documents directory");
+  }
+}
+
 JS_BIND_DEFINE(createProjectAtPath) {
   const std::string path = arg["path"];
   const char *entryPoint;

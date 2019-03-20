@@ -27,6 +27,16 @@ export const readLogChannelsAsync = async () => {
   });
 };
 
+export const getDocumentsPathAsync = async () => {
+  let directory;
+  try {
+    directory = await NativeBinds.getDocumentsPath();
+  } catch (e) {
+    return null;
+  }
+  return directory;
+};
+
 export const chooseDirectoryWithDialogAsync = async ({ title, message, action }) => {
   let chosenDirectory;
   try {
@@ -76,7 +86,7 @@ export const setWindowFrameFullscreen = async (isFullscreen) => {
 };
 
 export const getWindowFrameFullscreen = async () => {
-  return await NativeBinds.getWindowFrameFullscreen({}) === 'true';
+  return (await NativeBinds.getWindowFrameFullscreen({})) === 'true';
 };
 
 export const sendLuaEvent = async (name, params) => {

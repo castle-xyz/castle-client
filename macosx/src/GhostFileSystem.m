@@ -38,6 +38,19 @@
   return nil;
 }
 
++ (NSString *)ghostDocumentsDirectory {
+  NSError *err;
+  NSURL *userDocumentUrl = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory
+                                                                  inDomain:NSUserDomainMask
+                                                         appropriateForURL:nil
+                                                                    create:YES
+                                                                     error:&err];
+  if (userDocumentUrl) {
+    return [userDocumentUrl path];
+  }
+  return nil;
+}
+
 + (NSString *)pathToFileInAppBundle:(NSString *)filename {
   if (filename) {
     return [[NSBundle mainBundle] pathForResource:filename ofType:nil];

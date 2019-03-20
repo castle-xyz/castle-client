@@ -269,7 +269,9 @@ static bool applicationWillTerminateNotificationPosted = false;
 
 void ghostQuitMessageLoop() {
   if (!applicationWillTerminateNotificationPosted) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NSApplicationWillTerminateNotification object:nil];
+    [[NSNotificationCenter defaultCenter]
+        postNotificationName:NSApplicationWillTerminateNotification
+                      object:nil];
     applicationWillTerminateNotificationPosted = true;
   }
 }
@@ -277,6 +279,19 @@ void ghostQuitMessageLoop() {
 bool ghostGetPathToFileInAppBundle(const char *filename, const char **result) {
   NSString *_filename = [NSString stringWithCString:filename encoding:NSUTF8StringEncoding];
   NSString *path = [GhostFileSystem pathToFileInAppBundle:_filename];
+  const char *pathStr = NULL;
+  if (path) {
+    pathStr = [path cStringUsingEncoding:NSUTF8StringEncoding];
+  }
+  if (pathStr) {
+    *result = strdup(pathStr);
+    return true;
+  }
+  return false;
+}
+
+bool ghostGetDocumentsPath(const char **result) {
+  NSString *path = [GhostFileSystem ghostDocumentsDirectory];
   const char *pathStr = NULL;
   if (path) {
     pathStr = [path cStringUsingEncoding:NSUTF8StringEncoding];

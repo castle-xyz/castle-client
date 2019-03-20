@@ -621,6 +621,7 @@ void ghostOpenExternalUrl(const char *url) {
   ShellExecute(0, 0, ptr, 0, 0, SW_SHOW);
 }
 
+
 static HANDLE updateInstallWait;
 static PROCESS_INFORMATION updateInstallProcessInfo;
 
@@ -672,6 +673,11 @@ void ghostInstallUpdate() {
   }
   RegisterWaitForSingleObject(&updateInstallWait, updateInstallProcessInfo.hProcess, &finishUpdateInstall,
                               0, 60 * 1000, WT_EXECUTEONLYONCE);
+}
+
+bool ghostGetDocumentsPath(const char **result) {
+  // TODO: impl
+  return false;
 }
 
 class WinToastHandlerExample : public IWinToastHandler {

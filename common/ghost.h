@@ -40,6 +40,7 @@ bool ghostChooseDirectoryWithDialog(const char *title, const char *message, cons
 bool ghostShowOpenProjectDialog(const char **projectFilePathChosen);
 bool ghostCreateProjectAtPath(const char *path, const char **entryPoint);
 bool ghostGetPathToFileInAppBundle(const char *filename, const char **result);
+bool ghostGetDocumentsPath(const char **result);
 void ghostInstallUpdate();
 
 extern double ghostGlobalScaling;
