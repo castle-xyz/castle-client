@@ -5,6 +5,7 @@ import * as Constants from '~/common/constants';
 import * as NativeUtil from '~/native/nativeutil';
 
 import Logs from '~/common/logs';
+import ProjectPathChooser from '~/components/create/ProjectPathChooser';
 import ProjectTemplateChooser from '~/components/create/ProjectTemplateChooser';
 import UIButton from '~/components/reusable/UIButton';
 import UIHeading from '~/components/reusable/UIHeading';
@@ -63,24 +64,47 @@ class CreateProjectScreen extends React.Component {
   state = {
     step: 'choose-template',
     selectedTemplate: null,
+    selectedProjectDirectory: null,
+  };
+
+  componentDidMount() {
+    this._setDefaultProjectDirectory();
+  }
+
+  _setDefaultProjectDirectory = async () => {
+    const directory = await NativeUtil.getDocumentsPathAsync();
+    this.setState({
+      selectedProjectDirectory: directory,
+    });
+  };
+
+  _handleBackToTemplate = () => {
+    this.setState({
+      step: 'choose-template',
+      selectedTemplate: null,
+    });
   };
 
   _handleSelectTemplate = (game) => {
     this.setState({
+      step: 'configure-project',
       selectedTemplate: game,
     });
   };
 
-  _handleCreateProject = async () => {
-    const newProjectDirectory = await NativeUtil.chooseDirectoryWithDialogAsync({
-      title: 'Create a New Castle Project',
-      message: 'Choose a folder where the project will be created.',
-      action: 'Create Project',
+  _handleSelectDirectory = (directory) => {
+    this.setState({
+      selectedProjectDirectory: directory,
     });
-    if (newProjectDirectory) {
+  };
+
+  _handleCreateProject = async () => {
+    if (this.state.selectedProjectDirectory) {
       let entryPointFilePath;
       try {
-        entryPointFilePath = await NativeUtil.createProjectAtPathAsync(newProjectDirectory);
+        entryPointFilePath = await NativeUtil.createProjectAtPathAsync(
+          this.state.selectedProjectDirectory
+        );
       } catch (_) {}
       if (entryPointFilePath) {
         const gameUrl = `file://${entryPointFilePath}`;
@@ -93,26 +117,57 @@ class CreateProjectScreen extends React.Component {
     }
   };
 
-  render() {
+  _renderChooseTemplate = () => {
     return (
-      <div className={STYLES_CONTAINER}>
-        <div className={STYLES_CONTENT}>
-          <UIHeading>Choose a starter project</UIHeading>
-          <div className={STYLES_PARAGRAPH}>
-            Castle will download some starter files for your new game. Choose the starter project
-            that best fits.
-          </div>
-          <ProjectTemplateChooser
-            templates={this.props.templates}
-            selectedTemplate={this.state.selectedTemplate}
-            onSelectTemplate={this._handleSelectTemplate}
-          />
-          <div className={STYLES_ACTIONS}>
-            <div className={STYLES_BACK} onClick={this.props.navigateToHome}>
-              Cancel
-            </div>
+      <React.Fragment>
+        <UIHeading>Choose a starter project</UIHeading>
+        <div className={STYLES_PARAGRAPH}>
+          Castle will download some starter files for your new game. Choose the starter project that
+          best fits.
+        </div>
+        <ProjectTemplateChooser
+          templates={this.props.templates}
+          selectedTemplate={this.state.selectedTemplate}
+          onSelectTemplate={this._handleSelectTemplate}
+        />
+        <div className={STYLES_ACTIONS}>
+          <div className={STYLES_BACK} onClick={this.props.navigateToHome}>
+            Cancel
           </div>
         </div>
+      </React.Fragment>
+    );
+  };
+
+  _renderConfigureProject = () => {
+    let projectDirectory = this.state.selectedProjectDirectory;
+    return (
+      <React.Fragment>
+        <UIHeading>Choose your project folder</UIHeading>
+        <ProjectPathChooser
+          selectedDirectory={projectDirectory}
+          onSelectDirectory={this._handleSelectDirectory}
+        />
+        <div className={STYLES_ACTIONS}>
+          <div className={STYLES_BACK} onClick={this._handleBackToTemplate}>
+            Back
+          </div>
+          <UIButton onClick={this._handleCreateProject}>Create Project</UIButton>
+        </div>
+      </React.Fragment>
+    );
+  };
+
+  render() {
+    let content;
+    if (this.state.step === 'choose-template') {
+      content = this._renderChooseTemplate();
+    } else if (this.state.step === 'configure-project') {
+      content = this._renderConfigureProject();
+    }
+    return (
+      <div className={STYLES_CONTAINER}>
+        <div className={STYLES_CONTENT}>{content}</div>
       </div>
     );
   }

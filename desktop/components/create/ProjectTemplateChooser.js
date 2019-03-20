@@ -48,13 +48,12 @@ export default class ProjectTemplateChooser extends React.Component {
         : null;
     return (
       <div
-        key={game.id}
+        key={game.gameId}
         className={STYLES_TEMPLATE_CONTAINER}
         style={styles}
         onClick={() => this.props.onSelectTemplate(game)}>
         <div
           className={STYLES_GAME_COVER}
-          onClick={() => this.props.onGameSelect(game)}
           style={{ backgroundImage: coverSrc ? `url(${coverSrc})` : null }}
         />
         <div className={STYLES_GAME_TITLE}>{game.title}</div>
