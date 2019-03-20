@@ -23,10 +23,6 @@ const STYLES_CONTAINER = css`
   flex-direction: column;
   width: 288px;
   flex-shrink: 0;
-
-  @media (max-width: 960px) {
-    width: 228px;
-  }
 `;
 
 const STYLES_CONTAINER_HEADER = css`
@@ -118,17 +114,19 @@ class SocialContainer extends React.Component {
         />
       );
 
-    const exp = getExp({ playCount: viewer.gamesSumPlayCount, gameCount: viewer.gamesCount });
-    const level = getLevel(exp);
+      const exp = getExp({ playCount: viewer.gamesSumPlayCount, gameCount: viewer.gamesCount });
+      const level = getLevel(exp);
 
       signInElement = (
         <React.Fragment>
           <span className={STYLES_STAT} style={{ marginLeft: 8 }}>
-            <span className={STYLES_LVL_LABEL}>LVL</span>{level}
+            <span className={STYLES_LVL_LABEL}>LVL</span>
+            {level}
           </span>
 
           <span className={STYLES_STAT}>
-            <span className={STYLES_EXP_LABEL}>EXP</span>{exp}
+            <span className={STYLES_EXP_LABEL}>EXP</span>
+            {exp}
           </span>
         </React.Fragment>
       );
