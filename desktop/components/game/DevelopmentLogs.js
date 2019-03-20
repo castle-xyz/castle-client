@@ -5,6 +5,7 @@ import * as Actions from '~/common/actions';
 import { css } from 'react-emotion';
 
 import UILogItem from '~/components/reusable/UILogItem';
+import UINavigationLink from '~/components/reusable/UINavigationLink';
 
 const STYLES_FIXED_CONTAINER = css`
   position: relative;
@@ -12,6 +13,21 @@ const STYLES_FIXED_CONTAINER = css`
   height: 100%;
   display: flex;
   flex-direction: column;
+  background #020202;
+  color: #FFFFFF;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  animation: fade-in-up 200ms ease;
 `;
 
 const STYLES_LOGS_CONTAINER = css`
@@ -24,8 +40,6 @@ const STYLES_SCROLLING_LOGS = css`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  background ${Constants.colors.white};
-  color: ${Constants.colors.black};
 
   ::-webkit-scrollbar {
     display: none;
@@ -34,7 +48,7 @@ const STYLES_SCROLLING_LOGS = css`
 `;
 
 const STYLES_LOGS = css`
-  padding: 0 16px 0 16px;
+  padding: 0 24px 0 24px;
 `;
 
 const STYLES_LOG = css`
@@ -65,33 +79,16 @@ const STYLES_MODE_SELECTOR = css`
   flex-shrink: 0;
 `;
 
-const STYLES_SELECTOR_ITEM = css`
-  margin: 8px 16px 0 16px;
-  color: ${Constants.colors.white};
-  font-size: ${Constants.typescale.lvl6};
-  cursor: pointer;
-  display: inline-flex;
-  white-space: nowrap;
-`;
-
 const STYLES_SPACER = css`
   height: 8px;
 `;
 
-const STYLES_BOTTOM_ACTIONS = css`
-  height: 24px;
-  padding-left: 16px;
-`;
-
-const STYLES_ACTION = css`
-  cursor: pointer;
-  font-family: ${Constants.font.mono};
-  color: ${Constants.colors.action};
-  font-size: ${Constants.typescale.lvl7};
-  text-transform: uppercase;
-  text-decoration: underline;
-  margin-bottom: 8px;
-  word-spacing: -0.2em;
+const STYLES_ACTIONS = css`
+  height: 34px;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.07);
+  padding: 0 24px 0 24px;
 `;
 
 const LogMode = {
@@ -224,15 +221,15 @@ export default class DevelopmentLogs extends React.Component {
     switch (this.state.logMode) {
       case LogMode.LOCAL:
         return (
-          <div className={STYLES_ACTION} onClick={this.props.onClearLogs}>
-            Clear Logs
-          </div>
+          <UINavigationLink style={{ marginRight: 24 }} onClick={this.props.onClearLogs}>
+            Clear
+          </UINavigationLink>
         );
       case LogMode.REMOTE:
         return (
-          <div className={STYLES_ACTION} onClick={this._fetchRemoteLogsAsync}>
+          <UINavigationLink style={{ marginRight: 24 }} onClick={this._fetchRemoteLogsAsync}>
             Reload
-          </div>
+          </UINavigationLink>
         );
     }
   };
@@ -241,20 +238,18 @@ export default class DevelopmentLogs extends React.Component {
     const { logMode } = this.state;
     if (this.props.game.metadata && !!this.props.game.metadata.multiplayer) {
       return (
-        <div className={STYLES_MODE_SELECTOR}>
-          <div
-            className={STYLES_SELECTOR_ITEM}
-            style={logMode == LogMode.LOCAL ? { textDecoration: 'underline' } : null}
+        <React.Fragment>
+          <UINavigationLink
+            style={{ color: logMode == LogMode.LOCAL ? 'magenta' : null, marginRight: 24 }}
             onClick={this._onSelectLocal}>
-            Local logs
-          </div>
-          <div
-            className={STYLES_SELECTOR_ITEM}
-            style={logMode == LogMode.REMOTE ? { textDecoration: 'underline' } : null}
+            View local logs
+          </UINavigationLink>
+          <UINavigationLink
+            style={{ color: logMode == LogMode.REMOTE ? 'magenta' : null, marginRight: 24 }}
             onClick={this._onSelectRemote}>
-            Server logs
-          </div>
-        </div>
+            View server logs
+          </UINavigationLink>
+        </React.Fragment>
       );
     }
   };
@@ -264,7 +259,10 @@ export default class DevelopmentLogs extends React.Component {
 
     return (
       <div className={STYLES_FIXED_CONTAINER}>
-        {this._renderLogModeSelector()}
+        <div className={STYLES_ACTIONS}>
+          {this._renderBottomActions()} {this.props.viewSourceElement}{' '}
+          {this._renderLogModeSelector()}
+        </div>
         <div
           className={STYLES_SCROLLING_LOGS}
           ref={(c) => {
@@ -281,7 +279,6 @@ export default class DevelopmentLogs extends React.Component {
             }}
           />
         </div>
-        <div className={STYLES_BOTTOM_ACTIONS}>{this._renderBottomActions()}</div>
       </div>
     );
   }

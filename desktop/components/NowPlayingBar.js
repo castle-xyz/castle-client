@@ -6,6 +6,7 @@ import * as NativeUtil from '~/native/nativeutil';
 import * as Urls from '~/common/urls';
 import * as Utilities from '~/common/utilities';
 
+import { DevelopmentContext } from '~/contexts/DevelopmentContext';
 import { NativeBinds } from '~/native/nativebinds';
 import { css } from 'react-emotion';
 
@@ -38,7 +39,6 @@ const STYLES_BUTTON = css`
 const STYLES_GAME_STRIP = css`
   height: 32px;
   width: 100%;
-  background: #232323;
   color: ${Constants.colors.white};
   display: flex;
   align-items: center;
@@ -68,18 +68,36 @@ const STYLES_GAME_STRIP_RIGHT = css`
   justify-content: flex-end;
 `;
 
+const STYLES_CONTAINER_FULL = css`
+  background: #232323;
+  width: 100%;
+  cursor: pointer;
+
+  :hover {
+    background: magenta;
+  }
+`;
+
 const STYLES_CONTAINER = css`
-  background: ${Constants.colors.background};
+  background: #232323;
   width: 100%;
 `;
 
+const STYLES_DEVELOPER_PANE_CHOICE = css`
+  background: #313131;
+  color: #fff;
+  height: 100%;
+  padding: 0 24px 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export default class NowPlayingBar extends React.Component {
+  static contextType = DevelopmentContext;
+
   state = {
     isMuted: false,
-  };
-
-  _handleViewSource = (gameEntryPoint) => {
-    NativeUtil.openExternalURL(Urls.githubUserContentToRepoUrl(gameEntryPoint));
   };
 
   _handleToggleMute = (e) => {
@@ -110,6 +128,13 @@ export default class NowPlayingBar extends React.Component {
     this.props.navigator.clearCurrentGame();
   };
 
+  _handleShowDeveloper = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.props.onSetDeveloper(!this.context.isDeveloping);
+  };
+
   render() {
     const { game } = this.props;
 
@@ -134,10 +159,7 @@ export default class NowPlayingBar extends React.Component {
 
     if (this.props.mode !== 'game') {
       return (
-        <div
-          className={STYLES_CONTAINER}
-          onClick={this._handleNavigatePlaying}
-          style={{ cursor: 'pointer' }}>
+        <div className={STYLES_CONTAINER_FULL} onClick={this._handleNavigatePlaying}>
           <span className={STYLES_GAME_STRIP}>
             <span className={STYLES_GAME_STRIP_LEFT}>► Return to {title}</span>
           </span>
@@ -145,24 +167,17 @@ export default class NowPlayingBar extends React.Component {
       );
     }
 
-    let maybeViewSource;
-    const entryPoint = Utilities.getLuaEntryPoint(game);
-    if (Urls.isOpenSource(entryPoint)) {
-      maybeViewSource = (
-        <UINavigationLink
-          style={{ marginRight: 24 }}
-          onClick={() => this._handleViewSource(entryPoint)}>
-          View Source
-        </UINavigationLink>
-      );
-    }
-
     return (
       <div className={STYLES_CONTAINER}>
         <div className={STYLES_GAME_STRIP}>
+          <div
+            className={STYLES_DEVELOPER_PANE_CHOICE}
+            style={{ backgroundColor: this.context.isDeveloping ? `#020202` : null }}
+            onClick={this._handleShowDeveloper}>
+            <UINavigationLink>{!this.context.isDeveloping ? `Develop` : `Close`}</UINavigationLink>
+          </div>
           <div className={STYLES_GAME_STRIP_LEFT}>{muteElement}</div>
           <div className={STYLES_GAME_STRIP_RIGHT}>
-            {maybeViewSource}
             <UINavigationLink style={{ marginRight: 20 }} onClick={this._handleCloseGame}>
               End game
             </UINavigationLink>

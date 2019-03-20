@@ -146,6 +146,7 @@ class ContentContainer extends React.Component {
         {this.props.game ? (
           <NowPlayingBar
             onUpdateGameWindowFrame={this._handleUpdateGameWindowFrame}
+            onSetDeveloper={this.props.setIsDeveloping}
             game={this.props.game}
             mode={this.props.mode}
             navigator={this.props.navigator}
