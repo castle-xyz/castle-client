@@ -60,6 +60,17 @@ class CreateProjectScreen extends React.Component {
     templates: [],
   };
 
+  state = {
+    step: 'choose-template',
+    selectedTemplate: null,
+  };
+
+  _handleSelectTemplate = (game) => {
+    this.setState({
+      selectedTemplate: game,
+    });
+  };
+
   _handleCreateProject = async () => {
     const newProjectDirectory = await NativeUtil.chooseDirectoryWithDialogAsync({
       title: 'Create a New Castle Project',
@@ -91,12 +102,15 @@ class CreateProjectScreen extends React.Component {
             Castle will download some starter files for your new game. Choose the starter project
             that best fits.
           </div>
-          <ProjectTemplateChooser templates={this.props.templates} />
+          <ProjectTemplateChooser
+            templates={this.props.templates}
+            selectedTemplate={this.state.selectedTemplate}
+            onSelectTemplate={this._handleSelectTemplate}
+          />
           <div className={STYLES_ACTIONS}>
             <div className={STYLES_BACK} onClick={this.props.navigateToHome}>
               Cancel
             </div>
-            <UIButton>Next</UIButton>
           </div>
         </div>
       </div>
