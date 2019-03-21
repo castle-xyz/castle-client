@@ -20,6 +20,11 @@ GHOST_EXPORT void ghostSendJSEvent(const char *eventName, const char *serialized
   frame->ExecuteJavaScript(msg.str(), frame->GetURL(), 0);
 }
 
+void ghostDownloadFile(const char *fromUrl) {
+  CefRefPtr<CefBrowser> browser = SimpleHandler::GetInstance()->GetFirstBrowser();
+  browser->GetHost()->StartDownload(CefString(fromUrl));
+}
+
 inline bool fileExists(const char *path) {
   if (FILE *file = fopen(path, "r")) {
     fclose(file);

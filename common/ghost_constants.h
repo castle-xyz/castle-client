@@ -9,6 +9,8 @@ extern const char *kGhostLoadErrorEventName;
 extern const char *kGhostNativeMenuSelectedEventName;
 extern const char *kGhostOpenUrlEventName;
 extern const char *kGhostUpdateAvailableEventName;
+extern const char *kGhostFileDownloadEventName;
+
 extern const char *kGhostUrlScheme;
 
 extern const char *kGhostMenuFileOpenAction;

@@ -23,6 +23,9 @@ void ghostOpenExternalUrl(const char *url);
 // dispatch a JS Event with the given name and params.
 GHOST_EXPORT void ghostSendJSEvent(const char *eventName, const char *serializedParams);
 
+// download project files to the specified path.
+void ghostDownloadFile(const char *fromUrl);
+
 void ghostQuitMessageLoop();
 void ghostClose();
 void ghostUpdateChildWindowFrame();

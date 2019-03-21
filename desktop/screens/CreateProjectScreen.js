@@ -98,10 +98,20 @@ class CreateProjectScreen extends React.Component {
     });
   };
 
+  _handleFileDownloadEvent = (e) => {
+    const { params } = e;
+    console.log(`got file download event: ${JSON.stringify(params, null, 2)}`);
+  };
+
   _handleCreateProject = async () => {
     if (this.state.selectedProjectDirectory) {
+      window.addEventListener('nativeFileDownload', this._handleFileDownloadEvent);
+      await NativeUtil.downloadProjectFilesAsync(
+        'https://github.com/bridgs/lil-platformer/archive/master.zip',
+        this.state.selectedProjectDirectory
+      );
       let entryPointFilePath;
-      try {
+      /* try {
         entryPointFilePath = await NativeUtil.createProjectAtPathAsync(
           this.state.selectedProjectDirectory
         );
@@ -113,7 +123,7 @@ class CreateProjectScreen extends React.Component {
         Logs.system(`We created your project at ${gameUrl}.`);
         Logs.system(`Open that file in your favorite text editor to get started.`);
         Logs.system(`Need help? Check out ${Constants.WEB_HOST}/documentation`);
-      }
+      } */
     }
   };
 

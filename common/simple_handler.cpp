@@ -56,6 +56,34 @@ void SimpleHandler::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString
   }
 }
 
+void SimpleHandler::OnBeforeDownload(CefRefPtr<CefBrowser> browser,
+                                     CefRefPtr<CefDownloadItem> download_item,
+                                     const CefString &suggested_name,
+                                     CefRefPtr<CefBeforeDownloadCallback> callback) {
+  CefString requested_url = download_item->GetOriginalUrl();
+  this->SendDownloadStartEvent(download_item->GetId(), requested_url.ToString());
+
+  // can set the download_path param to something non-empty here if we don't want
+  // to download the file to the default temp dir.
+  callback->Continue(CefString(), false);
+}
+
+void SimpleHandler::OnDownloadUpdated(CefRefPtr<CefBrowser> browser,
+                                      CefRefPtr<CefDownloadItem> download_item,
+                                      CefRefPtr<CefDownloadItemCallback> callback) {
+  time_t end_time = download_item->GetEndTime().GetTimeT();
+  if (end_time) {
+    CefString download_path = download_item->GetFullPath();
+    this->SendDownloadFinishEvent(download_item->GetId(), download_path.ToString());
+  } else {
+    // percent_complete is 0-100, or -1 if CEF doesn't have any useful info
+    int percent_complete = download_item->GetPercentComplete();
+    if (percent_complete >= 0) {
+      this->SendDownloadProgressEvent(download_item->GetId(), percent_complete);
+    }
+  }
+}
+
 bool SimpleHandler::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
                                              CefProcessId source_process,
                                              CefRefPtr<CefProcessMessage> message) {
@@ -240,4 +268,34 @@ CefRefPtr<CefBrowser> SimpleHandler::GetFirstBrowser() {
     return NULL;
   }
   return browser_list_.front();
+}
+
+void SimpleHandler::SendDownloadStartEvent(uint32 download_id, std::string requested_url) {
+  std::stringstream params;
+  params << "{"
+         << " id: \"" << download_id << "\", "
+         << " status: \"start\","
+         << " url: \"" << requested_url << "\", "
+         << "}";
+  ghostSendJSEvent(kGhostFileDownloadEventName, params.str().c_str());
+}
+
+void SimpleHandler::SendDownloadProgressEvent(uint32 download_id, int progress) {
+  std::stringstream params;
+  params << "{"
+         << " id: \"" << download_id << "\", "
+         << " status: \"progress\","
+         << " progress: \"" << progress << "\", "
+         << "}";
+  ghostSendJSEvent(kGhostFileDownloadEventName, params.str().c_str());
+}
+
+void SimpleHandler::SendDownloadFinishEvent(uint32 download_id, std::string path) {
+  std::stringstream params;
+  params << "{"
+         << " id: \"" << download_id << "\", "
+         << " status: \"finish\","
+         << " path: \"" << path << "\", "
+         << "}";
+  ghostSendJSEvent(kGhostFileDownloadEventName, params.str().c_str());
 }

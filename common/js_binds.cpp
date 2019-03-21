@@ -40,6 +40,14 @@ JS_BIND_DEFINE(installUpdate) {
   success("success");
 }
 
+// initiates a file download at the given url.
+// After CEF assigns an ID to this download, SimpleHandler will send JS events for
+// start|progress|finish for the given ID.
+JS_BIND_DEFINE(downloadFile) {
+  const std::string url = arg["url"];
+  ghostDownloadFile(url.c_str());
+}
+
 JS_BIND_DEFINE(chooseDirectoryWithDialog) {
   const char *result;
 
