@@ -6,7 +6,6 @@ import { NavigatorContext } from '~/contexts/NavigationContext';
 import * as Strings from '~/common/strings';
 import UIButtonSecondary from '~/components/reusable/UIButtonSecondary';
 import UIGameGrid from '~/components/reusable/UIGameGrid';
-import UIHeading from '~/components/reusable/UIHeading';
 import UIUserGrid from '~/components/reusable/UIUserGrid';
 import * as Urls from '~/common/urls';
 
@@ -14,9 +13,9 @@ const STYLES_CONTAINER = css`
   width: 100%;
   height: 100%;
   display: flex;
-  background: ${Constants.colors.white};
   flex-direction: column;
   overflow-y: scroll;
+  background: #403c3c;
 
   ::-webkit-scrollbar {
     display: none;
@@ -24,8 +23,28 @@ const STYLES_CONTAINER = css`
   }
 `;
 
+const STYLES_SEARCH_RESPONSE = css`
+  font-size: 48px;
+  line-height: 56px;
+  padding: 24px;
+  max-width: 640px;
+  color: ${Constants.colors.white};
+`;
+
+const STYLES_SEARCH_RESPONSE_ACTION = css`
+  font-size: 48px;
+  line-height: 56px;
+  padding: 24px;
+  max-width: 640px;
+  color: ${Constants.colors.white};
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 const STYLES_SECTION = css`
-  padding: 16px 16px 32px 16px;
+  padding-bottom: 64px;
 `;
 
 export default class SearchScreen extends React.Component {
@@ -158,24 +177,24 @@ export default class SearchScreen extends React.Component {
   _renderNoResults = () => {
     if (this.props.query && this._doesQueryLookLikeUrl(this.props.query)) {
       return (
-        <div className={STYLES_SECTION}>
-          <UIHeading>No results</UIHeading>
-          <div style={{ marginBottom: 12 }}>
-            We didn't find find anything matching <b>"{this.props.query}"</b>, but it looks like a
-            game URL.
+        <React.Fragment>
+          <div className={STYLES_SEARCH_RESPONSE}>
+            We didn't find find anything matching{' '}
+            <strong style={{ color: Constants.colors.darkcyan }}>"{this.props.query}"</strong>, but
+            it looks like a game URL.
           </div>
-          <UIButtonSecondary onClick={() => this._maybeNavigateToUrl(this.props.query)}>
-            Open <b>{this.props.query}</b>
-          </UIButtonSecondary>
-        </div>
+          <div
+            className={STYLES_SEARCH_RESPONSE_ACTION}
+            onClick={() => this._maybeNavigateToUrl(this.props.query)}>
+            Open <strong style={{ color: Constants.colors.darkcyan }}>{this.props.query}</strong>
+          </div>
+        </React.Fragment>
       );
     } else {
       return (
-        <div className={STYLES_SECTION}>
-          <UIHeading>No results</UIHeading>
-          <div>
-            We didn't find find anything matching <b>"{this.props.query}"</b>.
-          </div>
+        <div className={STYLES_SEARCH_RESPONSE}>
+          We didn't find find anything matching{' '}
+          <strong style={{ color: Constants.colors.darkcyan }}>"{this.props.query}"</strong>.
         </div>
       );
     }
@@ -183,23 +202,11 @@ export default class SearchScreen extends React.Component {
 
   _renderGameResults = () => {
     return (
-      <div className={STYLES_SECTION}>
-        <UIHeading>Games</UIHeading>
-        <UIGameGrid
-          gameItems={this.state.results.games}
-          onUserSelect={this._navigateToUserProfile}
-          onGameSelect={this._navigateToGame}
-        />
-      </div>
-    );
-  };
-
-  _renderUserResults = () => {
-    return (
-      <div className={STYLES_SECTION}>
-        <UIHeading>Users</UIHeading>
-        <UIUserGrid users={this.state.results.users} onUserSelect={this._navigateToUserProfile} />
-      </div>
+      <UIGameGrid
+        gameItems={this.state.results.games}
+        onUserSelect={this._navigateToUserProfile}
+        onGameSelect={this._navigateToGame}
+      />
     );
   };
 
@@ -208,17 +215,17 @@ export default class SearchScreen extends React.Component {
     if (this.state.results.games && this.state.results.games.length) {
       maybeGameResults = this._renderGameResults();
     }
-    if (this.state.results.users && this.state.results.users.length) {
-      maybeUserResults = this._renderUserResults();
-    }
-    if (!maybeGameResults && !maybeUserResults) {
+
+    if (!maybeGameResults) {
       maybeNoResults = this._renderNoResults();
     }
+
     return (
       <div className={STYLES_CONTAINER}>
-        {maybeGameResults}
-        {maybeUserResults}
-        {maybeNoResults}
+        <div className={STYLES_SECTION}>
+          {maybeGameResults}
+          {maybeNoResults}
+        </div>
       </div>
     );
   }

@@ -5,6 +5,7 @@ import { css } from 'react-emotion';
 
 const STYLES_CARD = css`
   flex-shrink: 0;
+  width: 90px;
 `;
 
 const STYLES_CARD_CONTENT = css`

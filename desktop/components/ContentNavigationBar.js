@@ -12,7 +12,6 @@ const ENABLE_NOTIF_SCREEN = false; // feature flag notification item
 
 const STYLES_CONTAINER = css`
   background: #8f8b8b;
-  height: 56px;
   flex-shrink: 0;
   width: 100%;
   display: flex;

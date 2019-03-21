@@ -9,6 +9,7 @@ const STYLES_CONTAINER = css`
   display: flex;
   flex-wrap: wrap;
   max-width: 960px;
+  padding: 24px;
 `;
 
 class UIUserCell extends React.Component {

@@ -32,9 +32,7 @@ const STYLES_CONTAINER = css`
   }
 `;
 
-const STYLES_GAME_GRID = css`
-  padding: 32px;
-`;
+const STYLES_GAME_GRID = css``;
 
 class ProfileScreen extends React.Component {
   static defaultProps = {
@@ -127,6 +125,7 @@ class ProfileScreen extends React.Component {
         creator.gameItems && creator.gameItems.length ? (
           <div className={STYLES_GAME_GRID}>
             <UIGameGrid
+              renderCartridgeOnly
               viewer={viewer}
               creator={creator}
               gameItems={creator.gameItems}
@@ -141,17 +140,8 @@ class ProfileScreen extends React.Component {
               : 'This user has not added any games to their profile yet.'}
           </UIEmptyState>
         );
-      const maybeAddGameElement = isOwnProfile ? (
-        <UIButton style={{ margin: `16px 16px 0 32px` }} onClick={() => this._onSelectAddGame()}>
-          Add Your Games
-        </UIButton>
-      ) : null;
-      return (
-        <div>
-          {gameListElement}
-          {maybeAddGameElement}
-        </div>
-      );
+
+      return <div>{gameListElement}</div>;
     }
   };
 

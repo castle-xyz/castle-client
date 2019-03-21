@@ -12,11 +12,11 @@ const STYLES_CONTAINER = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
   min-width: 10%;
   width: 100%;
-  padding: 0 24px 0 16px;
-  color: #2b2828;
+  padding: 24px;
+  color: white;
+  background: magenta;
 `;
 
 const STYLES_CONTAINER_LEFT = css`
@@ -41,7 +41,7 @@ const STYLES_INPUT = css`
   background: transparent;
   font-family: ${Constants.font.default};
   color: ${Constants.colors.white};
-  font-size: 18px;
+  font-size: 24px;
   min-width: 25%;
   width: 100%;
   border: 0;
@@ -50,7 +50,7 @@ const STYLES_INPUT = css`
   padding: 0 0 2px 0;
 
   ::placeholder {
-    color: #e0dbda;
+    color: white;
   }
 
   :focus {
@@ -60,7 +60,7 @@ const STYLES_INPUT = css`
 `;
 
 const STYLES_INPUT_READONLY = css`
-  font-size: 18px;
+  font-size: 24px;
   background: ${Constants.colors.background3};
   border-radius: 3px;
   padding: 4px 12px 4px 12px;
@@ -100,12 +100,10 @@ export default class SearchInput extends React.Component {
         <div
           className={STYLES_CONTAINER_LEFT}
           onClick={this.props.readOnly ? this.props.onSearchReset : this._handleFocusInput}>
-          <SVG.SearchBarIcon height="20px" />
+          <SVG.SearchBarIcon height="32px" />
         </div>
         <div className={STYLES_CONTAINER_MIDDLE}>{queryElement}</div>
-        {!Strings.isEmpty(this.props.query) ? (
-          <UINavigationLink onClick={this.props.onSearchReset}>Dismiss Search</UINavigationLink>
-        ) : null}
+        {!Strings.isEmpty(this.props.query) ? <SVG.Dismiss height="24px" /> : null}
       </div>
     );
   }

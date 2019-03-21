@@ -11,6 +11,8 @@ const NESTED_GAME_OWNER = `
     userId
     name
     username
+    gamesCount
+    gamesSumPlayCount
     photo {
       url
       imgixUrl
@@ -642,12 +644,14 @@ export async function previewGameAtUrl(url) {
     query: `
       query PreviewGame($url: String!) {
         previewGame(url: $url) {
-          slug,
-          title,
-          url,
+          slug
+          title
+          url
           owner {
-            name,
-            username,
+            name
+            username
+            gamesCount
+            gamesSumPlayCount
           },
           coverImage {
             url
@@ -655,9 +659,9 @@ export async function previewGameAtUrl(url) {
             height
             width
           },
-          description,
-          createdTime,
-          updatedTime,
+          description
+          createdTime
+          updatedTime
         }
       }
     `,
@@ -677,9 +681,9 @@ export async function updateGameAtUrl(url) {
     query: `
       mutation UpdateGame($url: String!) {
         updateGame(url: $url) {
-          gameId,
-          slug,
-          name,
+          gameId
+          slug
+          name
         }
       }
     `,
