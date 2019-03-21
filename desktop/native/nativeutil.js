@@ -37,15 +37,6 @@ export const getDocumentsPathAsync = async () => {
   return directory;
 };
 
-export const downloadProjectFilesAsync = async (url, path) => {
-  try {
-    await NativeBinds.downloadFile({ url });
-  } catch (e) {
-    console.log(`error downloading file: ${e}`);
-  }
-  return true;
-};
-
 export const chooseDirectoryWithDialogAsync = async ({ title, message, action }) => {
   let chosenDirectory;
   try {

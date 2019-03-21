@@ -4,6 +4,7 @@ import { css } from 'react-emotion';
 import * as Constants from '~/common/constants';
 import * as NativeUtil from '~/native/nativeutil';
 
+import CreateProjectProgressIndicator from '~/components/create/CreateProjectProgressIndicator';
 import Logs from '~/common/logs';
 import ProjectPathChooser from '~/components/create/ProjectPathChooser';
 import ProjectTemplateChooser from '~/components/create/ProjectTemplateChooser';
@@ -98,20 +99,16 @@ class CreateProjectScreen extends React.Component {
     });
   };
 
-  _handleFileDownloadEvent = (e) => {
-    const { params } = e;
-    console.log(`got file download event: ${JSON.stringify(params, null, 2)}`);
+  _handleCreateProject = () => {
+    this.setState({
+      step: 'create-project',
+    });
   };
 
-  _handleCreateProject = async () => {
+  _handleNavigateToProject = async () => {
     if (this.state.selectedProjectDirectory) {
-      window.addEventListener('nativeFileDownload', this._handleFileDownloadEvent);
-      await NativeUtil.downloadProjectFilesAsync(
-        'https://github.com/bridgs/lil-platformer/archive/master.zip',
-        this.state.selectedProjectDirectory
-      );
       let entryPointFilePath;
-      /* try {
+      try {
         entryPointFilePath = await NativeUtil.createProjectAtPathAsync(
           this.state.selectedProjectDirectory
         );
@@ -123,7 +120,7 @@ class CreateProjectScreen extends React.Component {
         Logs.system(`We created your project at ${gameUrl}.`);
         Logs.system(`Open that file in your favorite text editor to get started.`);
         Logs.system(`Need help? Check out ${Constants.WEB_HOST}/documentation`);
-      } */
+      }
     }
   };
 
@@ -168,12 +165,26 @@ class CreateProjectScreen extends React.Component {
     );
   };
 
+  _renderCreatingProject = () => {
+    return (
+      <React.Fragment>
+        <UIHeading>Creating your project...</UIHeading>
+        <CreateProjectProgressIndicator
+          fromTemplate={this.state.selectedTemplate}
+          toDirectory={this.state.selectedProjectDirectory}
+        />
+      </React.Fragment>
+    );
+  };
+
   render() {
     let content;
     if (this.state.step === 'choose-template') {
       content = this._renderChooseTemplate();
     } else if (this.state.step === 'configure-project') {
       content = this._renderConfigureProject();
+    } else if (this.state.step === 'create-project') {
+      content = this._renderCreatingProject();
     }
     return (
       <div className={STYLES_CONTAINER}>

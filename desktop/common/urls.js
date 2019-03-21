@@ -29,6 +29,20 @@ const githubUserContentToRepoUrl = (urlStr) => {
   return null;
 };
 
+const githubUserContentToArchiveUrl = (urlStr) => {
+  if (isOpenSource(urlStr)) {
+    try {
+      const matches = urlStr.match(
+        /^(castle|https?):\/\/raw\.githubusercontent\.com\/([^/]*)\/([^/]*)\/([^/]*)/
+      );
+      if (matches) {
+        return `https://github.com/${matches[2]}/${matches[3]}/archive/${matches[4]}.zip`;
+      }
+    } catch (_) {}
+  }
+  return null;
+};
+
 const isPrivateUrl = (urlStr) => {
   // We would need to do a DNS lookup to be precise here
   // but we roughly approximate whether a URL is private
@@ -114,6 +128,7 @@ const isGameUrl = (urlStr) => {
 export {
   canonizeUserProvidedUrl,
   githubUserContentToRepoUrl,
+  githubUserContentToArchiveUrl,
   isPrivateUrl,
   isLua,
   isOpenSource,
