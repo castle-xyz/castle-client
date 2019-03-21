@@ -148,7 +148,21 @@ class SocialContainer extends React.Component {
     }
 
     return (
-      <div className={STYLES_CONTAINER}>
+      <div
+        className={STYLES_CONTAINER}
+        style={
+          !this.props.isVisible
+            ? {
+                opacity: 0,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                height: 1,
+                width: 1,
+                pointerEvents: 'none',
+              }
+            : null
+        }>
         <div className={STYLES_CONTAINER_HEADER}>
           <div className={STYLES_CONTAINER_HEADER_LEFT}>
             {isLoggedIn ? <Viewer /> : null} {signInElement}
@@ -185,6 +199,7 @@ export default class SocialContainerWithContext extends React.Component {
                 isLoggedIn={!!currentUser.user}
                 navigateToCurrentUserProfile={navigator.navigateToCurrentUserProfile}
                 navigator={navigator}
+                isVisible={this.props.isVisible}
               />
             )}
           </NavigatorContext.Consumer>

@@ -30,8 +30,9 @@ export default class AppContainer extends React.Component {
   render() {
     return (
       <div className={STYLES_CONTAINER}>
-        <SocialContainer />
+        <SocialContainer isVisible={!this.props.isFullScreen} />
         <ContentContainer
+          isNowPlayingVisible={!this.props.isFullScreen}
           ref={(c) => {
             this._container = c;
           }}

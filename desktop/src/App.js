@@ -10,7 +10,11 @@ import {
 } from '~/contexts/DevelopmentContext';
 import { SocialContextProvider } from '~/contexts/SocialContext';
 import Logs from '~/common/logs';
-import { NavigatorContext, NavigationContextProvider } from '~/contexts/NavigationContext';
+import {
+  NavigatorContext,
+  NavigationContext,
+  NavigationContextProvider,
+} from '~/contexts/NavigationContext';
 import * as NativeUtil from '~/native/nativeutil';
 import { linkify } from 'react-linkify';
 import * as Urls from '~/common/urls';
@@ -125,13 +129,28 @@ class App extends React.Component {
       e.preventDefault();
       return this.props.navigator.reloadGame(true);
     }
+
     if (isFullscreenHotkey(e)) {
+      e.preventDefault();
+
+      // NOTE(jim): I stubbed this out because you don't need to make the
+      // lua experience full screen anymore when the UI can be toggled.
+      /*
       (async () => {
         NativeUtil.setWindowFrameFullscreen(!(await NativeUtil.getWindowFrameFullscreen()));
       })();
-      return;
+      */
+
+      this.props.navigator.setNavigationState(
+        {
+          isFullScreen: !this.props.navigation.isFullScreen,
+        },
+        this._app.updateGameWindowFrame
+      );
     }
+
     if (isDevelopmentHotkey(e)) {
+      e.preventDefault();
       this.props.development.toggleIsDeveloping();
       if (!this._app) {
         return;
@@ -152,6 +171,7 @@ class App extends React.Component {
         featuredExamples={this.state.featuredExamples}
         allContent={this.state.allContent}
         updateAvailable={this.state.updateAvailable}
+        isFullScreen={this.props.navigation.isFullScreen}
         onNativeUpdateInstall={this._handleNativeUpdateInstall}
       />
     );
@@ -163,9 +183,20 @@ class AppWithContext extends React.Component {
     return (
       <DevelopmentSetterContext.Consumer>
         {(development) => (
-          <NavigatorContext.Consumer>
-            {(navigator) => <App development={development} navigator={navigator} {...this.props} />}
-          </NavigatorContext.Consumer>
+          <NavigationContext.Consumer>
+            {(navigation) => (
+              <NavigatorContext.Consumer>
+                {(navigator) => (
+                  <App
+                    {...this.props}
+                    development={development}
+                    navigator={navigator}
+                    navigation={navigation}
+                  />
+                )}
+              </NavigatorContext.Consumer>
+            )}
+          </NavigationContext.Consumer>
         )}
       </DevelopmentSetterContext.Consumer>
     );

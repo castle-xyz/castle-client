@@ -43,7 +43,21 @@ export default class GameActionsBar extends React.Component {
 
     if (this.context.isDeveloping) {
       return (
-        <div className={STYLES_LOG_CONTAINER}>
+        <div
+          className={STYLES_LOG_CONTAINER}
+          style={
+            !this.props.isVisible
+              ? {
+                  opacity: 0,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  height: 1,
+                  width: 1,
+                  pointerEvents: 'none',
+                }
+              : null
+          }>
           <DevelopmentLogs
             logs={this.context.logs}
             onClearLogs={this.context.setters.clearLogs}

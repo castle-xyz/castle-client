@@ -168,7 +168,21 @@ export default class NowPlayingBar extends React.Component {
     }
 
     return (
-      <div className={STYLES_CONTAINER}>
+      <div
+        className={STYLES_CONTAINER}
+        style={
+          !this.props.isVisible
+            ? {
+                opacity: 0,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                height: 1,
+                width: 1,
+                pointerEvents: 'none',
+              }
+            : null
+        }>
         <div className={STYLES_GAME_STRIP}>
           <div
             className={STYLES_DEVELOPER_PANE_CHOICE}

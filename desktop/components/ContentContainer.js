@@ -94,6 +94,7 @@ class ContentContainer extends React.Component {
           ref={(c) => {
             this._game = c;
           }}
+          isDeveloperPaneVisible={this.props.isNowPlayingVisible}
         />
       );
     } else if (mode === 'home') {
@@ -145,6 +146,7 @@ class ContentContainer extends React.Component {
         {contentElement}
         {this.props.game ? (
           <NowPlayingBar
+            isVisible={this.props.isNowPlayingVisible}
             onUpdateGameWindowFrame={this._handleUpdateGameWindowFrame}
             onSetDeveloper={this.props.setIsDeveloping}
             game={this.props.game}
@@ -187,6 +189,7 @@ export default class ContentContainerWithContext extends React.Component {
                       game={navigation.game}
                       navigator={navigator}
                       setIsDeveloping={development.setIsDeveloping}
+                      isNowPlayingVisible={this.props.isNowPlayingVisible}
                       {...this.props}
                     />
                   )}

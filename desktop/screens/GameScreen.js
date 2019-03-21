@@ -127,6 +127,7 @@ class GameScreen extends React.Component {
           navigateToUserProfile={this.props.navigateToUserProfile}
           closeGame={this.props.closeGame}
           onUpdateGameWindowFrame={this._updateGameWindowFrame}
+          isVisible={this.props.isDeveloperPaneVisible}
         />
       </div>
     );
@@ -159,6 +160,7 @@ export default class GameScreenWithContext extends React.Component {
                     timeGameLoaded={navigation.timeGameLoaded}
                     timeNavigatedToGame={navigation.timeLastNavigated}
                     navigateToUserProfile={navigator.navigateToUserProfile}
+                    isDeveloperPaneVisible={this.props.isDeveloperPaneVisible}
                     closeGame={navigator.clearCurrentGame}
                     isLoggedIn={currentUser.user !== null}
                   />
