@@ -33,6 +33,7 @@ export default class AppContainer extends React.Component {
         <SocialContainer isVisible={!this.props.isFullScreen} />
         <ContentContainer
           isNowPlayingVisible={!this.props.isFullScreen}
+          onFullScreenToggle={this.props.onFullScreenToggle}
           ref={(c) => {
             this._container = c;
           }}

@@ -192,7 +192,10 @@ export default class NowPlayingBar extends React.Component {
           </div>
           <div className={STYLES_GAME_STRIP_LEFT}>{muteElement}</div>
           <div className={STYLES_GAME_STRIP_RIGHT}>
-            <UINavigationLink style={{ marginRight: 20 }} onClick={this._handleCloseGame}>
+            <UINavigationLink style={{ marginRight: 24 }} onClick={this.props.onFullScreenToggle}>
+              Theater Mode
+            </UINavigationLink>
+            <UINavigationLink style={{ marginRight: 8 }} onClick={this._handleCloseGame}>
               End game
             </UINavigationLink>
           </div>

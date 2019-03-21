@@ -124,6 +124,15 @@ class App extends React.Component {
     }
   };
 
+  _handleFullScreenToggle = () => {
+    this.props.navigator.setNavigationState(
+      {
+        isFullScreen: !this.props.navigation.isFullScreen,
+      },
+      this._app.updateGameWindowFrame
+    );
+  };
+
   _handleKeyDownEvent = (e) => {
     if (isReloadHotkey(e)) {
       e.preventDefault();
@@ -141,12 +150,7 @@ class App extends React.Component {
       })();
       */
 
-      this.props.navigator.setNavigationState(
-        {
-          isFullScreen: !this.props.navigation.isFullScreen,
-        },
-        this._app.updateGameWindowFrame
-      );
+      this._handleFullScreenToggle();
     }
 
     if (isDevelopmentHotkey(e)) {
@@ -173,6 +177,7 @@ class App extends React.Component {
         updateAvailable={this.state.updateAvailable}
         isFullScreen={this.props.navigation.isFullScreen}
         onNativeUpdateInstall={this._handleNativeUpdateInstall}
+        onFullScreenToggle={this._handleFullScreenToggle}
       />
     );
   }

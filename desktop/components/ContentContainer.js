@@ -95,6 +95,7 @@ class ContentContainer extends React.Component {
             this._game = c;
           }}
           isDeveloperPaneVisible={this.props.isNowPlayingVisible}
+          onFullScreenToggle={this.props.onFullScreenToggle}
         />
       );
     } else if (mode === 'home') {
@@ -149,6 +150,7 @@ class ContentContainer extends React.Component {
             isVisible={this.props.isNowPlayingVisible}
             onUpdateGameWindowFrame={this._handleUpdateGameWindowFrame}
             onSetDeveloper={this.props.setIsDeveloping}
+            onFullScreenToggle={this.props.onFullScreenToggle}
             game={this.props.game}
             mode={this.props.mode}
             navigator={this.props.navigator}
