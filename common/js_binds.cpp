@@ -48,6 +48,17 @@ JS_BIND_DEFINE(downloadFile) {
   ghostDownloadFile(url.c_str());
 }
 
+JS_BIND_DEFINE(unzip) {
+  const std::string zipPath = arg["zipPath"];
+  const std::string toDirectory = arg["toDirectory"];
+  bool result = ghostUnzip(zipPath.c_str(), toDirectory.c_str());
+  if (result) {
+    success("success");
+  } else {
+    failure("Unable to unzip");
+  }
+}
+
 JS_BIND_DEFINE(chooseDirectoryWithDialog) {
   const char *result;
 

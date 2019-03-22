@@ -32,6 +32,8 @@ const STYLES_ACTION = css`
 
 export default class ProjectPathChooser extends React.Component {
   static defaultProps = {
+    selectedParentDirectoryPath: '',
+    selectedDirectoryName: '',
     onSelectDirectory: (directory) => {},
   };
 
@@ -45,13 +47,16 @@ export default class ProjectPathChooser extends React.Component {
   };
 
   render() {
-    let projectDirectory = this.props.selectedDirectory;
+    let projectParentDirectoryPath = this.props.selectedParentDirectoryPath;
+    let projectDirectoryName = this.props.selectedDirectoryName;
     let projectFileName = 'project.castle';
     return (
       <React.Fragment>
         <div className={STYLES_PROJECT_PATH_PREVIEW}>
-          <span className={STYLES_PROJECT_DIRECTORY}>{this.props.selectedDirectory}</span>
-          <span className={STYLES_PROJECT_FILENAME}>/{projectFileName}</span>
+          <span className={STYLES_PROJECT_DIRECTORY}>{projectParentDirectoryPath}</span>
+          <span className={STYLES_PROJECT_FILENAME}>
+            /{projectDirectoryName}/{projectFileName}
+          </span>
         </div>
         <div className={STYLES_ACTION} onClick={this._handleChangeDirectory}>
           Change Folder

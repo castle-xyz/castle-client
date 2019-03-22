@@ -65,7 +65,8 @@ class CreateProjectScreen extends React.Component {
   state = {
     step: 'choose-template',
     selectedTemplate: null,
-    selectedProjectDirectory: null,
+    selectedProjectParentDirectoryPath: null,
+    selectedProjectDirectoryName: null,
   };
 
   componentDidMount() {
@@ -75,7 +76,8 @@ class CreateProjectScreen extends React.Component {
   _setDefaultProjectDirectory = async () => {
     const directory = await NativeUtil.getDocumentsPathAsync();
     this.setState({
-      selectedProjectDirectory: directory,
+      selectedProjectParentDirectoryPath: directory,
+      selectedProjectDirectoryName: 'my-castle-project',
     });
   };
 
@@ -95,7 +97,7 @@ class CreateProjectScreen extends React.Component {
 
   _handleSelectDirectory = (directory) => {
     this.setState({
-      selectedProjectDirectory: directory,
+      selectedProjectParentDirectoryPath: directory,
     });
   };
 
@@ -106,12 +108,10 @@ class CreateProjectScreen extends React.Component {
   };
 
   _handleNavigateToProject = async () => {
-    if (this.state.selectedProjectDirectory) {
+    if (this.state.selectedProjectParentDirectoryPath) {
       let entryPointFilePath;
       try {
-        entryPointFilePath = await NativeUtil.createProjectAtPathAsync(
-          this.state.selectedProjectDirectory
-        );
+        entryPointFilePath = await NativeUtil.createProjectAtPathAsync(this._getFinalProjectPath());
       } catch (_) {}
       if (entryPointFilePath) {
         const gameUrl = `file://${entryPointFilePath}`;
@@ -147,12 +147,14 @@ class CreateProjectScreen extends React.Component {
   };
 
   _renderConfigureProject = () => {
-    let projectDirectory = this.state.selectedProjectDirectory;
+    let projectParentDirectoryPath = this.state.selectedProjectParentDirectoryPath;
+    let projectDirectoryName = this.state.selectedProjectDirectoryName;
     return (
       <React.Fragment>
         <UIHeading>Choose your project folder</UIHeading>
         <ProjectPathChooser
-          selectedDirectory={projectDirectory}
+          selectedParentDirectoryPath={projectParentDirectoryPath}
+          selectedDirectoryName={projectDirectoryName}
           onSelectDirectory={this._handleSelectDirectory}
         />
         <div className={STYLES_ACTIONS}>
@@ -165,13 +167,20 @@ class CreateProjectScreen extends React.Component {
     );
   };
 
+  _getFinalProjectPath = () => {
+    // TODO: windows
+    return `${this.state.selectedProjectParentDirectoryPath}/${
+      this.state.selectedProjectDirectoryName
+    }`;
+  };
+
   _renderCreatingProject = () => {
     return (
       <React.Fragment>
         <UIHeading>Creating your project...</UIHeading>
         <CreateProjectProgressIndicator
           fromTemplate={this.state.selectedTemplate}
-          toDirectory={this.state.selectedProjectDirectory}
+          toDirectory={this._getFinalProjectPath()}
         />
       </React.Fragment>
     );

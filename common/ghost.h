@@ -26,6 +26,11 @@ GHOST_EXPORT void ghostSendJSEvent(const char *eventName, const char *serialized
 // download project files to the specified path.
 void ghostDownloadFile(const char *fromUrl);
 
+// unzip an archive at `zipPath` and write its contents to `toDirectory`.
+// `toDirectory` will contain the zip contents, i.e. `.../toDirectory/unzipped.file` will be
+// created. this method will attempt to create `toDirectory` if it doesn't exist already.
+bool ghostUnzip(const char *zipPath, const char *toDirectory);
+
 void ghostQuitMessageLoop();
 void ghostClose();
 void ghostUpdateChildWindowFrame();
@@ -44,6 +49,7 @@ bool ghostShowOpenProjectDialog(const char **projectFilePathChosen);
 bool ghostCreateProjectAtPath(const char *path, const char **entryPoint);
 bool ghostGetPathToFileInAppBundle(const char *filename, const char **result);
 bool ghostGetDocumentsPath(const char **result);
+
 void ghostInstallUpdate();
 
 extern double ghostGlobalScaling;

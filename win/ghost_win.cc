@@ -680,6 +680,11 @@ bool ghostGetDocumentsPath(const char **result) {
   return false;
 }
 
+bool ghostUnzip(const char *zipPath, const char *toDirectory) {
+  // TODO: impl
+  return false;
+}
+
 class WinToastHandlerExample : public IWinToastHandler {
 public:
   WinToastHandlerExample(){};

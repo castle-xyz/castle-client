@@ -63,7 +63,7 @@ class Downloads {
     return this._urlToDownloadId[url] && this._urlToDownloadId[url] === 0;
   };
 
-  get = (url) => {
+  getInfo = (url) => {
     const downloadId = this._urlToDownloadId[url];
     if (downloadId === 0) {
       return {

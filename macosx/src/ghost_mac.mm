@@ -324,3 +324,11 @@ void ghostShowDesktopNotification(const char *title, const char *body) {
     [center deliverNotification:notification];
   });
 }
+
+bool ghostUnzip(const char *zipPathCStr, const char *toDirectoryCStr) {
+  NSString *zipPath = [NSString stringWithCString:zipPathCStr encoding:NSUTF8StringEncoding];
+  NSString *toDirectory =
+      [NSString stringWithCString:toDirectoryCStr encoding:NSUTF8StringEncoding];
+  [GhostFileSystem unzip:zipPath toDirectory:toDirectory];
+  return true;
+}
