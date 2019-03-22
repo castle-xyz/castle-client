@@ -239,7 +239,7 @@ class UIGameCell extends React.Component {
     let title = game.title ? game.title : 'Untitled';
 
     const backgroundColor =
-      game.metadata && game.metadata.primaryColor ? `#${game.metadata.primaryColor}` : '#000000';
+      game.metadata && game.metadata.primaryColor ? `#${game.metadata.primaryColor}` : '#d5d9e0';
     const textColor = Utilities.adjustTextColor(backgroundColor);
 
     let description;
@@ -255,7 +255,7 @@ class UIGameCell extends React.Component {
       );
     }
 
-    if (!this.props.renderCartridgeOnly) {
+    if (!this.props.renderCartridgeOnly && game.owner) {
       description = (
         <div className={STYLES_BYLINE}>
           <div

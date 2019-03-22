@@ -103,7 +103,13 @@ export default class SearchInput extends React.Component {
           <SVG.SearchBarIcon height="32px" />
         </div>
         <div className={STYLES_CONTAINER_MIDDLE}>{queryElement}</div>
-        {!Strings.isEmpty(this.props.query) ? <SVG.Dismiss height="24px" /> : null}
+        {!Strings.isEmpty(this.props.query) ? (
+          <SVG.Dismiss
+            onClick={this.props.onSearchReset}
+            style={{ cursor: 'pointer' }}
+            height="24px"
+          />
+        ) : null}
       </div>
     );
   }
