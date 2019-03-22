@@ -5,8 +5,8 @@ import { css } from 'react-emotion';
 
 const STYLES_ROW = css`
   display: flex;
-  padding-left: 16px;
-  background: #bebebe;
+  padding-left: 8px;
+  background: #e0dbda;
 `;
 
 const STYLES_NAVIGATION_ITEM = css`

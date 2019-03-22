@@ -2,8 +2,6 @@ import * as React from 'react';
 import * as Constants from '~/common/constants';
 import { css } from 'react-emotion';
 
-import HomeMakeBanner from '~/components/home/HomeMakeBanner';
-import HomeUpdateBanner from '~/components/home/HomeUpdateBanner';
 import UIGameGrid from '~/components/reusable/UIGameGrid';
 import UIHeading from '~/components/reusable/UIHeading';
 import UIHorizontalNavigation from '~/components/reusable/UIHorizontalNavigation';
@@ -27,6 +25,7 @@ const STYLES_CONTAINER = css`
 class HomeScreen extends React.Component {
   static defaultProps = {
     featuredGames: [],
+    featuredExamples: [],
     history: [],
     refreshHistory: async () => {},
   };
@@ -52,8 +51,9 @@ class HomeScreen extends React.Component {
 
   _getNavigationItems = () => {
     const navigationItems = [];
-    navigationItems.push({ label: 'Featured games', key: 'games' });
-    navigationItems.push({ label: 'Last played', key: 'history' });
+    navigationItems.push({ label: 'Stuff we play', key: 'games' });
+    navigationItems.push({ label: 'Fun examples', key: 'examples' });
+    navigationItems.push({ label: 'Your history', key: 'history' });
 
     return navigationItems;
   };
@@ -92,6 +92,15 @@ class HomeScreen extends React.Component {
           <div>
             <UIGameGrid
               gameItems={this.props.featuredGames}
+              onUserSelect={this.props.navigateToUserProfile}
+              onGameSelect={this.props.navigateToGame}
+            />
+          </div>
+        ) : null}
+        {this.state.mode === 'examples' ? (
+          <div>
+            <UIGameGrid
+              gameItems={this.props.featuredExamples}
               onUserSelect={this.props.navigateToUserProfile}
               onGameSelect={this.props.navigateToGame}
             />

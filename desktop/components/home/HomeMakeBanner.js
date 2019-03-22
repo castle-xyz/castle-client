@@ -8,52 +8,39 @@ import UIButton from '~/components/reusable/UIButton';
 import UIHeading from '~/components/reusable/UIHeading';
 
 const STYLES_CONTAINER = css`
-  background: ${Constants.colors.background4};
-  padding: 16px 16px 32px 16px;
+  background: #c1bcbb;
 `;
 
 const STYLES_ACTIONS = css`
   display: flex;
-  flex-wrap: wrap;
-  max-width: 1200px;
+  flex-wrap: nowrap;
 `;
 
 const STYLES_ACTION = css`
-  max-width: 400px;
-  margin-right: 16px;
-`;
-
-const STYLES_PARAGRAPH = css`
-  color: ${Constants.colors.black};
-  font-size: ${Constants.typescale.base};
-  line-height: ${Constants.linescale.base};
-  margin-top: 16px;
-  margin-bottom: 12px;
-`;
-
-const STYLES_BUTTON_CONTAINER = css`
-  margin-top: 24px;
-`;
-
-const STYLES_HELP_GLYPH = css`
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 12px 0 0;
-  font-size: 12px;
-`;
-
-const STYLES_HELP_ACTION = css`
+  border-right: 1px solid #c1bcbb;
+  background-color: #ffffff;
+  flex-shrink: 0;
+  padding: 16px 32px 16px 24px;
   cursor: pointer;
-  font-family: ${Constants.font.mono};
-  color: ${Constants.colors.action};
-  line-height: ${Constants.linescale.lvl7};
-  font-size: ${Constants.typescale.lvl7};
-  padding: 6px 0 2px 4px;
+  transition: 200ms ease all;
+  font-family: ${Constants.font.system};
+  color: ${Constants.colors.black};
+
+  :hover {
+    color: magenta;
+    background-color: #f2f2f2;
+  }
 `;
 
-const STYLES_HELP_LABEL = css`
-  text-transform: uppercase;
-  text-decoration: underline;
+const STYLES_ACTION_HEADING = css`
+  font-family: ${Constants.font.heading};
+  font-size: 16px;
+`;
+
+const STYLES_ACTION_PARAGRAPH = css`
+  line-height: 18px;
+  font-size: 14px;
+  margin-top: 4px;
 `;
 
 export default class HomeMakeBanner extends React.Component {
@@ -97,29 +84,23 @@ export default class HomeMakeBanner extends React.Component {
   render() {
     return (
       <div className={STYLES_CONTAINER}>
-        <UIHeading>Make a Game</UIHeading>
         <div className={STYLES_ACTIONS}>
-          <div className={STYLES_ACTION}>
-            <p className={STYLES_PARAGRAPH}>
-              Click this button to create a new minimal Castle project and start tinkering.
-            </p>
-            <div className={STYLES_BUTTON_CONTAINER}>
-              <UIButton onClick={this._handleCreateProject}>Create a Castle Project</UIButton>
+          <div className={STYLES_ACTION} onClick={this._handleCreateProject}>
+            <div className={STYLES_ACTION_HEADING}>Start new project</div>
+            <div className={STYLES_ACTION_PARAGRAPH} style={{ color: Constants.colors.black }}>
+              Create from nothing or an example.
             </div>
           </div>
-          <div className={STYLES_ACTION}>
-            <p className={STYLES_PARAGRAPH}>Need help, or just want to chat with other Castlers?</p>
-            <div onClick={this._handleClickTutorial} className={STYLES_HELP_ACTION}>
-              <div className={STYLES_HELP_GLYPH}>&gt;</div>
-              <span className={STYLES_HELP_LABEL}>Read our Tutorial</span>
+          <div className={STYLES_ACTION} onClick={this._handleCreateProject}>
+            <div className={STYLES_ACTION_HEADING}>Add work to profile</div>
+            <div className={STYLES_ACTION_PARAGRAPH} style={{ color: Constants.colors.black }}>
+              Share your work so everyone can see it!
             </div>
-            <div onClick={this._handleClickExamples} className={STYLES_HELP_ACTION}>
-              <div className={STYLES_HELP_GLYPH}>&gt;</div>
-              <span className={STYLES_HELP_LABEL}>View Example Projects</span>
-            </div>
-            <div onClick={this._handleClickDiscord} className={STYLES_HELP_ACTION}>
-              <div className={STYLES_HELP_GLYPH}>&gt;</div>
-              <span className={STYLES_HELP_LABEL}>Join Discord</span>
+          </div>
+          <div className={STYLES_ACTION} onClick={this._handleCreateProject}>
+            <div className={STYLES_ACTION_HEADING}>Documentation!</div>
+            <div className={STYLES_ACTION_PARAGRAPH} style={{ color: Constants.colors.black }}>
+              Learn more about creating on Castle
             </div>
           </div>
         </div>

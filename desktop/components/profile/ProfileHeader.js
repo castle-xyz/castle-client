@@ -14,8 +14,8 @@ import UIHeading from '~/components/reusable/UIHeading';
 import UIUserStatusIndicator from '~/components/reusable/UIUserStatusIndicator';
 
 const STYLES_CONTAINER = css`
-  padding: 24px 16px 0 32px;
-  background: ${Constants.colors.background4};
+  padding: 24px 16px 0 24px;
+  background: #c1bcbb;
 `;
 
 const STYLES_BODY = css`

@@ -10,7 +10,7 @@ export const colors = {
   text: `#000`,
   text2: `#6e6e6e`,
   border: `#000`,
-  background: `#e0dbda`,
+  background: `#f7f3f1`,
   background3: `#c1bcbb`,
   background4: `#a7a2a2`,
   backgroundLeftContext: `#212121`,

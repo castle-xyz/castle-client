@@ -16,6 +16,8 @@ import NotificationScreen from '~/screens/NotificationScreen';
 import SearchScreen from '~/screens/SearchScreen';
 import ContentNavigationBar from '~/components/ContentNavigationBar';
 import NowPlayingBar from '~/components/NowPlayingBar';
+import HomeMakeBanner from '~/components/home/HomeMakeBanner';
+import HomeUpdateBanner from '~/components/home/HomeUpdateBanner';
 
 const STYLES_CONTAINER = css`
   font-family: ${Constants.font.default};
@@ -136,6 +138,7 @@ class ContentContainer extends React.Component {
 
     return (
       <div className={STYLES_CONTAINER}>
+        {this.props.mode === 'home' || this.props.mode === 'profile' ? <HomeMakeBanner /> : null}
         {this.props.mode === 'profile' || this.props.mode === 'home' ? (
           <ContentNavigationBar
             searchQuery={this.state.searchQuery}
