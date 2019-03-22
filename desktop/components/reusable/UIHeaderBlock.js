@@ -8,14 +8,13 @@ const STYLES_HEADER = css`
   font-family: ${Constants.font.system};
   height: 32px;
   width: 100%;
-  background: #232323;
+  background: #2b2828;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0.1px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;

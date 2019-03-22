@@ -6,7 +6,7 @@ import { css } from 'react-emotion';
 const STYLES_ROW = css`
   display: flex;
   padding-left: 16px;
-  background: ${Constants.colors.background3};
+  background: #bebebe;
 `;
 
 const STYLES_NAVIGATION_ITEM = css`
@@ -40,12 +40,12 @@ export default class UIHorizontalNavigation extends React.Component {
       this.props.onChange(key);
     }
   };
-  
+
   render() {
     const { items } = this.props;
     return (
       <div className={STYLES_ROW}>
-        {items.map(item => {
+        {items.map((item) => {
           return (
             <UINavigationItem
               key={item.key}

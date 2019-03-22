@@ -15,7 +15,7 @@ const STYLES_CONTAINER = css`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  background: #f7f3f1;
+  background: ${Constants.colors.background};
 
   ::-webkit-scrollbar {
     display: none;
@@ -179,22 +179,22 @@ export default class SearchScreen extends React.Component {
       return (
         <React.Fragment>
           <div className={STYLES_SEARCH_RESPONSE}>
-            We didn't find find anything matching{' '}
-            <strong style={{ color: Constants.colors.darkcyan }}>"{this.props.query}"</strong>, but
-            it looks like a game URL.
+            We did not find find anything matching{' '}
+            <strong style={{ color: `#0062ff` }}>"{this.props.query}"</strong>, but it looks like a
+            game URL.
           </div>
           <div
             className={STYLES_SEARCH_RESPONSE_ACTION}
             onClick={() => this._maybeNavigateToUrl(this.props.query)}>
-            Open <strong style={{ color: Constants.colors.darkcyan }}>{this.props.query}</strong>
+            Open <strong style={{ color: `#0062ff` }}>{this.props.query}</strong>
           </div>
         </React.Fragment>
       );
     } else {
       return (
         <div className={STYLES_SEARCH_RESPONSE}>
-          We didn't find find anything matching{' '}
-          <strong style={{ color: Constants.colors.darkcyan }}>"{this.props.query}"</strong>.
+          We did not find find anything matching{' '}
+          <strong style={{ color: `#0062ff` }}>"{this.props.query}"</strong>.
         </div>
       );
     }

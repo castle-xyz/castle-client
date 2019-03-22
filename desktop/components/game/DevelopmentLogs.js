@@ -17,7 +17,7 @@ const STYLES_FIXED_CONTAINER = css`
   color: #FFFFFF;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
 
-  @keyframes fade-in-up {
+  @keyframes fade-in-up-dev {
     from {
       opacity: 0;
     }
@@ -27,7 +27,7 @@ const STYLES_FIXED_CONTAINER = css`
     }
   }
 
-  animation: fade-in-up 200ms ease;
+  animation: fade-in-up-dev 200ms ease;
 `;
 
 const STYLES_LOGS_CONTAINER = css`

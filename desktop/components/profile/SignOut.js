@@ -12,16 +12,18 @@ const STYLES_CONTAINER = css`
   justify-content: center;
 `;
 
+const STYLES_PARAGRAPH = css`
+  color: ${Constants.colors.black};
+  font-size: ${Constants.typescale.base};
+  line-height: ${Constants.linescale.base};
+  margin-bottom: 16px;
+`;
+
 const STYLES_CONTENT = css`
   max-width: 480px;
   padding: 64px 32px 32px 32px;
   flex-direction: column;
   box-sizing: border-box;
-`;
-
-const STYLES_PARAGRAPH = css`
-  font-size: 14px;
-  margin-bottom: 16px;
 `;
 
 export default class SignOut extends React.Component {

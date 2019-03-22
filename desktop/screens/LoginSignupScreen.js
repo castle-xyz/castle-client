@@ -47,7 +47,7 @@ const STYLES_PARAGRAPH = css`
 `;
 
 const STYLES_FOOTER = css`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
   margin-top: 24px;

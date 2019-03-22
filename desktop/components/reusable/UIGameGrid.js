@@ -31,7 +31,7 @@ const STYLES_GAME_ITEM = css`
   cursor: pointer;
   border-radius: 4px;
   padding: 8px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   position: relative;
 `;
 
@@ -63,7 +63,7 @@ const STYLES_AVATAR = css`
   border-radius: 4px;
   cursor: pointer;
   margin-right: 8px;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.07);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const STYLES_AVATAR_CREATOR = css`
@@ -135,7 +135,7 @@ const STYLES_POPOVER = css`
   min-height: 240px;
   padding: 16px;
   border-radius: 4px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.125);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 
   @keyframes fade-in-up {
     from {
@@ -239,7 +239,7 @@ class UIGameCell extends React.Component {
     let title = game.title ? game.title : 'Untitled';
 
     const backgroundColor =
-      game.metadata && game.metadata.primaryColor ? `#${game.metadata.primaryColor}` : '#d5d9e0';
+      game.metadata && game.metadata.primaryColor ? `#${game.metadata.primaryColor}` : '#2b2828';
     const textColor = Utilities.adjustTextColor(backgroundColor);
 
     let description;

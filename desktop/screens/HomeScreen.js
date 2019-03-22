@@ -6,6 +6,7 @@ import HomeMakeBanner from '~/components/home/HomeMakeBanner';
 import HomeUpdateBanner from '~/components/home/HomeUpdateBanner';
 import UIGameGrid from '~/components/reusable/UIGameGrid';
 import UIHeading from '~/components/reusable/UIHeading';
+import UIHorizontalNavigation from '~/components/reusable/UIHorizontalNavigation';
 
 import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 import { NavigatorContext } from '~/contexts/NavigationContext';
@@ -13,7 +14,7 @@ import { NavigatorContext } from '~/contexts/NavigationContext';
 const STYLES_CONTAINER = css`
   width: 100%;
   height: 100%;
-  background: #f7f3f1;
+  background: ${Constants.colors.background};
   overflow-y: scroll;
   padding-bottom: 64px;
 
@@ -31,7 +32,7 @@ class HomeScreen extends React.Component {
   };
 
   state = {
-    mode: 'default', // default | history | games
+    mode: 'games', // history | games
   };
 
   _container;
@@ -43,11 +44,23 @@ class HomeScreen extends React.Component {
   componentDidUpdate(prevProps) {
     if (
       prevProps.timeLastNavigated !== this.props.timeLastNavigated &&
-      this.state.mode !== 'default'
+      this.state.mode !== 'games'
     ) {
-      this._setModeAndScrollToTop('default');
+      this._setModeAndScrollToTop('games');
     }
   }
+
+  _getNavigationItems = () => {
+    const navigationItems = [];
+    navigationItems.push({ label: 'Featured games', key: 'games' });
+    navigationItems.push({ label: 'Last played', key: 'history' });
+
+    return navigationItems;
+  };
+
+  _handleNavigationChange = (selectedKey) => {
+    this.setState({ mode: selectedKey });
+  };
 
   _setModeAndScrollToTop = (mode) => {
     this.setState({ mode: mode }, () => {
@@ -70,16 +83,29 @@ class HomeScreen extends React.Component {
         ref={(r) => {
           this._container = r;
         }}>
-        <UIGameGrid
-          gameItems={this.props.featuredGames}
-          onUserSelect={this.props.navigateToUserProfile}
-          onGameSelect={this.props.navigateToGame}
+        <UIHorizontalNavigation
+          items={this._getNavigationItems()}
+          selectedKey={this.state.mode}
+          onChange={this._handleNavigationChange}
         />
-        <UIGameGrid
-          gameItems={recentGames}
-          onUserSelect={this.props.navigateToUserProfile}
-          onGameSelect={this.props.navigateToGame}
-        />
+        {this.state.mode === 'games' ? (
+          <div>
+            <UIGameGrid
+              gameItems={this.props.featuredGames}
+              onUserSelect={this.props.navigateToUserProfile}
+              onGameSelect={this.props.navigateToGame}
+            />
+          </div>
+        ) : null}
+        {this.state.mode === 'history' ? (
+          <div>
+            <UIGameGrid
+              gameItems={recentGames}
+              onUserSelect={this.props.navigateToUserProfile}
+              onGameSelect={this.props.navigateToGame}
+            />
+          </div>
+        ) : null}
       </div>
     );
   }
