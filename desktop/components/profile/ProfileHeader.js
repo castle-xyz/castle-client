@@ -47,10 +47,9 @@ const STYLES_TITLE = css`
 
 const STYLES_META = css`
   margin: 4px 0 4px 0;
-  font-size: ${Constants.typescale.lvl7};
+  font-size: 12px;
   text-transform: uppercase;
-  font-family: ${Constants.font.mono};
-  line-height: ${Constants.linescale.lvl6};
+  font-family: ${Constants.font.monobold};
 `;
 
 const STYLES_ABOUT = css`
@@ -71,7 +70,9 @@ const STYLES_LINKS_ROW = css`
 
 const STYLES_LINK_ITEM = css`
   color: ${Constants.colors.black};
-  font-size: 14px;
+  font-family: ${Constants.font.system};
+  font-weight: 600;
+  font-size: 12px;
   margin-right: 24px;
   cursor: pointer;
 `;
