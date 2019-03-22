@@ -60,7 +60,7 @@
 
 + (void)unzip:(NSString *)zipPath toDirectory:(NSString *)toDirectory {
   // `unzip` will always create a new directory,
-  // so we run `unzip` from the parent directory and then rename the resulting child.
+  // so we run `unzip` from the zip's original directory and then move the resulting child.
   NSString *parentDirectory = [toDirectory stringByDeletingLastPathComponent];
   BOOL isDirectory;
   NSError *err;
@@ -72,32 +72,31 @@
                                                attributes:nil
                                                     error:&err];
     if (err) {
-      NSLog(@"%s: The target directory '%@' does not exist and we cannot create it", __func__,
+      NSLog(@"%s: The containing directory '%@' does not exist and we cannot create it", __func__,
             parentDirectory);
       return;
     }
   }
 
   // unzip the files
+  NSString *zipDirectory = [zipPath stringByDeletingLastPathComponent];
+  NSString *zipFilename = [zipPath lastPathComponent];
   NSTask *unzipTask = [[NSTask alloc] init];
   [unzipTask setLaunchPath:@"/usr/bin/unzip"];
-  [unzipTask setCurrentDirectoryPath:parentDirectory];
-  [unzipTask setArguments:@[ zipPath ]];
+  [unzipTask setCurrentDirectoryPath:zipDirectory];
+  [unzipTask setArguments:@[ zipFilename ]];
   [unzipTask launch];
   [unzipTask waitUntilExit];
 
   // `unzip` will always create a new directory named after the archive's filename
   // so we want to correct that to be the path actually specified by `toDirectory`.
-  NSString *createdDirectoryName = [[zipPath lastPathComponent] stringByDeletingPathExtension];
+  NSString *createdDirectoryName = [zipFilename stringByDeletingPathExtension];
   NSString *createdDirectoryPath =
-      [parentDirectory stringByAppendingPathComponent:createdDirectoryName];
-  NSString *finalDirectoryName = [toDirectory lastPathComponent];
-  NSString *finalDirectoryPath =
-      [parentDirectory stringByAppendingPathComponent:finalDirectoryName];
+      [zipDirectory stringByAppendingPathComponent:createdDirectoryName];
 
   err = nil;
   [[NSFileManager defaultManager] moveItemAtPath:createdDirectoryPath
-                                          toPath:finalDirectoryPath
+                                          toPath:toDirectory
                                            error:&err];
 }
 
