@@ -12,20 +12,6 @@ const STYLES_CONTAINER = css`
   padding: 24px;
 `;
 
-class UIUserCell extends React.Component {
-  render() {
-    const { user } = this.props;
-    const avatarSrc = user && user.photo ? user.photo.imgixUrl : null;
-    const name = user.name ? user.name : user.username;
-    return (
-      <div className={STYLES_USER_CELL} onClick={() => this.props.onUserSelect(this.props.user)}>
-        <UIAvatar src={avatarSrc} />
-        <div className={STYLES_USER_NAME}>{name}</div>
-      </div>
-    );
-  }
-}
-
 export default class UIUserGrid extends React.Component {
   render() {
     const { users } = this.props;

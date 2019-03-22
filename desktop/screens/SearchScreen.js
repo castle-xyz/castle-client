@@ -15,7 +15,7 @@ const STYLES_CONTAINER = css`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  background: #403c3c;
+  background: #f7f3f1;
 
   ::-webkit-scrollbar {
     display: none;
@@ -28,7 +28,7 @@ const STYLES_SEARCH_RESPONSE = css`
   line-height: 56px;
   padding: 24px;
   max-width: 640px;
-  color: ${Constants.colors.white};
+  color: ${Constants.colors.black};
 `;
 
 const STYLES_SEARCH_RESPONSE_ACTION = css`
@@ -36,7 +36,7 @@ const STYLES_SEARCH_RESPONSE_ACTION = css`
   line-height: 56px;
   padding: 24px;
   max-width: 640px;
-  color: ${Constants.colors.white};
+  color: ${Constants.colors.black};
 
   :hover {
     cursor: pointer;
@@ -200,23 +200,25 @@ export default class SearchScreen extends React.Component {
     }
   };
 
-  _renderGameResults = () => {
-    return (
-      <UIGameGrid
-        gameItems={this.state.results.games}
-        onUserSelect={this._navigateToUserProfile}
-        onGameSelect={this._navigateToGame}
-      />
-    );
-  };
-
   render() {
     let maybeGameResults, maybeUserResults, maybeNoResults;
     if (this.state.results.games && this.state.results.games.length) {
-      maybeGameResults = this._renderGameResults();
+      maybeGameResults = (
+        <UIGameGrid
+          gameItems={this.state.results.games}
+          onUserSelect={this._navigateToUserProfile}
+          onGameSelect={this._navigateToGame}
+        />
+      );
     }
 
-    if (!maybeGameResults) {
+    if (this.state.results.users && this.state.results.users.length) {
+      maybeUserResults = (
+        <UIUserGrid users={this.state.results.users} onUserSelect={this._navigateToUserProfile} />
+      );
+    }
+
+    if (!maybeGameResults && !maybeUserResults) {
       maybeNoResults = this._renderNoResults();
     }
 
@@ -224,6 +226,7 @@ export default class SearchScreen extends React.Component {
       <div className={STYLES_CONTAINER}>
         <div className={STYLES_SECTION}>
           {maybeGameResults}
+          {maybeUserResults}
           {maybeNoResults}
         </div>
       </div>

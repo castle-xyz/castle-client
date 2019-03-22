@@ -13,7 +13,7 @@ import { NavigatorContext } from '~/contexts/NavigationContext';
 const STYLES_CONTAINER = css`
   width: 100%;
   height: 100%;
-  background: #403c3c;
+  background: #f7f3f1;
   overflow-y: scroll;
   padding-bottom: 64px;
 
