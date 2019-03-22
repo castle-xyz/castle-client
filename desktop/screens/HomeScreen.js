@@ -9,6 +9,8 @@ import UIHorizontalNavigation from '~/components/reusable/UIHorizontalNavigation
 import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 import { NavigatorContext } from '~/contexts/NavigationContext';
 
+import HomeUpdateBanner from '~/components/home/HomeUpdateBanner';
+
 const STYLES_CONTAINER = css`
   width: 100%;
   height: 100%;
@@ -77,12 +79,20 @@ class HomeScreen extends React.Component {
         })
       : null;
 
+    const updateElement = this.props.updateAvailable ? (
+      <HomeUpdateBanner
+        updateAvailable={this.props.updateAvailable}
+        onNativeUpdateInstall={this.props.onNativeUpdateInstall}
+      />
+    ) : null;
+
     return (
       <div
         className={STYLES_CONTAINER}
         ref={(r) => {
           this._container = r;
         }}>
+        {updateElement}
         <UIHorizontalNavigation
           items={this._getNavigationItems()}
           selectedKey={this.state.mode}

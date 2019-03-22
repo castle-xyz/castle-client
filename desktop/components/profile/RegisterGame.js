@@ -20,7 +20,7 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_SECTION = css`
-  padding: 32px 16px 24px 32px;
+  padding: 24px 24px 24px 24px;
   width: 40%;
   min-width: 300px;
   max-width: 480px;

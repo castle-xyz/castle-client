@@ -52,6 +52,8 @@ export default class HomeMakeBanner extends React.Component {
     NativeUtil.openExternalURL(`${Constants.WEB_HOST}/examples`);
   };
 
+  _handleAddProfile = () => {};
+
   _handleClickDiscord = () => {
     NativeUtil.openExternalURL('https://discordapp.com/invite/4C7yEEC');
   };
@@ -91,13 +93,13 @@ export default class HomeMakeBanner extends React.Component {
               Create from nothing or an example.
             </div>
           </div>
-          <div className={STYLES_ACTION} onClick={this._handleCreateProject}>
+          <div className={STYLES_ACTION} onClick={this.props.navigateToCurrentUserProfile}>
             <div className={STYLES_ACTION_HEADING}>Add work to profile</div>
             <div className={STYLES_ACTION_PARAGRAPH} style={{ color: Constants.colors.black }}>
               Share your work so everyone can see it!
             </div>
           </div>
-          <div className={STYLES_ACTION} onClick={this._handleCreateProject}>
+          <div className={STYLES_ACTION} onClick={this._handleClickTutorial}>
             <div className={STYLES_ACTION_HEADING}>Documentation!</div>
             <div className={STYLES_ACTION_PARAGRAPH} style={{ color: Constants.colors.black }}>
               Learn more about creating on Castle

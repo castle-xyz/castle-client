@@ -45,7 +45,7 @@ class ProfileScreen extends React.Component {
   };
   state = {
     mode: 'games',
-    isAddingGame: false,
+    isAddingGame: this.props.isAddingGame,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -57,15 +57,20 @@ class ProfileScreen extends React.Component {
       // we're rendering a new profile, reset state.
       this._onShowGames();
     }
+
+    // TODO(jim): Probably could treat adding a game as a tab.
+    if (nextProps.isAddingGame) {
+      this.setState({ mode: 'games', isAddingGame: true });
+    }
   }
 
   _onShowGames = () => this.setState({ mode: 'games', isAddingGame: false });
 
-  _onShowEditProfile = () => this.setState({ mode: 'edit-profile' });
+  _onShowEditProfile = () => this.setState({ mode: 'edit-profile', isAddingGame: false });
 
-  _onShowSignOut = () => this.setState({ mode: 'sign-out' });
+  _onShowSignOut = () => this.setState({ mode: 'sign-out', isAddingGame: false });
 
-  _onShowSettings = () => this.setState({ mode: 'settings' });
+  _onShowSettings = () => this.setState({ mode: 'settings', isAddingGame: false });
 
   _onSelectAddGame = () =>
     this.setState({
@@ -206,6 +211,7 @@ export default class ProfileScreenWithContext extends React.Component {
         navigateToUserProfile={navigator.navigateToUserProfile}
         viewer={currentUser.user}
         creator={navigation.userProfileShown}
+        isAddingGame={navigation.options ? navigation.options.isAddingGame : false}
         onSignOut={currentUser.clearCurrentUser}
         onAfterSave={currentUser.refreshCurrentUser}
       />

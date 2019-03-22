@@ -37,6 +37,7 @@ class ContentContainer extends React.Component {
 
   state = {
     searchQuery: '',
+    isAddingGame: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -138,7 +139,15 @@ class ContentContainer extends React.Component {
 
     return (
       <div className={STYLES_CONTAINER}>
-        {this.props.mode === 'home' || this.props.mode === 'profile' ? <HomeMakeBanner /> : null}
+        {this.props.mode === 'home' || this.props.mode === 'profile' ? (
+          <HomeMakeBanner
+            navigator={this.props.navigator}
+            navigateToGameUrl={this.props.navigator.navigateToGameUrl}
+            navigateToCurrentUserProfile={() =>
+              this.props.navigator.navigateToCurrentUserProfile({ isAddingGame: true })
+            }
+          />
+        ) : null}
         {this.props.mode === 'profile' || this.props.mode === 'home' ? (
           <ContentNavigationBar
             searchQuery={this.state.searchQuery}

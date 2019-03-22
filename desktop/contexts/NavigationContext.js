@@ -23,6 +23,7 @@ const NavigationContextDefaults = {
   timeGameLoaded: 0,
   userProfileShown: null,
   isFullScreen: false,
+  options: {},
 };
 
 /**
@@ -38,7 +39,7 @@ const NavigatorContextDefaults = {
   navigateToGameUrl: async (url) => {},
   navigateToGame: async (game) => {},
   navigateToCurrentGame: () => {},
-  navigateToCurrentUserProfile: () => {},
+  navigateToCurrentUserProfile: (options) => {},
   navigateToUserProfile: async (user) => {},
   navigateToNotifications: () => {},
   reloadGame: (onlyIfVisible) => {},
@@ -187,9 +188,9 @@ class NavigationContextManager extends React.Component {
     }
   };
 
-  navigateToCurrentUserProfile = () => {
+  navigateToCurrentUserProfile = (options) => {
     if (this.props.currentUser.user) {
-      this.navigateToUserProfile(this.props.currentUser.user);
+      this.navigateToUserProfile(this.props.currentUser.user, options);
       this.props.currentUser.refreshCurrentUser();
     } else {
       // show sign in
@@ -197,7 +198,7 @@ class NavigationContextManager extends React.Component {
     }
   };
 
-  navigateToUserProfile = async (user) => {
+  navigateToUserProfile = async (user, options) => {
     let fullUser = this.props.social.userIdToUser[user.userId];
     if (!fullUser) {
       try {
@@ -214,6 +215,7 @@ class NavigationContextManager extends React.Component {
         contentMode: 'profile',
         userProfileShown: fullUser,
         timeLastNavigated: Date.now(),
+        options,
       },
     });
   };
