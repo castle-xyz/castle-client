@@ -68,6 +68,9 @@ export const chooseOpenProjectPathWithDialogAsync = async () => {
 
 export const createProjectAtPathAsync = async (path) => NativeBinds.createProjectAtPath({ path });
 
+export const getProjectFilenameAtPathAsync = async (path) =>
+  NativeBinds.getProjectFilenameAtPath({ path });
+
 export const setMultiplayerSessionInfo = async (info) => {
   await NativeBinds.writeChannels({
     channelData: {
@@ -104,6 +107,16 @@ export const sendLuaEvent = async (name, params) => {
 
 export const readFile = async (filepath) => {
   let result = await NativeBinds.readFile({ filepath });
+  return result;
+};
+
+export const writeCastleFile = async (filepath, contents) => {
+  let result = await NativeBinds.writeCastleFile({ filepath, contents });
+  return result;
+};
+
+export const removeCastleFile = async (filepath) => {
+  let result = await NativeBinds.removeCastleFile({ filepath });
   return result;
 };
 

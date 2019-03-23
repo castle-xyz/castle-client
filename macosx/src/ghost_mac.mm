@@ -332,3 +332,17 @@ bool ghostUnzip(const char *zipPathCStr, const char *toDirectoryCStr) {
   [GhostFileSystem unzip:zipPath toDirectory:toDirectory];
   return true;
 }
+
+bool ghostGetProjectFilenameAtPath(const char *pathCStr, const char **result) {
+  NSString *path = [NSString stringWithCString:pathCStr encoding:NSUTF8StringEncoding];
+  NSString *projectFilename = [GhostFileSystem projectFilenameAtPath:path];
+  const char *filenameStr = NULL;
+  if (projectFilename) {
+    filenameStr = [projectFilename cStringUsingEncoding:NSUTF8StringEncoding];
+  }
+  if (filenameStr) {
+    *result = strdup(filenameStr);
+    return true;
+  }
+  return false;
+}

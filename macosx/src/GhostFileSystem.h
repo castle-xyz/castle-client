@@ -6,5 +6,6 @@
 + (NSString *)ghostDocumentsDirectory;
 + (NSString *)pathToFileInAppBundle:(NSString *)filename;
 + (void)unzip:(NSString *)zipPath toDirectory:(NSString *)toDirectory;
++ (NSString *)projectFilenameAtPath:(NSString *)path;
 
 @end

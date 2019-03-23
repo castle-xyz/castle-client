@@ -112,6 +112,18 @@ JS_BIND_DEFINE(createProjectAtPath) {
   }
 }
 
+JS_BIND_DEFINE(getProjectFilenameAtPath) {
+  std::string path = arg["path"];
+  const char *filename;
+  bool result = ghostGetProjectFilenameAtPath(path.c_str(), &filename);
+  if (result) {
+    success(filename);
+    std::free((void *)filename);
+  } else {
+    failure("Unable to find a project file at this path");
+  }
+}
+
 JS_BIND_DEFINE(openUri) {
   std::string uri = arg["uri"];
   ghostOpenLoveUri(uri.c_str());
@@ -205,6 +217,47 @@ JS_BIND_DEFINE(readFile) {
   std::stringstream buffer;
   buffer << t.rdbuf();
   success(buffer.str());
+}
+
+bool hasEnding(std::string const &fullString, std::string const &ending) {
+  if (fullString.length() >= ending.length()) {
+    return (0 ==
+            fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
+  } else {
+    return false;
+  }
+}
+
+JS_BIND_DEFINE(writeCastleFile) {
+  std::string filepath = arg["filepath"];
+  std::string contents = arg["contents"];
+  if (hasEnding(filepath, ".castle")) {
+    std::ofstream t;
+    t.open(filepath);
+    if (t.is_open()) {
+      t << contents << "\n";
+      t.close();
+      if (t.bad()) {
+        failure("unable to write file");
+      } else {
+        success("success");
+      }
+      return;
+    }
+  }
+  failure("unable to open file");
+}
+
+JS_BIND_DEFINE(removeCastleFile) {
+  std::string filepath = arg["filepath"];
+  if (hasEnding(filepath, ".castle")) {
+    int result = std::remove(filepath.c_str());
+    if (result == 0) {
+      success("success");
+      return;
+    }
+  }
+  failure("unable to remove file");
 }
 
 JS_BIND_DEFINE(showDesktopNotification) {

@@ -1,13 +1,17 @@
 import * as React from 'react';
 import * as Urls from '~/common/urls';
 import * as NativeUtil from '~/native/nativeutil';
+import * as Project from '~/common/project';
+
+import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 
 import Downloads from '~/native/downloads';
 
-export default class CreateProjectProgressIndicator extends React.Component {
+class CreateProjectProgressIndicator extends React.Component {
   static defaultProps = {
     fromTemplate: null,
     toDirectory: null,
+    owner: null,
   };
 
   state = {
@@ -53,19 +57,37 @@ export default class CreateProjectProgressIndicator extends React.Component {
 
   _extractDownloadedProject = async (path) => {
     let success = false;
+    let status;
     if (this.props.toDirectory) {
       success = await NativeUtil.unzipAsync(path, this.props.toDirectory);
     }
     if (success) {
-      this.setState({
-        status: 'finished',
-      });
+      status = 'configuring';
+      this._configureNewProject(this.props.toDirectory);
     } else {
       // TODO: real error
-      this.setState({
-        status: 'error',
-      });
+      status = 'error';
     }
+    this.setState({
+      status,
+    });
+  };
+
+  _configureNewProject = async (path) => {
+    let success = false;
+    try {
+      await Project.rewriteCastleFileAsync({
+        containingFolder: path,
+        newFilename: 'my-new-project.castle',
+        newOwner: this.props.owner ? this.props.owner.username : null,
+        newTitle: 'my-new-project',
+      });
+    } catch (_) {
+      // TODO: show error
+    }
+    this.setState({
+      status: 'finished',
+    });
   };
 
   render() {
@@ -81,6 +103,9 @@ export default class CreateProjectProgressIndicator extends React.Component {
       case 'extracting':
         statusText = 'Extracting project files...';
         break;
+      case 'configuring':
+        statusText = 'Configuring project...';
+        break;
       case 'finished':
         statusText = 'Finished';
         break;
@@ -89,5 +114,17 @@ export default class CreateProjectProgressIndicator extends React.Component {
         break;
     }
     return <div>{statusText}</div>;
+  }
+}
+
+export default class CreateProjectProgressIndicatorWithContext extends React.Component {
+  render() {
+    return (
+      <CurrentUserContext.Consumer>
+        {(currentUser) => (
+          <CreateProjectProgressIndicator owner={currentUser.user} {...this.props} />
+        )}
+      </CurrentUserContext.Consumer>
+    );
   }
 }

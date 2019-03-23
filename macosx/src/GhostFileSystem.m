@@ -100,4 +100,14 @@
                                            error:&err];
 }
 
++ (NSString *)projectFilenameAtPath:(NSString *)path {
+  NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+  NSArray *castleFiles = [dirFiles
+      filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.castle'"]];
+  if (castleFiles.count) {
+    return castleFiles.firstObject;
+  }
+  return nil;
+}
+
 @end
