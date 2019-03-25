@@ -9,6 +9,7 @@ import CreateProjectProgressIndicator from '~/components/create/CreateProjectPro
 import Logs from '~/common/logs';
 import ProjectConfigureForm from '~/components/create/ProjectConfigureForm';
 import ProjectTemplateChooser from '~/components/create/ProjectTemplateChooser';
+import ProjectTemplatePreview from '~/components/create/ProjectTemplatePreview';
 import UIButton from '~/components/reusable/UIButton';
 import UIHeading from '~/components/reusable/UIHeading';
 
@@ -30,7 +31,11 @@ const STYLES_CONTAINER = css`
 `;
 
 const STYLES_CONTENT = css`
-  max-width: 650px;
+  width: 650px;
+`;
+
+const STYLES_BOLD = css`
+  font-weight: 700;
 `;
 
 const STYLES_PARAGRAPH = css`
@@ -163,7 +168,7 @@ class CreateProjectScreen extends React.Component {
     let projectDirectoryName = this.state.selectedProjectDirectoryName;
     return (
       <React.Fragment>
-        <UIHeading>Choose your project folder</UIHeading>
+        <UIHeading>Name your project</UIHeading>
         <ProjectConfigureForm
           selectedProjectName={projectName}
           selectedParentDirectoryPath={projectParentDirectoryPath}
@@ -171,9 +176,10 @@ class CreateProjectScreen extends React.Component {
           onChangeProjectName={this._handleChangeProjectName}
           onSelectDirectory={this._handleSelectDirectory}
         />
+        <ProjectTemplatePreview template={this.state.selectedTemplate} />
         <div className={STYLES_ACTIONS}>
           <div className={STYLES_BACK} onClick={this._handleBackToTemplate}>
-            Back
+            Choose a different template
           </div>
           <UIButton onClick={this._handleCreateProject}>Create Project</UIButton>
         </div>
@@ -206,12 +212,19 @@ class CreateProjectScreen extends React.Component {
     return (
       <React.Fragment>
         <UIHeading>All done!</UIHeading>
-        <div className={STYLES_PARAGRAPH}>You're ready to start making your new game.</div>
+        <div className={STYLES_PARAGRAPH}>
+          Castle finished creating your project files at{' '}
+          <span className={STYLES_BOLD}>{this._getFinalProjectPath()}</span>.
+        </div>
+        <div className={STYLES_PARAGRAPH}>
+          You're ready to start making{' '}
+          <span className={STYLES_BOLD}>{this.state.selectedProjectName}</span>.
+        </div>
         <div className={STYLES_ACTIONS}>
           <UIButton
             className={STYLES_BACK}
             onClick={() => this._handleNavigateToProject(this.state.createdProjectUrl)}>
-            Go to my Project
+            Open Project
           </UIButton>
         </div>
       </React.Fragment>

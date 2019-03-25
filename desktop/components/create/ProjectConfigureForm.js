@@ -4,14 +4,34 @@ import { css } from 'react-emotion';
 import * as Constants from '~/common/constants';
 import * as NativeUtil from '~/native/nativeutil';
 
-import UIInputSecondary from '~/components/reusable/UIInputSecondary';
+import CreateProjectInput from '~/components/create/CreateProjectInput';
+
+const STYLES_PROJECT_INPUT_CONTAINER = css`
+  border: 1px solid ${Constants.colors.background4};
+  border-radius: 4px;
+  margin-bottom: 16px;
+  background-color: ${Constants.colors.background};
+`;
+
+const STYLES_PROJECT_PATH_CHOOSER = css`
+  display: flex;
+  border-top: 1px solid ${Constants.colors.background4};
+`;
 
 const STYLES_PROJECT_PATH_PREVIEW = css`
-  margin-top: 8px;
-  border: 1px solid ${Constants.colors.background4};
-  padding: 8px;
-  border-radius: 4px;
   cursor: default;
+  width: 100%;
+  padding: 8px;
+  font-size: ${Constants.typescale.lvl7};
+  line-height: ${Constants.linescale.lvl5};
+`;
+
+const STYLES_PARAGRAPH = css`
+  color: ${Constants.colors.black};
+  font-size: ${Constants.typescale.base};
+  line-height: ${Constants.linescale.base};
+  margin-top: 16px;
+  margin-bottom: 12px;
 `;
 
 const STYLES_PROJECT_DIRECTORY = css`
@@ -24,7 +44,13 @@ const STYLES_PROJECT_FILENAME = css`
 `;
 
 const STYLES_ACTION = css`
-  font-size: ${Constants.typescale.lvl6};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid ${Constants.colors.background4};
+  padding: 8px;
+  flex-shrink: 0;
+  font-size: ${Constants.typescale.lvl7};
   line-height: ${Constants.linescale.lvl5};
   color: ${Constants.colors.action};
   font-family: ${Constants.font.mono};
@@ -57,24 +83,26 @@ export default class ProjectConfigureForm extends React.Component {
     let projectDirectoryName = this.props.selectedDirectoryName;
     let projectFileName = `${projectDirectoryName}.castle`;
     return (
-      <React.Fragment>
-        <UIInputSecondary
+      <div className={STYLES_PROJECT_INPUT_CONTAINER}>
+        <CreateProjectInput
           name="projectName"
           value={this.props.selectedProjectName}
           label="Project Name"
           placeholder="Please enter a name for your new project"
           onChange={this.props.onChangeProjectName}
         />
-        <div className={STYLES_PROJECT_PATH_PREVIEW}>
-          <span className={STYLES_PROJECT_DIRECTORY}>{projectParentDirectoryPath}</span>
-          <span className={STYLES_PROJECT_FILENAME}>
-            /{projectDirectoryName}/{projectFileName}
-          </span>
+        <div className={STYLES_PROJECT_PATH_CHOOSER}>
+          <div className={STYLES_PROJECT_PATH_PREVIEW}>
+            <span className={STYLES_PROJECT_DIRECTORY}>{projectParentDirectoryPath}</span>
+            <span className={STYLES_PROJECT_FILENAME}>
+              /{projectDirectoryName}/{projectFileName}
+            </span>
+          </div>
+          <div className={STYLES_ACTION} onClick={this._handleChangeDirectory}>
+            Change Folder
+          </div>
         </div>
-        <div className={STYLES_ACTION} onClick={this._handleChangeDirectory}>
-          Change Folder
-        </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
