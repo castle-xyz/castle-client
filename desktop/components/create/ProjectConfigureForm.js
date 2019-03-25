@@ -4,9 +4,13 @@ import { css } from 'react-emotion';
 import * as Constants from '~/common/constants';
 import * as NativeUtil from '~/native/nativeutil';
 
+import UIInputSecondary from '~/components/reusable/UIInputSecondary';
+
 const STYLES_PROJECT_PATH_PREVIEW = css`
+  margin-top: 8px;
   border: 1px solid ${Constants.colors.background4};
   padding: 8px;
+  border-radius: 4px;
   cursor: default;
 `;
 
@@ -30,11 +34,13 @@ const STYLES_ACTION = css`
   cursor: pointer;
 `;
 
-export default class ProjectPathChooser extends React.Component {
+export default class ProjectConfigureForm extends React.Component {
   static defaultProps = {
     selectedParentDirectoryPath: '',
+    selectedProjectName: '',
     selectedDirectoryName: '',
     onSelectDirectory: (directory) => {},
+    onChangeProjectName: (e) => {},
   };
 
   _handleChangeDirectory = async () => {
@@ -49,9 +55,16 @@ export default class ProjectPathChooser extends React.Component {
   render() {
     let projectParentDirectoryPath = this.props.selectedParentDirectoryPath;
     let projectDirectoryName = this.props.selectedDirectoryName;
-    let projectFileName = 'project.castle';
+    let projectFileName = `${projectDirectoryName}.castle`;
     return (
       <React.Fragment>
+        <UIInputSecondary
+          name="projectName"
+          value={this.props.selectedProjectName}
+          label="Project Name"
+          placeholder="Please enter a name for your new project"
+          onChange={this.props.onChangeProjectName}
+        />
         <div className={STYLES_PROJECT_PATH_PREVIEW}>
           <span className={STYLES_PROJECT_DIRECTORY}>{projectParentDirectoryPath}</span>
           <span className={STYLES_PROJECT_FILENAME}>

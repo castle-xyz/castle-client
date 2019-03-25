@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Urls from '~/common/urls';
 import * as NativeUtil from '~/native/nativeutil';
 import * as Project from '~/common/project';
+import * as Strings from '~/common/strings';
 
 import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 
@@ -11,7 +12,9 @@ class CreateProjectProgressIndicator extends React.Component {
   static defaultProps = {
     fromTemplate: null,
     toDirectory: null,
-    owner: null,
+    projectName: 'my-new-project',
+    projectOwner: null,
+    onFinished: (createdProjectUrl) => {},
   };
 
   state = {
@@ -75,19 +78,27 @@ class CreateProjectProgressIndicator extends React.Component {
 
   _configureNewProject = async (path) => {
     let success = false;
+    let projectFilename = `${Strings.toDirectoryName(this.props.projectName)}.castle`;
     try {
       await Project.rewriteCastleFileAsync({
         containingFolder: path,
-        newFilename: 'my-new-project.castle',
-        newOwner: this.props.owner ? this.props.owner.username : null,
-        newTitle: 'my-new-project',
+        newFilename: projectFilename,
+        newOwner: this.props.projectOwner ? this.props.projectOwner.username : null,
+        newTitle: this.props.projectName ? this.props.projectName : 'my-new-project',
       });
     } catch (_) {
       // TODO: show error
     }
-    this.setState({
-      status: 'finished',
-    });
+    this.setState(
+      {
+        status: 'finished',
+      },
+      () => {
+        // TODO: windows
+        const createdProjectUrl = `file://${path}/${projectFilename}`;
+        this.props.onFinished(createdProjectUrl);
+      }
+    );
   };
 
   render() {
@@ -122,7 +133,7 @@ export default class CreateProjectProgressIndicatorWithContext extends React.Com
     return (
       <CurrentUserContext.Consumer>
         {(currentUser) => (
-          <CreateProjectProgressIndicator owner={currentUser.user} {...this.props} />
+          <CreateProjectProgressIndicator projectOwner={currentUser.user} {...this.props} />
         )}
       </CurrentUserContext.Consumer>
     );

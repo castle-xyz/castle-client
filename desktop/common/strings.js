@@ -27,6 +27,16 @@ export const elide = (string, length = 140) => {
   return `${string.substring(0, length)}...`;
 };
 
+export const toDirectoryName = (str) => {
+  if (str) {
+    return str
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]/gi, '-');
+  }
+  return null;
+};
+
 export const toDate = (dateString) => {
   let date = dateString;
   if (typeof dateString !== 'object') {

@@ -3,10 +3,11 @@ import { css } from 'react-emotion';
 
 import * as Constants from '~/common/constants';
 import * as NativeUtil from '~/native/nativeutil';
+import * as Strings from '~/common/strings';
 
 import CreateProjectProgressIndicator from '~/components/create/CreateProjectProgressIndicator';
 import Logs from '~/common/logs';
-import ProjectPathChooser from '~/components/create/ProjectPathChooser';
+import ProjectConfigureForm from '~/components/create/ProjectConfigureForm';
 import ProjectTemplateChooser from '~/components/create/ProjectTemplateChooser';
 import UIButton from '~/components/reusable/UIButton';
 import UIHeading from '~/components/reusable/UIHeading';
@@ -65,8 +66,10 @@ class CreateProjectScreen extends React.Component {
   state = {
     step: 'choose-template',
     selectedTemplate: null,
+    selectedProjectName: null,
     selectedProjectParentDirectoryPath: null,
     selectedProjectDirectoryName: null,
+    createdProjectUrl: null,
   };
 
   componentDidMount() {
@@ -74,10 +77,12 @@ class CreateProjectScreen extends React.Component {
   }
 
   _setDefaultProjectDirectory = async () => {
+    const defaultName = 'My Castle Project';
     const directory = await NativeUtil.getDocumentsPathAsync();
     this.setState({
       selectedProjectParentDirectoryPath: directory,
-      selectedProjectDirectoryName: 'my-castle-project',
+      selectedProjectName: defaultName,
+      selectedProjectDirectoryName: Strings.toDirectoryName(defaultName),
     });
   };
 
@@ -95,6 +100,14 @@ class CreateProjectScreen extends React.Component {
     });
   };
 
+  _handleChangeProjectName = (e) => {
+    const projectName = e.target.value;
+    this.setState({
+      selectedProjectName: projectName,
+      selectedProjectDirectoryName: Strings.toDirectoryName(projectName),
+    });
+  };
+
   _handleSelectDirectory = (directory) => {
     this.setState({
       selectedProjectParentDirectoryPath: directory,
@@ -107,21 +120,19 @@ class CreateProjectScreen extends React.Component {
     });
   };
 
-  _handleNavigateToProject = async () => {
-    if (this.state.selectedProjectParentDirectoryPath) {
-      let entryPointFilePath;
-      try {
-        entryPointFilePath = await NativeUtil.createProjectAtPathAsync(this._getFinalProjectPath());
-      } catch (_) {}
-      if (entryPointFilePath) {
-        const gameUrl = `file://${entryPointFilePath}`;
-        await this.props.navigateToGameUrl(gameUrl);
-        Logs.system('Welcome to Castle!');
-        Logs.system(`We created your project at ${gameUrl}.`);
-        Logs.system(`Open that file in your favorite text editor to get started.`);
-        Logs.system(`Need help? Check out ${Constants.WEB_HOST}/documentation`);
-      }
-    }
+  _handleProjectFinishedCreating = (createdProjectUrl) => {
+    this.setState({
+      step: 'finished',
+      createdProjectUrl,
+    });
+  };
+
+  _handleNavigateToProject = async (projectUrl) => {
+    await this.props.navigateToGameUrl(projectUrl);
+    Logs.system('Welcome to Castle!');
+    Logs.system(`We created your project at ${projectUrl}.`);
+    Logs.system(`Open that file in your favorite text editor to get started.`);
+    Logs.system(`Need help? Check out ${Constants.WEB_HOST}/documentation`);
   };
 
   _renderChooseTemplate = () => {
@@ -148,13 +159,16 @@ class CreateProjectScreen extends React.Component {
 
   _renderConfigureProject = () => {
     let projectParentDirectoryPath = this.state.selectedProjectParentDirectoryPath;
+    let projectName = this.state.selectedProjectName;
     let projectDirectoryName = this.state.selectedProjectDirectoryName;
     return (
       <React.Fragment>
         <UIHeading>Choose your project folder</UIHeading>
-        <ProjectPathChooser
+        <ProjectConfigureForm
+          selectedProjectName={projectName}
           selectedParentDirectoryPath={projectParentDirectoryPath}
           selectedDirectoryName={projectDirectoryName}
+          onChangeProjectName={this._handleChangeProjectName}
           onSelectDirectory={this._handleSelectDirectory}
         />
         <div className={STYLES_ACTIONS}>
@@ -179,9 +193,27 @@ class CreateProjectScreen extends React.Component {
       <React.Fragment>
         <UIHeading>Creating your project...</UIHeading>
         <CreateProjectProgressIndicator
+          projectName={this.state.selectedProjectName}
           fromTemplate={this.state.selectedTemplate}
           toDirectory={this._getFinalProjectPath()}
+          onFinished={this._handleProjectFinishedCreating}
         />
+      </React.Fragment>
+    );
+  };
+
+  _renderFinished = () => {
+    return (
+      <React.Fragment>
+        <UIHeading>All done!</UIHeading>
+        <div className={STYLES_PARAGRAPH}>You're ready to start making your new game.</div>
+        <div className={STYLES_ACTIONS}>
+          <UIButton
+            className={STYLES_BACK}
+            onClick={() => this._handleNavigateToProject(this.state.createdProjectUrl)}>
+            Go to my Project
+          </UIButton>
+        </div>
       </React.Fragment>
     );
   };
@@ -194,6 +226,8 @@ class CreateProjectScreen extends React.Component {
       content = this._renderConfigureProject();
     } else if (this.state.step === 'create-project') {
       content = this._renderCreatingProject();
+    } else if (this.state.step === 'finished') {
+      content = this._renderFinished();
     }
     return (
       <div className={STYLES_CONTAINER}>
