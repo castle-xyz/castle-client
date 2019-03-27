@@ -42,7 +42,7 @@ class Downloads {
         const { id, path } = params;
         this._downloads[id] = {
           id,
-          status: 'finished',
+          status: path && path.length ? 'finished' : 'interrupted',
           progress: 1,
           path,
         };
@@ -53,7 +53,6 @@ class Downloads {
 
   start = async (url) => {
     try {
-      // TODO: cancel any existing download with this url.
       this._urlToDownloadId[url] = 0;
       await NativeBinds.downloadFile({ url });
     } catch (e) {

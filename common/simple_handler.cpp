@@ -72,21 +72,28 @@ void SimpleHandler::OnDownloadUpdated(CefRefPtr<CefBrowser> browser,
                                       CefRefPtr<CefDownloadItem> download_item,
                                       CefRefPtr<CefDownloadItemCallback> callback) {
   uint32 download_id = download_item->GetId();
-  std::map<uint32, bool>::iterator it = download_cancelled_.find(download_id);
-  if (it != download_cancelled_.end() && download_cancelled_[download_id] == true) {
-    callback->Cancel();
-    download_cancelled_.erase(it);
+  if (download_item->IsCanceled()) {
+    // download was canceled or interrupted
     this->SendDownloadFinishEvent(download_id, "");
   } else {
-    time_t end_time = download_item->GetEndTime().GetTimeT();
-    if (end_time) {
-      CefString download_path = download_item->GetFullPath();
-      this->SendDownloadFinishEvent(download_id, download_path.ToString());
+    // did the user ask the download to cancel?
+    std::map<uint32, bool>::iterator it = download_cancelled_.find(download_id);
+    if (it != download_cancelled_.end() && download_cancelled_[download_id] == true) {
+      callback->Cancel();
+      download_cancelled_.erase(it);
+      this->SendDownloadFinishEvent(download_id, "");
     } else {
-      // percent_complete is 0-100, or -1 if CEF doesn't have any useful info
-      int percent_complete = download_item->GetPercentComplete();
-      if (percent_complete >= 0) {
-        this->SendDownloadProgressEvent(download_item->GetId(), percent_complete);
+      // download is running or finished
+      time_t end_time = download_item->GetEndTime().GetTimeT();
+      if (end_time) {
+        CefString download_path = download_item->GetFullPath();
+        this->SendDownloadFinishEvent(download_id, download_path.ToString());
+      } else {
+        // percent_complete is 0-100, or -1 if CEF doesn't have any useful info
+        int percent_complete = download_item->GetPercentComplete();
+        if (percent_complete >= 0) {
+          this->SendDownloadProgressEvent(download_item->GetId(), percent_complete);
+        }
       }
     }
   }

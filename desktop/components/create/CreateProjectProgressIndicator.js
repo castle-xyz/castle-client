@@ -97,6 +97,10 @@ class CreateProjectProgressIndicator extends React.Component {
         if (this._mounted) {
           this._extractDownloadedProject(download.path);
         }
+      } else if (download.status === 'interrupted') {
+        this._downloadId = null;
+        this._handleError('There was an issue downloading the template files for your project');
+        return;
       } else {
         this._downloadId = download.id;
         status = 'downloading';

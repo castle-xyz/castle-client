@@ -304,7 +304,7 @@ bool ghostGetDocumentsPath(const char **result) {
 }
 
 void ghostInstallUpdate() {
-  GhostAppDelegate *delegate = [NSApplication sharedApplication].delegate;
+  GhostAppDelegate *delegate = (GhostAppDelegate *)([NSApplication sharedApplication].delegate);
   [delegate installUpdate];
 }
 
@@ -319,7 +319,7 @@ void ghostShowDesktopNotification(const char *title, const char *body) {
     [notification setSoundName:nil];
 
     NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
-    GhostAppDelegate *delegate = [NSApplication sharedApplication].delegate;
+    GhostAppDelegate *delegate = (GhostAppDelegate *)([NSApplication sharedApplication].delegate);
     [center setDelegate:delegate];
     [center deliverNotification:notification];
   });
