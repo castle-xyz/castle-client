@@ -71,7 +71,7 @@ class GameScreen extends React.Component {
     await GameWindow.open(url, this.props.game);
 
     // Sync state for new Ghost instance
-    NativeUtil.sendLuaEvent('CASTLE_SET_LOGGED_IN', this.props.isLoggedIn);
+    NativeUtil.sendLuaEvent('CASTLE_SET_IS_LOGGED_IN', this.props.isLoggedIn);
     NativeUtil.sendLuaEvent('CASTLE_SET_VOLUME', this.state.isMuted ? 0 : 1);
   };
 

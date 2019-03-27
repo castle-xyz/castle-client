@@ -11,7 +11,7 @@ local castle = {}
 
 castle.user = {}
 
-jsEvents.listen('CASTLE_SET_LOGGED_IN', function(isLoggedIn)
+jsEvents.listen('CASTLE_SET_IS_LOGGED_IN', function(isLoggedIn)
     castle.user.isLoggedIn = isLoggedIn
     castle.isLoggedIn = isLoggedIn --- XXX: Backwards compat...
 end)
