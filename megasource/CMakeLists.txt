@@ -392,9 +392,10 @@ set(GHOST_FILES
   base
   web
   shared-assets
-  node/castle-desktop-node-win.exe
 )
 COPY_FILES("${GHOST_TARGET}" "${GHOST_FILES}" "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CEF_TARGET_OUT_DIR}")
+
+COPY_FILES("${GHOST_TARGET}" "castle-desktop-node-win.exe" "${CMAKE_CURRENT_SOURCE_DIR}/../node" "${CEF_TARGET_OUT_DIR}")
 
 #COPY_FILES("${GHOST_TARGET}" "castle.ico" "${CMAKE_CURRENT_SOURCE_DIR}/extra" "${CEF_TARGET_OUT_DIR}")
 
