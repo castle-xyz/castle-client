@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { isKeyHotkey } from 'is-hotkey';
 
-import * as ExecNode from '~/common/execnode';
-
 import * as Actions from '~/common/actions';
 import AppContainer from '~/components/AppContainer';
 import { CurrentUserContextProvider } from '~/contexts/CurrentUserContext';
@@ -28,12 +26,6 @@ const isDevelopmentHotkey = isKeyHotkey('mod+j');
 const isEscFullScreenHotkey = isKeyHotkey('esc');
 
 const NATIVE_CHANNELS_POLL_INTERVAL = 300;
-
-async function testNodeProcess() {
-  let result = await ExecNode.execNodeAsync('publishProject', { testkey: 'testvalue' });
-  window.alert(JSON.stringify(result));
-}
-testNodeProcess();
 
 class App extends React.Component {
   _nativeChannelsPollTimeout;
