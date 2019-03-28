@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { isKeyHotkey } from 'is-hotkey';
 
-import * as NodeProcess from '~/common/nodeprocess';
+import * as ExecNode from '~/common/execnode';
 
 import * as Actions from '~/common/actions';
 import AppContainer from '~/components/AppContainer';
@@ -29,6 +29,12 @@ const isEscFullScreenHotkey = isKeyHotkey('esc');
 
 const NATIVE_CHANNELS_POLL_INTERVAL = 300;
 
+async function testNodeProcess() {
+  let result = await ExecNode.execNodeAsync('publishProject', { testkey: 'testvalue' });
+  window.alert(JSON.stringify(result));
+}
+testNodeProcess();
+
 class App extends React.Component {
   _nativeChannelsPollTimeout;
   _app;
@@ -39,14 +45,7 @@ class App extends React.Component {
     this.state.updateAvailable = null;
   }
 
-  async testNodeProcess() {
-    let result = await NodeProcess.execNodeRpc('publishProject', { testkey: 'testvalue' });
-    window.alert(JSON.stringify(result));
-  }
-
   componentDidMount() {
-    this.testNodeProcess();
-
     window.addEventListener('nativeOpenUrl', this._handleNativeOpenUrlEvent);
     window.addEventListener('keydown', this._handleKeyDownEvent);
     window.addEventListener('CASTLE_SYSTEM_KEY_PRESSED', this._handleLuaSystemKeyDownEvent);

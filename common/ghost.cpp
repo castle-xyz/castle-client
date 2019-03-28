@@ -96,9 +96,8 @@ bool ghostCreateProjectAtPath(const char *path, const char **entryPoint) {
   return _ghostCreateFileFromTemplateAtPath(path, "blank.castle", "project.castle", entryPoint);
 }
 
-const char *ghostStartNodeProcess() {
+const char *ghostExecNode(const char *input) {
 #ifdef _MSC_VER
-  // Full path to Squirrel's 'Update.exe' ('../Update.exe')
   wchar_t nodeExe[MAX_PATH + 256];
   GetModuleFileName(NULL, nodeExe, MAX_PATH);
   wcscpy(wcsrchr(nodeExe, L'\\'), L"\\castle-desktop-node-win.exe");
@@ -108,7 +107,10 @@ const char *ghostStartNodeProcess() {
   if (!ghostGetPathToFileInAppBundle("castle-desktop-node-macos", &pathToBundledFile)) {
     return NULL;
   }
-  FILE *pipe = popen(pathToBundledFile, "r");
+  char command[1024];
+  snprintf(command, sizeof(command), "%s %s", pathToBundledFile, input);
+
+  FILE *pipe = popen(command, "r");
 #endif
 
   if (!pipe) {
@@ -117,10 +119,17 @@ const char *ghostStartNodeProcess() {
 
   // TODO: handle failure
 
-  static char buffer[512];
-  fgets(buffer, sizeof buffer, pipe);
+  char buffer[128];
+  static std::string result = "";
+  try {
+    while (fgets(buffer, sizeof buffer, pipe) != NULL) {
+      result += buffer;
+    }
+  } catch (...) {
+    pclose(pipe);
+    return nullptr;
+  }
+  pclose(pipe);
 
-  // leave pipe open. server needs to run in background
-
-  return buffer;
+  return result.c_str();
 }

@@ -9,12 +9,7 @@
   "scripts": {
     "build": "pkg . --targets node10-macos-x64,node10-win-x64"
   },
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "request": "^2.88.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "pkg": "^4.3.7"
   }
