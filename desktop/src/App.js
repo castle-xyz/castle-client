@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { isKeyHotkey } from 'is-hotkey';
 
+import * as NodeProcess from '~/common/nodeprocess';
+
 import * as Actions from '~/common/actions';
 import AppContainer from '~/components/AppContainer';
 import { CurrentUserContextProvider } from '~/contexts/CurrentUserContext';
@@ -37,7 +39,14 @@ class App extends React.Component {
     this.state.updateAvailable = null;
   }
 
+  async testNodeProcess() {
+    let result = await NodeProcess.execNodeRpc('publishProject', { testkey: 'testvalue' });
+    window.alert(JSON.stringify(result));
+  }
+
   componentDidMount() {
+    this.testNodeProcess();
+
     window.addEventListener('nativeOpenUrl', this._handleNativeOpenUrlEvent);
     window.addEventListener('keydown', this._handleKeyDownEvent);
     window.addEventListener('CASTLE_SYSTEM_KEY_PRESSED', this._handleLuaSystemKeyDownEvent);

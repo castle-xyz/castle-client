@@ -9,6 +9,6 @@
 	<key>CastleCustomWebUrl</key>
 	<string>http://localhost:3000</string>
 	<key>CastleUseCustomWebUrl</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

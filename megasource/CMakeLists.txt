@@ -392,6 +392,7 @@ set(GHOST_FILES
   base
   web
   shared-assets
+  node/castle-desktop-node-win.exe
 )
 COPY_FILES("${GHOST_TARGET}" "${GHOST_FILES}" "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CEF_TARGET_OUT_DIR}")
 

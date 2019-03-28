@@ -280,3 +280,8 @@ JS_BIND_DEFINE(showDesktopNotification) {
   ghostShowDesktopNotification(title.c_str(), body.c_str());
   success("success");
 }
+
+JS_BIND_DEFINE(startNodeProcess) {
+  std::string nodeProcessConfig = ghostStartNodeProcess();
+  success(nodeProcessConfig);
+}

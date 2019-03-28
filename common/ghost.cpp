@@ -95,3 +95,28 @@ bool ghostCreateProjectAtPath(const char *path, const char **entryPoint) {
   std::free((void *)mainFileCreated);
   return _ghostCreateFileFromTemplateAtPath(path, "blank.castle", "project.castle", entryPoint);
 }
+
+std::string ghostStartNodeProcess() {
+  const char *pathToBundledFile;
+
+#ifdef _MSC_VER
+  bool success = ghostGetPathToFileInAppBundle("castle-desktop-node-win.exe", &pathToBundledFile);
+#else
+  bool success = ghostGetPathToFileInAppBundle("castle-desktop-node-macos", &pathToBundledFile);
+#endif
+
+  // TODO: handle failure
+
+  FILE *pipe = popen(pathToBundledFile, "r");
+  if (!pipe) {
+    throw std::runtime_error("popen() failed!");
+  }
+
+  char buffer[512];
+  fgets(buffer, sizeof buffer, pipe);
+  std::string result = buffer;
+
+  // leave pipe open. server needs to run in background
+
+  return result;
+}

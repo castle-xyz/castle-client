@@ -1,6 +1,8 @@
 #ifndef __GHOST_H__
 #define __GHOST_H__
 
+#include <string>
+
 #ifdef _MSC_VER
 #define GHOST_EXPORT extern "C" __declspec(dllexport)
 #else
@@ -55,6 +57,7 @@ bool ghostCreateProjectAtPath(const char *path, const char **entryPoint);
 bool ghostGetPathToFileInAppBundle(const char *filename, const char **result);
 bool ghostGetDocumentsPath(const char **result);
 bool ghostGetProjectFilenameAtPath(const char *path, const char **result, const char **error);
+std::string ghostStartNodeProcess();
 
 void ghostInstallUpdate();
 
