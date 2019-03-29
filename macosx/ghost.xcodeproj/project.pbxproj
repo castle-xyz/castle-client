@@ -10,6 +10,15 @@
 		38F81F9B214B4A8E00E6E242 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 38F81F9A214B4A8E00E6E242 /* main.js */; };
 		38F81FA0214B4B0F00E6E242 /* static in Resources */ = {isa = PBXBuildFile; fileRef = 38F81F9F214B4B0F00E6E242 /* static */; };
 		912D1E36224C52EF00815BBD /* castle-desktop-node-macos in Resources */ = {isa = PBXBuildFile; fileRef = 912D1E35224C52EF00815BBD /* castle-desktop-node-macos */; };
+		912D3520224EE36A00815BBD /* obs in Resources */ = {isa = PBXBuildFile; fileRef = 912D351F224EE36A00815BBD /* obs */; };
+		912D3526224EE3D400815BBD /* libobsglad.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3522224EE3D400815BBD /* libobsglad.0.dylib */; };
+		912D3527224EE3D400815BBD /* libobs.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3523224EE3D400815BBD /* libobs.0.dylib */; };
+		912D3528224EE3D400815BBD /* libobs.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3524224EE3D400815BBD /* libobs.dylib */; };
+		912D3529224EE3D400815BBD /* libobsglad.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3525224EE3D400815BBD /* libobsglad.dylib */; };
+		912D352A224EE3F800815BBD /* libobs.0.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3523224EE3D400815BBD /* libobs.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		912D352B224EE3F800815BBD /* libobs.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3524224EE3D400815BBD /* libobs.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		912D352C224EE3F800815BBD /* libobsglad.0.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3522224EE3D400815BBD /* libobsglad.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		912D352D224EE3F800815BBD /* libobsglad.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3525224EE3D400815BBD /* libobsglad.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		91CF4339214841CC002024DA /* liblibcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.a */; };
 		91CF43A721484947002024DA /* liblibcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.a */; };
 		91CF43B721484A3A002024DA /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A0404221483BA5007A6CC1 /* Chromium Embedded Framework.framework */; };
@@ -211,10 +220,14 @@
 				A1ED98EA211DFA0700CBC701 /* SDL2.framework in Copy Frameworks */,
 				B5256F66211A555500891B27 /* freetype.framework in Copy Frameworks */,
 				91CF43BD21485694002024DA /* liblibcef_dll_wrapper.a in Copy Frameworks */,
+				912D352A224EE3F800815BBD /* libobs.0.dylib in Copy Frameworks */,
+				912D352B224EE3F800815BBD /* libobs.dylib in Copy Frameworks */,
 				B5256F67211A555500891B27 /* mpg123.framework in Copy Frameworks */,
+				912D352C224EE3F800815BBD /* libobsglad.0.dylib in Copy Frameworks */,
 				B5256F68211A555500891B27 /* libmodplug.framework in Copy Frameworks */,
 				B5256F69211A555500891B27 /* ogg.framework in Copy Frameworks */,
 				B5A0404621483D2C007A6CC1 /* Chromium Embedded Framework.framework in Copy Frameworks */,
+				912D352D224EE3F800815BBD /* libobsglad.dylib in Copy Frameworks */,
 				B5256F6A211A555500891B27 /* vorbis.framework in Copy Frameworks */,
 				B5256F6B211A555500891B27 /* Lua.framework in Copy Frameworks */,
 			);
@@ -229,6 +242,11 @@
 		38F81F9C214B4A9200E6E242 /* main.js.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = main.js.map; sourceTree = "<group>"; };
 		38F81F9F214B4B0F00E6E242 /* static */ = {isa = PBXFileReference; lastKnownFileType = folder; name = static; path = ../web/static; sourceTree = "<group>"; };
 		912D1E35224C52EF00815BBD /* castle-desktop-node-macos */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "castle-desktop-node-macos"; path = "../node/castle-desktop-node-macos"; sourceTree = "<group>"; };
+		912D351F224EE36A00815BBD /* obs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obs; sourceTree = "<group>"; };
+		912D3522224EE3D400815BBD /* libobsglad.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobsglad.0.dylib; path = obs/bin/libobsglad.0.dylib; sourceTree = SOURCE_ROOT; };
+		912D3523224EE3D400815BBD /* libobs.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobs.0.dylib; path = obs/bin/libobs.0.dylib; sourceTree = SOURCE_ROOT; };
+		912D3524224EE3D400815BBD /* libobs.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobs.dylib; path = obs/bin/libobs.dylib; sourceTree = SOURCE_ROOT; };
+		912D3525224EE3D400815BBD /* libobsglad.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobsglad.dylib; path = obs/bin/libobsglad.dylib; sourceTree = SOURCE_ROOT; };
 		91C98F9D21432C39006E745C /* cef.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cef.xcodeproj; path = ../cef/cef.xcodeproj; sourceTree = "<group>"; };
 		91CF438321484742002024DA /* Castle Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Castle Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91CF43AE21484A26002024DA /* .localized */ = {isa = PBXFileReference; lastKnownFileType = text; path = .localized; sourceTree = "<group>"; };
@@ -309,14 +327,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				91CF4339214841CC002024DA /* liblibcef_dll_wrapper.a in Frameworks */,
+				912D3527224EE3D400815BBD /* libobs.0.dylib in Frameworks */,
+				912D3529224EE3D400815BBD /* libobsglad.dylib in Frameworks */,
 				B5A0404321483BA5007A6CC1 /* Chromium Embedded Framework.framework in Frameworks */,
 				B5E9FC48211B6C190068BEB9 /* ghost_extensions_macos.framework in Frameworks */,
 				B5256F6F211A555500891B27 /* love.framework in Frameworks */,
+				912D3528224EE3D400815BBD /* libobs.dylib in Frameworks */,
 				A1887D5122162F59008F50E3 /* Sparkle.framework in Frameworks */,
 				B5256F70211A555500891B27 /* Cocoa.framework in Frameworks */,
 				A1ED98E9211DFA0700CBC701 /* SDL2.framework in Frameworks */,
 				B5256F71211A555500891B27 /* Lua.framework in Frameworks */,
 				B5256F72211A555500891B27 /* theora.framework in Frameworks */,
+				912D3526224EE3D400815BBD /* libobsglad.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +369,8 @@
 		29B97314FDCFA39411CA2CEA /* ghost */ = {
 			isa = PBXGroup;
 			children = (
+				912D3521224EE3B700815BBD /* obj-bin */,
+				912D351F224EE36A00815BBD /* obs */,
 				912D1E2E224C52D700815BBD /* node */,
 				B50F244521E6A23200967055 /* shared-assets */,
 				B5BAE382215ABA89001354F9 /* src */,
@@ -374,6 +398,17 @@
 				912D1E35224C52EF00815BBD /* castle-desktop-node-macos */,
 			);
 			name = node;
+			sourceTree = "<group>";
+		};
+		912D3521224EE3B700815BBD /* obj-bin */ = {
+			isa = PBXGroup;
+			children = (
+				912D3523224EE3D400815BBD /* libobs.0.dylib */,
+				912D3524224EE3D400815BBD /* libobs.dylib */,
+				912D3522224EE3D400815BBD /* libobsglad.0.dylib */,
+				912D3525224EE3D400815BBD /* libobsglad.dylib */,
+			);
+			path = "obj-bin";
 			sourceTree = "<group>";
 		};
 		91C98F9E21432C39006E745C /* Products */ = {
@@ -759,6 +794,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5256F7D211A56EE00891B27 /* package.love in Resources */,
+				912D3520224EE36A00815BBD /* obs in Resources */,
 				B59617512149BF7100BE403F /* index.html in Resources */,
 				912D1E36224C52EF00815BBD /* castle-desktop-node-macos in Resources */,
 				38F81FA0214B4B0F00E6E242 /* static in Resources */,
@@ -1040,11 +1076,12 @@
 					"$(PROJECT_DIR)/Frameworks/Lua.framework/Headers",
 					"$(PROJECT_DIR)/Frameworks/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/../cef",
+					"$(PROJECT_DIR)/obs/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/obs/bin";
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = builders.game.ghost;
@@ -1073,11 +1110,12 @@
 					"$(PROJECT_DIR)/Frameworks/Lua.framework/Headers",
 					"$(PROJECT_DIR)/Frameworks/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/../cef",
+					"$(PROJECT_DIR)/obs/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/obs/bin";
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = builders.game.ghost;
@@ -1106,11 +1144,12 @@
 					"$(PROJECT_DIR)/Frameworks/Lua.framework/Headers",
 					"$(PROJECT_DIR)/Frameworks/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/../cef",
+					"$(PROJECT_DIR)/obs/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/obs/bin";
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = builders.game.ghost;

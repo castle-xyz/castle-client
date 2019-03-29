@@ -18,6 +18,7 @@ extern "C" {
 
 #import <Sparkle/SUAppcastItem.h>
 #import <Sparkle/SUUpdater.h>
+#include <obs.h>
 
 #include "simple_handler.h"
 
@@ -83,6 +84,39 @@ extern __weak NSWindow *ghostMacChildWindow;
   self.lovePaused = NO;
   self.loveStepping = NO;
   self.windowEventsSubscribed = NO;
+
+  
+  
+  
+  NSString * obsPluginsPath = [NSString stringWithFormat:@"%@/obs/obs-plugins", [[NSBundle mainBundle] resourcePath]];
+  obs_startup("en-US", [obsPluginsPath UTF8String], NULL);
+  const char * v = obs_get_version_string();
+  printf(v);
+  
+  
+  struct obs_video_info tmp_v;
+  struct obs_audio_info tmp_a;
+  
+  NSString *libobsOpenGLPath = [[NSBundle mainBundle] pathForResource:@"obs/bin/libobs-opengl" ofType:@"so"];
+  tmp_v.graphics_module = [libobsOpenGLPath UTF8String];
+  tmp_v.fps_num = 30000;
+  tmp_v.fps_den = 1001; //30 fps
+  tmp_v.base_width = 1280;
+  tmp_v.base_height = 720;
+  tmp_v.output_width = 1280; //No scaling yet
+  tmp_v.output_height = 720; //No scaling yet
+  tmp_v.output_format = VIDEO_FORMAT_NV12; //YUV420
+  tmp_v.adapter = 0; //Video adapter id
+  tmp_v.gpu_conversion = true;
+  tmp_v.colorspace = VIDEO_CS_601;
+  tmp_v.range = VIDEO_RANGE_PARTIAL;
+  tmp_v.scale_type = OBS_SCALE_BICUBIC;
+  
+  tmp_a.samples_per_sec = 44100; //Somewhat classic 44.1KHz
+  tmp_a.speakers = SPEAKERS_STEREO; //2.0: FL, FR
+  
+  obs_reset_audio(&tmp_a);
+  obs_reset_video(&tmp_v);
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(__unused NSApplication *)sender {
