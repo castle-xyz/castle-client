@@ -18,6 +18,8 @@ extern "C" {
 
 #import <Sparkle/SUAppcastItem.h>
 #import <Sparkle/SUUpdater.h>
+
+#define HAVE_OBSCONFIG_H
 #include <obs.h>
 
 #include "simple_handler.h"
@@ -89,10 +91,15 @@ extern __weak NSWindow *ghostMacChildWindow;
   
   
   NSString * obsPluginsPath = [NSString stringWithFormat:@"%@/obs/obs-plugins", [[NSBundle mainBundle] resourcePath]];
-  obs_startup("en-US", [obsPluginsPath UTF8String], NULL);
-  const char * v = obs_get_version_string();
-  printf(v);
+  NSString * obsPluginsDataPath = [NSString stringWithFormat:@"%@/obs/data/obs-plugins", [[NSBundle mainBundle] resourcePath]];
   
+  obs_startup("en-US", [obsPluginsPath UTF8String], NULL);
+  
+  obs_add_module_path([obsPluginsPath UTF8String], [obsPluginsDataPath UTF8String]);
+  obs_load_all_modules();
+  obs_post_load_modules();
+  
+  //printf(OBS_INSTALL_DATA_PATH);
   
   struct obs_video_info tmp_v;
   struct obs_audio_info tmp_a;
@@ -117,6 +124,88 @@ extern __weak NSWindow *ghostMacChildWindow;
   
   obs_reset_audio(&tmp_a);
   obs_reset_video(&tmp_v);
+  
+  int idx = 0;
+  while (true) {
+    const char * ty;
+    if (!obs_enum_output_types(idx, &ty)) {
+      break;
+    }
+    
+    printf(ty);
+    printf("\n");
+    
+    idx++;
+  }
+  
+  printf("\n\n\n");
+  idx = 0;
+  while (true) {
+    const char * ty;
+    if (!obs_enum_encoder_types(idx, &ty)) {
+      break;
+    }
+    
+    printf(ty);
+    printf("\n");
+    
+    idx++;
+  }
+  
+  printf("\n\n\n");
+  idx = 0;
+  while (true) {
+    const char * ty;
+    if (!obs_enum_service_types(idx, &ty)) {
+      break;
+    }
+    
+    printf(ty);
+    printf("\n");
+    
+    idx++;
+  }
+  
+  printf("\n\n\n");
+  idx = 0;
+  while (true) {
+    const char * ty;
+    if (!obs_enum_source_types(idx, &ty)) {
+      break;
+    }
+    
+    printf(ty);
+    printf("\n");
+    
+    idx++;
+  }
+  
+  obs_source_t * tmp_source = obs_get_source_by_name("display_capture");
+  obs_encoder_t * tmp_encoder = obs_get_encoder_by_name("obs_x264");
+  obs_output_t * tmp_output = obs_get_output_by_name("flv_output");
+  
+  //obs_service_t tmp_service;
+  
+  obs_data_t *newSettings = obs_data_create();
+  obs_data_set_string(newSettings, "path", "/Users/jesseruder/ghost/ghost/test.flv");
+  obs_output_update(tmp_output, newSettings);
+  
+  obs_data_t *settings = obs_output_get_settings(tmp_output);
+  const char * path = obs_data_get_string(settings, "path");
+  printf("\n\n\n\npath: ");
+  printf(path);
+  printf("\n\n\n\n");
+  
+  
+  // https://obsproject.com/docs/frontends.html
+  obs_set_output_source(0, tmp_source);
+  
+  obs_encoder_set_video(tmp_encoder, obs_get_video());
+  //obs_encoder_set_audio(my_aac_encoder, obs_get_audio());
+  obs_output_set_video_encoder(tmp_output, tmp_encoder);
+  //obs_output_set_audio_encoder(my_output, my_aac_encoder);
+  //obs_output_set_service(&tmp_output, &tmp_service); // if a stream
+  obs_output_start(tmp_output);
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(__unused NSApplication *)sender {
