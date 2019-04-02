@@ -19,8 +19,8 @@ extern "C" {
 #import <Sparkle/SUAppcastItem.h>
 #import <Sparkle/SUUpdater.h>
 
-#define HAVE_OBSCONFIG_H
 #include <obs.h>
+#include <graphics/vec2.h>
 
 #include "simple_handler.h"
 
@@ -53,10 +53,10 @@ obs_output_t * tmp_output;
 NSArray *enumerate_windows(void)
 {
   return (__bridge NSArray*)CGWindowListCopyWindowInfo(
-                                                      kCGWindowListOptionOnScreenOnly,
-                                                      kCGNullWindowID);
+                                                       kCGWindowListOptionOnScreenOnly,
+                                                       kCGNullWindowID);
   
-
+  
 }
 
 @implementation GhostAppDelegate
@@ -102,10 +102,12 @@ NSArray *enumerate_windows(void)
   self.lovePaused = NO;
   self.loveStepping = NO;
   self.windowEventsSubscribed = NO;
+  
+  [self initObs];
 }
   
   
-- (void) startObs {
+- (void) initObs {
   NSString * obsPluginsPath = [NSString stringWithFormat:@"%@/obs/obs-plugins", [[NSBundle mainBundle] resourcePath]];
   NSString * obsPluginsDataPath = [NSString stringWithFormat:@"%@/obs/data/obs-plugins", [[NSBundle mainBundle] resourcePath]];
   
@@ -144,72 +146,21 @@ NSArray *enumerate_windows(void)
   
   obs_reset_audio(&tmp_a);
   obs_reset_video(&tmp_v);
+}
+  
+  
+- (void) startObs {
   
   for (NSDictionary *dict in enumerate_windows()) {
-    NSLog(@"%@  %@  %@", dict[OWNER_NAME], dict[WINDOW_NAME], dict[WINDOW_NUMBER]);
+    NSLog(@"owner:'%@'  window:'%@'  number:'%@'", dict[OWNER_NAME], dict[WINDOW_NAME], dict[WINDOW_NUMBER]);
     printf("\n\n");
-  }
-  
-  int idx = 0;
-  while (true) {
-    const char * ty;
-    if (!obs_enum_output_types(idx, &ty)) {
-      break;
-    }
-    
-    printf(ty);
-    printf("\n");
-    
-    idx++;
-  }
-  
-  printf("\n\n\n");
-  idx = 0;
-  while (true) {
-    const char * ty;
-    if (!obs_enum_encoder_types(idx, &ty)) {
-      break;
-    }
-    
-    printf(ty);
-    printf("\n");
-    
-    idx++;
-  }
-  
-  printf("\n\n\n");
-  idx = 0;
-  while (true) {
-    const char * ty;
-    if (!obs_enum_service_types(idx, &ty)) {
-      break;
-    }
-    
-    printf(ty);
-    printf("\n");
-    
-    idx++;
-  }
-  
-  printf("\n\n\n");
-  idx = 0;
-  while (true) {
-    const char * ty;
-    if (!obs_enum_source_types(idx, &ty)) {
-      break;
-    }
-    
-    printf(ty);
-    printf("\n");
-    
-    idx++;
   }
   
   // https://github.com/obsproject/obs-studio/blob/master/plugins/mac-capture/mac-window-capture.m
   // window_capture
   obs_data_t *sourceSettings = obs_data_create();
   obs_data_set_string(sourceSettings, "owner_name", "Castle");
-  obs_data_set_string(sourceSettings, "window_name", "Castle");
+  obs_data_set_string(sourceSettings, "window_name", "castle-player");
   obs_source_t * tmp_source = obs_source_create("window_capture", "castle_source", sourceSettings, NULL);
   
   // endocers
@@ -223,7 +174,19 @@ NSArray *enumerate_windows(void)
   
   // https://obsproject.com/docs/frontends.html
   // https://obsproject.com/docs/frontends.html#initialization-and-shutdown
-  obs_set_output_source(0, tmp_source);
+  obs_scene_t * scene = obs_scene_create("castle_scene");
+  obs_sceneitem_t * window_capture_scene_item = obs_scene_add(scene, tmp_source);
+  
+  ////// SCENE TRANSFORM
+  struct obs_transform_info transform_info;
+  obs_sceneitem_get_info(window_capture_scene_item, &transform_info);
+  
+  //vec2_set(&transform_info.pos, -100, -100);
+  
+  obs_sceneitem_set_info(window_capture_scene_item, &transform_info);
+  ////// END SCENE TRANSFORM
+  
+  obs_set_output_source(0, obs_scene_get_source(scene));
   
   video_t * main_video = obs_get_video();
   audio_t * main_audio = obs_get_audio();
@@ -330,8 +293,6 @@ NSArray *enumerate_windows(void)
 
   // Not paused to start
   self.lovePaused = NO;
-  
-  [self startObs];
 }
 
 - (void)stepLove {
@@ -366,6 +327,7 @@ NSArray *enumerate_windows(void)
                      dispatch_get_main_queue(), ^{
                        ghostResizeChildWindow(-1, -1);
                        ghostResizeChildWindow(1, 1);
+                       [self startObs];
                      });
     }
   }
