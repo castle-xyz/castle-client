@@ -43,6 +43,8 @@ extern __weak NSWindow *ghostMacChildWindow;
 
 @end
 
+obs_output_t * tmp_output;
+
 @implementation GhostAppDelegate
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication *)sender {
@@ -96,6 +98,10 @@ extern __weak NSWindow *ghostMacChildWindow;
   obs_startup("en-US", [obsPluginsPath UTF8String], NULL);
   
   obs_add_module_path([obsPluginsPath UTF8String], [obsPluginsDataPath UTF8String]);
+  
+  NSString * obsLibDataPath = [NSString stringWithFormat:@"%@/obs/data/libobs/", [[NSBundle mainBundle] resourcePath]];
+  castle_obs_set_data_path([obsLibDataPath UTF8String]);
+  
   obs_load_all_modules();
   obs_post_load_modules();
   
@@ -180,32 +186,31 @@ extern __weak NSWindow *ghostMacChildWindow;
     idx++;
   }
   
-  obs_source_t * tmp_source = obs_get_source_by_name("display_capture");
-  obs_encoder_t * tmp_encoder = obs_get_encoder_by_name("obs_x264");
-  obs_output_t * tmp_output = obs_get_output_by_name("flv_output");
+  // https://github.com/obsproject/obs-studio/blob/master/plugins/mac-capture/mac-window-capture.m
+  obs_source_t * tmp_source = obs_source_create("window_capture", "castle_source", NULL, NULL);
+  obs_encoder_t * tmp_encoder = obs_video_encoder_create("vt_h264_hw", "castle_encoder", NULL, NULL);
+  obs_encoder_t * tmp_audio_encoder = obs_audio_encoder_create("CoreAudio_AAC", "castle_audio_encoder", NULL, 0, NULL);
   
-  //obs_service_t tmp_service;
-  
-  obs_data_t *newSettings = obs_data_create();
-  obs_data_set_string(newSettings, "path", "/Users/jesseruder/ghost/ghost/test.flv");
-  obs_output_update(tmp_output, newSettings);
-  
-  obs_data_t *settings = obs_output_get_settings(tmp_output);
-  const char * path = obs_data_get_string(settings, "path");
-  printf("\n\n\n\npath: ");
-  printf(path);
-  printf("\n\n\n\n");
-  
+  // https://github.com/obsproject/obs-studio/blob/master/plugins/obs-outputs/flv-output.c
+  obs_data_t *outputSettings = obs_data_create();
+  obs_data_set_string(outputSettings, "path", "/Users/jesseruder/ghost/ghost/test.flv");
+  tmp_output = obs_output_create("flv_output", "castle_output", outputSettings, NULL);
   
   // https://obsproject.com/docs/frontends.html
+  // https://obsproject.com/docs/frontends.html#initialization-and-shutdown
   obs_set_output_source(0, tmp_source);
   
-  obs_encoder_set_video(tmp_encoder, obs_get_video());
-  //obs_encoder_set_audio(my_aac_encoder, obs_get_audio());
+  video_t * main_video = obs_get_video();
+  audio_t * main_audio = obs_get_audio();
+  obs_encoder_set_video(tmp_encoder, main_video);
+  obs_encoder_set_audio(tmp_audio_encoder, main_audio);
+  
   obs_output_set_video_encoder(tmp_output, tmp_encoder);
-  //obs_output_set_audio_encoder(my_output, my_aac_encoder);
-  //obs_output_set_service(&tmp_output, &tmp_service); // if a stream
-  obs_output_start(tmp_output);
+  obs_output_set_audio_encoder(tmp_output, tmp_audio_encoder, 0);
+  
+  
+  bool result = obs_output_start(tmp_output);
+  printf(result ? "true" : "false");
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(__unused NSApplication *)sender {
@@ -396,6 +401,8 @@ void Cocoa_DispatchEvent(NSEvent *theEvent);
 }
 
 - (void)tryToTerminateApplication:(__unused NSApplication *)app {
+  obs_output_stop(tmp_output);
+  
   [self stopLove];
 
   SimpleHandler *handler = SimpleHandler::GetInstance();
