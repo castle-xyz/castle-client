@@ -45,6 +45,20 @@ extern __weak NSWindow *ghostMacChildWindow;
 
 obs_output_t * tmp_output;
 
+#define WINDOW_NAME   ((NSString*)kCGWindowName)
+#define WINDOW_NUMBER ((NSString*)kCGWindowNumber)
+#define OWNER_NAME    ((NSString*)kCGWindowOwnerName)
+#define OWNER_PID     ((NSNumber*)kCGWindowOwnerPID)
+
+NSArray *enumerate_windows(void)
+{
+  return (__bridge NSArray*)CGWindowListCopyWindowInfo(
+                                                      kCGWindowListOptionOnScreenOnly,
+                                                      kCGNullWindowID);
+  
+
+}
+
 @implementation GhostAppDelegate
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(__unused NSApplication *)sender {
@@ -88,10 +102,10 @@ obs_output_t * tmp_output;
   self.lovePaused = NO;
   self.loveStepping = NO;
   self.windowEventsSubscribed = NO;
-
+}
   
   
-  
+- (void) startObs {
   NSString * obsPluginsPath = [NSString stringWithFormat:@"%@/obs/obs-plugins", [[NSBundle mainBundle] resourcePath]];
   NSString * obsPluginsDataPath = [NSString stringWithFormat:@"%@/obs/data/obs-plugins", [[NSBundle mainBundle] resourcePath]];
   
@@ -130,6 +144,11 @@ obs_output_t * tmp_output;
   
   obs_reset_audio(&tmp_a);
   obs_reset_video(&tmp_v);
+  
+  for (NSDictionary *dict in enumerate_windows()) {
+    NSLog(@"%@  %@  %@", dict[OWNER_NAME], dict[WINDOW_NAME], dict[WINDOW_NUMBER]);
+    printf("\n\n");
+  }
   
   int idx = 0;
   while (true) {
@@ -187,7 +206,13 @@ obs_output_t * tmp_output;
   }
   
   // https://github.com/obsproject/obs-studio/blob/master/plugins/mac-capture/mac-window-capture.m
-  obs_source_t * tmp_source = obs_source_create("window_capture", "castle_source", NULL, NULL);
+  // window_capture
+  obs_data_t *sourceSettings = obs_data_create();
+  obs_data_set_string(sourceSettings, "owner_name", "Castle");
+  obs_data_set_string(sourceSettings, "window_name", "Castle");
+  obs_source_t * tmp_source = obs_source_create("window_capture", "castle_source", sourceSettings, NULL);
+  
+  // endocers
   obs_encoder_t * tmp_encoder = obs_video_encoder_create("vt_h264_hw", "castle_encoder", NULL, NULL);
   obs_encoder_t * tmp_audio_encoder = obs_audio_encoder_create("CoreAudio_AAC", "castle_audio_encoder", NULL, 0, NULL);
   
@@ -305,6 +330,8 @@ obs_output_t * tmp_output;
 
   // Not paused to start
   self.lovePaused = NO;
+  
+  [self startObs];
 }
 
 - (void)stepLove {
@@ -370,6 +397,7 @@ obs_output_t * tmp_output;
 }
 
 - (void)stopLove {
+  
   ghostSetChildWindowFullscreen(false);
   if (self.luaState) {
     SDL_Event quitEvent;
@@ -377,6 +405,9 @@ obs_output_t * tmp_output;
     SDL_PushEvent(&quitEvent);
     [self stepLove];
     [self closeLua];
+    
+    obs_output_stop(tmp_output);
+    
   }
   self.loveStepping = NO;
 }
@@ -401,8 +432,6 @@ void Cocoa_DispatchEvent(NSEvent *theEvent);
 }
 
 - (void)tryToTerminateApplication:(__unused NSApplication *)app {
-  obs_output_stop(tmp_output);
-  
   [self stopLove];
 
   SimpleHandler *handler = SimpleHandler::GetInstance();
