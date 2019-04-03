@@ -20,6 +20,7 @@ megasource/CastleSetup.exe
 ._*
 
 macosx/DerivedData-beta
+macosx/boost/boost_1_67_0/
 
 desktop/package-lock.json
 
@@ -29,3 +30,5 @@ macosx/castle-releases
 megasource/castle-releases
 
 *.aps
+
+.vscode/ipch
