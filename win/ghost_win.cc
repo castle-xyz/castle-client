@@ -61,6 +61,11 @@ static void _ghostSendNativeOpenUrlEvent(std::string uri) {
 
 static float childLeft = 0, childTop = 0, childWidth = 200, childHeight = 200;
 
+float ghostGetChildLeft() { return childLeft; }
+float ghostGetChildTop() { return childTop; }
+float ghostGetChildWidth() { return childWidth; }
+float ghostGetChildHeight() { return childHeight; }
+
 static bool browserReady = false;
 static std::string initialUri = "";
 

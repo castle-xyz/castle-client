@@ -55,6 +55,11 @@ const char *ghostExecNode(const char *input);
 
 void ghostInstallUpdate();
 
+float ghostGetChildLeft();
+float ghostGetChildTop();
+float ghostGetChildWidth();
+float ghostGetChildHeight();
+
 extern double ghostGlobalScaling;
 GHOST_EXPORT double ghostGetGlobalScaling();
 extern bool ghostApplyGlobalScaling;

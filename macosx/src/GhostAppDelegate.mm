@@ -105,7 +105,12 @@ NSArray *enumerate_windows(void)
   
   [self initObs];
 }
-  
+
+- (void) loadObsModule:(NSString *)name {
+  obs_module_t *module;
+  obs_open_module(&module, [[NSString stringWithFormat:@"%@/obs/obs-plugins/%@.so", [[NSBundle mainBundle] resourcePath], name] UTF8String], [[NSString stringWithFormat:@"%@/obs/data/obs-plugins/%@", [[NSBundle mainBundle] resourcePath], name] UTF8String]);
+  obs_init_module(module);
+}
   
 - (void) initObs {
   NSString * obsPluginsPath = [NSString stringWithFormat:@"%@/obs/obs-plugins", [[NSBundle mainBundle] resourcePath]];
@@ -118,7 +123,14 @@ NSArray *enumerate_windows(void)
   NSString * obsLibDataPath = [NSString stringWithFormat:@"%@/obs/data/libobs/", [[NSBundle mainBundle] resourcePath]];
   castle_obs_set_data_path([obsLibDataPath UTF8String]);
   
-  obs_load_all_modules();
+  //obs_load_all_modules();
+  
+  [self loadObsModule:@"coreaudio-encoder"];
+  [self loadObsModule:@"mac-capture"];
+  [self loadObsModule:@"mac-vth264"];
+  [self loadObsModule:@"obs-ffmpeg"];
+  [self loadObsModule:@"obs-outputs"];
+  
   obs_post_load_modules();
   
   //printf(OBS_INSTALL_DATA_PATH);
@@ -146,6 +158,61 @@ NSArray *enumerate_windows(void)
   
   obs_reset_audio(&tmp_a);
   obs_reset_video(&tmp_v);
+  
+  int idx = 0;
+  while (true) {
+    const char * ty;
+    if (!obs_enum_output_types(idx, &ty)) {
+      break;
+    }
+    
+    printf(ty);
+    printf("\n");
+    
+    idx++;
+  }
+  
+  printf("\n\n\n");
+  idx = 0;
+  while (true) {
+    const char * ty;
+    if (!obs_enum_encoder_types(idx, &ty)) {
+      break;
+    }
+    
+    printf(ty);
+    printf("\n");
+    
+    idx++;
+  }
+  
+  printf("\n\n\n");
+  idx = 0;
+  while (true) {
+    const char * ty;
+    if (!obs_enum_service_types(idx, &ty)) {
+      break;
+    }
+    
+    printf(ty);
+    printf("\n");
+    
+    idx++;
+  }
+  
+  printf("\n\n\n");
+  idx = 0;
+  while (true) {
+    const char * ty;
+    if (!obs_enum_source_types(idx, &ty)) {
+      break;
+    }
+    
+    printf(ty);
+    printf("\n");
+    
+    idx++;
+  }
 }
   
   
@@ -163,14 +230,26 @@ NSArray *enumerate_windows(void)
   obs_data_set_string(sourceSettings, "window_name", "castle-player");
   obs_source_t * tmp_source = obs_source_create("window_capture", "castle_source", sourceSettings, NULL);
   
-  // endocers
-  obs_encoder_t * tmp_encoder = obs_video_encoder_create("vt_h264_hw", "castle_encoder", NULL, NULL);
+  // encoders
+  // https://github.com/obsproject/obs-studio/blob/master/plugins/mac-vth264/encoder.c
+  // need a keyframe every 10 seconds, otherwise the replay_buffer will never purge old frames
+  obs_data_t *videoEncoderSettings = obs_data_create();
+  obs_data_set_int(videoEncoderSettings, "keyint_sec", 10);
+  obs_encoder_t * tmp_encoder = obs_video_encoder_create("vt_h264_hw", "castle_encoder", videoEncoderSettings, NULL);
+  
   obs_encoder_t * tmp_audio_encoder = obs_audio_encoder_create("CoreAudio_AAC", "castle_audio_encoder", NULL, 0, NULL);
   
   // https://github.com/obsproject/obs-studio/blob/master/plugins/obs-outputs/flv-output.c
+  // obs-ffmpeg-mux.c window-basic-main-outputs.cpp
   obs_data_t *outputSettings = obs_data_create();
-  obs_data_set_string(outputSettings, "path", "/Users/jesseruder/ghost/ghost/test.flv");
-  tmp_output = obs_output_create("flv_output", "castle_output", outputSettings, NULL);
+  //obs_data_set_string(outputSettings, "path", "/Users/jesseruder/ghost/ghost/test.flv");
+  
+  obs_data_set_string(outputSettings, "directory", "/Users/jesseruder/ghost/ghost");
+  obs_data_set_int(outputSettings, "max_time_sec", 10);
+  obs_data_set_int(outputSettings, "max_size_mb", 10);
+  
+  
+  tmp_output = obs_output_create("replay_buffer", "castle_output", outputSettings, NULL);
   
   // https://obsproject.com/docs/frontends.html
   // https://obsproject.com/docs/frontends.html#initialization-and-shutdown
@@ -181,7 +260,10 @@ NSArray *enumerate_windows(void)
   struct obs_transform_info transform_info;
   obs_sceneitem_get_info(window_capture_scene_item, &transform_info);
   
-  //vec2_set(&transform_info.pos, -100, -100);
+  vec2_set(&transform_info.pos, 0, 0);
+  transform_info.bounds_type = OBS_BOUNDS_SCALE_INNER;
+  transform_info.bounds_alignment = OBS_ALIGN_CENTER;
+  vec2_set(&transform_info.bounds, ghostGetChildWidth(), ghostGetChildHeight());
   
   obs_sceneitem_set_info(window_capture_scene_item, &transform_info);
   ////// END SCENE TRANSFORM
@@ -328,6 +410,12 @@ NSArray *enumerate_windows(void)
                        ghostResizeChildWindow(-1, -1);
                        ghostResizeChildWindow(1, 1);
                        [self startObs];
+                     });
+      
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10000 * NSEC_PER_MSEC),
+                     dispatch_get_main_queue(), ^{
+                       proc_handler_t * proc_handler = obs_output_get_proc_handler(tmp_output);
+                       proc_handler_call(proc_handler, "save", NULL);
                      });
     }
   }
