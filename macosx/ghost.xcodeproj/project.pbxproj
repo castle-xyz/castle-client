@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		38F81F9B214B4A8E00E6E242 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 38F81F9A214B4A8E00E6E242 /* main.js */; };
 		38F81FA0214B4B0F00E6E242 /* static in Resources */ = {isa = PBXBuildFile; fileRef = 38F81F9F214B4B0F00E6E242 /* static */; };
+		910F3AF022555C4B00148428 /* ghost_obs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 910F3AE822555C4B00148428 /* ghost_obs.cpp */; };
+		910F3AF122555C4B00148428 /* ghost_obs.h in Headers */ = {isa = PBXBuildFile; fileRef = 910F3AEF22555C4B00148428 /* ghost_obs.h */; };
 		912D1E36224C52EF00815BBD /* castle-desktop-node-macos in Resources */ = {isa = PBXBuildFile; fileRef = 912D1E35224C52EF00815BBD /* castle-desktop-node-macos */; };
 		912D3520224EE36A00815BBD /* obs in Resources */ = {isa = PBXBuildFile; fileRef = 912D351F224EE36A00815BBD /* obs */; };
 		912D3526224EE3D400815BBD /* libobsglad.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3522224EE3D400815BBD /* libobsglad.0.dylib */; };
@@ -241,6 +243,8 @@
 		38F81F9A214B4A8E00E6E242 /* main.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = main.js; sourceTree = "<group>"; };
 		38F81F9C214B4A9200E6E242 /* main.js.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = main.js.map; sourceTree = "<group>"; };
 		38F81F9F214B4B0F00E6E242 /* static */ = {isa = PBXFileReference; lastKnownFileType = folder; name = static; path = ../web/static; sourceTree = "<group>"; };
+		910F3AE822555C4B00148428 /* ghost_obs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ghost_obs.cpp; path = ../../common/ghost_obs.cpp; sourceTree = "<group>"; };
+		910F3AEF22555C4B00148428 /* ghost_obs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ghost_obs.h; path = ../../common/ghost_obs.h; sourceTree = "<group>"; };
 		912D1E35224C52EF00815BBD /* castle-desktop-node-macos */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "castle-desktop-node-macos"; path = "../node/castle-desktop-node-macos"; sourceTree = "<group>"; };
 		912D351F224EE36A00815BBD /* obs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obs; sourceTree = "<group>"; };
 		912D3522224EE3D400815BBD /* libobsglad.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobsglad.0.dylib; path = obs/bin/libobsglad.0.dylib; sourceTree = SOURCE_ROOT; };
@@ -529,6 +533,8 @@
 				B5BAE38A215ABA89001354F9 /* simple_handler_mac.mm */,
 				B5CC96712225F90D00F5C4AC /* NSApplication+Ghost.h */,
 				B5CC96722225F90D00F5C4AC /* NSApplication+Ghost.mm */,
+				910F3AE822555C4B00148428 /* ghost_obs.cpp */,
+				910F3AEF22555C4B00148428 /* ghost_obs.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -591,6 +597,7 @@
 				B5BAE392215ABA89001354F9 /* GhostMainMenu.h in Headers */,
 				B5BAE399215ABA89001354F9 /* GhostAppDelegate.h in Headers */,
 				B5B06A462150751A001C4382 /* simple_handler.h in Headers */,
+				910F3AF122555C4B00148428 /* ghost_obs.h in Headers */,
 				B5B06A472150751A001C4382 /* simple_app.h in Headers */,
 				B53E72AC2152F8D2003C8616 /* ghost_constants.h in Headers */,
 				B5BAE390215ABA89001354F9 /* json.hpp in Headers */,
@@ -867,6 +874,7 @@
 			files = (
 				B5B06A452150751A001C4382 /* simple_app.cpp in Sources */,
 				B5000234215AEBED00CD2309 /* GhostEnv.m in Sources */,
+				910F3AF022555C4B00148428 /* ghost_obs.cpp in Sources */,
 				B5BAE391215ABA89001354F9 /* GhostFileSystem.m in Sources */,
 				B57FCFB82166835B00D661B2 /* ghost.cpp in Sources */,
 				B57FCFB62166834A00D661B2 /* ghost_mac.mm in Sources */,

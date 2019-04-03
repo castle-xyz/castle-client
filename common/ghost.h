@@ -60,6 +60,9 @@ float ghostGetChildTop();
 float ghostGetChildWidth();
 float ghostGetChildHeight();
 
+const char *ghostTakeScreenCapture();
+const char *ghostGetCachePath();
+
 extern double ghostGlobalScaling;
 GHOST_EXPORT double ghostGetGlobalScaling();
 extern bool ghostApplyGlobalScaling;

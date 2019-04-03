@@ -810,3 +810,11 @@ const char *ghostExecNode(const char *input) {
 
   return (const char *)ExecCmd(command.c_str());
 }
+
+const char *ghostGetCachePath() {
+  PWSTR appDataPath = NULL;
+  SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &appDataPath);
+  std::wstringstream cacheDir;
+  cacheDir << appDataPath << L"/Castle";
+  return cacheDir.str().c_str();
+}

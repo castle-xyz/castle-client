@@ -1,4 +1,5 @@
 #include "ghost.h"
+#include "ghost_obs.h"
 #include "simple_handler.h"
 
 #include <fstream>
@@ -99,3 +100,5 @@ bool ghostCreateProjectAtPath(const char *path, const char **entryPoint) {
 GHOST_EXPORT double ghostGetGlobalScaling() {
   return ghostGlobalScaling;
 }
+
+const char *ghostTakeScreenCapture() { return ghostTakeScreenCaptureObs(); }

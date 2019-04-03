@@ -362,3 +362,8 @@ const char *ghostExecNode(const char *input) {
 
   return execNodeResult.c_str();
 }
+
+const char *ghostGetCachePath() {
+  NSString *cachePath = [GhostFileSystem ghostCachesDirectory];
+  return [cachePath UTF8String];
+}

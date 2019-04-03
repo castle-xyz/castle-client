@@ -20,12 +20,14 @@ import { linkify } from 'react-linkify';
 import * as Urls from '~/common/urls';
 import * as PingUtils from '~/common/pingutils';
 import * as LuaCalls from '~/common/luacalls';
+import * as ScreenCapture from '~/common/screencapture';
 
 const isReloadHotkey = isKeyHotkey('mod+r');
 const isFullscreenHotkey = isKeyHotkey('mod+shift+f');
 const isDevelopmentHotkey = isKeyHotkey('mod+j');
 const isEscFullScreenHotkey = isKeyHotkey('esc');
 const isEndGameHotkey = isKeyHotkey('mod+w');
+const isScreenCaputureHotkey = isKeyHotkey('mod+x');
 
 class App extends React.Component {
   _nativeChannelsPollTimeout;
@@ -159,6 +161,12 @@ class App extends React.Component {
     if (isEndGameHotkey(e)) {
       e.preventDefault();
       return this.props.navigator.clearCurrentGame();
+    }
+
+    if (isScreenCaputureHotkey(e)) {
+      e.preventDefault();
+
+      ScreenCapture.takeScreenCaptureAsync();
     }
   };
 

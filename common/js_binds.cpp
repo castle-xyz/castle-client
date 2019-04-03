@@ -226,3 +226,12 @@ JS_BIND_DEFINE(execNode) {
   std::string result = ghostExecNode(input.c_str());
   success(result);
 }
+
+JS_BIND_DEFINE(takeScreenCapture) {
+  const char *path = ghostTakeScreenCapture();
+  if (path) {
+    success(path);
+  } else {
+    failure("could not take screen capture");
+  }
+}

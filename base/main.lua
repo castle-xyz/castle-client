@@ -232,7 +232,7 @@ function main.keypressed(key, ...)
         local ctrl = love.keyboard.isDown('lctrl') or love.keyboard.isDown('rctrl')
         local gui = love.keyboard.isDown('lgui') or love.keyboard.isDown('rgui')
         local shift = love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')
-        if (key == 'escape') or ((ctrl or gui or shift) and (key == 'j' or key == 'r' or key == 'f' or key == 'w')) then
+        if (key == 'escape') or ((ctrl or gui or shift) and (key == 'j' or key == 'r' or key == 'f' or key == 'w' or key == 'x')) then
             jsEvents.send('CASTLE_SYSTEM_KEY_PRESSED', {
                 ctrlKey = ctrl,
                 altKey = false,
