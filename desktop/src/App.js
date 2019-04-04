@@ -47,6 +47,7 @@ class App extends React.Component {
     window.addEventListener('online', PingUtils.reportPingsAsync);
     window.addEventListener('GHOST_PRINT', this._handleLuaPrintEvent);
     window.addEventListener('GHOST_ERROR', this._handleLuaErrorEvent);
+    window.addEventListener('nativeScreenCaptureReady', ScreenCapture.screenCaptureReadyEvent);
     LuaCalls.addEventListeners();
     PingUtils.reportPingsAsync();
 
@@ -82,6 +83,7 @@ class App extends React.Component {
     window.removeEventListener('online', PingUtils.reportPingsAsync);
     window.removeEventListener('GHOST_PRINT', this._handleLuaPrintEvent);
     window.removeEventListener('GHOST_ERROR', this._handleLuaErrorEvent);
+    window.removeEventListener('nativeScreenCaptureReady', ScreenCapture.screenCaptureReadyEvent);
     LuaCalls.removeEventListeners();
     window.clearTimeout(this._nativeChannelsPollTimeout);
   }

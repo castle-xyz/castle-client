@@ -228,10 +228,6 @@ JS_BIND_DEFINE(execNode) {
 }
 
 JS_BIND_DEFINE(takeScreenCapture) {
-  const char *path = ghostTakeScreenCapture();
-  if (path) {
-    success(path);
-  } else {
-    failure("could not take screen capture");
-  }
+  ghostTakeScreenCapture();
+  success("success");
 }

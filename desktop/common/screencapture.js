@@ -5,3 +5,7 @@ export async function takeScreenCaptureAsync() {
     await NativeBinds.takeScreenCapture();
   } catch (e) {}
 }
+
+export async function screenCaptureReadyEvent(e) {
+  window.alert(e.params.path);
+}

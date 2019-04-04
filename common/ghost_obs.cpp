@@ -1,14 +1,43 @@
 #include "ghost_obs.h"
 #include "ghost.h"
+#include "ghost_constants.h"
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 #include <graphics/vec2.h>
 #include <obs.h>
+#include <sstream>
+#include <thread>
 #include <unistd.h>
 
 obs_output_t *ghostObsOutput = NULL;
+std::thread ghostObsThread;
 bool ghostObsIsStarted = false;
+const char *lastReplayPath = NULL;
+
+void ghostObsBackgroundThread() {
+  while (ghostObsIsStarted) {
+    proc_handler_t *proc_handler = obs_output_get_proc_handler(ghostObsOutput);
+    calldata_t *calldata = calldata_create();
+    proc_handler_call(proc_handler, "get_last_replay", calldata);
+    const char *path = calldata_string(calldata, "path");
+    if (path && (!lastReplayPath || strcmp(path, lastReplayPath) != 0)) {
+      printf("path!!!:\n");
+      printf(path);
+
+      lastReplayPath = path;
+
+      std::stringstream params;
+      params << "{"
+             << " path: \"" << path << "\", "
+             << "}";
+      ghostSendJSEvent(kGhostScreenCaptureReadyEventName, params.str().c_str());
+    }
+
+    // 100ms
+    usleep(1000 * 100);
+  }
+}
 
 void ghostLoadObsModule(std::string basePath, std::string moduleName) {
   obs_module_t *module;
@@ -146,7 +175,7 @@ bool ghostStartObs() {
 
     // obs-ffmpeg-mux.c window-basic-main-outputs.cpp
     std::string screenCaptureDirectory = ghostGetCachePath();
-    screenCaptureDirectory += "/screen_captures";
+    screenCaptureDirectory += "/screen_captures_unprocessed";
 
     boost::filesystem::path dir(screenCaptureDirectory);
     boost::filesystem::create_directory(dir);
@@ -191,6 +220,8 @@ bool ghostStartObs() {
     ghostObsIsStarted = true;
   }
 
+  ghostObsThread = std::thread(ghostObsBackgroundThread);
+
   return result;
 }
 
@@ -201,11 +232,12 @@ void ghostStopObs() {
 
   obs_output_stop(ghostObsOutput);
   ghostObsIsStarted = false;
+  ghostObsThread.join();
 }
 
-const char *ghostTakeScreenCaptureObs() {
+void ghostTakeScreenCaptureObs() {
   if (!ghostObsIsStarted) {
-    return NULL;
+    return;
   }
 
   proc_handler_t *proc_handler = obs_output_get_proc_handler(ghostObsOutput);
@@ -221,5 +253,4 @@ const char *ghostTakeScreenCaptureObs() {
   printf(path);
 
   return path;*/
-  return "";
 }

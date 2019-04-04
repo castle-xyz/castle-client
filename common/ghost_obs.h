@@ -6,6 +6,6 @@
 void ghostInitObs(std::string basePath, bool debug = false);
 bool ghostStartObs();
 void ghostStopObs();
-const char *ghostTakeScreenCaptureObs();
+void ghostTakeScreenCaptureObs();
 
 #endif
