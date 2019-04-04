@@ -20,8 +20,8 @@
 using namespace boost;
 using namespace std;
 
-const int RECORD_WIDTH = 640;
-const int RECORD_HEIGHT = 480;
+const int RECORD_WIDTH = 960;
+const int RECORD_HEIGHT = 720;
 
 obs_output_t *ghostObsOutput = NULL;
 std::thread ghostObsThread;
@@ -158,8 +158,8 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
 
   std::string libobsOpenGLPath = basePath + "/bin/libobs-opengl.so";
   tmp_v.graphics_module = libobsOpenGLPath.c_str();
-  tmp_v.fps_num = 30000;
-  tmp_v.fps_den = 1001; // 30 fps
+  tmp_v.fps_num = 60;
+  tmp_v.fps_den = 1;
   tmp_v.base_width = RECORD_WIDTH;
   tmp_v.base_height = RECORD_HEIGHT;
   tmp_v.output_width = RECORD_WIDTH;               // No scaling yet
@@ -254,6 +254,7 @@ bool ghostStartObs() {
     // need a keyframe every 10 seconds, otherwise the replay_buffer will never purge old frames
     obs_data_t *videoEncoderSettings = obs_data_create();
     obs_data_set_int(videoEncoderSettings, "keyint_sec", 10);
+    //obs_data_set_string(videoEncoderSettings, "profile", "high");
     //obs_data_set_int(videoEncoderSettings, "bitrate", 10000);
     //obs_data_set_int(videoEncoderSettings, "max_bitrate", 10000);
     obs_encoder_t *ghostObsVideoEncoder =
@@ -332,15 +333,4 @@ void ghostTakeScreenCaptureObs() {
 
   proc_handler_t *proc_handler = obs_output_get_proc_handler(ghostObsOutput);
   proc_handler_call(proc_handler, "save", NULL);
-
-  // 200ms
-  /*usleep(1000 * 200);
-
-  calldata_t *calldata = calldata_create();
-  proc_handler_call(proc_handler, "get_last_replay", calldata);
-  const char *path = calldata_string(calldata, "path");
-  printf("path!!!:\n");
-  printf(path);
-
-  return path;*/
 }
