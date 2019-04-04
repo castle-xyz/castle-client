@@ -2,14 +2,14 @@
 #include "ghost.h"
 #include "ghost_constants.h"
 
+#include <boost/asio.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/process.hpp>
-#include <boost/asio.hpp>
 #include <graphics/vec2.h>
+#include <iostream>
 #include <obs.h>
 #include <sstream>
-#include <iostream>
 #include <thread>
 #include <unistd.h>
 
@@ -35,21 +35,23 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
 
   boost::filesystem::path inPath(unprocessedVideoPath);
   string outPath = screenCaptureDirectory + "/" + inPath.filename().string();
-  string tmpOutPath = screenCaptureDirectory + "/" + inPath.stem().string() + ".tmp" + inPath.extension().string();
+  string tmpOutPath =
+      screenCaptureDirectory + "/" + inPath.stem().string() + ".tmp" + inPath.extension().string();
 
   process::environment env = boost::this_process::environment();
 
 #ifdef _MSC_VER
-  process::child ch1(ghostFFmpegPath + " -sseof -5 -i " + unprocessedVideoPath + " -filter_complex \"[0:v] fps=30,scale=480:-1\" " + outPath, env, process::windows::hide);
+  process::child ch1(ghostFFmpegPath + " -sseof -5 -i " + unprocessedVideoPath +
+                         " -filter_complex \"[0:v] fps=30,scale=480:-1\" " + outPath,
+                     env, process::windows::hide);
   ch1.wait();
 #else
   boost::asio::io_service ch1Ios;
   std::future<std::string> ch1Data;
   // TODO: maybe add "-filter_complex", "[0:v] fps=30" here?
-  process::child ch1(ghostFFmpegPath, process::args({"-sseof", "-5", "-i", unprocessedVideoPath, outPath}),
-                     process::std_out > process::null,
-                     process::std_err > ch1Data,
-                     ch1Ios);
+  process::child ch1(ghostFFmpegPath,
+                     process::args({"-sseof", "-5", "-i", unprocessedVideoPath, outPath}),
+                     process::std_out > process::null, process::std_err > ch1Data, ch1Ios);
   ch1Ios.run();
   string ch1Output = ch1Data.get();
   if (_debug) {
@@ -59,11 +61,9 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
   // Get crop bounds
   boost::asio::io_service ch2Ios;
   std::future<std::string> ch2Data;
-  process::child ch2(ghostFFmpegPath, process::args({"-i", outPath, "-vf", "cropdetect=24:16:0", "-f", "null", "-"}),
-                     process::std_out > process::null,
-                     process::std_err > ch2Data,
-                     ch2Ios);
-
+  process::child ch2(ghostFFmpegPath,
+                     process::args({"-i", outPath, "-vf", "cropdetect=24:16:0", "-f", "null", "-"}),
+                     process::std_out > process::null, process::std_err > ch2Data, ch2Ios);
 
   ch2Ios.run();
   string ch2Output = ch2Data.get();
@@ -76,10 +76,10 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
 
     boost::asio::io_service ch3Ios;
     std::future<std::string> ch3Data;
-    process::child ch3(ghostFFmpegPath, process::args({"-i", outPath, "-filter_complex", "[0:v] crop=" + cropAmount, tmpOutPath}),
-                       process::std_out > process::null,
-                       process::std_err > ch3Data,
-                       ch3Ios);
+    process::child ch3(
+        ghostFFmpegPath,
+        process::args({"-i", outPath, "-filter_complex", "[0:v] crop=" + cropAmount, tmpOutPath}),
+        process::std_out > process::null, process::std_err > ch3Data, ch3Ios);
     ch3Ios.run();
     string ch3Output = ch3Data.get();
     if (_debug) {
