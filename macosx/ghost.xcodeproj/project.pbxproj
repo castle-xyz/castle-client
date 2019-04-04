@@ -12,15 +12,18 @@
 		910F3AF022555C4B00148428 /* ghost_obs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 910F3AE822555C4B00148428 /* ghost_obs.cpp */; };
 		910F3AF122555C4B00148428 /* ghost_obs.h in Headers */ = {isa = PBXBuildFile; fileRef = 910F3AEF22555C4B00148428 /* ghost_obs.h */; };
 		912D1E36224C52EF00815BBD /* castle-desktop-node-macos in Resources */ = {isa = PBXBuildFile; fileRef = 912D1E35224C52EF00815BBD /* castle-desktop-node-macos */; };
-		912D3520224EE36A00815BBD /* obs in Resources */ = {isa = PBXBuildFile; fileRef = 912D351F224EE36A00815BBD /* obs */; };
-		912D3526224EE3D400815BBD /* libobsglad.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3522224EE3D400815BBD /* libobsglad.0.dylib */; };
-		912D3527224EE3D400815BBD /* libobs.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3523224EE3D400815BBD /* libobs.0.dylib */; };
-		912D3528224EE3D400815BBD /* libobs.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3524224EE3D400815BBD /* libobs.dylib */; };
-		912D3529224EE3D400815BBD /* libobsglad.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3525224EE3D400815BBD /* libobsglad.dylib */; };
-		912D352A224EE3F800815BBD /* libobs.0.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3523224EE3D400815BBD /* libobs.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		912D352B224EE3F800815BBD /* libobs.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3524224EE3D400815BBD /* libobs.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		912D352C224EE3F800815BBD /* libobsglad.0.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3522224EE3D400815BBD /* libobsglad.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		912D352D224EE3F800815BBD /* libobsglad.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 912D3525224EE3D400815BBD /* libobsglad.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		91543A5E22557915001B2E4A /* libobs.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A5922557915001B2E4A /* libobs.0.dylib */; };
+		91543A5F22557915001B2E4A /* libobsglad.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A5A22557915001B2E4A /* libobsglad.dylib */; };
+		91543A6022557915001B2E4A /* libobs.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A5B22557915001B2E4A /* libobs.dylib */; };
+		91543A6122557915001B2E4A /* libobs-opengl.so in Resources */ = {isa = PBXBuildFile; fileRef = 91543A5C22557915001B2E4A /* libobs-opengl.so */; };
+		91543A6222557915001B2E4A /* libobsglad.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A5D22557915001B2E4A /* libobsglad.0.dylib */; };
+		91543A6522557959001B2E4A /* libobs.0.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A5922557915001B2E4A /* libobs.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		91543A6622557959001B2E4A /* libobsglad.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A5A22557915001B2E4A /* libobsglad.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		91543A6722557959001B2E4A /* libobs.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A5B22557915001B2E4A /* libobs.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		91543A6822557959001B2E4A /* libobsglad.0.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A5D22557915001B2E4A /* libobsglad.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		91543A822255877D001B2E4A /* obs in Resources */ = {isa = PBXBuildFile; fileRef = 91543A6322557943001B2E4A /* obs */; };
+		91543A8722558AD4001B2E4A /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A8522558AD4001B2E4A /* libboost_system.a */; };
+		91543A8822558AD4001B2E4A /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A8622558AD4001B2E4A /* libboost_filesystem.a */; };
 		91CF4339214841CC002024DA /* liblibcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.a */; };
 		91CF43A721484947002024DA /* liblibcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.a */; };
 		91CF43B721484A3A002024DA /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A0404221483BA5007A6CC1 /* Chromium Embedded Framework.framework */; };
@@ -217,19 +220,19 @@
 				A1887D5222162FCF008F50E3 /* Sparkle.framework in Copy Frameworks */,
 				B5256F62211A555500891B27 /* love.framework in Copy Frameworks */,
 				B5E9FC4B211B6E610068BEB9 /* ghost_extensions_macos.framework in Copy Frameworks */,
+				91543A6822557959001B2E4A /* libobsglad.0.dylib in Copy Frameworks */,
 				B5256F64211A555500891B27 /* theora.framework in Copy Frameworks */,
 				B5256F65211A555500891B27 /* OpenAL-Soft.framework in Copy Frameworks */,
+				91543A6722557959001B2E4A /* libobs.dylib in Copy Frameworks */,
+				91543A6622557959001B2E4A /* libobsglad.dylib in Copy Frameworks */,
 				A1ED98EA211DFA0700CBC701 /* SDL2.framework in Copy Frameworks */,
 				B5256F66211A555500891B27 /* freetype.framework in Copy Frameworks */,
 				91CF43BD21485694002024DA /* liblibcef_dll_wrapper.a in Copy Frameworks */,
-				912D352A224EE3F800815BBD /* libobs.0.dylib in Copy Frameworks */,
-				912D352B224EE3F800815BBD /* libobs.dylib in Copy Frameworks */,
+				91543A6522557959001B2E4A /* libobs.0.dylib in Copy Frameworks */,
 				B5256F67211A555500891B27 /* mpg123.framework in Copy Frameworks */,
-				912D352C224EE3F800815BBD /* libobsglad.0.dylib in Copy Frameworks */,
 				B5256F68211A555500891B27 /* libmodplug.framework in Copy Frameworks */,
 				B5256F69211A555500891B27 /* ogg.framework in Copy Frameworks */,
 				B5A0404621483D2C007A6CC1 /* Chromium Embedded Framework.framework in Copy Frameworks */,
-				912D352D224EE3F800815BBD /* libobsglad.dylib in Copy Frameworks */,
 				B5256F6A211A555500891B27 /* vorbis.framework in Copy Frameworks */,
 				B5256F6B211A555500891B27 /* Lua.framework in Copy Frameworks */,
 			);
@@ -246,11 +249,14 @@
 		910F3AE822555C4B00148428 /* ghost_obs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ghost_obs.cpp; path = ../../common/ghost_obs.cpp; sourceTree = "<group>"; };
 		910F3AEF22555C4B00148428 /* ghost_obs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ghost_obs.h; path = ../../common/ghost_obs.h; sourceTree = "<group>"; };
 		912D1E35224C52EF00815BBD /* castle-desktop-node-macos */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "castle-desktop-node-macos"; path = "../node/castle-desktop-node-macos"; sourceTree = "<group>"; };
-		912D351F224EE36A00815BBD /* obs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obs; sourceTree = "<group>"; };
-		912D3522224EE3D400815BBD /* libobsglad.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobsglad.0.dylib; path = obs/bin/libobsglad.0.dylib; sourceTree = SOURCE_ROOT; };
-		912D3523224EE3D400815BBD /* libobs.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobs.0.dylib; path = obs/bin/libobs.0.dylib; sourceTree = SOURCE_ROOT; };
-		912D3524224EE3D400815BBD /* libobs.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobs.dylib; path = obs/bin/libobs.dylib; sourceTree = SOURCE_ROOT; };
-		912D3525224EE3D400815BBD /* libobsglad.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobsglad.dylib; path = obs/bin/libobsglad.dylib; sourceTree = SOURCE_ROOT; };
+		91543A5922557915001B2E4A /* libobs.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libobs.0.dylib; sourceTree = "<group>"; };
+		91543A5A22557915001B2E4A /* libobsglad.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libobsglad.dylib; sourceTree = "<group>"; };
+		91543A5B22557915001B2E4A /* libobs.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libobs.dylib; sourceTree = "<group>"; };
+		91543A5C22557915001B2E4A /* libobs-opengl.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.bundle"; path = "libobs-opengl.so"; sourceTree = "<group>"; };
+		91543A5D22557915001B2E4A /* libobsglad.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libobsglad.0.dylib; sourceTree = "<group>"; };
+		91543A6322557943001B2E4A /* obs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obs; sourceTree = SOURCE_ROOT; };
+		91543A8522558AD4001B2E4A /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_system.a; sourceTree = "<group>"; };
+		91543A8622558AD4001B2E4A /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_filesystem.a; sourceTree = "<group>"; };
 		91C98F9D21432C39006E745C /* cef.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cef.xcodeproj; path = ../cef/cef.xcodeproj; sourceTree = "<group>"; };
 		91CF438321484742002024DA /* Castle Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Castle Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91CF43AE21484A26002024DA /* .localized */ = {isa = PBXFileReference; lastKnownFileType = text; path = .localized; sourceTree = "<group>"; };
@@ -331,18 +337,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				91CF4339214841CC002024DA /* liblibcef_dll_wrapper.a in Frameworks */,
-				912D3527224EE3D400815BBD /* libobs.0.dylib in Frameworks */,
-				912D3529224EE3D400815BBD /* libobsglad.dylib in Frameworks */,
 				B5A0404321483BA5007A6CC1 /* Chromium Embedded Framework.framework in Frameworks */,
+				91543A8822558AD4001B2E4A /* libboost_filesystem.a in Frameworks */,
 				B5E9FC48211B6C190068BEB9 /* ghost_extensions_macos.framework in Frameworks */,
+				91543A6222557915001B2E4A /* libobsglad.0.dylib in Frameworks */,
+				91543A5F22557915001B2E4A /* libobsglad.dylib in Frameworks */,
+				91543A5E22557915001B2E4A /* libobs.0.dylib in Frameworks */,
+				91543A6022557915001B2E4A /* libobs.dylib in Frameworks */,
 				B5256F6F211A555500891B27 /* love.framework in Frameworks */,
-				912D3528224EE3D400815BBD /* libobs.dylib in Frameworks */,
+				91543A8722558AD4001B2E4A /* libboost_system.a in Frameworks */,
 				A1887D5122162F59008F50E3 /* Sparkle.framework in Frameworks */,
 				B5256F70211A555500891B27 /* Cocoa.framework in Frameworks */,
 				A1ED98E9211DFA0700CBC701 /* SDL2.framework in Frameworks */,
 				B5256F71211A555500891B27 /* Lua.framework in Frameworks */,
 				B5256F72211A555500891B27 /* theora.framework in Frameworks */,
-				912D3526224EE3D400815BBD /* libobsglad.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,8 +381,7 @@
 		29B97314FDCFA39411CA2CEA /* ghost */ = {
 			isa = PBXGroup;
 			children = (
-				912D3521224EE3B700815BBD /* obj-bin */,
-				912D351F224EE36A00815BBD /* obs */,
+				91543A50225578CB001B2E4A /* libraries */,
 				912D1E2E224C52D700815BBD /* node */,
 				B50F244521E6A23200967055 /* shared-assets */,
 				B5BAE382215ABA89001354F9 /* src */,
@@ -404,15 +411,54 @@
 			name = node;
 			sourceTree = "<group>";
 		};
-		912D3521224EE3B700815BBD /* obj-bin */ = {
+		91543A50225578CB001B2E4A /* libraries */ = {
 			isa = PBXGroup;
 			children = (
-				912D3523224EE3D400815BBD /* libobs.0.dylib */,
-				912D3524224EE3D400815BBD /* libobs.dylib */,
-				912D3522224EE3D400815BBD /* libobsglad.0.dylib */,
-				912D3525224EE3D400815BBD /* libobsglad.dylib */,
+				91543A8322558AC8001B2E4A /* boost */,
+				91543A57225578F0001B2E4A /* obs */,
 			);
-			path = "obj-bin";
+			name = libraries;
+			sourceTree = "<group>";
+		};
+		91543A57225578F0001B2E4A /* obs */ = {
+			isa = PBXGroup;
+			children = (
+				91543A6322557943001B2E4A /* obs */,
+				91543A5822557915001B2E4A /* bin */,
+			);
+			name = obs;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		91543A5822557915001B2E4A /* bin */ = {
+			isa = PBXGroup;
+			children = (
+				91543A5922557915001B2E4A /* libobs.0.dylib */,
+				91543A5A22557915001B2E4A /* libobsglad.dylib */,
+				91543A5B22557915001B2E4A /* libobs.dylib */,
+				91543A5C22557915001B2E4A /* libobs-opengl.so */,
+				91543A5D22557915001B2E4A /* libobsglad.0.dylib */,
+			);
+			name = bin;
+			path = obs/bin;
+			sourceTree = SOURCE_ROOT;
+		};
+		91543A8322558AC8001B2E4A /* boost */ = {
+			isa = PBXGroup;
+			children = (
+				91543A8422558AD4001B2E4A /* lib */,
+			);
+			name = boost;
+			sourceTree = "<group>";
+		};
+		91543A8422558AD4001B2E4A /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				91543A8522558AD4001B2E4A /* libboost_system.a */,
+				91543A8622558AD4001B2E4A /* libboost_filesystem.a */,
+			);
+			name = lib;
+			path = boost/build/lib;
 			sourceTree = "<group>";
 		};
 		91C98F9E21432C39006E745C /* Products */ = {
@@ -800,8 +846,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91543A822255877D001B2E4A /* obs in Resources */,
 				B5256F7D211A56EE00891B27 /* package.love in Resources */,
-				912D3520224EE36A00815BBD /* obs in Resources */,
 				B59617512149BF7100BE403F /* index.html in Resources */,
 				912D1E36224C52EF00815BBD /* castle-desktop-node-macos in Resources */,
 				38F81FA0214B4B0F00E6E242 /* static in Resources */,
@@ -810,6 +856,7 @@
 				38F81F9B214B4A8E00E6E242 /* main.js in Resources */,
 				B580674921EEA57100631D76 /* blank.castle in Resources */,
 				B500022A215AEB1E00CD2309 /* ghost-env.plist in Resources */,
+				91543A6122557915001B2E4A /* libobs-opengl.so in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1085,11 +1132,15 @@
 					"$(PROJECT_DIR)/Frameworks/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/../cef",
 					"$(PROJECT_DIR)/obs/include",
+					"$(PROJECT_DIR)/boost/build/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/obs/bin";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/obs/bin",
+					"$(PROJECT_DIR)/boost/build/lib",
+				);
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = builders.game.ghost;
@@ -1119,11 +1170,15 @@
 					"$(PROJECT_DIR)/Frameworks/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/../cef",
 					"$(PROJECT_DIR)/obs/include",
+					"$(PROJECT_DIR)/boost/build/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/obs/bin";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/obs/bin",
+					"$(PROJECT_DIR)/boost/build/lib",
+				);
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = builders.game.ghost;
@@ -1153,11 +1208,15 @@
 					"$(PROJECT_DIR)/Frameworks/SDL2.framework/Headers",
 					"$(PROJECT_DIR)/../cef",
 					"$(PROJECT_DIR)/obs/include",
+					"$(PROJECT_DIR)/boost/build/include",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting/ghost-macosx.plist";
 				INSTALL_PATH = /Applications;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/obs/bin";
+				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/obs/bin",
+					"$(PROJECT_DIR)/boost/build/lib",
+				);
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = builders.game.ghost;

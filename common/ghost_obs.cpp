@@ -212,7 +212,7 @@ const char *ghostTakeScreenCaptureObs() {
   proc_handler_call(proc_handler, "save", NULL);
 
   // 200ms
-  usleep(1000 * 200);
+  /*usleep(1000 * 200);
 
   calldata_t *calldata = calldata_create();
   proc_handler_call(proc_handler, "get_last_replay", calldata);
@@ -220,5 +220,6 @@ const char *ghostTakeScreenCaptureObs() {
   printf("path!!!:\n");
   printf(path);
 
-  return path;
+  return path;*/
+  return "";
 }
