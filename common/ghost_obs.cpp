@@ -4,16 +4,95 @@
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
+#include <boost/process.hpp>
+#include <boost/asio.hpp>
 #include <graphics/vec2.h>
 #include <obs.h>
 #include <sstream>
+#include <iostream>
 #include <thread>
 #include <unistd.h>
 
+#ifdef _MSC_VER
+#include <boost/process/windows.hpp>
+#endif
+
+using namespace boost;
+using namespace std;
+
 obs_output_t *ghostObsOutput = NULL;
 std::thread ghostObsThread;
+std::string ghostFFmpegPath;
 bool ghostObsIsStarted = false;
 const char *lastReplayPath = NULL;
+bool _debug;
+
+string ghostPreprocessVideo(string unprocessedVideoPath) {
+  string screenCaptureDirectory = ghostGetCachePath();
+  screenCaptureDirectory += "/screen_captures";
+  filesystem::path dir(screenCaptureDirectory);
+  filesystem::create_directory(dir);
+
+  boost::filesystem::path inPath(unprocessedVideoPath);
+  string outPath = screenCaptureDirectory + "/" + inPath.filename().string();
+  string tmpOutPath = screenCaptureDirectory + "/" + inPath.stem().string() + ".tmp" + inPath.extension().string();
+
+  process::environment env = boost::this_process::environment();
+
+#ifdef _MSC_VER
+  process::child ch1(ghostFFmpegPath + " -sseof -5 -i " + unprocessedVideoPath + " -filter_complex \"[0:v] fps=30,scale=480:-1\" " + outPath, env, process::windows::hide);
+  ch1.wait();
+#else
+  boost::asio::io_service ch1Ios;
+  std::future<std::string> ch1Data;
+  // TODO: maybe add "-filter_complex", "[0:v] fps=30" here?
+  process::child ch1(ghostFFmpegPath, process::args({"-sseof", "-5", "-i", unprocessedVideoPath, outPath}),
+                     process::std_out > process::null,
+                     process::std_err > ch1Data,
+                     ch1Ios);
+  ch1Ios.run();
+  string ch1Output = ch1Data.get();
+  if (_debug) {
+    cout << ch1Output << endl;
+  }
+
+  // Get crop bounds
+  boost::asio::io_service ch2Ios;
+  std::future<std::string> ch2Data;
+  process::child ch2(ghostFFmpegPath, process::args({"-i", outPath, "-vf", "cropdetect=24:16:0", "-f", "null", "-"}),
+                     process::std_out > process::null,
+                     process::std_err > ch2Data,
+                     ch2Ios);
+
+
+  ch2Ios.run();
+  string ch2Output = ch2Data.get();
+
+  // Actually crop the video
+  size_t pos = ch2Output.rfind("crop=");
+  if (pos != string::npos) {
+    string cropAmount = ch2Output.substr(pos + 5);
+    cropAmount = cropAmount.substr(0, cropAmount.find("\n"));
+
+    boost::asio::io_service ch3Ios;
+    std::future<std::string> ch3Data;
+    process::child ch3(ghostFFmpegPath, process::args({"-i", outPath, "-filter_complex", "[0:v] crop=" + cropAmount, tmpOutPath}),
+                       process::std_out > process::null,
+                       process::std_err > ch3Data,
+                       ch3Ios);
+    ch3Ios.run();
+    string ch3Output = ch3Data.get();
+    if (_debug) {
+      cout << ch3Output << endl;
+    }
+
+    filesystem::rename(tmpOutPath, outPath);
+  }
+
+#endif
+
+  return outPath;
+}
 
 void ghostObsBackgroundThread() {
   while (ghostObsIsStarted) {
@@ -22,14 +101,13 @@ void ghostObsBackgroundThread() {
     proc_handler_call(proc_handler, "get_last_replay", calldata);
     const char *path = calldata_string(calldata, "path");
     if (path && (!lastReplayPath || strcmp(path, lastReplayPath) != 0)) {
-      printf("path!!!:\n");
-      printf(path);
-
       lastReplayPath = path;
+
+      string preprocessedPath = ghostPreprocessVideo(path);
 
       std::stringstream params;
       params << "{"
-             << " path: \"" << path << "\", "
+             << " path: \"" << preprocessedPath << "\", "
              << "}";
       ghostSendJSEvent(kGhostScreenCaptureReadyEventName, params.str().c_str());
     }
@@ -48,7 +126,11 @@ void ghostLoadObsModule(std::string basePath, std::string moduleName) {
   obs_init_module(module);
 }
 
-void ghostInitObs(std::string basePath, bool debug) {
+void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
+  _debug = debug;
+
+  ghostFFmpegPath = ffmpegPath;
+
   std::string obsPluginsPath = basePath + "/obs-plugins";
   std::string obsPluginsDataPath = basePath + "/data/obs-plugins";
 
@@ -174,14 +256,14 @@ bool ghostStartObs() {
         obs_audio_encoder_create("CoreAudio_AAC", "castle_audio_encoder", NULL, 0, NULL);
 
     // obs-ffmpeg-mux.c window-basic-main-outputs.cpp
-    std::string screenCaptureDirectory = ghostGetCachePath();
-    screenCaptureDirectory += "/screen_captures_unprocessed";
+    std::string screenCaptureUnprocessedDirectory = ghostGetCachePath();
+    screenCaptureUnprocessedDirectory += "/screen_captures_unprocessed";
 
-    boost::filesystem::path dir(screenCaptureDirectory);
+    boost::filesystem::path dir(screenCaptureUnprocessedDirectory);
     boost::filesystem::create_directory(dir);
 
     obs_data_t *outputSettings = obs_data_create();
-    obs_data_set_string(outputSettings, "directory", screenCaptureDirectory.c_str());
+    obs_data_set_string(outputSettings, "directory", screenCaptureUnprocessedDirectory.c_str());
     obs_data_set_int(outputSettings, "max_time_sec", 10);
     obs_data_set_int(outputSettings, "max_size_mb", 10);
 

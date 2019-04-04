@@ -24,6 +24,7 @@
 		91543A822255877D001B2E4A /* obs in Resources */ = {isa = PBXBuildFile; fileRef = 91543A6322557943001B2E4A /* obs */; };
 		91543A8722558AD4001B2E4A /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A8522558AD4001B2E4A /* libboost_system.a */; };
 		91543A8822558AD4001B2E4A /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91543A8622558AD4001B2E4A /* libboost_filesystem.a */; };
+		91543A8A225661BD001B2E4A /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = 91543A89225661BD001B2E4A /* ffmpeg */; };
 		91CF4339214841CC002024DA /* liblibcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.a */; };
 		91CF43A721484947002024DA /* liblibcef_dll_wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FDEBD521475159008FFB60 /* liblibcef_dll_wrapper.a */; };
 		91CF43B721484A3A002024DA /* Chromium Embedded Framework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A0404221483BA5007A6CC1 /* Chromium Embedded Framework.framework */; };
@@ -257,6 +258,7 @@
 		91543A6322557943001B2E4A /* obs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = obs; sourceTree = SOURCE_ROOT; };
 		91543A8522558AD4001B2E4A /* libboost_system.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_system.a; sourceTree = "<group>"; };
 		91543A8622558AD4001B2E4A /* libboost_filesystem.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_filesystem.a; sourceTree = "<group>"; };
+		91543A89225661BD001B2E4A /* ffmpeg */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ffmpeg; sourceTree = "<group>"; };
 		91C98F9D21432C39006E745C /* cef.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cef.xcodeproj; path = ../cef/cef.xcodeproj; sourceTree = "<group>"; };
 		91CF438321484742002024DA /* Castle Helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Castle Helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91CF43AE21484A26002024DA /* .localized */ = {isa = PBXFileReference; lastKnownFileType = text; path = .localized; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 		91543A50225578CB001B2E4A /* libraries */ = {
 			isa = PBXGroup;
 			children = (
+				91543A89225661BD001B2E4A /* ffmpeg */,
 				91543A8322558AC8001B2E4A /* boost */,
 				91543A57225578F0001B2E4A /* obs */,
 			);
@@ -853,6 +856,7 @@
 				38F81FA0214B4B0F00E6E242 /* static in Resources */,
 				B50F244721E6A23200967055 /* blank.lua in Resources */,
 				B5256F43211A555500891B27 /* Images.xcassets in Resources */,
+				91543A8A225661BD001B2E4A /* ffmpeg in Resources */,
 				38F81F9B214B4A8E00E6E242 /* main.js in Resources */,
 				B580674921EEA57100631D76 /* blank.castle in Resources */,
 				B500022A215AEB1E00CD2309 /* ghost-env.plist in Resources */,

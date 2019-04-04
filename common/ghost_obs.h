@@ -3,7 +3,7 @@
 
 #include <string>
 
-void ghostInitObs(std::string basePath, bool debug = false);
+void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug = false);
 bool ghostStartObs();
 void ghostStopObs();
 void ghostTakeScreenCaptureObs();
