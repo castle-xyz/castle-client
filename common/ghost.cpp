@@ -101,4 +101,4 @@ GHOST_EXPORT double ghostGetGlobalScaling() {
   return ghostGlobalScaling;
 }
 
-const char *ghostTakeScreenCapture() { return ghostTakeScreenCaptureObs(); }
+void ghostTakeScreenCapture() { return ghostTakeScreenCaptureObs(); }
