@@ -5,6 +5,7 @@ const actions = [
   require('./actions/getProjectFilenameAtPath'),
   require('./actions/publishProject'),
   require('./actions/test'),
+  require('./actions/uploadScreenCapture'),
 ];
 
 async function runAsync() {

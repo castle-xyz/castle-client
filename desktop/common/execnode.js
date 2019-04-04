@@ -49,6 +49,21 @@ export async function publishProjectAsync(projectUrl) {
   }
 }
 
+export async function uploadScreenCaptureAsync(path) {
+  try {
+    let token = await Actions.getAccessTokenAsync();
+    let result = await execNodeAsync('uploadScreenCapture', {
+      path,
+      apiHost: Constants.API_HOST,
+      token,
+    });
+
+    return result;
+  } catch (e) {
+    throw new Error(`failed to upload: ${e}`);
+  }
+}
+
 export async function execNodeAsync(action, args) {
   let result = await NativeBinds.execNode({
     input: btoa(
