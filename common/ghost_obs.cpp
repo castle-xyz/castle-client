@@ -20,6 +20,9 @@
 using namespace boost;
 using namespace std;
 
+const int RECORD_WIDTH = 640;
+const int RECORD_HEIGHT = 480;
+
 obs_output_t *ghostObsOutput = NULL;
 std::thread ghostObsThread;
 std::string ghostFFmpegPath;
@@ -157,10 +160,10 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
   tmp_v.graphics_module = libobsOpenGLPath.c_str();
   tmp_v.fps_num = 30000;
   tmp_v.fps_den = 1001; // 30 fps
-  tmp_v.base_width = 1280;
-  tmp_v.base_height = 720;
-  tmp_v.output_width = 1280;               // No scaling yet
-  tmp_v.output_height = 720;               // No scaling yet
+  tmp_v.base_width = RECORD_WIDTH;
+  tmp_v.base_height = RECORD_HEIGHT;
+  tmp_v.output_width = RECORD_WIDTH;               // No scaling yet
+  tmp_v.output_height = RECORD_HEIGHT;               // No scaling yet
   tmp_v.output_format = VIDEO_FORMAT_NV12; // YUV420
   tmp_v.adapter = 0;                       // Video adapter id
   tmp_v.gpu_conversion = true;
@@ -286,7 +289,7 @@ bool ghostStartObs() {
     vec2_set(&transform_info.pos, 0, 0);
     transform_info.bounds_type = OBS_BOUNDS_SCALE_INNER;
     transform_info.bounds_alignment = OBS_ALIGN_CENTER;
-    vec2_set(&transform_info.bounds, ghostGetChildWidth(), ghostGetChildHeight());
+    vec2_set(&transform_info.bounds, RECORD_WIDTH, RECORD_HEIGHT);
 
     obs_sceneitem_set_info(window_capture_scene_item, &transform_info);
     ////// END SCENE TRANSFORM

@@ -59,11 +59,6 @@ NSModalResponse _runNativeModal(NSSavePanel *panel) {
 
 static float childLeft = 0, childTop = 0, childWidth = 200, childHeight = 200;
 
-float ghostGetChildLeft() { return childLeft; }
-float ghostGetChildTop() { return childTop; }
-float ghostGetChildWidth() { return childWidth; }
-float ghostGetChildHeight() { return childHeight; }
-
 static BOOL browserReady = NO;
 static char *initialUri = NULL;
 

@@ -55,11 +55,6 @@ const char *ghostExecNode(const char *input);
 
 void ghostInstallUpdate();
 
-float ghostGetChildLeft();
-float ghostGetChildTop();
-float ghostGetChildWidth();
-float ghostGetChildHeight();
-
 void ghostTakeScreenCapture();
 const char *ghostGetCachePath();
 
