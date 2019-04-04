@@ -91,6 +91,8 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
 
 #endif
 
+  filesystem::remove(unprocessedVideoPath);
+
   return outPath;
 }
 
@@ -249,6 +251,8 @@ bool ghostStartObs() {
     // need a keyframe every 10 seconds, otherwise the replay_buffer will never purge old frames
     obs_data_t *videoEncoderSettings = obs_data_create();
     obs_data_set_int(videoEncoderSettings, "keyint_sec", 10);
+    //obs_data_set_int(videoEncoderSettings, "bitrate", 10000);
+    //obs_data_set_int(videoEncoderSettings, "max_bitrate", 10000);
     obs_encoder_t *ghostObsVideoEncoder =
         obs_video_encoder_create("vt_h264_hw", "castle_encoder", videoEncoderSettings, NULL);
 
@@ -278,6 +282,7 @@ bool ghostStartObs() {
     struct obs_transform_info transform_info;
     obs_sceneitem_get_info(window_capture_scene_item, &transform_info);
 
+    // TODO: kart is getting the bottom cut off
     vec2_set(&transform_info.pos, 0, 0);
     transform_info.bounds_type = OBS_BOUNDS_SCALE_INNER;
     transform_info.bounds_alignment = OBS_ALIGN_CENTER;
