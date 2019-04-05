@@ -22,6 +22,7 @@ using namespace std;
 
 const int RECORD_WIDTH = 960;
 const int RECORD_HEIGHT = 720;
+const int RECORD_TIME_SECONDS = 5;
 
 obs_output_t *ghostObsOutput = NULL;
 std::thread ghostObsThread;
@@ -38,8 +39,6 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
 
   boost::filesystem::path inPath(unprocessedVideoPath);
   string outPath = screenCaptureDirectory + "/" + inPath.filename().string();
-  string tmpOutPath =
-      screenCaptureDirectory + "/" + inPath.stem().string() + ".tmp" + inPath.extension().string();
 
   process::environment env = boost::this_process::environment();
 
@@ -49,47 +48,37 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
                      env, process::windows::hide);
   ch1.wait();
 #else
+  // Get crop bounds
   boost::asio::io_service ch1Ios;
   std::future<std::string> ch1Data;
-  // TODO: maybe add "-filter_complex", "[0:v] fps=30" here?
   process::child ch1(ghostFFmpegPath,
-                     process::args({"-sseof", "-5", "-i", unprocessedVideoPath, outPath}),
+                     process::args({"-i", unprocessedVideoPath, "-vf", "cropdetect=24:16:0", "-f", "null", "-"}),
                      process::std_out > process::null, process::std_err > ch1Data, ch1Ios);
+
   ch1Ios.run();
   string ch1Output = ch1Data.get();
-  if (_debug) {
-    cout << ch1Output << endl;
-  }
-
-  // Get crop bounds
-  boost::asio::io_service ch2Ios;
-  std::future<std::string> ch2Data;
-  process::child ch2(ghostFFmpegPath,
-                     process::args({"-i", outPath, "-vf", "cropdetect=24:16:0", "-f", "null", "-"}),
-                     process::std_out > process::null, process::std_err > ch2Data, ch2Ios);
-
-  ch2Ios.run();
-  string ch2Output = ch2Data.get();
 
   // Actually crop the video
-  size_t pos = ch2Output.rfind("crop=");
+  size_t pos = ch1Output.rfind("crop=");
   if (pos != string::npos) {
-    string cropAmount = ch2Output.substr(pos + 5);
+    string cropAmount = ch1Output.substr(pos + 5);
     cropAmount = cropAmount.substr(0, cropAmount.find("\n"));
 
-    boost::asio::io_service ch3Ios;
-    std::future<std::string> ch3Data;
-    process::child ch3(
+    boost::asio::io_service ch2Ios;
+    std::future<std::string> ch2Data;
+    
+    std::ostringstream timeArg;
+    timeArg << "-" << RECORD_TIME_SECONDS;
+    
+    process::child ch2(
         ghostFFmpegPath,
-        process::args({"-i", outPath, "-filter_complex", "[0:v] crop=" + cropAmount, tmpOutPath}),
-        process::std_out > process::null, process::std_err > ch3Data, ch3Ios);
-    ch3Ios.run();
-    string ch3Output = ch3Data.get();
+        process::args({"-sseof", timeArg.str(), "-i", unprocessedVideoPath, "-filter_complex", "[0:v] crop=" + cropAmount, outPath}),
+        process::std_out > process::null, process::std_err > ch2Data, ch2Ios);
+    ch2Ios.run();
+    string ch2Output = ch2Data.get();
     if (_debug) {
-      cout << ch3Output << endl;
+      cout << ch2Output << endl;
     }
-
-    filesystem::rename(tmpOutPath, outPath);
   }
 
 #endif
@@ -272,8 +261,8 @@ bool ghostStartObs() {
 
     obs_data_t *outputSettings = obs_data_create();
     obs_data_set_string(outputSettings, "directory", screenCaptureUnprocessedDirectory.c_str());
-    obs_data_set_int(outputSettings, "max_time_sec", 5);
-    obs_data_set_int(outputSettings, "max_size_mb", 5);
+    obs_data_set_int(outputSettings, "max_time_sec", RECORD_TIME_SECONDS + 2);
+    obs_data_set_int(outputSettings, "max_size_mb", RECORD_TIME_SECONDS + 2);
 
     ghostObsOutput = obs_output_create("replay_buffer", "castle_output", outputSettings, NULL);
 
