@@ -8,6 +8,7 @@ const char *kGhostOpenUrlEventName = "nativeOpenUrl";
 const char *kGhostUpdateAvailableEventName = "nativeUpdateAvailable";
 const char *kGhostFileDownloadEventName = "nativeFileDownload";
 const char *kGhostScreenCaptureReadyEventName = "nativeScreenCaptureReady";
+const char *kGhostExecNodeComplete = "nativeExecNodeComplete";
 
 const char *kGhostUrlScheme = "castle";
 

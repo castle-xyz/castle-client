@@ -21,6 +21,7 @@ import * as Urls from '~/common/urls';
 import * as PingUtils from '~/common/pingutils';
 import * as LuaCalls from '~/common/luacalls';
 import * as ScreenCapture from '~/common/screencapture';
+import * as ExecNode from '~/common/execnode';
 
 const isReloadHotkey = isKeyHotkey('mod+r');
 const isFullscreenHotkey = isKeyHotkey('mod+shift+f');
@@ -48,6 +49,7 @@ class App extends React.Component {
     window.addEventListener('GHOST_PRINT', this._handleLuaPrintEvent);
     window.addEventListener('GHOST_ERROR', this._handleLuaErrorEvent);
     window.addEventListener('nativeScreenCaptureReady', ScreenCapture.screenCaptureReadyEvent);
+    window.addEventListener('nativeExecNodeComplete', ExecNode.execNodeCompleteEvent);
     LuaCalls.addEventListeners();
     PingUtils.reportPingsAsync();
 
@@ -84,6 +86,7 @@ class App extends React.Component {
     window.removeEventListener('GHOST_PRINT', this._handleLuaPrintEvent);
     window.removeEventListener('GHOST_ERROR', this._handleLuaErrorEvent);
     window.removeEventListener('nativeScreenCaptureReady', ScreenCapture.screenCaptureReadyEvent);
+    window.removeEventListener('nativeExecNodeComplete', ExecNode.execNodeCompleteEvent);
     LuaCalls.removeEventListeners();
     window.clearTimeout(this._nativeChannelsPollTimeout);
   }

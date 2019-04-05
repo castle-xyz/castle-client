@@ -14,7 +14,6 @@ async function runAsync() {
   try {
     unbase64 = Buffer.from(process.argv[2], 'base64').toString();
   } catch (e) {
-    console.log(e);
     throw new Error(`error decoding base64 ${process.argv[2]}`);
   }
 
@@ -29,7 +28,7 @@ async function runAsync() {
 
     if (input.action === action.name) {
       let response = await action.fn(input.args);
-      console.log(JSON.stringify(response));
+      console.log(new Buffer(JSON.stringify(response)).toString('base64'));
       return;
     }
   }
@@ -39,7 +38,7 @@ async function runAsync() {
 
 runAsync()
   .catch((e) => {
-    console.log(e.toString());
+    console.log(new Buffer(e.toString()).toString('base64'));
   })
   .then(() => {
     process.exit(0);

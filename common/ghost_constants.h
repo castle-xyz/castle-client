@@ -11,6 +11,7 @@ extern const char *kGhostOpenUrlEventName;
 extern const char *kGhostUpdateAvailableEventName;
 extern const char *kGhostFileDownloadEventName;
 extern const char *kGhostScreenCaptureReadyEventName;
+extern const char *kGhostExecNodeComplete;
 
 extern const char *kGhostUrlScheme;
 

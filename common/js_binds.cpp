@@ -223,8 +223,9 @@ JS_BIND_DEFINE(showDesktopNotification) {
 
 JS_BIND_DEFINE(execNode) {
   std::string input = arg["input"];
-  std::string result = ghostExecNode(input.c_str());
-  success(result);
+  int execId = arg["execId"];
+  ghostExecNode(input.c_str(), execId);
+  success("success");
 }
 
 JS_BIND_DEFINE(takeScreenCapture) {

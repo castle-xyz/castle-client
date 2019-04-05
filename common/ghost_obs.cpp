@@ -162,8 +162,8 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
   tmp_v.fps_den = 1;
   tmp_v.base_width = RECORD_WIDTH;
   tmp_v.base_height = RECORD_HEIGHT;
-  tmp_v.output_width = RECORD_WIDTH;               // No scaling yet
-  tmp_v.output_height = RECORD_HEIGHT;               // No scaling yet
+  tmp_v.output_width = RECORD_WIDTH;       // No scaling yet
+  tmp_v.output_height = RECORD_HEIGHT;     // No scaling yet
   tmp_v.output_format = VIDEO_FORMAT_NV12; // YUV420
   tmp_v.adapter = 0;                       // Video adapter id
   tmp_v.gpu_conversion = true;
@@ -253,10 +253,10 @@ bool ghostStartObs() {
     // https://github.com/obsproject/obs-studio/blob/master/plugins/mac-vth264/encoder.c
     // need a keyframe every 10 seconds, otherwise the replay_buffer will never purge old frames
     obs_data_t *videoEncoderSettings = obs_data_create();
-    obs_data_set_int(videoEncoderSettings, "keyint_sec", 10);
-    //obs_data_set_string(videoEncoderSettings, "profile", "high");
-    //obs_data_set_int(videoEncoderSettings, "bitrate", 10000);
-    //obs_data_set_int(videoEncoderSettings, "max_bitrate", 10000);
+    obs_data_set_int(videoEncoderSettings, "keyint_sec", 1);
+    // obs_data_set_string(videoEncoderSettings, "profile", "high");
+    // obs_data_set_int(videoEncoderSettings, "bitrate", 10000);
+    // obs_data_set_int(videoEncoderSettings, "max_bitrate", 10000);
     obs_encoder_t *ghostObsVideoEncoder =
         obs_video_encoder_create("vt_h264_hw", "castle_encoder", videoEncoderSettings, NULL);
 
@@ -272,8 +272,8 @@ bool ghostStartObs() {
 
     obs_data_t *outputSettings = obs_data_create();
     obs_data_set_string(outputSettings, "directory", screenCaptureUnprocessedDirectory.c_str());
-    obs_data_set_int(outputSettings, "max_time_sec", 10);
-    obs_data_set_int(outputSettings, "max_size_mb", 10);
+    obs_data_set_int(outputSettings, "max_time_sec", 5);
+    obs_data_set_int(outputSettings, "max_size_mb", 5);
 
     ghostObsOutput = obs_output_create("replay_buffer", "castle_output", outputSettings, NULL);
 

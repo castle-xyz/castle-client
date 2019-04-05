@@ -64,8 +64,17 @@ export async function uploadScreenCaptureAsync(path) {
   }
 }
 
+async function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+let nextExecId = 0;
+let execResults = {};
 export async function execNodeAsync(action, args) {
-  let result = await NativeBinds.execNode({
+  let execId = nextExecId++;
+
+  await NativeBinds.execNode({
+    execId,
     input: btoa(
       JSON.stringify({
         action,
@@ -74,9 +83,19 @@ export async function execNodeAsync(action, args) {
     ),
   });
 
+  while (!execResults[execId]) {
+    await sleep(100);
+  }
+
   try {
-    return JSON.parse(result);
+    let result = execResults[execId];
+    delete execResults[execId];
+    return JSON.parse(atob(result));
   } catch (e) {
     throw new Error(`Error parsing as JSON: ${result}. Error: ${e}`);
   }
+}
+
+export async function execNodeCompleteEvent(e) {
+  execResults[e.params.execId] = e.params.result;
 }

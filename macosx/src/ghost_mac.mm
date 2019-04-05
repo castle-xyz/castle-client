@@ -5,8 +5,13 @@
 #import "GhostFileSystem.h"
 
 #import <sstream>
+#include <boost/asio.hpp>
+#include <boost/process.hpp>
+#include <boost/algorithm/string.hpp>
 
 #pragma mark - internal
+
+using namespace boost;
 
 extern __weak NSWindow *ghostMacMainWindow;
 extern __weak NSWindow *ghostMacChildWindow;
@@ -325,37 +330,41 @@ void ghostShowDesktopNotification(const char *title, const char *body) {
   });
 }
 
-// TODO: don't use static
-static std::string execNodeResult = "";
-const char *ghostExecNode(const char *input) {
-  const char *pathToBundledFile;
-  if (!ghostGetPathToFileInAppBundle("castle-desktop-node-macos", &pathToBundledFile)) {
-    return NULL;
-  }
-  std::string command = pathToBundledFile;
-  command += " ";
-  command += input;
-  FILE *pipe = popen(command.c_str(), "r");
+static std::string execNodeInput;
+static int execNodeExecId;
+static std::string execNodeResult;
+void ghostExecNode(const char *input, int execId) {
+  execNodeInput = input;
+  execNodeExecId = execId;
 
-  if (!pipe) {
-    return nullptr;
-  }
-
-  // TODO: handle failure
-
-  char buffer[128];
-  execNodeResult = "";
-  try {
-    while (fgets(buffer, sizeof buffer, pipe) != NULL) {
-      execNodeResult += buffer;
+  std::thread t([&](){
+    auto callback = [&](std::string result) {
+      trim(result);
+      std::stringstream params;
+      params << "{"
+      << " execId: " << execNodeExecId << ", "
+      << " result: \"" << result << "\", "
+      << "}";
+      ghostSendJSEvent(kGhostExecNodeComplete, params.str().c_str());
+    };
+    
+    const char *pathToBundledFile;
+    if (!ghostGetPathToFileInAppBundle("castle-desktop-node-macos", &pathToBundledFile)) {
+      callback("");
+      return;
     }
-  } catch (...) {
-    pclose(pipe);
-    return nullptr;
-  }
-  pclose(pipe);
-
-  return execNodeResult.c_str();
+    
+    boost::asio::io_service ios;
+    std::future<std::string> data;
+    process::child c(std::string(pathToBundledFile),
+                     process::args({execNodeInput}),
+                     process::std_out > data, process::std_err > process::null, ios);
+    
+    ios.run();
+    execNodeResult = data.get();
+    callback(execNodeResult);
+  });
+  t.detach();
 }
 
 const char *ghostGetCachePath() {
