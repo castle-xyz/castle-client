@@ -15,6 +15,9 @@ class GameWindow {
     });
     Share.addEventListeners(game);
     UserStatus.startAsync(game);
+    await NativeBinds.setSystemScalingEnabled({
+      isSystemScalingEnabled: !(game.metadata && game.metadata.disableSystemScaling),
+    });
     await NativeBinds.openUri({ uri: gameUrl });
   };
 
@@ -45,7 +48,7 @@ class GameWindow {
 
   getCurrentGame = () => {
     return this._isOpen ? this._currentGame : null;
-  }
+  };
 }
 
 export default new GameWindow();

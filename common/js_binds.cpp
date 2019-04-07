@@ -132,6 +132,12 @@ JS_BIND_DEFINE(setWindowFrameVisible) {
   success("success");
 }
 
+JS_BIND_DEFINE(setSystemScalingEnabled) {
+  bool isSystemScalingEnabled = arg["isSystemScalingEnabled"];
+  ghostApplyGlobalScaling = isSystemScalingEnabled;
+  success("success");
+}
+
 JS_BIND_DEFINE(setWindowFrameFullscreen) {
   float isFullscreen = arg["isFullscreen"];
   ghostSetChildWindowFullscreen(isFullscreen);
