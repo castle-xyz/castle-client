@@ -450,6 +450,9 @@ void ghostStep() {
   // initial frame size glitches...
   if (++frameCount == 3) {
     ShowWindow(child, SW_SHOW);
+    if (parent && GetForegroundWindow() == parent) {
+      SetFocus(child);
+    }
   }
 
   // Update global scale factor
