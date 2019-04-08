@@ -332,7 +332,16 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CEF_ROOT}/cmake")
 find_package(CEF REQUIRED)
 add_subdirectory(${CEF_LIBCEF_DLL_WRAPPER_PATH} libcef_dll_wrapper)
 
+list(REMOVE_ITEM CEF_COMPILER_FLAGS /WX)
 PRINT_CEF_CONFIG()
+
+# Boost
+
+set(Boost_USE_STATIC_LIBS        ON)
+set(Boost_USE_MULTITHREADED      ON)
+set(Boost_USE_STATIC_RUNTIME    OFF)
+set(BOOST_ROOT    "${CMAKE_CURRENT_LIST_DIR}/../win/boost/build")
+find_package(Boost 1.67.0 COMPONENTS filesystem system date_time regex REQUIRED)
 
 # Ghost
 
@@ -364,12 +373,13 @@ set(CASTLE_RC
 add_executable(${GHOST_TARGET} WIN32 ${GHOST_SRCS} ${CASTLE_RC})
 add_dependencies(${GHOST_TARGET} libcef_dll_wrapper)
 SET_EXECUTABLE_TARGET_PROPERTIES(${GHOST_TARGET})
-target_link_libraries(${GHOST_TARGET} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS} liblove ${LOVE_LUA_LIBRARY})
+target_link_libraries(${GHOST_TARGET} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS} liblove ${LOVE_LUA_LIBRARY} ${Boost_LIBRARIES})
 include_directories(
   ../common
   ../cef
   ../win
   ../love/src
+  ${Boost_INCLUDE_DIRS}
 )
 
 target_link_libraries(${GHOST_TARGET} ${MEGA_3P})

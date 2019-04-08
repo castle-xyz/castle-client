@@ -787,29 +787,12 @@ CStringA ExecCmd(const wchar_t *cmd // [in] command to execute
   return strResult;
 } // ExecCmd
 
-const char *ghostExecNode(const char *input) {
-  CHAR buffer[MAX_PATH];
-  GetModuleFileNameA(NULL, buffer, MAX_PATH);
-  std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-  std::string exeDir = std::string(buffer).substr(0, pos);
-
-#ifdef _DEBUG
-  std::string nodeExe = exeDir + "/../../../node/castle-desktop-node-win.exe";
-#else
-  std::string nodeExe = exeDir + "/castle-desktop-node-win.exe";
-#endif
-
-  std::wstring command(convertCharArrayToLPCWSTR(nodeExe.c_str()));
-  command += std::wstring(convertCharArrayToLPCWSTR(" "));
-  command += std::wstring(convertCharArrayToLPCWSTR(input));
-
-  return (const char *)ExecCmd(command.c_str());
-}
-
 const char *ghostGetCachePath() {
   PWSTR appDataPath = NULL;
   SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &appDataPath);
   std::wstringstream cacheDir;
   cacheDir << appDataPath << L"/Castle";
-  return cacheDir.str().c_str();
+  return (const char *) cacheDir.str().c_str();
 }
+
+void ghostTakeScreenCapture() { }

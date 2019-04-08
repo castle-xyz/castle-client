@@ -22,6 +22,9 @@ megasource/CastleSetup.exe
 macosx/DerivedData-beta
 macosx/boost/boost_1_67_0/
 
+win/boost/boost_1_67_0/
+win/boost/boost_1_67_0.zip
+
 desktop/package-lock.json
 
 ghost-releases/

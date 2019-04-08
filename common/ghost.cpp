@@ -1,9 +1,20 @@
 #include "ghost.h"
+#include "ghost_constants.h"
 #include "ghost_obs.h"
 #include "simple_handler.h"
 
 #include <fstream>
 #include <iostream>
+
+#include <boost/asio.hpp>
+#include <boost/process.hpp>
+#include <boost/algorithm/string.hpp>
+
+#ifdef _MSC_VER
+#include <boost/process/windows.hpp>
+#endif
+
+using namespace boost;
 
 const std::string kDefaultStarterTemplateCode =
     "function love.draw()\n    love.graphics.print('Edit main.lua to get started!', 400, 300)\n    "
@@ -101,4 +112,60 @@ GHOST_EXPORT double ghostGetGlobalScaling() {
   return ghostGlobalScaling;
 }
 
-void ghostTakeScreenCapture() { return ghostTakeScreenCaptureObs(); }
+static std::string execNodeInput;
+static int execNodeExecId;
+static std::string execNodeResult;
+void ghostExecNode(const char *input, int execId) {
+  execNodeInput = input;
+  execNodeExecId = execId;
+
+  std::thread t([&](){
+    auto callback = [&](std::string result) {
+      trim(result);
+      std::stringstream params;
+      params << "{"
+      << " execId: " << execNodeExecId << ", "
+      << " result: \"" << result << "\", "
+      << "}";
+      ghostSendJSEvent(kGhostExecNodeComplete, params.str().c_str());
+    };
+
+    const char *pathToBundledFile;
+#if defined(WIN32) || defined(_WIN32)
+    CHAR buffer[MAX_PATH];
+    GetModuleFileNameA(NULL, buffer, MAX_PATH);
+    std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+    std::string exeDir = std::string(buffer).substr(0, pos);
+
+#ifdef _DEBUG
+    std::string nodeExe = exeDir + "/../../../node/castle-desktop-node-win.exe";
+#else
+    std::string nodeExe = exeDir + "/castle-desktop-node-win.exe";
+#endif
+    pathToBundledFile = nodeExe.c_str();
+#else
+    if (!ghostGetPathToFileInAppBundle("castle-desktop-node-macos", &pathToBundledFile)) {
+      callback("");
+      return;
+    }
+#endif
+
+    boost::asio::io_service ios;
+    std::future<std::string> data;
+
+#if defined(WIN32) || defined(_WIN32)
+    process::child c(std::string(pathToBundledFile),
+                     process::args({execNodeInput}),
+                     process::std_out > data, process::std_err > process::null, ios, process::windows::hide);
+#else
+	process::child c(std::string(pathToBundledFile),
+		process::args({ execNodeInput }),
+		process::std_out > data, process::std_err > process::null, ios);
+#endif
+
+    ios.run();
+    execNodeResult = data.get();
+    callback(execNodeResult);
+  });
+  t.detach();
+}

@@ -5,13 +5,8 @@
 #import "GhostFileSystem.h"
 
 #import <sstream>
-#include <boost/asio.hpp>
-#include <boost/process.hpp>
-#include <boost/algorithm/string.hpp>
 
 #pragma mark - internal
-
-using namespace boost;
 
 extern __weak NSWindow *ghostMacMainWindow;
 extern __weak NSWindow *ghostMacChildWindow;
@@ -330,44 +325,9 @@ void ghostShowDesktopNotification(const char *title, const char *body) {
   });
 }
 
-static std::string execNodeInput;
-static int execNodeExecId;
-static std::string execNodeResult;
-void ghostExecNode(const char *input, int execId) {
-  execNodeInput = input;
-  execNodeExecId = execId;
-
-  std::thread t([&](){
-    auto callback = [&](std::string result) {
-      trim(result);
-      std::stringstream params;
-      params << "{"
-      << " execId: " << execNodeExecId << ", "
-      << " result: \"" << result << "\", "
-      << "}";
-      ghostSendJSEvent(kGhostExecNodeComplete, params.str().c_str());
-    };
-    
-    const char *pathToBundledFile;
-    if (!ghostGetPathToFileInAppBundle("castle-desktop-node-macos", &pathToBundledFile)) {
-      callback("");
-      return;
-    }
-    
-    boost::asio::io_service ios;
-    std::future<std::string> data;
-    process::child c(std::string(pathToBundledFile),
-                     process::args({execNodeInput}),
-                     process::std_out > data, process::std_err > process::null, ios);
-    
-    ios.run();
-    execNodeResult = data.get();
-    callback(execNodeResult);
-  });
-  t.detach();
-}
-
 const char *ghostGetCachePath() {
   NSString *cachePath = [GhostFileSystem ghostCachesDirectory];
   return [cachePath UTF8String];
 }
+
+void ghostTakeScreenCapture() { ghostTakeScreenCaptureObs(); }
