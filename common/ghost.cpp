@@ -1,6 +1,5 @@
 #include "ghost.h"
 #include "ghost_constants.h"
-#include "ghost_obs.h"
 #include "simple_handler.h"
 
 #include <fstream>

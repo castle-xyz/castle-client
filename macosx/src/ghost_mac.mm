@@ -1,5 +1,6 @@
 #import "ghost.h"
 #import "ghost_constants.h"
+#import "ghost_obs.h"
 
 #import "GhostAppDelegate.h"
 #import "GhostFileSystem.h"
