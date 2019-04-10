@@ -794,5 +794,3 @@ const char *ghostGetCachePath() {
   cacheDir << appDataPath << L"/Castle";
   return (const char *) cacheDir.str().c_str();
 }
-
-void ghostTakeScreenCapture() { }

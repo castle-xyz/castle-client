@@ -1,6 +1,5 @@
 #import "ghost.h"
 #import "ghost_constants.h"
-#import "ghost_obs.h"
 
 #import "GhostAppDelegate.h"
 #import "GhostFileSystem.h"
@@ -330,5 +329,3 @@ const char *ghostGetCachePath() {
   NSString *cachePath = [GhostFileSystem ghostCachesDirectory];
   return [cachePath UTF8String];
 }
-
-void ghostTakeScreenCapture() { ghostTakeScreenCaptureObs(); }
