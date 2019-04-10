@@ -853,8 +853,6 @@ const char *ghostGetCachePath() {
   return (const char *)cacheDir.str().c_str();
 }
 
-void ghostTakeScreenCapture() {}
-
 static GhostCpu sCpuUsageMonitor;
 
 DWORD WINAPI cpuUsageCallback(float usage) {

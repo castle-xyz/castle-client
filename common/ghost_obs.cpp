@@ -2,20 +2,23 @@
 #include "ghost.h"
 #include "ghost_constants.h"
 
+#ifdef _MSC_VER
+// needed for _alloca
+#include <malloc.h>
+#include <boost/process/windows.hpp>
+#endif
+
 #include <boost/asio.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
+#include <boost/chrono.hpp>
+#include <boost/thread/thread.hpp> 
 #include <boost/process.hpp>
 #include <graphics/vec2.h>
 #include <iostream>
 #include <obs.h>
 #include <sstream>
 #include <thread>
-#include <unistd.h>
-
-#ifdef _MSC_VER
-#include <boost/process/windows.hpp>
-#endif
 
 using namespace boost;
 using namespace std;
@@ -42,12 +45,12 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
 
   process::environment env = boost::this_process::environment();
 
-#ifdef _MSC_VER
+/*#ifdef _MSC_VER
   process::child ch1(ghostFFmpegPath + " -sseof -5 -i " + unprocessedVideoPath +
                          " -filter_complex \"[0:v] fps=30,scale=480:-1\" " + outPath,
                      env, process::windows::hide);
   ch1.wait();
-#else
+#else*/
   // Get crop bounds
   boost::asio::io_service ch1Ios;
   std::future<std::string> ch1Data;
@@ -82,7 +85,7 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
     }
   }
 
-#endif
+//#endif
 
   filesystem::remove(unprocessedVideoPath);
 
@@ -107,8 +110,7 @@ void ghostObsBackgroundThread() {
       ghostSendJSEvent(kGhostScreenCaptureReadyEventName, params.str().c_str());
     }
 
-    // 100ms
-    usleep(1000 * 100);
+	boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
   }
 }
 

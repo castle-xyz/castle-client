@@ -333,6 +333,8 @@ find_package(CEF REQUIRED)
 add_subdirectory(${CEF_LIBCEF_DLL_WRAPPER_PATH} libcef_dll_wrapper)
 
 list(REMOVE_ITEM CEF_COMPILER_FLAGS /WX)
+list(REMOVE_ITEM CEF_COMPILER_FLAGS /GR-)
+
 PRINT_CEF_CONFIG()
 
 # Boost
@@ -341,13 +343,27 @@ set(Boost_USE_STATIC_LIBS        ON)
 set(Boost_USE_MULTITHREADED      ON)
 set(Boost_USE_STATIC_RUNTIME    OFF)
 set(BOOST_ROOT    "${CMAKE_CURRENT_LIST_DIR}/../win/boost/build")
-find_package(Boost 1.67.0 COMPONENTS filesystem system date_time regex REQUIRED)
+find_package(Boost 1.67.0 COMPONENTS filesystem system date_time regex chrono thread REQUIRED)
+
+# Obs
+
+# TODO: move these files somewhere shared or duplicate
+set(OBS_INCLUDE_DIRS
+  ../macosx/obs/include
+)
+find_library(OBS_LIBRARY obs HINT ../win/obs/bin/32bit)
+set(OBS_LIBRARIES
+	${OBS_LIBRARY}
+)
 
 # Ghost
 
 set(GHOST_TARGET "Castle")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MD")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MDd")
+
+list(REMOVE_ITEM CMAKE_CXX_FLAGS_RELEASE -fno-rtti)
+list(REMOVE_ITEM CMAKE_CXX_FLAGS_DEBUG -fno-rtti)
 
 set(GHOST_SRCS
   ../win/main.cc
@@ -361,6 +377,7 @@ set(GHOST_SRCS
   ../common/simple_app.cpp
   ../common/simple_handler.cpp
   ../common/js_binds.cpp
+  ../common/ghost_obs.cpp
 )
 
 ADD_LOGICAL_TARGET("libcef_lib" "${CEF_LIB_DEBUG}" "${CEF_LIB_RELEASE}")
@@ -374,13 +391,14 @@ set(CASTLE_RC
 add_executable(${GHOST_TARGET} WIN32 ${GHOST_SRCS} ${CASTLE_RC})
 add_dependencies(${GHOST_TARGET} libcef_dll_wrapper)
 SET_EXECUTABLE_TARGET_PROPERTIES(${GHOST_TARGET})
-target_link_libraries(${GHOST_TARGET} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS} liblove ${LOVE_LUA_LIBRARY} ${Boost_LIBRARIES})
+target_link_libraries(${GHOST_TARGET} libcef_lib libcef_dll_wrapper ${CEF_STANDARD_LIBS} liblove ${LOVE_LUA_LIBRARY} ${Boost_LIBRARIES} ${OBS_LIBRARIES})
 include_directories(
   ../common
   ../cef
   ../win
   ../love/src
   ${Boost_INCLUDE_DIRS}
+  ${OBS_INCLUDE_DIRS}
 )
 
 target_link_libraries(${GHOST_TARGET} ${MEGA_3P})
@@ -405,6 +423,16 @@ set(GHOST_FILES
   shared-assets
 )
 COPY_FILES("${GHOST_TARGET}" "${GHOST_FILES}" "${CMAKE_CURRENT_SOURCE_DIR}/.." "${CEF_TARGET_OUT_DIR}")
+
+set(OBS_FILES
+  data
+  obs-plugins
+)
+COPY_FILES("${GHOST_TARGET}" "${OBS_FILES}" "${CMAKE_CURRENT_SOURCE_DIR}/../win/obs" "${CEF_TARGET_OUT_DIR}/obs")
+file(GLOB OBS_LIBS
+  RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/../win/obs/bin/32bit/" "${CMAKE_CURRENT_SOURCE_DIR}/../win/obs/bin/32bit/*.dll"
+)
+COPY_FILES("${GHOST_TARGET}" "${OBS_LIBS}" "${CMAKE_CURRENT_SOURCE_DIR}/../win/obs/bin/32bit/" "${CEF_TARGET_OUT_DIR}")
 
 COPY_FILES("${GHOST_TARGET}" "castle-desktop-node-win.exe" "${CMAKE_CURRENT_SOURCE_DIR}/../node" "${CEF_TARGET_OUT_DIR}")
 

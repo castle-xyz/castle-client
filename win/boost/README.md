@@ -1,7 +1,7 @@
 Download https://www.boost.org/users/history/version_1_67_0.html and extract to boost_1_67_0
 `cd boost_1_67_0/`
 `./bootstrap.bat --prefix=../build`
-`./b2 install --prefix=../build --with-filesystem --with-date_time --with-regex`
+`./b2 install --prefix=../build --with-filesystem --with-date_time --with-regex --with-chrono --with-thread`
 
 Current config:
 
