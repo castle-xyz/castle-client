@@ -50,6 +50,7 @@ extern "C" {
 
 #include "ghost_cpu.h"
 #include "ghost_win.h"
+#include "ghost_obs.h"
 
 using namespace WinToastLib;
 
@@ -180,6 +181,12 @@ inline wchar_t *convertCharArrayToLPCWSTR(const char *charArray) {
   wchar_t *wString = new wchar_t[length];
   MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, length);
   return wString;
+}
+inline char *convertLPCWSTRToCharArray(const wchar_t *wCharArray) {
+  int length = wcslen(wCharArray) + 1;
+  char *string = new char[length];
+  WideCharToMultiByte(CP_ACP, 0, wCharArray, -1, string, length, NULL, NULL);
+  return string;
 }
 
 bool ghostChooseDirectoryWithDialog(const char *title, const char *message, const char *action,
@@ -495,6 +502,7 @@ void stopLove() {
     SDL_PushEvent(&quitEvent);
     stepLove();
     closeLua();
+    ghostStopObs();
   }
 }
 
@@ -845,14 +853,6 @@ CStringA ExecCmd(const wchar_t *cmd // [in] command to execute
   return strResult;
 } // ExecCmd
 
-const char *ghostGetCachePath() {
-  PWSTR appDataPath = NULL;
-  SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &appDataPath);
-  std::wstringstream cacheDir;
-  cacheDir << appDataPath << L"/Castle";
-  return (const char *)cacheDir.str().c_str();
-}
-
 static GhostCpu sCpuUsageMonitor;
 
 DWORD WINAPI cpuUsageCallback(float usage) {
@@ -868,4 +868,22 @@ void ghostSetCpuMonitoring(bool isMonitoringCpu) {
   } else {
     sCpuUsageMonitor.StopMonitor();
   }
+}
+
+static std::string ghostCachePath;
+const char *ghostGetCachePath() {
+	if (ghostCachePath.empty()) {
+		PWSTR wAppDataPath = NULL;
+		SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &wAppDataPath);
+		char * appDataPath = convertLPCWSTRToCharArray(wAppDataPath);
+
+		ghostCachePath = std::string(appDataPath);
+		ghostCachePath += "\\Castle";
+	}
+
+  return ghostCachePath.c_str();
+}
+
+GHOST_EXPORT void ghostDoneLoading() {
+  ghostStartObs();
 }

@@ -197,6 +197,11 @@ function main.load(arg)
             home:filedropped(initialFileDropped)
             initialFileDropped = nil
         end
+
+        if not CASTLE_SERVER then
+            ffi.cdef 'void ghostDoneLoading();'
+            C.ghostDoneLoading()
+        end
     end)
 end
 

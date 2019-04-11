@@ -63,6 +63,7 @@ void ghostGetScalingModes(int *up, int *down);
 
 void ghostGetGameFrame(float frameLeft, float frameTop, float frameWidth, float frameHeight,
                        float *gameLeft, float *gameTop, float *gameWidth, float *gameHeight);
+GHOST_EXPORT void ghostDoneLoading();
 
 bool ghostChooseDirectoryWithDialog(const char *title, const char *message, const char *action,
                                     const char **result);

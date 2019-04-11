@@ -395,3 +395,7 @@ void ghostSetCpuMonitoring(bool isMonitoringCpu) {
     }
   }
 }
+
+GHOST_EXPORT void ghostDoneLoading() {
+
+}

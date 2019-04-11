@@ -433,6 +433,7 @@ file(GLOB OBS_LIBS
   RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/../win/obs/bin/32bit/" "${CMAKE_CURRENT_SOURCE_DIR}/../win/obs/bin/32bit/*.dll"
 )
 COPY_FILES("${GHOST_TARGET}" "${OBS_LIBS}" "${CMAKE_CURRENT_SOURCE_DIR}/../win/obs/bin/32bit/" "${CEF_TARGET_OUT_DIR}")
+COPY_FILES("${GHOST_TARGET}" "ffmpeg.exe" "${CMAKE_CURRENT_SOURCE_DIR}/../win/obs" "${CEF_TARGET_OUT_DIR}/obs")
 
 COPY_FILES("${GHOST_TARGET}" "castle-desktop-node-win.exe" "${CMAKE_CURRENT_SOURCE_DIR}/../node" "${CEF_TARGET_OUT_DIR}")
 

@@ -16,4 +16,4 @@ cmake.exe -DDISABLE_UI=true -DENABLE_SCRIPTING=false -DCMAKE_INSTALL_PREFIX=buil
 
 open build/ALL_BUILD.vcxproj
 
-output is is build/rundir/Release
+output is is build/rundir/Release. also need to copy the .exp and .lib files from build/libobs/Release.
