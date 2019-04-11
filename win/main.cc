@@ -13,6 +13,7 @@
 #include "simple_handler.h"
 
 #include "ghost.h"
+#include "ghost_obs.h"
 
 #include "WinReg.hpp"
 
@@ -262,6 +263,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
 
   // Initialize CEF.
   CefInitialize(main_args, settings, app.get(), sandbox_info);
+
+  ghostInitObs(exeDir + "\\obs", exeDir + "\\obs\\ffmpeg.exe", true);
 
   // Run the Ghost message loop. This will block until ghostQuitMessageLoop() is
   // called.

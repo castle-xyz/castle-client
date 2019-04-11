@@ -34,6 +34,136 @@ bool ghostObsIsStarted = false;
 const char *lastReplayPath = NULL;
 bool _debug;
 
+#ifdef _MSC_VER
+
+#include <windows.h>
+#include <psapi.h>
+
+static HWND next_window(HWND window,
+	HWND *parent, bool use_findwindowex)
+{
+	if (*parent) {
+		window = *parent;
+		*parent = NULL;
+	}
+
+	while (true) {
+		if (use_findwindowex)
+			window = FindWindowEx(GetDesktopWindow(), window, NULL,
+				NULL);
+		else
+			window = GetNextWindow(window, GW_HWNDNEXT);
+
+		break;
+	}
+
+	return window;
+}
+
+
+static HWND first_window(HWND *parent,
+	bool *use_findwindowex)
+{
+	HWND window = FindWindowEx(GetDesktopWindow(), NULL, NULL, NULL);
+
+	if (!window) {
+		*use_findwindowex = false;
+		window = GetWindow(GetDesktopWindow(), GW_CHILD);
+	}
+	else {
+		*use_findwindowex = true;
+	}
+
+	*parent = NULL;
+	/*
+	if (!check_window_valid(window, mode)) {
+		window = next_window(window, mode, parent, *use_findwindowex);
+
+		if (!window && *use_findwindowex) {
+			*use_findwindowex = false;
+
+			window = GetWindow(GetDesktopWindow(), GW_CHILD);
+			if (!check_window_valid(window, mode))
+				window = next_window(window, mode, parent,
+					*use_findwindowex);
+		}
+	}
+
+	if (is_uwp_window(window)) {
+		HWND child = get_uwp_actual_window(window);
+		if (child) {
+			*parent = window;
+			return child;
+		}
+	}*/
+
+	return window;
+}
+
+static inline HANDLE open_process(DWORD desired_access, bool inherit_handle,
+	DWORD process_id)
+{
+	return OpenProcess(desired_access, inherit_handle, process_id);
+}
+
+
+bool get_window_exe(wchar_t *wname, HWND window)
+{
+	bool        success = false;
+	HANDLE      process = NULL;
+	char        *slash;
+	DWORD       id;
+
+	GetWindowThreadProcessId(window, &id);
+	if (id == GetCurrentProcessId())
+		return false;
+
+	process = open_process(PROCESS_QUERY_LIMITED_INFORMATION, false, id);
+	if (!process)
+		goto fail;
+
+	if (!GetProcessImageFileNameW(process, wname, MAX_PATH))
+		goto fail;
+
+fail:
+	return true;
+}
+
+void get_window_title(wchar_t * temp, HWND hwnd)
+{
+	GetWindowTextW(hwnd, temp, 100);
+}
+
+
+void get_window_class(wchar_t *temp, HWND hwnd)
+{
+	temp[0] = 0;
+	GetClassNameW(hwnd, temp, 256);
+}
+
+void find_window()
+{
+	HWND parent;
+	bool use_findwindowex = false;
+
+	HWND window = first_window(&parent, &use_findwindowex);
+
+	while (window) {
+		wchar_t title[100];
+		wchar_t exe[100];
+		wchar_t class_[500];
+		get_window_title(&title[0], window);
+		get_window_exe(&exe[0], window);
+		get_window_class(&class_[0], window);
+
+		window = next_window(window, &parent, use_findwindowex);
+	}
+}
+
+
+#endif
+
+
 string ghostPreprocessVideo(string unprocessedVideoPath) {
   string screenCaptureDirectory = ghostGetCachePath();
   screenCaptureDirectory += "/screen_captures";
@@ -86,7 +216,7 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
 
 //#endif
 
-  filesystem::remove(unprocessedVideoPath);
+  // filesystem::remove(unprocessedVideoPath);
 
   return outPath;
 }
@@ -115,8 +245,14 @@ void ghostObsBackgroundThread() {
 
 void ghostLoadObsModule(std::string basePath, std::string moduleName) {
   obs_module_t *module;
+
+#ifdef _MSC_VER
+  std::string soPath = basePath + "\\obs-plugins\\32bit\\" + moduleName + ".dll";
+  std::string dataPath = basePath + "\\data\\obs-plugins\\" + moduleName;
+#else
   std::string soPath = basePath + "/obs-plugins/" + moduleName + ".so";
   std::string dataPath = basePath + "/data/obs-plugins/" + moduleName;
+#endif
 
   obs_open_module(&module, soPath.c_str(), dataPath.c_str());
   obs_init_module(module);
@@ -136,9 +272,14 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
   std::string obsLibDataPath = basePath + "/data/libobs/";
   castle_obs_set_data_path(obsLibDataPath.c_str());
 
+#ifdef _MSC_VER
+  ghostLoadObsModule(basePath, "win-capture");
+  ghostLoadObsModule(basePath, "obs-x264");
+#else
   ghostLoadObsModule(basePath, "coreaudio-encoder");
   ghostLoadObsModule(basePath, "mac-capture");
   ghostLoadObsModule(basePath, "mac-vth264");
+#endif
   ghostLoadObsModule(basePath, "obs-ffmpeg");
   ghostLoadObsModule(basePath, "obs-outputs");
 
@@ -147,8 +288,12 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
   struct obs_video_info tmp_v;
   struct obs_audio_info tmp_a;
 
-  std::string libobsOpenGLPath = basePath + "/bin/libobs-opengl.so";
-  tmp_v.graphics_module = libobsOpenGLPath.c_str();
+#ifdef _MSC_VER
+  std::string graphicsModulePath = basePath + "\\bin\\32bit\\libobs-d3d11.dll"; //libobs-d3d11.dll";
+#else
+  std::string graphicsModulePath = basePath + "/bin/libobs-opengl.so";
+#endif
+  tmp_v.graphics_module = graphicsModulePath.c_str();
   tmp_v.fps_num = 60;
   tmp_v.fps_den = 1;
   tmp_v.base_width = RECORD_WIDTH;
@@ -227,32 +372,63 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
 }
 
 bool ghostStartObs() {
+	//find_window();
+
   if (ghostObsIsStarted) {
     return true;
   }
 
   if (!ghostObsOutput) {
+
+
+#ifdef _MSC_VER
+	// https://github.com/obsproject/obs-studio/blob/master/plugins/win-capture/window-capture.c
+	// https://github.com/obsproject/obs-studio/blob/master/plugins/win-capture/window-helpers.c#L25
+	obs_data_t *sourceSettings = obs_data_create();
+	//Chrome_WidgetWin_0
+	
+	obs_data_set_string(sourceSettings, "capture_mode", "window");
+	obs_data_set_string(sourceSettings, "window", "Castle:CefBrowserWindow:Castle.exe");
+	//obs_data_set_int(sourceSettings, "priority", 0); // use the title (castle-player) to search for windows
+	//obs_data_set_bool(sourceSettings, "capture_cursor", "false");
+	obs_source_t *ghostObsSource =
+		obs_source_create("game_capture", "castle_source", sourceSettings, NULL);
+#else
     // https://github.com/obsproject/obs-studio/blob/master/plugins/mac-capture/mac-window-capture.m
     // window_capture
     obs_data_t *sourceSettings = obs_data_create();
-    obs_data_set_string(sourceSettings, "owner_name", "Castle");
-    obs_data_set_string(sourceSettings, "window_name", "castle-player");
-    obs_source_t *ghostObsSource =
-        obs_source_create("window_capture", "castle_source", sourceSettings, NULL);
+	obs_data_set_string(sourceSettings, "owner_name", "Castle");
+	obs_data_set_string(sourceSettings, "window_name", "castle-player");
+	obs_source_t *ghostObsSource =
+		obs_source_create("window_capture", "castle_source", sourceSettings, NULL);
+#endif
 
     // encoders
+	// https://github.com/obsproject/obs-studio/blob/master/plugins/obs-x264/obs-x264.c
     // https://github.com/obsproject/obs-studio/blob/master/plugins/mac-vth264/encoder.c
-    // need a keyframe every 10 seconds, otherwise the replay_buffer will never purge old frames
+    // need to specify a keyframe interval, otherwise there will only be one keyframe at the beginning and replay_buffer will never purge old frames
     obs_data_t *videoEncoderSettings = obs_data_create();
     obs_data_set_int(videoEncoderSettings, "keyint_sec", 1);
     // obs_data_set_string(videoEncoderSettings, "profile", "high");
     // obs_data_set_int(videoEncoderSettings, "bitrate", 10000);
     // obs_data_set_int(videoEncoderSettings, "max_bitrate", 10000);
+
+
+#ifdef _MSC_VER
+	obs_encoder_t *ghostObsVideoEncoder =
+		obs_video_encoder_create("obs_x264", "castle_encoder", videoEncoderSettings, NULL);
+#else
     obs_encoder_t *ghostObsVideoEncoder =
         obs_video_encoder_create("vt_h264_hw", "castle_encoder", videoEncoderSettings, NULL);
+#endif
 
+#ifdef _MSC_VER
+	obs_encoder_t *ghostObsAudioEncoder =
+		obs_audio_encoder_create("ffmpeg_aac", "castle_audio_encoder", NULL, 0, NULL);
+#else
     obs_encoder_t *ghostObsAudioEncoder =
         obs_audio_encoder_create("CoreAudio_AAC", "castle_audio_encoder", NULL, 0, NULL);
+#endif
 
     // obs-ffmpeg-mux.c window-basic-main-outputs.cpp
     std::string screenCaptureUnprocessedDirectory = ghostGetCachePath();

@@ -329,3 +329,7 @@ const char *ghostGetCachePath() {
   NSString *cachePath = [GhostFileSystem ghostCachesDirectory];
   return [cachePath UTF8String];
 }
+
+GHOST_EXPORT void ghostDoneLoading() {
+
+}
