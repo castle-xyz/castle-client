@@ -84,6 +84,10 @@ function fixDir(dir) {
   // fix them up
   fs.readdirSync(dir).forEach(file => {
     let dirResults = otoolOutputList(dir + "/" + file);
+    child_process.execSync(
+      "install_name_tool -id @rpath/" + file + " " + dir + "/" + file
+    );
+
     Object.keys(dirResults).forEach(key => {
       child_process.execSync(
         "install_name_tool -change " +
