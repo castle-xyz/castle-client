@@ -84,9 +84,12 @@ function fixDir(dir) {
   // fix them up
   fs.readdirSync(dir).forEach(file => {
     let dirResults = otoolOutputList(dir + "/" + file);
-    child_process.execSync(
-      "install_name_tool -id @rpath/" + file + " " + dir + "/" + file
-    );
+    // Don't do this for bin, because it sets libobs.0.dylib id to libobs.dylib because of the symlink
+    if (dir == "libs") {
+      child_process.execSync(
+        "install_name_tool -id @rpath/" + file + " " + dir + "/" + file
+      );
+    }
 
     Object.keys(dirResults).forEach(key => {
       child_process.execSync(
@@ -103,7 +106,6 @@ function fixDir(dir) {
   });
 }
 
-// first get all the deps from bin files
-
+child_process.execSync("mkdir -p libs");
 fixDir("bin");
 fixDir("libs");
