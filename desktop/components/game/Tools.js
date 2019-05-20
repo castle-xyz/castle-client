@@ -25,6 +25,7 @@ import {
 } from 'grommet';
 
 import Logs from '~/common/logs';
+import NewWindow from 'react-new-window';
 
 let nextEventId = 1;
 const sendEvent = (pathId, event) => {
@@ -506,7 +507,7 @@ const applyDiff = (t, diff) => {
 };
 
 const STYLES_CONTAINER = css`
-  width: 300px;
+  width: 100%;
   height: 100%;
 
   background-color: ${Constants.toolsTheme.global.colors.background};
@@ -579,13 +580,16 @@ export default class Tools extends React.PureComponent {
     // console.log(`render: ${JSON.stringify(this.state.root, null, 2)}`);
 
     return this.state.visible ? (
-      <div className={STYLES_CONTAINER}>
-        <Grommet theme={Constants.toolsTheme}>
-          {Object.values(this.state.root.panes).map((element, i) => (
-            <ToolPane key={(element.props && element.props.name) || i} element={element} />
-          ))}
-        </Grommet>
-      </div>
+      <NewWindow
+        features={{ titlebar: 'no', dependent: 'yes', width: '600px', height: '640px' }}>
+        <div className={STYLES_CONTAINER}>
+          <Grommet theme={Constants.toolsTheme}>
+            {Object.values(this.state.root.panes).map((element, i) => (
+              <ToolPane key={(element.props && element.props.name) || i} element={element} />
+            ))}
+          </Grommet>
+        </div>
+      </NewWindow>
     ) : null;
   }
 }

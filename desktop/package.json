@@ -53,6 +53,7 @@
     "react-dom": "^16.7.0",
     "react-emotion": "^9.2.8",
     "react-linkify": "^0.2.2",
+    "react-new-window": "0.0.12",
     "react-textarea-autosize": "^7.1.0",
     "slate": "^0.41.2",
     "slate-plain-serializer": "^0.6.7",
