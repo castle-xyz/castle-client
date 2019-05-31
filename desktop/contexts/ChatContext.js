@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as ChatUtilities from '~/common/chat-utilities';
 import * as Actions from '~/common/actions';
+import * as Constants from '~/common/constants';
 import * as Strings from '~/common/strings';
 
 import { CastleChat, ConnectionStatus } from 'castle-chat-lib';
 import { NativeBinds } from '~/native/nativebinds';
 
-const CHAT_SERVICE_URL = 'https://chat.castle.games:5285/http-bind/';
-const ROOM_NAME = 'general';
+const ROOM_NAME = 'channel-79c91814-c73e-4d07-8bc6-6829fad03d72';
 const NOTIFICATIONS_USER_ID = -1;
 const TEST_MESSAGE = null;
 
@@ -49,7 +49,7 @@ class ChatContextProvider extends React.Component {
       return;
     }
 
-    this.startChatService(this.props.currentUser.userId);
+    this.startChatService();
     window.addEventListener('CASTLE_ADD_CHAT_NOTIFICATION', this._addChatNotificationAsync);
   }
 
@@ -60,7 +60,7 @@ class ChatContextProvider extends React.Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.currentUser && this.props.currentUser) {
       if (!this._chat) {
-        this.startChatService(this.props.currentUser.userId);
+        this.startChatService();
       }
     }
   }
@@ -153,12 +153,7 @@ class ChatContextProvider extends React.Component {
     return result;
   };
 
-  startChatService = async (userId) => {
-    if (Strings.isEmpty(userId)) {
-      console.error('Cannot start chat without a logged in user.');
-      return;
-    }
-
+  startChatService = async () => {
     let token = await Actions.getAccessTokenAsync();
     if (!token) {
       console.error('Cannot start chat without an access token.');
@@ -166,7 +161,7 @@ class ChatContextProvider extends React.Component {
     }
 
     this._chat = new CastleChat();
-    this._chat.init(CHAT_SERVICE_URL, userId, token, [ROOM_NAME]);
+    this._chat.init(Constants.CHAT_SERVICE_URL, Constants.API_HOST, token);
 
     this._chat.setOnMessagesHandler(this._handleMessagesAsync);
     this._chat.setOnPresenceHandler(this._handlePresenceAsync);
@@ -202,16 +197,14 @@ class ChatContextProvider extends React.Component {
   };
 
   _handlePresenceAsync = async (event) => {
-    if (event.roomName === ROOM_NAME) {
-      this.setState({ users: event.roster.map((user) => user.name) });
+    this.setState({ users: event.user_ids });
 
-      let onlineUsersMap = {};
-      event.roster.forEach((user) => {
-        onlineUsersMap[user.name] = true;
-      });
+    let onlineUsersMap = {};
+    event.user_ids.forEach((user) => {
+      onlineUsersMap[user] = true;
+    });
 
-      this.props.social.setOnlineUserIds(onlineUsersMap);
-    }
+    this.props.social.setOnlineUserIds(onlineUsersMap);
   };
 
   _handleMessagesAsync = async (messages) => {

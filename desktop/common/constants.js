@@ -1,5 +1,6 @@
 export const API_HOST = 'https://api.castle.games';
 export const WEB_HOST = 'https://castle.games';
+export const CHAT_SERVICE_URL = 'https://castle-chat.onrender.com';
 
 // TODO(jim): Delete old colors constants after full refactor.
 export const REFACTOR_COLORS = {
