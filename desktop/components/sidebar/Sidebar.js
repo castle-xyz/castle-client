@@ -68,10 +68,6 @@ class Sidebar extends React.Component {
     return this.props.navigator.navigateToCreate();
   };
 
-  _handleNavigateToExamples = () => {
-    return this.props.navigator.navigateToContentMode('examples');
-  };
-
   _handleNavigateToFeaturedGames = () => {
     return this.props.navigator.navigateToContentMode('featured');
   };
@@ -82,10 +78,6 @@ class Sidebar extends React.Component {
 
   _handleNavigateToHistory = () => {
     return this.props.navigator.navigateToContentMode('history');
-  };
-
-  _handleOpenBrowserForDocumentation = () => {
-    return NativeUtil.openExternalURL(`${Constants.WEB_HOST}/documentation`);
   };
 
   _handleShowOptions = () => this.setState({ mode: 'OPTIONS' });
@@ -114,11 +106,9 @@ class Sidebar extends React.Component {
           viewer={viewer}
           contentMode={navigation.contentMode}
           onNavigateToMakeGame={this._handleNavigateToMakeGame}
-          onNavigateToExamples={this._handleNavigateToExamples}
           onNavigateToFeaturedGames={this._handleNavigateToFeaturedGames}
           onNavigateToAllPosts={this._handleNavigateToAllPosts}
           onNavigateToHistory={this._handleNavigateToHistory}
-          onOpenBrowserForDocumentation={this._handleOpenBrowserForDocumentation}
         />
         {viewer ? (
           <SidebarChannels

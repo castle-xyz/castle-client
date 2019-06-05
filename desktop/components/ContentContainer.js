@@ -104,8 +104,7 @@ class ContentContainer extends React.Component {
       mode === 'home' ||
       mode === 'featured' ||
       mode === 'history' ||
-      mode === 'posts' ||
-      mode === 'examples'
+      mode === 'posts'
     ) {
       return (
         <HomeScreen
@@ -159,7 +158,6 @@ class ContentContainer extends React.Component {
         this.props.mode === 'home' ||
         this.props.mode === 'create' ||
         this.props.mode === 'featured' ||
-        this.props.mode === 'examples' ||
         this.props.mode === 'history' ||
         this.props.mode === 'posts' ? (
           <ContentNavigationBar
