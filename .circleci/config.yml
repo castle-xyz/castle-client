@@ -4,6 +4,7 @@ jobs:
     branches:
       only:
         - release/macos
+        - @ben/codesign-macos
 
     macos:
       xcode: "10.1.0"
