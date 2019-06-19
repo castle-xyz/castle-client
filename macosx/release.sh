@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# Build and upload a new version of Castle for macOS
-
 set -e
 
 if [[ -n $(git status --porcelain) ]]; then
@@ -9,32 +7,14 @@ if [[ -n $(git status --porcelain) ]]; then
   exit 1
 fi
 
-git fetch --tags --prune
-GIT_HASH=$(git rev-parse HEAD)
-MACOS_BASE_VERSION=1
-MACOS_VERSION=$MACOS_BASE_VERSION.$(git rev-list release-root..HEAD --count)
+echo "Testing cloning new private repo..."
 
-/usr/libexec/PlistBuddy -c "Set GHGitHash $GIT_HASH" Supporting/ghost-macosx.plist
-/usr/libexec/PlistBuddy -c "Set CFBundleVersion $MACOS_VERSION" Supporting/ghost-macosx.plist
-/usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $MACOS_VERSION" Supporting/ghost-macosx.plist
-
-rm -rf archive.xcarchive
-xcodebuild -project ghost.xcodeproj -config Release -scheme ghost-macosx -archivePath ./archive archive
-ditto -c -k --sequesterRsrc --keepParent archive.xcarchive/Products/Applications/Castle.app Castle-$MACOS_VERSION.zip
-rm -rf archive.xcarchive
-
-/usr/libexec/PlistBuddy -c "Set GHGitHash GIT_HASH_UNSET" Supporting/ghost-macosx.plist
-/usr/libexec/PlistBuddy -c "Set CFBundleVersion VERSION_UNSET" Supporting/ghost-macosx.plist
-/usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString VERSION_UNSET" Supporting/ghost-macosx.plist
-
-echo -e "\n\b\bCreated 'Castle-$MACOS_VERSION.zip'"
-
-if [ ! -d castle-releases ]; then
-  echo "Cloning 'castle-releases'..."
-  git clone https://$CASTLE_GITHUB_TOKEN@github.com/castle-games/castle-releases.git
+if [ ! -d castle-codesigning-certs ]; then
+    echo "Cloning 'castle-codesigning-certs'..."
+  git clone https://$CASTLE_GITHUB_TOKEN@github.com/castle-games/castle-codesigning-certs.git
 fi
-cd castle-releases
-echo "Pulling 'castle-releases'..."
+cd castle-codesigning-certs
+echo "Pulling 'castle-codesigning-certs'..."
 git pull origin master
-echo "Performing release..."
-./castle-releases-macos mac ../Castle-$MACOS_VERSION.zip
+echo "Running ls"
+ls -l
