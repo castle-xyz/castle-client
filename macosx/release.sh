@@ -19,7 +19,22 @@ MACOS_VERSION=$MACOS_BASE_VERSION.$(git rev-list release-root..HEAD --count)
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString $MACOS_VERSION" Supporting/ghost-macosx.plist
 
 rm -rf archive.xcarchive
-xcodebuild -project ghost.xcodeproj -config Release -scheme ghost-macosx -archivePath ./archive archive
+xcodebuild -project ghost.xcodeproj -config Release -scheme ghost-macosx -archivePath ./archive archive | xcpretty
+
+TEMP_CERT_PATH=/private/tmp/castle/castle-codesigning-certs
+if [ ! -d $TEMP_CERT_PATH ]; then
+    git clone https://$CASTLE_GITHUB_TOKEN@github.com/castle-games/castle-codesigning-certs.git $TEMP_CERT_PATH
+fi
+pushd $TEMP_CERT_PATH
+echo "Pulling 'castle-codesigning-certs'..."
+git pull origin master
+echo "Running ls"
+ls -l
+popd
+
+./tools/codesign-archive.sh archive.xcarchive $TEMP_CERT_PATH/macos/CastleDeveloperID.p12
+
+
 ditto -c -k --sequesterRsrc --keepParent archive.xcarchive/Products/Applications/Castle.app Castle-$MACOS_VERSION.zip
 rm -rf archive.xcarchive
 
@@ -28,6 +43,9 @@ rm -rf archive.xcarchive
 /usr/libexec/PlistBuddy -c "Set CFBundleShortVersionString VERSION_UNSET" Supporting/ghost-macosx.plist
 
 echo -e "\n\b\bCreated 'Castle-$MACOS_VERSION.zip'"
+
+# TODO: not releasing on this branch
+exit 0
 
 if [ ! -d castle-releases ]; then
   echo "Cloning 'castle-releases'..."
