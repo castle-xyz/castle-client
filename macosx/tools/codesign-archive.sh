@@ -40,22 +40,30 @@ echo "Importing cert to keychain..."
 CERT_PASSWORD="CastleDeveloperID"
 security import $CERT_PATH -A -k $TEMP_KEYCHAIN_PATH -f pkcs12 -P $CERT_PASSWORD
 
+echo "Finding codesigning identity in keychain..."
+
 APPS_PATH=$ARCHIVE_PATH/Products/Applications
 APP_PATH=$APPS_PATH/Castle.app
-CODESIGN_IDENTITY=$(security find-identity -v -p codesigning | grep -o "Developer ID Application: Castle Games, Inc\. (.*)")
+CODESIGN_IDENTITY=$(security find-identity -v -p codesigning $TEMP_KEYCHAIN_PATH | grep -o "Developer ID Application: Castle Games, Inc\. (.*)")
+
+echo "Adding keychain to user keychain search list..."
+security list-keychains -s $TEMP_KEYCHAIN_PATH
+
+echo "User keychains list:"
+security list-keychains -d user
 
 echo "Codesigning all frameworks..."
-find $APP_PATH/Contents/Frameworks -maxdepth 1 -name "*.framework" -exec codesign --verbose -s "${CODESIGN_IDENTITY}" {} \;
+find $APP_PATH/Contents/Frameworks -maxdepth 1 -name "*.framework" -exec codesign --verbose --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" {} \;
 
 echo "Codesigning Castle.app..."
-codesign --verbose --deep -s "${CODESIGN_IDENTITY}" $APP_PATH
+codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" $APP_PATH
 
 echo "Codesigning Castle Helper app..."
 HELPER_PATH="${APPS_PATH}/Castle Helper.app"
-codesign --verbose --deep -s "${CODESIGN_IDENTITY}" "${HELPER_PATH}"
+codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" "${HELPER_PATH}"
 
 echo "Codesigning archive..."
-codesign --verbose --deep -s "${CODESIGN_IDENTITY}" $ARCHIVE_PATH
+codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" $ARCHIVE_PATH
 
 echo "Cleaning up keychain..."
 security delete-keychain $TEMP_KEYCHAIN_PATH

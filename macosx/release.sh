@@ -28,13 +28,12 @@ fi
 pushd $TEMP_CERT_PATH
 echo "Pulling 'castle-codesigning-certs'..."
 git pull origin master
-echo "Running ls"
-ls -l
 popd
 
+echo "Begin codesigning..."
 ./tools/codesign-archive.sh archive.xcarchive $TEMP_CERT_PATH/macos/CastleDeveloperID.p12
 
-
+echo "Zipping and cleaning up..."
 ditto -c -k --sequesterRsrc --keepParent archive.xcarchive/Products/Applications/Castle.app Castle-$MACOS_VERSION.zip
 rm -rf archive.xcarchive
 
