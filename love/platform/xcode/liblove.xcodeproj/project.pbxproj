@@ -1793,7 +1793,7 @@
 		FA27B39C1B498151008A9DCE /* wrap_Video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wrap_Video.h; sourceTree = "<group>"; };
 		FA27B3B91B4985BF008A9DCE /* wrap_VideoStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wrap_VideoStream.cpp; sourceTree = "<group>"; };
 		FA27B3BA1B4985BF008A9DCE /* wrap_VideoStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wrap_VideoStream.h; sourceTree = "<group>"; };
-		FA27B3C81B498623008A9DCE /* theora.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = theora.framework; path = Frameworks/theora.framework; sourceTree = "<group>"; };
+		FA27B3C81B498623008A9DCE /* theora.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = theora.framework; path = Frameworks/Theora.framework; sourceTree = "<group>"; };
 		FA283EDC1B27CFAA00C70067 /* nogame.lua */ = {isa = PBXFileReference; lastKnownFileType = text; path = nogame.lua; sourceTree = "<group>"; };
 		FA283EDD1B27CFAA00C70067 /* nogame.lua.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nogame.lua.h; sourceTree = "<group>"; };
 		FA28EBD31E352DB5003446F4 /* FenceSync.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FenceSync.cpp; sourceTree = "<group>"; };

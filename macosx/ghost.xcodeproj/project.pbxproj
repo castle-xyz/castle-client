@@ -458,7 +458,7 @@
 		CE73F7FF1EEB64150052DAB3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		FA08F69116C765A200F007B5 /* love.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = love.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA15DFB31F9B8D9E0042AB22 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/usr/lib/libbz2.tbd; sourceTree = DEVELOPER_DIR; };
-		FA27B3CA1B498696008A9DCE /* theora.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = theora.framework; path = Frameworks/theora.framework; sourceTree = "<group>"; };
+		FA27B3CA1B498696008A9DCE /* theora.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = theora.framework; path = Frameworks/Theora.framework; sourceTree = "<group>"; };
 		FA577A9316C7217800860150 /* liblove.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = liblove.xcodeproj; path = ../love/platform/xcode/liblove.xcodeproj; sourceTree = "<group>"; };
 		FA5D249A1A96CF4300C6FC8F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FA9B4A0916E1579F00074F42 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Frameworks/SDL2.framework; sourceTree = "<group>"; };
