@@ -1,8 +1,17 @@
 #!/bin/sh
-
-# Sign an existing test archive
+# 
+# Codesign an existing Castle archive
 
 set -e
+
+if [ -z "$1" ]
+then
+    echo "usage: codesign-archive.sh castle-archive-path certificate-path"
+    exit 1
+fi
+
+ARCHIVE_PATH=$1
+CERT_PATH=$2
 
 GIT_HASH=$(git rev-parse HEAD)
 MACOS_BASE_VERSION=1
@@ -28,11 +37,10 @@ security unlock-keychain -p $TEMP_KEYCHAIN_PASSWORD $TEMP_KEYCHAIN_PATH
 # security show-keychain-info $TEMP_KEYCHAIN_PATH
 
 echo "Importing cert to keychain..."
-CERT_PATH=../../castle-codesigning-certs/macos/CastleDeveloperID.p12
 CERT_PASSWORD="CastleDeveloperID"
 security import $CERT_PATH -A -k $TEMP_KEYCHAIN_PATH -f pkcs12 -P $CERT_PASSWORD
 
-APPS_PATH=./archive.xcarchive/Products/Applications
+APPS_PATH=$ARCHIVE_PATH/Products/Applications
 APP_PATH=$APPS_PATH/Castle.app
 CODESIGN_IDENTITY=$(security find-identity -v -p codesigning | grep -o "Developer ID Application: Castle Games, Inc\. (.*)")
 
