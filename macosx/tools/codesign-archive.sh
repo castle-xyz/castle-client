@@ -47,12 +47,26 @@ CODESIGN_IDENTITY=$(security find-identity -v -p codesigning | grep -o "Develope
 echo "Codesigning all frameworks..."
 find $APP_PATH/Contents/Frameworks -maxdepth 1 -name "*.framework" -exec codesign --verbose -s "${CODESIGN_IDENTITY}" {} \;
 
-echo "Codesigning app..."
+echo "Codesigning Castle.app..."
 codesign --verbose --deep -s "${CODESIGN_IDENTITY}" $APP_PATH
 
-echo "Codesigning helper app..."
+echo "Codesigning Castle Helper app..."
 HELPER_PATH="${APPS_PATH}/Castle Helper.app"
 codesign --verbose --deep -s "${CODESIGN_IDENTITY}" "${HELPER_PATH}"
 
+echo "Codesigning archive..."
+codesign --verbose --deep -s "${CODESIGN_IDENTITY}" $ARCHIVE_PATH
+
 echo "Cleaning up keychain..."
 security delete-keychain $TEMP_KEYCHAIN_PATH
+
+# NOTE: 2>&1 needed because codesign outputs to stderr
+echo "Verifying signature..."
+if codesign -dvv --deep $ARCHIVE_PATH 2>&1 | grep -qF "Authority=${CODESIGN_IDENTITY}"
+then
+    echo "Codesigning was successful"
+else
+    echo "Codesigning failed:"
+    codesign -dvv --deep $ARCHIVE_PATH
+    exit 1
+fi
