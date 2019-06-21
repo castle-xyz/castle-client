@@ -53,7 +53,7 @@ echo "User keychains list:"
 security list-keychains -d user
 
 echo "Codesigning all frameworks..."
-find $APP_PATH/Contents/Frameworks -maxdepth 1 -name "*.framework" -exec codesign --verbose --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" {} \;
+find $APP_PATH/Contents/Frameworks -maxdepth 1 -name "*.framework" -exec codesign --verbose --deep --force --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" {} \;
 
 echo "Codesigning Castle.app..."
 codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" $APP_PATH
