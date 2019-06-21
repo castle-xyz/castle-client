@@ -33,8 +33,11 @@ popd
 echo "Begin codesigning..."
 ./tools/codesign-archive.sh archive.xcarchive $TEMP_CERT_PATH/macos/CastleDeveloperID.p12
 
+APP_PATH=archive.xcarchive/Products/Applications/Castle.app
+./tools/verify-gatekeeper.sh $APP_PATH
+
 echo "Zipping and cleaning up..."
-ditto -c -k --sequesterRsrc --keepParent archive.xcarchive/Products/Applications/Castle.app Castle-$MACOS_VERSION.zip
+ditto -c -k --sequesterRsrc --keepParent $APP_PATH Castle-$MACOS_VERSION.zip
 rm -rf archive.xcarchive
 
 /usr/libexec/PlistBuddy -c "Set GHGitHash GIT_HASH_UNSET" Supporting/ghost-macosx.plist
