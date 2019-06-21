@@ -58,23 +58,23 @@ find $APP_PATH/Contents/Frameworks -maxdepth 1 -name "*.framework" -exec codesig
 echo "Codesigning Castle.app..."
 codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" $APP_PATH
 
-echo "Codesigning Castle Helper app..."
-HELPER_PATH="${APPS_PATH}/Castle Helper.app"
-codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" "${HELPER_PATH}"
+# echo "Codesigning Castle Helper app..."
+# HELPER_PATH="${APPS_PATH}/Castle Helper.app"
+# codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" "${HELPER_PATH}"
 
-echo "Codesigning archive..."
-codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" $ARCHIVE_PATH
+# echo "Codesigning archive..."
+# codesign --verbose --deep --keychain $TEMP_KEYCHAIN_PATH -s "${CODESIGN_IDENTITY}" $ARCHIVE_PATH
 
 echo "Cleaning up keychain..."
 security delete-keychain $TEMP_KEYCHAIN_PATH
 
 # NOTE: 2>&1 needed because codesign outputs to stderr
 echo "Verifying signature..."
-if codesign -dvv --deep $ARCHIVE_PATH 2>&1 | grep -qF "Authority=${CODESIGN_IDENTITY}"
+if codesign -dvv --deep $APP_PATH 2>&1 | grep -qF "Authority=${CODESIGN_IDENTITY}"
 then
     echo "Codesigning was successful"
 else
     echo "Codesigning failed:"
-    codesign -dvv --deep $ARCHIVE_PATH
+    codesign -dvv --deep $APP_PATH
     exit 1
 fi
