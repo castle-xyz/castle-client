@@ -47,7 +47,7 @@ const STYLES_PLAY_ICON = css`
   width: 18px;
   height: 18px;
   color: ${Constants.card.iconColor};
-  margin: 10px 4px 0px auto;
+  margin: 10px 0px 0px auto;
 `;
 
 const STYLES_PLAY_HOVER = css`
