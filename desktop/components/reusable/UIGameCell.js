@@ -44,11 +44,10 @@ const STYLES_GAME_SCREENSHOT = css`
 `;
 
 const STYLES_PLAY_ICON = css`
-  width: 8px;
-  height: 8px;
+  width: 18px;
+  height: 18px;
   color: ${Constants.card.iconColor};
-  margin-left: 8px;
-  margin-top: -2px;
+  margin: 10px 4px 0px auto;
 `;
 
 const STYLES_PLAY_HOVER = css`
@@ -382,14 +381,6 @@ export default class UIGameCell extends React.Component {
             <div className={STYLES_GAME_TITLE_AND_AUTHOR}>
               <div className={STYLES_TITLE_AND_PLAY}>
                 <span className={STYLES_GAME_TITLE}>{title}</span>
-                <span
-                  className={
-                    this.state.isHoveringOnPlay && !hoveringOnDetailIcon
-                      ? `${STYLES_PLAY_ICON} ${STYLES_PLAY_HOVER}`
-                      : STYLES_PLAY_ICON
-                  }>
-                  <SVG.Play size="32px" />
-                </span>
               </div>
               <div className={STYLES_AUTHOR_AND_PLAY_COUNT}>
                 <span
@@ -406,6 +397,15 @@ export default class UIGameCell extends React.Component {
               </div>
             </div>
           ) : null}
+          <div
+            className={
+              this.state.isHoveringOnPlay && !hoveringOnDetailIcon
+                ? `${STYLES_PLAY_ICON} ${STYLES_PLAY_HOVER}`
+                : STYLES_PLAY_ICON
+            }
+            style={{ visibility: this.state.isHoveringOnPlay ? 'visible' : 'hidden' }}>
+            <SVG.Play size="32px" />
+          </div>
         </div>
 
         {this.state.isHoveringOnPlay ? (

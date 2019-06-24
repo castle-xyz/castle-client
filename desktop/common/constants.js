@@ -78,7 +78,7 @@ export const card = {
   background: '#F8F8F9',
   backgroundHover: '#FFFFFF',
   boxShadow: '-1px 1px 2px 0 rgba(0, 0, 0, 0.15)',
-  iconColor: 'transparent',
+  iconColor: '#E3E3E4',
 };
 
 export const linescale = {
