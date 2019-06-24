@@ -6,6 +6,22 @@ export const Dismiss = (props) => (
   </svg>
 );
 
+export const Info = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="3"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}>
+    <circle cx="12" cy="12" r="10" />
+    <line x1="12" y1="16" x2="12" y2="12" />
+    <line x1="12" y1="8" x2="12" y2="8" />
+  </svg>
+);
+
 export const Plus = (props) => {
   return (
     <svg
@@ -34,72 +50,11 @@ export const Build = (props) => {
       viewBox="0 0 48 48"
       xmlns="http://www.w3.org/2000/svg">
       <g>
-        <path d="M45.4 37.9L27.1 19.6c1.8-4.6.8-10.1-2.9-13.8-4-4-10-4.8-14.8-2.5l8.7 8.7-6.1 6.1-8.7-8.7C1 14.2 1.8 20.2 5.8 24.2c3.7 3.7 9.2 4.7 13.8 2.9l18.3 18.3c.8.8 2.1.8 2.8 0l4.7-4.7c.8-.7.8-2 0-2.8z"/>
+        <path d="M45.4 37.9L27.1 19.6c1.8-4.6.8-10.1-2.9-13.8-4-4-10-4.8-14.8-2.5l8.7 8.7-6.1 6.1-8.7-8.7C1 14.2 1.8 20.2 5.8 24.2c3.7 3.7 9.2 4.7 13.8 2.9l18.3 18.3c.8.8 2.1.8 2.8 0l4.7-4.7c.8-.7.8-2 0-2.8z" />
       </g>
     </svg>
   );
-}
-
-export const Check = (props) => {
-  return (
-    <svg
-      height={props.size}
-      style={props.style}
-      fill="currentColor"
-      viewBox="0 0 48 48"
-      xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <path d="M18 32.34L9.66 24l-2.83 2.83L18 38l24-24-2.83-2.83z"/>
-      </g>
-    </svg>
-  );
-}
-
-export const Code = (props) => {
-  return (
-    <svg
-      height={props.size}
-      style={props.style}
-      fill="currentColor"
-      viewBox="0 0 48 48"
-      xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <path d="M18.8 33.2L9.7 24l9.2-9.2L16 12 4 24l12 12 2.8-2.8zm10.4 0l9.2-9.2-9.2-9.2L32 12l12 12-12 12-2.8-2.8z"/>
-      </g>
-    </svg>
-  );
-}
-
-export const Link = (props) => {
-  return (
-    <svg
-      height={props.size}
-      style={props.style}
-      fill="currentColor"
-      viewBox="0 0 48 48"
-      xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <path d="M7.8 24c0-3.42 2.78-6.2 6.2-6.2h8V14h-8C8.48 14 4 18.48 4 24s4.48 10 10 10h8v-3.8h-8c-3.42 0-6.2-2.78-6.2-6.2zm8.2 2h16v-4H16v4zm18-12h-8v3.8h8c3.42 0 6.2 2.78 6.2 6.2s-2.78 6.2-6.2 6.2h-8V34h8c5.52 0 10-4.48 10-10s-4.48-10-10-10z"/>
-      </g>
-    </svg>
-  );
-}
-
-export const Play = (props) => {
-  return (
-    <svg
-      height={props.size}
-      style={props.style}
-      fill="currentColor"
-      viewBox="0 0 48 48"
-      xmlns="http://www.w3.org/2000/svg">
-      <g>
-        <path d="M16 10v28l22-14z"/>
-        <path d="M0 0h48v48H0z" fill="none"/>
-      </g>
-    </svg>
-  );
-}
+};
 
 export const Settings = (props) => (
   <svg

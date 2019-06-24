@@ -30,7 +30,8 @@ export const colors = {
   text: `#000`,
   text2: `#6e6e6e`,
   border: `#000`,
-  background: `#f7f3f1`,
+  background: `#FFFFFF`,
+  background2: `#404045`,
   background3: `#c1bcbb`,
   background4: `#a7a2a2`,
   backgroundLeftContext: `#212121`,
@@ -70,9 +71,15 @@ export const typescale = {
   base: '1rem',
 };
 
-export const sizes = {
-  cardWidth: '224px',
-}
+export const card = {
+  width: '250px',
+  imageHeight: '157px',
+  radius: '4px',
+  background: '#F8F8F9',
+  backgroundHover: '#FFFFFF',
+  boxShadow: '-1px 1px 2px 0 rgba(0, 0, 0, 0.15)',
+  iconColor: 'transparent',
+};
 
 export const linescale = {
   lvl1: '1',

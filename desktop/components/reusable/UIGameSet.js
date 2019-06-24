@@ -6,29 +6,16 @@ import UIGameCell from '~/components/reusable/UIGameCell';
 import { css } from 'react-emotion';
 
 const STYLES_CONTAINER = css`
-  margin-top: 0px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const STYLES_GAME_ROW = css`
   display: flex;
-  align-items: flex-start;
+  flex-direction: row;
   flex-wrap: no-wrap;
-  margin: 0px 0px 0px 16px;
-`;
-
-const STYLES_GAME_GRID = css`
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  margin: 0px 0px 0px 16px;
-`;
-
-const STYLES_ROW_TITLE = css`
-  font-family: ${Constants.font.system};
-  margin: 0px 0px 16px 24px;
-  font-size: 18px;
-  font-weight: 700;
-  width: 260px;
+  margin-bottom: 8px;
+  margin-left: 20px;
 `;
 
 const STYLES_CELL_ITEM = css``;
@@ -36,11 +23,11 @@ const STYLES_CELL_ITEM = css``;
 export default class UIGameSet extends React.Component {
   static defaultProps = {
     renderAsGrid: false,
+    numRowsToElide: -1,
   };
 
   state = {
     width: null,
-    gameItemsToRender: null,
   };
 
   componentWillUnmount() {
@@ -57,41 +44,67 @@ export default class UIGameSet extends React.Component {
     this.setState({ width });
   };
 
-  _maxGameItemsWhichFitOntoScreen() {
-    const numItemsToRender =
-      (this.state.width - 24) / (parseInt(Constants.sizes.cardWidth, 10) + 12);
-    return this.props.gameItems.slice(0, numItemsToRender);
+  _maxNumGamesPerRow() {
+    return Math.floor((this.state.width - 24) / (parseInt(Constants.card.width, 10) + 8));
   }
 
+  _totalNumRows() {
+    if (this.props.numRowsToElide == -1) {
+      const totalNumGames = this.props.gameItems.length;
+      let maxNumGamesPerRow = this._maxNumGamesPerRow();
+      let numRows = Math.floor(totalNumGames / maxNumGamesPerRow);
+      let remainder = totalNumGames % maxNumGamesPerRow;
+      if (remainder > 0) {
+        numRows += 1;
+      }
+      return numRows;
+    } else {
+      return this.props.numRowsToElide;
+    }
+  }
+
+  _gamesForRow = (whichRow) => {
+    const num = this._maxNumGamesPerRow();
+    const startIdx = whichRow * num;
+    return this.props.gameItems.slice(startIdx, startIdx + num);
+  };
+
   render() {
+    let rowIndices = [];
+    for (let i = 0; i < this._totalNumRows(); i++) {
+      rowIndices.push(i);
+    }
     return (
       <div
         className={STYLES_CONTAINER}
         ref={(c) => {
           this._containerRef = c;
         }}>
-        <div className={STYLES_ROW_TITLE}>{this.props.title}</div>
-        <div className={this.props.renderAsGrid ? STYLES_GAME_GRID : STYLES_GAME_ROW}>
-          {this._maxGameItemsWhichFitOntoScreen().map((m, i) => {
-            const key = m.key ? m.key : m.gameId ? m.gameId : m.url;
-            return (
-              <div className={STYLES_CELL_ITEM} key={`${key}-i`}>
-                <UIGameCell
-                  renderCartridgeOnly={this.props.renderCartridgeOnly}
-                  onGameSelect={this.props.onGameSelect}
-                  onShowGameInfo={this.props.onShowGameInfo}
-                  underConstruction={this.props.underConstruction}
-                  onGameUpdate={this.props.onGameUpdate}
-                  onUserSelect={this.props.onUserSelect}
-                  onSignInSelect={this.props.onSignInSelect}
-                  src={m.coverImage && m.coverImage.url}
-                  game={m}
-                  viewer={this.props.viewer}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {rowIndices.map((_, j) => {
+          return (
+            <div className={STYLES_GAME_ROW} key={`${j}-whichRow`}>
+              {this._gamesForRow(j).map((m, i) => {
+                const key = m.key ? m.key : m.gameId ? m.gameId : m.url;
+                return (
+                  <div className={STYLES_CELL_ITEM} key={`${key}-i`}>
+                    <UIGameCell
+                      renderCartridgeOnly={this.props.renderCartridgeOnly}
+                      onGameSelect={this.props.onGameSelect}
+                      onShowGameInfo={this.props.onShowGameInfo}
+                      underConstruction={this.props.underConstruction}
+                      onGameUpdate={this.props.onGameUpdate}
+                      onUserSelect={this.props.onUserSelect}
+                      onSignInSelect={this.props.onSignInSelect}
+                      src={m.coverImage && m.coverImage.url}
+                      game={m}
+                      viewer={this.props.viewer}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </div>
     );
   }

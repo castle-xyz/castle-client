@@ -29,6 +29,7 @@ const STYLES_CONTAINER = css`
   height: 100%;
   overflow-y: scroll;
   padding: 24px;
+  box-shadow: inset 1px 0 2px -1px rgba(0, 0, 0, 0.5);
 
   ::-webkit-scrollbar {
     display: none;
@@ -238,9 +239,7 @@ class CreateProjectScreen extends React.Component {
         <div className={STYLES_CHOOSE_TEMPLATE}>
           <div className={STYLES_PRIMARY_CONTENT}>
             <UIHeading>Create a game</UIHeading>
-            <div className={STYLES_PARAGRAPH}>
-              Choose a starter template:
-            </div>
+            <div className={STYLES_PARAGRAPH}>Choose a starter template:</div>
             <ProjectTemplateChooser
               templates={this.props.templates}
               selectedTemplate={this.state.selectedTemplate}
@@ -361,9 +360,7 @@ class CreateProjectScreen extends React.Component {
     } else if (this.state.step === 'finished') {
       content = this._renderFinished();
     }
-    return (
-      <div className={STYLES_CONTAINER}>{content}</div>
-    );
+    return <div className={STYLES_CONTAINER}>{content}</div>;
   }
 }
 

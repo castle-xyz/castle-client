@@ -1,7 +1,4 @@
-import ReactDOM from 'react-dom';
-
 import * as React from 'react';
-import * as Constants from '~/common/constants';
 
 import { css } from 'react-emotion';
 
@@ -17,7 +14,7 @@ export default class SidebarNavigation extends React.Component {
       <div className={STYLES_CONTAINER}>
         <SidebarNavigationItem
           data={{
-            name: 'Games',
+            name: 'Play',
             svg: 'home',
             onClick: this.props.onNavigateToGames,
             active: this.props.contentMode === 'home',
@@ -29,14 +26,6 @@ export default class SidebarNavigation extends React.Component {
             svg: 'make',
             onClick: this.props.onNavigateToMakeGame,
             active: this.props.contentMode === 'create',
-          }}
-        />
-        <SidebarNavigationItem
-          data={{
-            name: 'Posts',
-            svg: 'posts',
-            onClick: this.props.onNavigateToAllPosts,
-            active: this.props.contentMode === 'posts',
           }}
         />
         {this.props.viewer ? (

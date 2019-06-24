@@ -67,6 +67,7 @@
     "react-splitter-layout": "^4.0.0",
     "react-string-replace": "^0.4.4",
     "react-textarea-autosize": "^7.1.0",
+    "react-tippy": "^1.2.3",
     "slate": "^0.41.2",
     "slate-plain-serializer": "^0.6.7",
     "slate-react": "^0.18.10",

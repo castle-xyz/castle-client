@@ -1,22 +1,19 @@
 import * as React from 'react';
-import * as Actions from '~/common/actions';
 import * as Constants from '~/common/constants';
-import * as SVG from '~/components/primitives/svg';
 
 import { css } from 'react-emotion';
 import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 import { NavigationContext, NavigatorContext } from '~/contexts/NavigationContext';
 
-import UIButton from '~/components/reusable/UIButton';
 import UIHorizontalNavigation from '~/components/reusable/UIHorizontalNavigation';
 import UIEmptyState from '~/components/reusable/UIEmptyState';
 
 import EditProfile from '~/components/profile/EditProfile';
 import AddGame from '~/components/profile/AddGame';
-import UIGameGrid from '~/components/reusable/UIGameGrid';
 import ProfileHeader from '~/components/profile/ProfileHeader';
 import ProfileSettings from '~/components/profile/ProfileSettings';
 import SignOut from '~/components/profile/SignOut';
+import UIGameSet from '~/components/reusable/UIGameSet';
 
 const STYLES_CONTAINER = css`
   color: ${Constants.colors.text};
@@ -25,14 +22,15 @@ const STYLES_CONTAINER = css`
   min-width: 25%;
   height: 100%;
   overflow-y: scroll;
-
   ::-webkit-scrollbar {
     display: none;
     width: 1px;
   }
 `;
 
-const STYLES_GAME_GRID = css``;
+const STYLES_GAME_GRID = css`
+  marigin-left: 24px;
+`;
 
 class ProfileScreen extends React.Component {
   static defaultProps = {
@@ -122,14 +120,12 @@ class ProfileScreen extends React.Component {
   _renderGameContent = (isOwnProfile, viewer, creator) => {
     return creator.gameItems && creator.gameItems.length ? (
       <div className={STYLES_GAME_GRID}>
-        <UIGameGrid
-          renderCartridgeOnly
-          viewer={viewer}
-          creator={creator}
+        <UIGameSet
+          viewer={this.props.viewer}
           gameItems={creator.gameItems}
-          onSignInSelect={this.props.navigateToSignIn}
+          onUserSelect={this.props.navigateToUserProfile}
           onGameSelect={this._navigateToGame}
-          onGameUpdate={isOwnProfile ? this._onShowUpdateGame : null}
+          onSignInSelect={this.props.navigateToSignIn}
         />
       </div>
     ) : (

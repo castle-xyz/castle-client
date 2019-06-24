@@ -8,8 +8,7 @@ import { css } from 'react-emotion';
 import { NavigatorContext } from '~/contexts/NavigationContext';
 
 import _ from 'lodash';
-import UIButtonSecondary from '~/components/reusable/UIButtonSecondary';
-import UIGameGrid from '~/components/reusable/UIGameGrid';
+import UIGameSet from '~/components/reusable/UIGameSet';
 import UIUserGrid from '~/components/reusable/UIUserGrid';
 
 const SEARCH_DEBOUNCE_MS = 50;
@@ -22,7 +21,6 @@ const STYLES_CONTAINER = css`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-
   ::-webkit-scrollbar {
     display: none;
     width: 1px;
@@ -43,13 +41,13 @@ const STYLES_SEARCH_RESPONSE_ACTION = css`
   padding: 12px;
   margin-left: 12px;
   text-decoration: underline;
-
   :hover {
     cursor: pointer;
   }
 `;
 
 const STYLES_SECTION = css`
+  margin-top: 24px;
   padding-bottom: 64px;
 `;
 
@@ -191,21 +189,19 @@ export default class SearchScreen extends React.Component {
       );
     }
   };
-
   _renderResults = () => {
     let maybeGameResults, maybeUserResults, maybeNoResults;
     if (this.state.results.games && this.state.results.games.length) {
       maybeGameResults = (
-        <UIGameGrid
-          gameItems={this.state.results.games}
-          onUserSelect={this._navigateToUserProfile}
-          onGameSelect={this._navigateToGame}
-          onSignInSelect={this._navigateToSignIn}
+        <UIGameSet
           viewer={this.props.viewer}
+          gameItems={this.state.results.games}
+          onUserSelect={this.props.navigateToUserProfile}
+          onGameSelect={this._navigateToGame}
+          onSignInSelect={this.props.navigateToSignIn}
         />
       );
     }
-
     if (this.state.results.users && this.state.results.users.length) {
       maybeUserResults = (
         <UIUserGrid
@@ -215,11 +211,9 @@ export default class SearchScreen extends React.Component {
         />
       );
     }
-
     if (!maybeGameResults && !maybeUserResults) {
       maybeNoResults = this._renderNoResults();
     }
-
     return (
       <React.Fragment>
         {maybeGameResults}

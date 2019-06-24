@@ -7,13 +7,14 @@ import { NavigatorContext } from '~/contexts/NavigationContext';
 
 import GamesHomeScreen from '~/screens/GamesHomeScreen';
 import UIGameGrid from '~/components/reusable/UIGameGrid';
+import UIGameSet from '~/components/reusable/UIGameSet';
 
 const STYLES_CONTAINER = css`
-  background: ${Constants.colors.background};
+  background: ${Constants.colors.white};
+  box-shadow: inset 1px 0 2px -1px rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  padding-bottom: 64px;
-
+  background: #ffffff;
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;
@@ -21,13 +22,19 @@ const STYLES_CONTAINER = css`
   }
 `;
 
-const STYLES_MODAL = css`
-  position: absolute;
-  background: red;
+const STYLES_SECTION_TITLE = css`
+  font-weight: 900;
+  font-family: ${Constants.font.heading};
+  font-size: ${Constants.typescale.lvl5};
+  margin-bottom: 16px;
+  margin-left: 24px;
+`;
+
+const STYLES_HISTORY_CONTENT = css`
+  margin: 16px 0px 0px 0px;
 `;
 
 class HomeScreen extends React.Component {
-
   static defaultProps = {
     trendingGames: [],
     gamesUnderConstruction: [],
@@ -68,11 +75,7 @@ class HomeScreen extends React.Component {
             onSignInSelect={this.props.navigateToSignIn}
           />
         ) : null}
-        {mode === 'home' ? (
-          <GamesHomeScreen
-            {...this.props}
-          />
-        ) : null}
+        {mode === 'home' ? <GamesHomeScreen {...this.props} /> : null}
         {mode === 'examples' ? (
           <UIGameGrid
             viewer={this.props.viewer}
@@ -83,13 +86,16 @@ class HomeScreen extends React.Component {
           />
         ) : null}
         {mode === 'history' ? (
-          <UIGameGrid
-            viewer={this.props.viewer}
-            gameItems={recentGames}
-            onUserSelect={this.props.navigateToUserProfile}
-            onGameSelect={this._navigateToGame}
-            onSignInSelect={this.props.navigateToSignIn}
-          />
+          <div className={STYLES_HISTORY_CONTENT}>
+            <div className={STYLES_SECTION_TITLE}>History</div>
+            <UIGameSet
+              viewer={this.props.viewer}
+              gameItems={recentGames}
+              onUserSelect={this.props.navigateToUserProfile}
+              onGameSelect={this._navigateToGame}
+              onSignInSelect={this.props.navigateToSignIn}
+            />
+          </div>
         ) : null}
       </div>
     );

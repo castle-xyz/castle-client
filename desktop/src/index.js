@@ -12,6 +12,8 @@ import App from './App';
 import GLLoaderScreen from '~/isometric/components/GLLoaderScreen';
 import Storage from '~/common/storage';
 
+import 'react-tippy/dist/tippy.css';
+
 const injectGlobalStyles = () => injectGlobal`
   @font-face {
     font-family: 'game-heading';
@@ -135,7 +137,7 @@ const run = async () => {
   const notifications = await Actions.getNotificationPreferences();
   state.currentUser = { user: viewer };
   if (state.currentUser.user) {
-    state.currentUser = { user: {...state.currentUser.user, notifications} };
+    state.currentUser = { user: { ...state.currentUser.user, notifications } };
   }
 
   // NOTE(jim): You must be authenticated to use Castle.

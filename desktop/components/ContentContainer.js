@@ -13,7 +13,6 @@ import ChatScreen from '~/screens/ChatScreen';
 import GameScreen from '~/screens/GameScreen';
 import HomeScreen from '~/screens/HomeScreen';
 import CreateProjectScreen from '~/screens/CreateProjectScreen';
-import PostsScreen from '~/screens/PostsScreen';
 import ProfileScreen from '~/screens/ProfileScreen';
 import NotificationScreen from '~/screens/NotificationScreen';
 import SearchScreen from '~/screens/SearchScreen';
@@ -101,8 +100,6 @@ class ContentContainer extends React.Component {
   _renderContent = (mode) => {
     if (mode === 'game') {
       return <GameScreen isFullScreen={this.props.isFullScreen} />;
-    } else if (mode === 'posts') {
-      return <PostsScreen />;
     } else if (mode === 'home' || mode === 'history' || mode === 'examples') {
       return (
         <HomeScreen
