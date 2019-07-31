@@ -54,6 +54,7 @@ const STYLES_NAME = css`
 const STYLES_SYMBOL = css`
   margin-top: 3px;
   flex-shrink: 0;
+  color: #6e6e6e;
 `;
 
 const truncatePath = (path, chars) => {
@@ -66,10 +67,16 @@ const truncatePath = (path, chars) => {
 
 export default (props) => {
   const { project, isSelected, onClick } = props;
-  let fontWeight, unreadCount;
+  let fontWeight, unreadCount, selectedStyles;
   if (project.hasUnreadMessages && !isSelected) {
     fontWeight = '700';
     unreadCount = project.unreadNotificationCount;
+  }
+  if (isSelected) {
+    selectedStyles = {
+      color: 'magenta',
+      backgroundColor: '#f9f9f9',
+    };
   }
   let name;
   if (project.name) {
@@ -82,10 +89,7 @@ export default (props) => {
 
   return (
     <div className={STYLES_CONTAINER}>
-      <div
-        className={STYLES_PROJECT}
-        style={{ color: isSelected ? 'magenta' : null }}
-        onClick={onClick ? onClick : null}>
+      <div className={STYLES_PROJECT} style={selectedStyles} onClick={onClick ? onClick : null}>
         <span className={STYLES_SYMBOL}>
           <SVG.Castle size="14px" />
         </span>

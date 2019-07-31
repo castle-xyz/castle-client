@@ -18,10 +18,11 @@ import SidebarOptionsChannels from '~/components/sidebar/SidebarOptionsChannels'
 import SidebarOptionsMessages from '~/components/sidebar/SidebarOptionsMessages';
 
 import SidebarHeader from '~/components/sidebar/SidebarHeader';
-import SidebarChannels from '~/components/sidebar/SidebarChannels';
 import SidebarProjects from '~/components/sidebar/SidebarProjects';
 import SidebarDirectMessages from '~/components/sidebar/SidebarDirectMessages';
 import SidebarNavigation from '~/components/sidebar/SidebarNavigation';
+import SidebarSectionCreate from '~/components/sidebar/SidebarSectionCreate';
+import SidebarSectionPlay from '~/components/sidebar/SidebarSectionPlay';
 
 // NOTE(jim): Legacy.
 import HomeUpdateBanner from '~/components/HomeUpdateBanner';
@@ -140,36 +141,34 @@ class Sidebar extends React.Component {
       return <div className={STYLES_SIDEBAR}>{header}</div>;
     }
 
-    let lobbyChannel;
+    let lobbyChannel,
+      isLobbySelected = false,
+      numUsersOnline = 0;
     try {
       lobbyChannel = chat.findChannel(ChatUtilities.EVERYONE_CHANNEL_NAME);
+      if (lobbyChannel) {
+        isLobbySelected = contentMode === 'chat' && chatChannelId === lobbyChannel.channelId;
+        numUsersOnline = chat.channelOnlineCounts[lobbyChannel.channelId];
+      }
     } catch (_) {}
 
     return (
       <div className={STYLES_SIDEBAR}>
         {this._renderUpdateBanner()}
         {header}
-        <SidebarNavigation
+        <SidebarSectionPlay
+          chat={chat}
+          userStatusHistory={currentUser.userStatusHistory}
           contentMode={contentMode}
           chatChannelId={chatChannelId}
-          lobbyChannel={lobbyChannel}
-          onNavigateToMakeGame={this._handleNavigateToMakeGame}
           onNavigateToGames={this._handleNavigateToGames}
           onNavigateToChat={this._handleNavigateToChat}
         />
-        <SidebarProjects
-          title="Recently Created"
+        <SidebarSectionCreate
           userStatusHistory={currentUser.userStatusHistory}
-          onSelectGameUrl={navigator.navigateToGameUrl}
-        />
-        <SidebarChannels
-          selectedChannelId={chatChannelId}
-          title="Recently Played"
-          userStatusHistory={currentUser.userStatusHistory}
-          isChatVisible={isChatVisible}
-          channels={chat.channels}
-          filterChannel={(channel) => channel.isSubscribed && channel.type === 'game'}
-          onSelectChannel={this._handleNavigateToChat}
+          contentMode={contentMode}
+          onNavigateToCreate={this._handleNavigateToMakeGame}
+          onNavigateToGameUrl={navigator.navigateToGameUrl}
         />
         <SidebarDirectMessages
           selectedChannelId={chatChannelId}
@@ -177,6 +176,9 @@ class Sidebar extends React.Component {
           userPresence={userPresence}
           isChatVisible={isChatVisible}
           channels={chat.channels}
+          lobbyChannel={lobbyChannel}
+          isLobbySelected={isLobbySelected}
+          numUsersOnline={numUsersOnline}
           onSelectChannel={this._handleNavigateToChat}
           onShowOptions={this._handleShowDirectMessageOptions}
         />

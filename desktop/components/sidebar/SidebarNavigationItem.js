@@ -5,14 +5,16 @@ import * as SVG from '~/components/primitives/svg';
 import { css, styled } from 'react-emotion';
 import { TRANSPARENT_GIF_DATA_URL } from '../../common/constants';
 
+const ICON_SIZE = '16px';
+
 const SVG_ICON = {
-  home: <SVG.SidebarGames size="20px" />,
-  make: <SVG.SidebarMake size="20px" />,
-  chat: <SVG.SidebarChat size="20px" />,
-  examples: <SVG.SidebarGames size="20px" />,
-  posts: <SVG.SidebarPosts size="20px" />,
-  history: <SVG.SidebarHistory size="20px" />,
-  documentation: <SVG.SidebarDocs size="20px" />,
+  home: <SVG.SidebarGames size={ICON_SIZE} />,
+  make: <SVG.SidebarMake size={ICON_SIZE} />,
+  chat: <SVG.SidebarChat size={ICON_SIZE} />,
+  examples: <SVG.SidebarGames size={ICON_SIZE} />,
+  posts: <SVG.SidebarPosts size={ICON_SIZE} />,
+  history: <SVG.SidebarHistory size={ICON_SIZE} />,
+  documentation: <SVG.SidebarDocs size={ICON_SIZE} />,
 };
 
 const STYLES_ITEM = css`
@@ -20,10 +22,10 @@ const STYLES_ITEM = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
-  margin: 8px 0 8px 0;
-  padding: 0 16px 0 16px;
+  margin: 0;
+  padding: 4px 16px 4px 16px;
   transition: 70ms ease color;
   user-select: none;
   :hover {
@@ -35,7 +37,7 @@ const STYLES_NAME = css`
   min-width: 10%;
   width: 100%;
   cursor: pointer;
-  padding: 0 10px 3px 10px;
+  padding: 0 10px 3px 8px;
 `;
 
 const STYLES_SYMBOL = css`
@@ -59,15 +61,22 @@ const STYLES_NOTIFICATION = css`
 `;
 
 export default (props) => {
-  let fontWeight, unreadCount;
+  let fontWeight, unreadCount, selectedStyles;
   if (props.hasUnreadMessages && !props.active) {
     fontWeight = '700';
     unreadCount = props.unreadNotificationCount;
   }
+  if (props.active) {
+    selectedStyles = {
+      color: 'magenta',
+      backgroundColor: '#f9f9f9',
+    };
+  }
+  fontWeight = '700';
   return (
     <div
       className={STYLES_ITEM}
-      style={{ color: props.active ? 'magenta' : null }}
+      style={selectedStyles}
       onClick={props.active ? null : props.onClick}>
       <span className={STYLES_SYMBOL}>{SVG_ICON[props.svg]}</span>
       <span className={STYLES_NAME} style={{ fontWeight }}>

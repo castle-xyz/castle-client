@@ -9,7 +9,7 @@ import SidebarProjectItem from '~/components/sidebar/SidebarProjectItem';
 import UserStatus from '~/common/userstatus';
 
 const STYLES_CONTAINER = css`
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 `;
 
 export default class SidebarProjects extends React.Component {
@@ -35,7 +35,6 @@ export default class SidebarProjects extends React.Component {
 
     return (
       <div className={STYLES_CONTAINER}>
-        <SidebarGroupHeader>{this.props.title}</SidebarGroupHeader>
         {filteredItems.map((p, ii) => {
           return (
             <SidebarProjectItem

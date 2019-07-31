@@ -4,6 +4,7 @@ import * as Strings from '~/common/strings';
 import * as SVG from '~/components/primitives/svg';
 
 import { css } from 'react-emotion';
+import { EVERYONE_CHANNEL_NAME } from '~/common/chat-utilities';
 
 import UIAvatar from '~/components/reusable/UIAvatar';
 import UserStatus from '~/common/userstatus';
@@ -62,11 +63,14 @@ const STYLES_STATUS = css`
   font-size: 10px;
 `;
 
+const STYLES_AVATARS = css`
+  display: inline-block;
+  position: relative;
+`;
+
 export default (props) => {
-  const { channel, isSelected, onClick, user } = props;
-  if (!user) {
-    return null;
-  }
+  const { channel, isSelected, onClick, numMembersOnline, userPresence } = props;
+  if (!channel) return null;
 
   let color,
     backgroundColor,
@@ -81,18 +85,38 @@ export default (props) => {
     unreadCount = channel.unreadNotificationCount;
   }
 
-  let { status } = UserStatus.renderStatusText(user.lastUserStatus);
+  let maybeAvatar = null;
+  if (userPresence && numMembersOnline > 0) {
+    let someUserIds = Object.keys(userPresence.onlineUserIds).filter(
+      (userId) => !!userPresence.userIdToUser[userId] && !!userPresence.userIdToUser[userId].photo
+    );
+    if (someUserIds && someUserIds.length) {
+      const selectedUserIds = someUserIds.slice(0, 4);
+      const avatarSpacing = 6;
+      maybeAvatar = (
+        <div
+          className={STYLES_AVATARS}
+          style={{ width: 24, height: 18 + (selectedUserIds.length - 1) * avatarSpacing }}>
+          {selectedUserIds.map((userId, ii) => (
+            <UIAvatar
+              src={userPresence.userIdToUser[userId].photo.url}
+              isOnline={true}
+              style={{ position: 'absolute', top: ii * avatarSpacing, border: '1px solid #fcfcfc' }}
+            />
+          ))}
+        </div>
+      );
+    }
+  }
 
   return (
     <div className={STYLES_USER} onClick={!isSelected ? onClick : null} style={{ backgroundColor }}>
-      <UIAvatar src={user.photo ? user.photo.url : null} isOnline={channel.otherUserIsOnline} />
+      {maybeAvatar}
       <div className={STYLES_TEXT}>
         <h3 className={STYLES_NAME} style={{ color, fontWeight }}>
-          {Strings.getName(user)}
+          {channel.name == EVERYONE_CHANNEL_NAME ? 'Everyone' : channel.name}
         </h3>
-        {status && channel.otherUserIsOnline ? (
-          <span className={STYLES_STATUS}>{status}</span>
-        ) : null}
+        {numMembersOnline ? <span className={STYLES_STATUS}>{numMembersOnline} online</span> : null}
       </div>
       {unreadCount ? <span className={STYLES_NOTIFICATION}>{unreadCount}</span> : null}
     </div>
