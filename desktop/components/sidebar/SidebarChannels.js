@@ -4,8 +4,7 @@ import * as Constants from '~/common/constants';
 
 import { css } from 'react-emotion';
 
-import SidebarGroupHeader from '~/components/sidebar/SidebarGroupHeader';
-import SidebarChannelItem from '~/components/sidebar/SidebarChannelItem';
+import SidebarActivityItem from '~/components/sidebar/SidebarActivityItem';
 
 const STYLES_CONTAINER = css`
   margin-bottom: 32px;
@@ -130,9 +129,12 @@ export default class SidebarChannels extends React.Component {
             c.channelId === this.props.selectedChannelId && this.props.isChatVisible;
 
           return (
-            <SidebarChannelItem
+            <SidebarActivityItem
               key={`channel-${c.channelId}`}
-              channel={c}
+              name={c.name}
+              type={c.type}
+              isUnread={c.hasUnreadMessages}
+              notificationCount={c.unreadNotificationCount}
               isSelected={isSelected}
               onClick={!isSelected ? () => this.props.onSelectChannel(c) : null}
             />

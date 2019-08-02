@@ -52,11 +52,11 @@ const STYLES_SYMBOL = css`
 `;
 
 export default (props) => {
-  const { channel, isSelected, onClick } = props;
-  let fontWeight, unreadCount, selectedStyles;
-  if (channel.hasUnreadMessages && !isSelected) {
+  const { name, type, isUnread, notificationCount, isSelected, onClick } = props;
+  let fontWeight, unreadCountToDisplay, selectedStyles;
+  if (isUnread && !isSelected) {
     fontWeight = '700';
-    unreadCount = channel.unreadNotificationCount;
+    unreadCountToDisplay = notificationCount;
   }
   if (isSelected) {
     selectedStyles = {
@@ -66,7 +66,7 @@ export default (props) => {
   }
   let icon;
   let iconStyles = isSelected ? { color: 'magenta' } : null;
-  switch (channel.type) {
+  switch (type) {
     case 'game':
       icon = <SVG.SidebarGames size="14px" style={iconStyles} />;
       break;
@@ -81,9 +81,11 @@ export default (props) => {
     <div className={STYLES_CHANNEL} style={selectedStyles} onClick={onClick ? onClick : null}>
       <span className={STYLES_SYMBOL}>{icon}</span>
       <span className={STYLES_NAME} style={{ fontWeight }}>
-        {channel.name}
+        {name}
       </span>
-      {unreadCount ? <span className={STYLES_NOTIFICATION}>{unreadCount}</span> : null}
+      {unreadCountToDisplay ? (
+        <span className={STYLES_NOTIFICATION}>{unreadCountToDisplay}</span>
+      ) : null}
     </div>
   );
 };

@@ -4,12 +4,10 @@ import * as Constants from '~/common/constants';
 
 import { css } from 'react-emotion';
 
-import SidebarGroupChannelItem from '~/components/sidebar/SidebarGroupChannelItem';
 import SidebarDirectMessageItem from '~/components/sidebar/SidebarDirectMessageItem';
-import SidebarNavigationItem from '~/components/sidebar/SidebarNavigationItem';
 
 const STYLES_CONTAINER = css`
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 `;
 
 export default class SidebarDirectMessages extends React.Component {
@@ -33,18 +31,6 @@ export default class SidebarDirectMessages extends React.Component {
 
     return (
       <div className={STYLES_CONTAINER}>
-        <SidebarNavigationItem
-          name="Chat"
-          svg="chat"
-          onClick={() => this.props.onSelectChannel(this.props.lobbyChannel)}
-        />
-        <SidebarGroupChannelItem
-          numMembersOnline={this.props.numUsersOnline}
-          channel={this.props.lobbyChannel}
-          userPresence={this.props.userPresence}
-          isSelected={this.props.isLobbySelected}
-          onClick={() => this.props.onSelectChannel(this.props.lobbyChannel)}
-        />
         {directMessages.map((c) => {
           const isSelected =
             c.channelId === this.props.selectedChannelId && this.props.isChatVisible;
