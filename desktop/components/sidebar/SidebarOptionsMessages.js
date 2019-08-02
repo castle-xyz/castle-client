@@ -8,7 +8,7 @@ import * as Strings from '~/common/strings';
 import { css } from 'react-emotion';
 
 import UISidebarInput from '~/components/reusable/UISidebarInput';
-import SidebarDirectMessageItem from '~/components/sidebar/SidebarDirectMessageItem';
+import SidebarMessageItem from '~/components/sidebar/SidebarMessageItem';
 
 const STYLES_HEADER = css`
   border-bottom: 1px solid ${Constants.REFACTOR_COLORS.elements.border};
@@ -106,7 +106,6 @@ export default class SidebarOptionsMessages extends React.Component {
         channels = users.map((u) => {
           return {
             user: u,
-            hasUnreadMessages: false,
             type: 'dm',
             otherUserIsOnline: userPresence && userPresence.onlineUserIds[u.userId],
             name: Strings.getName(u),
@@ -153,11 +152,16 @@ export default class SidebarOptionsMessages extends React.Component {
           }
 
           return (
-            <SidebarDirectMessageItem
+            <SidebarMessageItem
               key={`channel-${c.user.userId}`}
-              channel={c}
-              user={c.user}
               onClick={() => onSendMessage(c.user)}
+              name={c.name}
+              isUnread={false}
+              notificationCount={0}
+              isOnline={c.otherUserIsOnline}
+              isSelected={false}
+              status={null}
+              avatarUrl={c.user.photo ? c.user.photo.url : null}
             />
           );
         })}

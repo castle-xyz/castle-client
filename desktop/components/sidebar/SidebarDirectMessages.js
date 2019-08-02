@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as ChatUtilities from '~/common/chat-utilities';
 import * as Constants from '~/common/constants';
+import * as Strings from '~/common/strings';
 
 import { css } from 'react-emotion';
 
-import SidebarDirectMessageItem from '~/components/sidebar/SidebarDirectMessageItem';
+import SidebarMessageItem from '~/components/sidebar/SidebarMessageItem';
+import UserStatus from '~/common/userstatus';
 
 const STYLES_CONTAINER = css`
   margin-bottom: 16px;
@@ -40,12 +42,18 @@ export default class SidebarDirectMessages extends React.Component {
             return;
           }
 
+          let { status } = UserStatus.renderStatusText(user.lastUserStatus);
+
           return (
-            <SidebarDirectMessageItem
+            <SidebarMessageItem
               key={`direct-message-${c.channelId}-${c.otherUserId}`}
-              channel={c}
+              name={Strings.getName(user)}
+              isUnread={c.hasUnreadMessages}
+              notificationCount={c.unreadNotificationCount}
+              isOnline={c.otherUserIsOnline}
               isSelected={isSelected}
-              user={user}
+              status={status}
+              avatarUrl={user.photo ? user.photo.url : null}
               onClick={() => this.props.onSelectChannel(c)}
             />
           );
