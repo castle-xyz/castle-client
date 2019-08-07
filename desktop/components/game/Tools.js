@@ -511,8 +511,6 @@ class ToolDropdown extends React.PureComponent {
     lastSentEventId: null,
   };
 
-  _mutationObserver = null;
-
   static getDerivedStateFromProps(props, state) {
     if (
       state.lastSentEventId === null ||
@@ -537,65 +535,30 @@ class ToolDropdown extends React.PureComponent {
 
     return (
       <Carbon>
-        <div ref={this._handleContainerRef}>
-          <Dropdown
-            {...element.props}
-            id={element.pathId}
-            items={items}
-            selectedItem={this.state.value}
-            titleText={element.props && !element.props.hideLabel ? element.props.label : null}
-            label={
-              element.props && element.props.placeholder
-                ? element.props.placeholder
-                : 'Select an option...'
-            }
-            onChange={({ selectedItem }) => {
-              this.setState({
+        <Dropdown
+          {...element.props}
+          id={element.pathId}
+          items={items}
+          selectedItem={this.state.value}
+          titleText={element.props && !element.props.hideLabel ? element.props.label : null}
+          label={
+            element.props && element.props.placeholder
+              ? element.props.placeholder
+              : 'Select an option...'
+          }
+          onChange={({ selectedItem }) => {
+            this.setState({
+              value: selectedItem,
+              lastSentEventId: sendEvent(element.pathId, {
+                type: 'onChange',
                 value: selectedItem,
-                lastSentEventId: sendEvent(element.pathId, {
-                  type: 'onChange',
-                  value: selectedItem,
-                }),
-              });
-            }}
-          />
-        </div>
+              }),
+            });
+          }}
+        />
       </Carbon>
     );
   }
-
-  _handleContainerRef = (ref) => {
-    // Unobserve previous
-    if (this._mutationObserver) {
-      this._mutationObserver.disconnect();
-    }
-
-    // Observe new
-    if (ref) {
-      const containerDOMNode = findDOMNode(ref);
-
-      this._mutationObserver = new MutationObserver((mutations, observer) => {
-        mutations.forEach((mutation) => {
-          if (mutation.type === 'childList') {
-            mutation.addedNodes.forEach((addedNode) => {
-              if (addedNode.classList.contains('bx--list-box__menu')) {
-                // Match the menu's width to width of the prompt
-                addedNode.style.width = window
-                  .getComputedStyle(containerDOMNode)
-                  .getPropertyValue('width');
-              }
-            });
-          }
-        });
-      });
-      this._mutationObserver.observe(containerDOMNode, {
-        attributes: true,
-        childList: true,
-        characterData: true,
-        subtree: true,
-      });
-    }
-  };
 }
 elementTypes['dropdown'] = ToolDropdown;
 
@@ -1802,18 +1765,6 @@ const STYLES_CONTAINER_V2 = css`
     width: auto !important;
   }
 
-  /* Fix dropdown overflow (coupled with the mutation observer JavaScript logic) */
-  .bx--list-box {
-    position: unset !important;
-  }
-  .bx--dropdown {
-    position: unset !important;
-  }
-  .bx--list-box__menu {
-    left: unset !important;
-    right: unset !important;
-  }
-
   /* Add some general bottom margin */
   .bx--number,
   .bx--text-input__field-wrapper,
@@ -1893,18 +1844,6 @@ const STYLES_CONTAINER = css`
     width: auto !important;
   }
 
-  /* Fix dropdown overflow (coupled with the mutation observer JavaScript logic) */
-  .bx--list-box {
-    position: unset !important;
-  }
-  .bx--dropdown {
-    position: unset !important;
-  }
-  .bx--list-box__menu {
-    left: unset !important;
-    right: unset !important;
-  }
-
   /* Add some general bottom margin */
   .bx--number,
   .bx--text-input__field-wrapper,
@@ -1960,97 +1899,170 @@ export default class Tools extends React.PureComponent {
                 name: 'DEFAULT',
               },
               children: {
-                lastId: 'boxbox1',
-                count: 1,
-                boxbox1: {
-                  type: 'box',
+                scrollBoxscrollBox1: {
+                  type: 'scrollBox',
                   children: {
-                    lastId: 'boxright',
-                    count: 2,
-                    boxright: {
-                      prevId: 'boxleft',
-                      type: 'box',
+                    'buttonButton 2': {
+                      type: 'button',
+                      prevId: 'markdownRow 2',
+                      pathId: 'M2zVSmMv2v7J4/NkSuNbiA==',
                       props: {
-                        padding: 2,
-                        bg: '#4e8600',
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      },
-                      pathId: 'DEFAULTboxbox1boxright',
-                      children: {
-                        lastId: 'dropdowndrop2',
-                        count: 2,
-                        dropdowndrop2: {
-                          type: 'dropdown',
-                          prevId: 'markdownRight',
-                          pathId: 'B6T6ytBF/iuUHR0yFzh9Bw==',
-                          props: {
-                            label: 'drop2',
-                            items: {
-                              '1': 'alpha',
-                              '2': 'beta',
-                              '3': 'gamma',
-                              '4': 'delta',
-                              '5': 'epsilon',
-                              '6': 'zeta',
-                            },
-                          },
-                        },
-                        markdownRight: {
-                          type: 'markdown',
-                          props: {
-                            source: 'Right',
-                          },
-                        },
+                        label: 'Button 2',
                       },
                     },
-                    boxleft: {
-                      type: 'box',
-                      children: {
-                        lastId: 'dropdowndrop1',
-                        markdownLeft: {
-                          type: 'markdown',
-                          props: {
-                            source: 'Left',
-                          },
-                        },
-                        count: 2,
-                        dropdowndrop1: {
-                          type: 'dropdown',
-                          prevId: 'markdownLeft',
-                          pathId: 'L/LXhH5TUj2jUpccmsIjjg==',
-                          props: {
-                            label: 'drop1',
-                            items: {
-                              '1': 'alpha',
-                              '2': 'beta',
-                              '3': 'gamma',
-                              '4': 'delta',
-                              '5': 'epsilon',
-                              '6': 'zeta',
-                            },
-                          },
-                        },
-                      },
+                    'buttonButton 7': {
+                      type: 'button',
+                      prevId: 'markdownRow 7',
+                      pathId: 'RU35sM5KLJoM5VNwExRDKA==',
                       props: {
-                        padding: 2,
-                        bg: '#a2005e',
-                        flex: 1,
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        label: 'Button 7',
                       },
-                      pathId: 'DEFAULTboxbox1boxleft',
+                    },
+                    'markdownRow 3': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 2',
+                      props: {
+                        source: 'Row 3',
+                      },
+                    },
+                    'markdownRow 5': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 4',
+                      props: {
+                        source: 'Row 5',
+                      },
+                    },
+                    'buttonButton 1': {
+                      type: 'button',
+                      prevId: 'markdownRow 1',
+                      pathId: 'PlxZ3gcfZoR24irXQ+4ZWQ==',
+                      props: {
+                        label: 'Button 1',
+                      },
+                    },
+                    'buttonButton 4': {
+                      type: 'button',
+                      prevId: 'markdownRow 4',
+                      pathId: 'iWxh1j/rQEESiqy1SVvBTw==',
+                      props: {
+                        label: 'Button 4',
+                      },
+                    },
+                    'buttonButton 6': {
+                      type: 'button',
+                      prevId: 'markdownRow 6',
+                      pathId: 'B9yBNIH20bA+Yn1XrtdVKA==',
+                      props: {
+                        label: 'Button 6',
+                      },
+                    },
+                    'markdownRow 10': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 9',
+                      props: {
+                        source: 'Row 10',
+                      },
+                    },
+                    'markdownRow 1': {
+                      type: 'markdown',
+                      props: {
+                        source: 'Row 1',
+                      },
+                    },
+                    'buttonButton 5': {
+                      type: 'button',
+                      prevId: 'markdownRow 5',
+                      pathId: 'bmjOD7WbsPcdAGr86fb/jw==',
+                      props: {
+                        label: 'Button 5',
+                      },
+                    },
+                    'markdownRow 6': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 5',
+                      props: {
+                        source: 'Row 6',
+                      },
+                    },
+                    lastId: 'buttonButton 10',
+                    'buttonButton 9': {
+                      type: 'button',
+                      prevId: 'markdownRow 9',
+                      pathId: 'C52qwoXeoUkl5YUKoU0ibw==',
+                      props: {
+                        label: 'Button 9',
+                      },
+                    },
+                    'markdownRow 8': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 7',
+                      props: {
+                        source: 'Row 8',
+                      },
+                    },
+                    'buttonButton 8': {
+                      type: 'button',
+                      prevId: 'markdownRow 8',
+                      pathId: '/DKiVgYvK7kGVO9WmfgEeg==',
+                      props: {
+                        label: 'Button 8',
+                      },
+                    },
+                    'markdownRow 7': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 6',
+                      props: {
+                        source: 'Row 7',
+                      },
+                    },
+                    'buttonButton 3': {
+                      type: 'button',
+                      prevId: 'markdownRow 3',
+                      pathId: 'wE91WwJM/uxlncEeaG/nXA==',
+                      props: {
+                        label: 'Button 3',
+                      },
+                    },
+                    'markdownRow 2': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 1',
+                      props: {
+                        source: 'Row 2',
+                      },
+                    },
+                    'markdownRow 9': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 8',
+                      props: {
+                        source: 'Row 9',
+                      },
+                    },
+                    count: 20,
+                    'buttonButton 10': {
+                      type: 'button',
+                      prevId: 'markdownRow 10',
+                      pathId: 'NTG4C0s0bjqFN6eMunWLBw==',
+                      props: {
+                        label: 'Button 10',
+                      },
+                    },
+                    'markdownRow 4': {
+                      type: 'markdown',
+                      prevId: 'buttonButton 3',
+                      props: {
+                        source: 'Row 4',
+                      },
                     },
                   },
                   props: {
                     border: '1px solid white',
-                    flexDirection: 'row',
-                    width: 1,
-                    borderRadius: 6,
+                    height: 150,
+                    padding: 2,
                   },
-                  pathId: 'DEFAULTboxbox1',
+                  pathId: 'eE7a6bwxqkSyXobc7+/RCw==',
                 },
+                lastId: 'scrollBoxscrollBox1',
+                count: 1,
               },
             },
           },
