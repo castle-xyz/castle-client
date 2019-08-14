@@ -1,11 +1,12 @@
 import * as React from 'react';
-import * as Actions from '~/common/actions';
 import * as ChatUtilities from '~/common/chat-utilities';
 import * as Constants from '~/common/constants';
 import * as Strings from '~/common/strings';
 import * as SVG from '~/components/primitives/svg';
 
 import { css } from 'react-emotion';
+
+import GameMetaHeader from '~/components/gamemeta/GameMetaHeader';
 
 const STYLES_HEADER = css`
   border-bottom: 1px solid ${Constants.REFACTOR_COLORS.elements.border};
@@ -45,13 +46,6 @@ const STYLES_H2 = css`
   display: flex;
   align-items: center;
   height: 32px;
-`;
-
-const STYLES_GAME_TITLE = css`
-  text-decoration: underline;
-  cursor: pointer;
-  color: magenta;
-  font-weight: 600;
 `;
 
 const STYLES_P = css`
@@ -101,32 +95,6 @@ const STYLES_CHANNEL_NAME = css`
 `;
 
 export default class ChatHeader extends React.Component {
-  state = {
-    game: null,
-  };
-
-  constructor(props) {
-    super(props);
-    this._update(null);
-  }
-
-  componentDidUpdate(prevProps) {
-    this._update(prevProps);
-  }
-
-  _update = async (prevProps) => {
-    const { channel } = this.props;
-    if (channel.type === 'game' && channel.gameId) {
-      let prevGameId = prevProps ? prevProps.channel.gameId : null;
-      if (!this.state.game || channel.gameId !== prevGameId) {
-        try {
-          let game = await Actions.getGameByGameId(channel.gameId);
-          this.setState({ game });
-        } catch (_) {}
-      }
-    }
-  };
-
   _renderTitle = () => {
     const { channel, mode, onChannelClick } = this.props;
     let content;
@@ -166,20 +134,6 @@ export default class ChatHeader extends React.Component {
   _getHeading = () => {
     const { channel } = this.props;
     switch (channel.type) {
-      case 'game':
-        if (this.state.game) {
-          return (
-            <React.Fragment>
-              You are chatting with everyone playing{` `}
-              <span
-                className={STYLES_GAME_TITLE}
-                onClick={() => this.props.onSelectGame(this.state.game)}>
-                {this.state.game.title}
-              </span>
-            </React.Fragment>
-          );
-        }
-        break;
       case 'dm':
         return `You are having a private conversation with ${channel.name}.`;
       default:
@@ -194,9 +148,6 @@ export default class ChatHeader extends React.Component {
   _getLeaveMessage = () => {
     const { channel } = this.props;
     switch (channel.type) {
-      case 'game':
-        return 'Leave game chat';
-        break;
       case 'dm':
         return 'Leave conversation';
         break;
@@ -244,6 +195,11 @@ export default class ChatHeader extends React.Component {
           <span className={STYLES_LINK}>{this._getLeaveMessage()}</span>
         </div>
       );
+    }
+
+    if (channel.type === 'game') {
+      // TODO: ben: move to dedicated game page
+      return <GameMetaHeader {...this.props} />;
     }
 
     return (
