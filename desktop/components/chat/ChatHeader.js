@@ -6,8 +6,6 @@ import * as SVG from '~/components/primitives/svg';
 
 import { css } from 'react-emotion';
 
-import GameMetaHeader from '~/components/gamemeta/GameMetaHeader';
-
 const STYLES_HEADER = css`
   border-bottom: 1px solid ${Constants.REFACTOR_COLORS.elements.border};
   color: ${Constants.REFACTOR_COLORS.text};
@@ -195,11 +193,6 @@ export default class ChatHeader extends React.Component {
           <span className={STYLES_LINK}>{this._getLeaveMessage()}</span>
         </div>
       );
-    }
-
-    if (channel.type === 'game') {
-      // TODO: ben: move to dedicated game page
-      return <GameMetaHeader {...this.props} />;
     }
 
     return (

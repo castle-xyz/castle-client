@@ -8,9 +8,8 @@ import { NavigatorContext, NavigationContext } from '~/contexts/NavigationContex
 import { UserPresenceContext } from '~/contexts/UserPresenceContext';
 
 import ChatChannel from '~/components/chat/ChatChannel';
-import ChatHeader from '~/components/chat/ChatHeader';
 import ChatMembers from '~/components/chat/ChatMembers';
-import GameMetaScreen from '~/screens/GameMetaScreen';
+import GameMetaHeader from '~/components/gamemeta/GameMetaHeader';
 
 const STYLES_CONTAINER_BASE = `
   display: flex;
@@ -31,7 +30,7 @@ const STYLES_CONTAINER = css`
   opacity: 1;
 `;
 
-class ChatScreen extends React.Component {
+class GameMetaScreen extends React.Component {
   state = {
     mode: 'MESSAGES',
   };
@@ -102,7 +101,6 @@ class ChatScreen extends React.Component {
     }
 
     const channel = this.props.chat.channels[this.props.channelId];
-
     let onLeaveChannel, numChannelMembers;
     if (!(channel.name === ChatUtilities.EVERYONE_CHANNEL_NAME && channel.type === 'public')) {
       // caint leave the lobby
@@ -115,7 +113,7 @@ class ChatScreen extends React.Component {
 
     return (
       <div className={STYLES_CONTAINER}>
-        <ChatHeader
+        <GameMetaHeader
           channel={channel}
           mode={mode}
           numChannelMembers={numChannelMembers}
@@ -130,7 +128,7 @@ class ChatScreen extends React.Component {
   }
 }
 
-export default class ChatScreenWithContext extends React.Component {
+export default class GameMetaScreenWithContext extends React.Component {
   render() {
     return (
       <UserPresenceContext.Consumer>
@@ -140,21 +138,14 @@ export default class ChatScreenWithContext extends React.Component {
               <NavigationContext.Consumer>
                 {(navigation) => (
                   <NavigatorContext.Consumer>
-                    {(navigator) => {
-                      // TODO: BEN: decouple chat from game navigation
-                      const channel = chat.channels[navigation.chatChannelId];
-                      if (channel.type === 'game') {
-                        return <GameMetaScreen />;
-                      }
-                      return (
-                        <ChatScreen
-                          navigator={navigator}
-                          channelId={navigation.chatChannelId}
-                          userIdToUser={userPresence.userIdToUser}
-                          chat={chat}
-                        />
-                      );
-                    }}
+                    {(navigator) => (
+                      <GameMetaScreen
+                        navigator={navigator}
+                        channelId={navigation.chatChannelId}
+                        userIdToUser={userPresence.userIdToUser}
+                        chat={chat}
+                      />
+                    )}
                   </NavigatorContext.Consumer>
                 )}
               </NavigationContext.Consumer>
