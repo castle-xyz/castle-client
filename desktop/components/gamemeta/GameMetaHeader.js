@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Actions from '~/common/actions';
 import * as Constants from '~/common/constants';
+import * as Strings from '~/common/strings';
 
 import { css } from 'react-emotion';
 
@@ -27,7 +28,7 @@ const STYLES_BODY = css`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 24px 16px 16px 24px;
+  padding: 24px 16px 0 24px;
 `;
 
 const STYLES_BODY_LEFT = css`
@@ -72,7 +73,7 @@ const STYLES_LINKS_ROW = css`
   margin-bottom: 16px;
 `;
 
-const STYLES_LINK_ITEM = css`
+const STYLES_META_ITEM = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -81,10 +82,13 @@ const STYLES_LINK_ITEM = css`
   font-weight: 600;
   font-size: 12px;
   margin-right: 24px;
+`;
+
+const STYLES_META_LINK_ITEM = css`
   cursor: pointer;
 
   span {
-    margin-right: 0.3em;
+    margin-left: 0.3em;
   }
 
   :hover {
@@ -136,11 +140,30 @@ export default class GameMetaHeader extends React.Component {
     }
   };
 
-  _renderLinks = () => {
+  _renderLinks = (game) => {
     let linkElements = [];
+    if (game.owner && game.owner.username) {
+      linkElements.push(
+        <div key="item-owner" className={`${STYLES_META_ITEM} ${STYLES_META_LINK_ITEM}`}>
+          By <span>{game.owner.username}</span>
+        </div>
+      );
+    }
+
+    if (this.props.numChannelMembers) {
+      linkElements.push(
+        <div
+          key="item-online"
+          className={`${STYLES_META_ITEM} ${STYLES_META_LINK_ITEM}`}
+          onClick={this.props.onMembersClick}>
+          <span>{this.props.numChannelMembers} online now</span>
+        </div>
+      );
+    }
+
     linkElements.push(
-      <div key="websiteUrl" className={STYLES_LINK_ITEM} onClick={() => {}}>
-        <span>todo: links</span>
+      <div key="item-plays" className={STYLES_META_ITEM}>
+        <span>{game.playCount} plays</span>
       </div>
     );
 
@@ -158,10 +181,12 @@ export default class GameMetaHeader extends React.Component {
     const { game } = this.state;
     if (!game) return null;
 
-    let aboutElement = <div className={STYLES_ABOUT}>todo: about</div>;
-    const linksElement = this._renderLinks();
+    let aboutElement;
+    if (!Strings.isEmpty(game.description)) {
+      aboutElement = <div className={STYLES_ABOUT}>{game.description}</div>;
+    }
 
-    // TODO: game cover image and title
+    const linksElement = this._renderLinks(game);
     const name = game.title;
     const coverImage = game.coverImage ? game.coverImage.url : null;
     return (
@@ -175,11 +200,11 @@ export default class GameMetaHeader extends React.Component {
               />
               <div className={STYLES_CREATOR_IDENTITY}>
                 <UIHeading style={{ marginBottom: 8 }}>{name}</UIHeading>
-                <div className={STYLES_META}>todo: status</div>
+                {linksElement}
               </div>
             </div>
-            {linksElement}
           </div>
+          {aboutElement}
         </div>
         <UIHorizontalNavigation
           items={this._getNavigationItems()}
