@@ -1,18 +1,20 @@
 import * as React from 'react';
-import * as Actions from '~/common/actions';
 import * as Constants from '~/common/constants';
 import * as Strings from '~/common/strings';
 
 import { css } from 'react-emotion';
 
 import UIHeading from '~/components/reusable/UIHeading';
-import UIHorizontalNavigation from '~/components/reusable/UIHorizontalNavigation';
 
 // TODO: audit styles
 
 const STYLES_CONTAINER = css`
   background: ${Constants.colors.white};
   width: 100%;
+`;
+
+const STYLES_EMPTY = css`
+  height: 124px;
 `;
 
 const STYLES_COVER = css`
@@ -111,35 +113,6 @@ const STYLES_CREATOR_IDENTITY = css`
 `;
 
 export default class GameMetaHeader extends React.Component {
-  state = {
-    game: null,
-  };
-
-  constructor(props) {
-    super(props);
-    this._update(null);
-  }
-
-  componentDidUpdate(prevProps) {
-    this._update(prevProps);
-  }
-
-  _update = async (prevProps) => {
-    const { channel } = this.props;
-    if (channel.type === 'game' && channel.gameId) {
-      let prevGameId = prevProps ? prevProps.channel.gameId : null;
-      if (!this.state.game || channel.gameId !== prevGameId) {
-        if (this.state.game) {
-          await this.setState({ game: null });
-        }
-        try {
-          let game = await Actions.getGameByGameId(channel.gameId);
-          this.setState({ game });
-        } catch (_) {}
-      }
-    }
-  };
-
   _renderLinks = (game) => {
     let linkElements = [];
     if (game.owner && game.owner.username) {
@@ -173,13 +146,9 @@ export default class GameMetaHeader extends React.Component {
     return null;
   };
 
-  _getNavigationItems = () => {
-    return [{ label: 'Activity', key: 'activity' }];
-  };
-
   render() {
-    const { game } = this.state;
-    if (!game) return null;
+    const { game } = this.props;
+    if (!game) return <div className={`${STYLES_CONTAINER} ${STYLES_EMPTY}`} />;
 
     let aboutElement;
     if (!Strings.isEmpty(game.description)) {
@@ -190,7 +159,7 @@ export default class GameMetaHeader extends React.Component {
     const name = game.title;
     const coverImage = game.coverImage ? game.coverImage.url : null;
     return (
-      <div className={STYLES_CONTAINER} onClick={this.props.onClick}>
+      <div className={STYLES_CONTAINER}>
         <div className={STYLES_BODY}>
           <div className={STYLES_BODY_LEFT}>
             <div className={STYLES_TOP}>
@@ -206,11 +175,6 @@ export default class GameMetaHeader extends React.Component {
           </div>
           {aboutElement}
         </div>
-        <UIHorizontalNavigation
-          items={this._getNavigationItems()}
-          selectedKey="activity"
-          style={{ borderBottom: `1px solid #ececec` }}
-        />
       </div>
     );
   }

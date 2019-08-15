@@ -51,8 +51,9 @@ class ChatMembers extends React.Component {
         {userIds
           .filter((userId) => onlineUserIds[userId])
           .map((userId) => userIdToUser[userId])
-          .map((user) => (
+          .map((user, ii) => (
             <ChatMembersItem
+              key={`user-item-${ii}`}
               user={user}
               isOnline={true}
               navigateToGameUrl={navigateToGameUrl}
