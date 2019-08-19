@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as Actions from '~/common/actions';
-import * as ChatUtilities from '~/common/chat-utilities';
 import * as Constants from '~/common/constants';
 
 import { css } from 'react-emotion';
@@ -27,7 +26,7 @@ const STYLES_CONTAINER = css`
 class GameMetaScreen extends React.Component {
   state = {
     game: null,
-    mode: 'activity',
+    mode: 'chat',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -49,7 +48,7 @@ class GameMetaScreen extends React.Component {
       chat.markChannelRead(channelId);
     }
     if (!prevProps || prevProps.channelId !== channelId) {
-      this._mounted && this.setState({ mode: 'activity', messageIdToEdit: null });
+      this._mounted && this.setState({ mode: 'chat', messageIdToEdit: null });
       const channel = chat.channels[channelId];
       if (channel.type === 'game' && channel.gameId) {
         try {
@@ -61,7 +60,12 @@ class GameMetaScreen extends React.Component {
   };
 
   _getNavigationItems = () => {
-    return [{ label: 'Activity', key: 'activity' }, { label: 'Online', key: 'members' }];
+    let items = [{ label: 'Chat', key: 'chat' }];
+    const numChannelMembers = this.props.chat.channelOnlineCounts[this.props.channelId];
+    if (numChannelMembers > 0) {
+      items.push({ label: `People Online (${numChannelMembers})`, key: 'members' });
+    }
+    return items;
   };
 
   _handleNavigationChange = (selectedKey) => {
@@ -86,7 +90,7 @@ class GameMetaScreen extends React.Component {
             onSendMessage={this._handleOpenDirectMessage}
           />
         );
-      case 'activity':
+      case 'chat':
       default:
         return <ChatChannel chat={this.props.chat} channelId={this.props.channelId} />;
     }
@@ -100,24 +104,14 @@ class GameMetaScreen extends React.Component {
     }
 
     const channel = this.props.chat.channels[this.props.channelId];
-    let onLeaveChannel, numChannelMembers;
-    if (!(channel.name === ChatUtilities.EVERYONE_CHANNEL_NAME && channel.type === 'public')) {
-      // caint leave the lobby
-      onLeaveChannel = this._handleLeaveChannel;
-    }
-    if (channel.type !== 'dm') {
-      // don't show online counts for a 2 person dm thread
-      numChannelMembers = this.props.chat.channelOnlineCounts[this.props.channelId];
-    }
 
     return (
       <div className={STYLES_CONTAINER}>
         <GameMetaHeader
           game={game}
-          numChannelMembers={numChannelMembers}
           onSelectGame={this.props.navigator.navigateToGame}
-          onLeaveChannel={onLeaveChannel}
-          onMembersClick={() => this._handleNavigationChange('members')}
+          onSelectUser={this.props.navigator.navigateToUserProfile}
+          onLeaveChannel={this._handleLeaveChannel}
         />
         <div
           className={css`

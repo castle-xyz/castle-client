@@ -117,19 +117,11 @@ export default class GameMetaHeader extends React.Component {
     let linkElements = [];
     if (game.owner && game.owner.username) {
       linkElements.push(
-        <div key="item-owner" className={`${STYLES_META_ITEM} ${STYLES_META_LINK_ITEM}`}>
-          By <span>{game.owner.username}</span>
-        </div>
-      );
-    }
-
-    if (this.props.numChannelMembers) {
-      linkElements.push(
         <div
-          key="item-online"
+          key="item-owner"
           className={`${STYLES_META_ITEM} ${STYLES_META_LINK_ITEM}`}
-          onClick={this.props.onMembersClick}>
-          <span>{this.props.numChannelMembers} online now</span>
+          onClick={() => this.props.onSelectUser(game.owner)}>
+          By <span>{game.owner.username}</span>
         </div>
       );
     }
