@@ -22,6 +22,12 @@ class Share {
     this._sessionId = null;
   };
 
+  getCurrentSessionLink = () => {
+    if (this._game && this._sessionId) {
+      return `${this._game.hostedUrl || this._game.url}#${this._sessionId}`;
+    }
+  };
+
   _connectMultiplayerClientAsync = async (e) => {
     let mediaUrl = e.params.mediaUrl;
 
