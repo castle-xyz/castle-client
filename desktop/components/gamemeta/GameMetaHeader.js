@@ -4,7 +4,9 @@ import * as Strings from '~/common/strings';
 
 import { css } from 'react-emotion';
 
+import UIAvatar from '~/components/reusable/UIAvatar';
 import UIHeading from '~/components/reusable/UIHeading';
+import UIPlayIcon from '~/components/reusable/UIPlayIcon';
 
 // TODO: audit styles
 
@@ -39,7 +41,8 @@ const STYLES_BODY_LEFT = css`
 `;
 
 const STYLES_BODY_RIGHT = css`
-  width: 25%;
+  max-width: 25%;
+  padding-right: 16px;
 `;
 
 const STYLES_TOP = css`
@@ -60,19 +63,29 @@ const STYLES_META = css`
 `;
 
 const STYLES_ABOUT = css`
-  line-height: 1.725;
+  line-height: 1.5;
   font-weight: 200;
   font-size: 16px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  padding: 0 24px 16px 16px;
+  margin-bottom: 8px;
 `;
 
-const STYLES_LINKS_ROW = css`
+const STYLES_PLAY_CTA = css`
   display: flex;
-  flex-wrap: wrap;
   flex-direction: row;
   margin-bottom: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+
+  span {
+    font-family: ${Constants.font.system};
+    color: #8d8d8d;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+  }
 `;
 
 const STYLES_META_ITEM = css`
@@ -107,35 +120,52 @@ const STYLES_STATUS = css`
   align-items: center;
 `;
 
-const STYLES_CREATOR_IDENTITY = css`
+const STYLES_GAME_IDENTITY = css`
   margin-bottom: 16px;
   padding-left: 24px;
 `;
 
-export default class GameMetaHeader extends React.Component {
-  _renderLinks = (game) => {
-    let linkElements = [];
-    if (game.owner && game.owner.username) {
-      linkElements.push(
-        <div
-          key="item-owner"
-          className={`${STYLES_META_ITEM} ${STYLES_META_LINK_ITEM}`}
-          onClick={() => this.props.onSelectUser(game.owner)}>
-          By <span>{game.owner.username}</span>
-        </div>
-      );
-    }
+const STYLES_CREATOR = css`
+  display: flex;
+  align-items: center;
+  font-family: ${Constants.font.system};
+  font-size: 13px;
+  font-weight: 500;
+  color: #8d8d8d;
+`;
 
-    linkElements.push(
-      <div key="item-plays" className={STYLES_META_ITEM}>
-        <span>{game.playCount} plays</span>
+const STYLES_CREATOR_LINK = css`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: ${Constants.colors.text};
+  margin: 0 8px;
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+export default class GameMetaHeader extends React.Component {
+  state = {
+    isHoveringOnPlay: false,
+  };
+
+  _renderCreator = (user) => {
+    const avatarSrc = user && user.photo ? user.photo.url : null;
+    return (
+      <div className={STYLES_CREATOR}>
+        Created by{' '}
+        <span className={STYLES_CREATOR_LINK} onClick={() => this.props.onSelectUser(user)}>
+          <UIAvatar
+            src={avatarSrc}
+            showIndicator={false}
+            style={{ width: 20, height: 20, marginRight: 6 }}
+          />
+          {user.username}
+        </span>
       </div>
     );
-
-    if (linkElements.length) {
-      return <div className={STYLES_LINKS_ROW}>{linkElements}</div>;
-    }
-    return null;
   };
 
   render() {
@@ -146,9 +176,11 @@ export default class GameMetaHeader extends React.Component {
     if (!Strings.isEmpty(game.description)) {
       aboutElement = <div className={STYLES_ABOUT}>{game.description}</div>;
     }
+    let creatorElement;
+    if (game.owner && game.owner.userId) {
+      creatorElement = this._renderCreator(game.owner);
+    }
 
-    const linksElement = this._renderLinks(game);
-    const name = game.title;
     const coverImage = game.coverImage ? game.coverImage.url : null;
     return (
       <div className={STYLES_CONTAINER}>
@@ -159,13 +191,27 @@ export default class GameMetaHeader extends React.Component {
                 className={STYLES_COVER}
                 style={{ backgroundImage: coverImage ? `url('${coverImage}')` : null }}
               />
-              <div className={STYLES_CREATOR_IDENTITY}>
-                <UIHeading style={{ marginBottom: 8 }}>{name}</UIHeading>
-                {linksElement}
+              <div className={STYLES_GAME_IDENTITY}>
+                <UIHeading style={{ marginBottom: 8 }}>{game.title}</UIHeading>
+                <div
+                  className={STYLES_PLAY_CTA}
+                  onClick={() => this.props.onSelectGame(game)}
+                  onMouseEnter={() => this.setState({ isHoveringOnPlay: true })}
+                  onMouseLeave={() => this.setState({ isHoveringOnPlay: false })}>
+                  <UIPlayIcon
+                    size={14}
+                    hovering={this.state.isHoveringOnPlay}
+                    style={{ width: 16, height: 24 }}
+                  />
+                  <span>Play</span>
+                </div>
               </div>
             </div>
           </div>
-          {aboutElement}
+          <div className={STYLES_BODY_RIGHT}>
+            {aboutElement}
+            {creatorElement}
+          </div>
         </div>
       </div>
     );
