@@ -3,11 +3,11 @@ import * as Constants from '~/common/constants';
 import * as Urls from '~/common/urls';
 import * as Strings from '~/common/strings';
 import * as NativeUtil from '~/native/nativeutil';
-import * as SVG from '~/components/primitives/svg';
 
 import { css } from 'react-emotion';
 
 import UIGameCellActionsBar from '~/components/reusable/UIGameCellActionsBar';
+import UIPlayIcon from '~/components/reusable/UIPlayIcon';
 
 // NOTE(jim): This needs to be revised so that we're not animating padding
 // but we're doing a transform for performance to make use of the compositor.
@@ -36,34 +36,6 @@ const STYLES_GAME_SCREENSHOT = css`
   background-size: cover;
   background-position: 50% 50%;
   background-color: ${Constants.colors.black};
-`;
-
-const STYLES_PLAY_ICON = css`
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: ${Constants.card.iconColor};
-`;
-
-const STYLES_PLAY_HOVER = css`
-  @keyframes button-color-change {
-    0% {
-      color: ${Constants.colors.brand4};
-    }
-    50% {
-      color: ${Constants.colors.brand1};
-    }
-    100% {
-      color: ${Constants.colors.brand2};
-    }
-  }
-
-  cursor: pointer;
-  animation: button-color-change infinite 400ms;
-  color: white;
 `;
 
 const STYLES_DESCRIPTION_SECTION = css`
@@ -339,15 +311,10 @@ export default class UIGameCell extends React.Component {
               {detailLine}
             </div>
           ) : null}
-          <div
-            className={
-              this.state.isHoveringOnPlay && !hoveringOnDetailIcon
-                ? `${STYLES_PLAY_ICON} ${STYLES_PLAY_HOVER}`
-                : STYLES_PLAY_ICON
-            }
-            style={{ visibility: this.state.isHoveringOnPlay ? 'visible' : 'hidden' }}>
-            <SVG.Play style={{ width: 16, height: 16 }} />
-          </div>
+          <UIPlayIcon
+            hovering={this.state.isHoveringOnPlay && !hoveringOnDetailIcon}
+            visible={this.state.isHoveringOnPlay}
+          />
         </section>
 
         {this.state.isHoveringOnPlay ? (
