@@ -48,7 +48,12 @@ class GameMetaScreen extends React.Component {
       chat.markChannelRead(channelId);
     }
     if (!prevProps || prevProps.channelId !== channelId) {
-      this._mounted && this.setState({ mode: 'chat', messageIdToEdit: null });
+      // clear prev state
+      let updates = { mode: 'chat', messageIdToEdit: null };
+      if (this.state.game) {
+        updates.game = null;
+      }
+      await this.setState(updates);
       const channel = chat.channels[channelId];
       if (channel.type === 'game' && channel.gameId) {
         try {

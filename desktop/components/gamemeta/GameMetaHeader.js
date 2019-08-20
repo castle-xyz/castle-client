@@ -14,10 +14,6 @@ const STYLES_CONTAINER = css`
   width: 100%;
 `;
 
-const STYLES_EMPTY = css`
-  height: 124px;
-`;
-
 const STYLES_COVER = css`
   display: flex;
   align-items: center;
@@ -28,6 +24,7 @@ const STYLES_COVER = css`
   border-radius: 4px;
   background-size: cover;
   background-position: 50% 50%;
+  background-color: #efefef;
 `;
 
 const STYLES_BODY = css`
@@ -165,9 +162,19 @@ export default class GameMetaHeader extends React.Component {
     return null;
   };
 
+  _renderEmpty = () => {
+    return (
+      <div className={STYLES_CONTAINER}>
+        <div className={STYLES_BODY}>
+          <div className={STYLES_COVER} />
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const { game } = this.props;
-    if (!game) return <div className={`${STYLES_CONTAINER} ${STYLES_EMPTY}`} />;
+    if (!game) return this._renderEmpty();
 
     const coverImage = game.coverImage ? game.coverImage.url : null;
     return (
