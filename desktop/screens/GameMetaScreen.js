@@ -122,7 +122,7 @@ class GameMetaScreen extends React.Component {
             items={this._getNavigationItems()}
             onChange={this._handleNavigationChange}
             selectedKey={mode}
-            style={{ borderBottom: `1px solid #ececec`, width: '100%' }}
+            style={{ borderBottom: `2px solid #ececec`, width: '100%' }}
           />
         </div>
         {this._renderContent(channel, mode)}

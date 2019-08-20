@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Constants from '~/common/constants';
 import * as Urls from '~/common/urls';
+import * as Utilities from '~/common/utilities';
 import * as Strings from '~/common/strings';
 import * as NativeUtil from '~/native/nativeutil';
 
@@ -208,7 +209,7 @@ export default class UIGameCell extends React.Component {
     let title = game.title ? Strings.elide(game.title, 21) : 'Untitled';
     let onGameUpdate = this.props.onGameUpdate ? () => this.props.onGameUpdate(game) : null;
 
-    const isMultiplayer = game.metadata.multiplayer && game.metadata.multiplayer.enabled;
+    const isMultiplayer = Utilities.isMultiplayer(game);
     const numPlayersText = isMultiplayer ? 'Multiplayer' : ' ';
     const draftText = game.draft
       ? isMultiplayer
