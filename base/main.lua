@@ -284,7 +284,7 @@ function main.keypressed(key, ...)
 
     -- Intercept system hotkeys
     if castle.system.isDesktop() then
-        if (key == 'escape') or ((ctrl or gui or shift) and (key == 'j' or key == 'r' or key == 'f' or key == 'w' or key == 'x')) then
+        if (key == 'escape') or ((ctrl or gui or shift) and (key == 'j' or key == 'r' or key == 'f' or key == 'w' or key == 's')) then
             jsEvents.send('CASTLE_SYSTEM_KEY_PRESSED', {
                 ctrlKey = ctrl,
                 altKey = false,
