@@ -9,7 +9,7 @@
 #define OFF 0
 #endif
 
-#define OBS_VERSION "23.1.0-rc1-1-gd18c62b2"
+#define OBS_VERSION "23.1.0-rc1-12-g1c62235f-modified"
 #define OBS_DATA_PATH "../data"
 #define OBS_INSTALL_PREFIX ""
 #define OBS_PLUGIN_DESTINATION "obs-plugins"
