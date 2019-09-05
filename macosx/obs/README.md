@@ -12,3 +12,5 @@ sudo make install
 ```
 
 delete SDL so file from bin/
+
+install_name_tool -add_rpath @executable_path/../../../bin/ ffmpeg-mux
