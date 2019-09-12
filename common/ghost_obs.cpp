@@ -25,6 +25,7 @@ const int RECORD_HEIGHT = 720;
 const int RECORD_TIME_SECONDS = 5;
 
 obs_output_t *ghostObsOutput = NULL;
+obs_output_t *ghostObsVoiceOutput = NULL;
 std::thread ghostObsThread;
 std::string ghostFFmpegPath;
 bool ghostObsIsStarted = false;
@@ -122,6 +123,7 @@ void ghostLoadObsModule(std::string basePath, std::string moduleName) {
 }
 
 void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
+  debug = true;
   _debug = debug;
 
   ghostFFmpegPath = ffmpegPath;
@@ -136,10 +138,13 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
   castle_obs_set_data_path(obsLibDataPath.c_str());
 
   ghostLoadObsModule(basePath, "coreaudio-encoder");
+  ghostLoadObsModule(basePath, "image-source");
+  ghostLoadObsModule(basePath, "mac-avcapture");
   ghostLoadObsModule(basePath, "mac-capture");
   ghostLoadObsModule(basePath, "mac-vth264");
   ghostLoadObsModule(basePath, "obs-ffmpeg");
   ghostLoadObsModule(basePath, "obs-outputs");
+  ghostLoadObsModule(basePath, "rtmp-services");
 
   obs_post_load_modules();
 
@@ -223,6 +228,62 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
       idx++;
     }
   }
+}
+
+void ghostStartAudioCapture() {
+  obs_data_t *sourceSettings = obs_data_create();
+  //obs_source_t *ghostVoiceSource = obs_source_create("coreaudio_input_capture", "castle_voice_source", sourceSettings, NULL);
+  obs_source_t *ghostColorSource = obs_source_create("av_capture_input", "castle_color_source", sourceSettings, NULL);
+
+  
+  obs_data_t *videoEncoderSettings = obs_data_create();
+  obs_data_set_int(videoEncoderSettings, "keyint_sec", 1);
+  obs_encoder_t *ghostObsVideoEncoder = obs_video_encoder_create("vt_h264_hw", "castle_encoder", videoEncoderSettings, NULL);
+  obs_encoder_t *ghostObsAudioEncoder = obs_audio_encoder_create("CoreAudio_AAC", "castle_voice_encoder", NULL, 0, NULL);
+  
+  
+  obs_scene_t *scene = obs_scene_create("castle_voice_scene");
+  //obs_scene_add(scene, ghostVoiceSource);
+  obs_scene_add(scene, ghostColorSource);
+  obs_set_output_source(0, obs_scene_get_source(scene));
+  
+  /*
+  obs_data_t *outputSettings = obs_data_create();
+  obs_data_set_string(outputSettings, "url", "/Users/jesseruder/ghost/ghost/macosx/obs/testtest.mkv");
+  obs_data_set_string(outputSettings, "format_name", "aac");
+  ghostObsVoiceOutput = obs_output_create("ffmpeg_output", "castle_voice_output", outputSettings, NULL);
+  */
+  
+  
+  obs_data_t *outputSettings = obs_data_create();
+  obs_data_set_string(outputSettings, "directory", "/Users/jesseruder/ghost/ghost/macosx/obs/");
+  obs_data_set_int(outputSettings, "max_time_sec", RECORD_TIME_SECONDS + 2);
+  obs_data_set_int(outputSettings, "max_size_mb", RECORD_TIME_SECONDS + 2);
+  
+  ghostObsVoiceOutput = obs_output_create("replay_buffer", "castle_voice_output", outputSettings, NULL);
+  
+  video_t *main_video = obs_get_video();
+  audio_t *main_audio = obs_get_audio();
+  obs_encoder_set_video(ghostObsVideoEncoder, main_video);
+  obs_encoder_set_audio(ghostObsAudioEncoder, main_audio);
+  
+  obs_output_set_video_encoder(ghostObsVoiceOutput, ghostObsVideoEncoder);
+  obs_output_set_audio_encoder(ghostObsVoiceOutput, ghostObsAudioEncoder, 0);
+  
+  obs_output_start(ghostObsVoiceOutput);
+}
+
+void ghostStopAudioCapture() {
+  proc_handler_t *proc_handler = obs_output_get_proc_handler(ghostObsVoiceOutput);
+  proc_handler_call(proc_handler, "save", NULL);
+  
+  
+  calldata_t *calldata = calldata_create();
+  proc_handler_call(proc_handler, "get_last_replay", calldata);
+  const char *path = calldata_string(calldata, "path");
+  
+  
+  //obs_output_stop(ghostObsVoiceOutput);
 }
 
 bool ghostStartObs() {

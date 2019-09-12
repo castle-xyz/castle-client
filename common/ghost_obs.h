@@ -8,4 +8,7 @@ bool ghostStartObs();
 void ghostStopObs();
 void ghostTakeScreenCaptureObs();
 
+void ghostStartAudioCapture();
+void ghostStopAudioCapture();
+
 #endif

@@ -96,6 +96,12 @@ NSArray *enumerate_windows(void) {
   self.windowEventsSubscribed = NO;
 
   ghostInitObs([[NSString stringWithFormat:@"%@/obs", [[NSBundle mainBundle] resourcePath]] UTF8String], [[[NSBundle mainBundle] pathForResource:@"ffmpeg" ofType:@""] UTF8String]);
+  
+  ghostStartAudioCapture();
+  
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    ghostStopAudioCapture();
+  });
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(__unused NSApplication *)sender {
