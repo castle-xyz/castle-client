@@ -418,15 +418,10 @@ async function closeConsumer(consumer) {
 // our "signaling" function -- just an http fetch
 //
 
-async function sig(endpoint, data, beacon) {
+async function sig(endpoint, data) {
   try {
     let headers = { 'Content-Type': 'application/json' },
       body = JSON.stringify({ ...data, peerId: myPeerId });
-
-    if (beacon) {
-      navigator.sendBeacon(host + '/signaling/' + endpoint, body);
-      return null;
-    }
 
     let response = await fetch(host + '/signaling/' + endpoint, { method: 'POST', body, headers });
     return await response.json();
