@@ -426,3 +426,7 @@ async function sig(endpoint, data, beacon) {
     return { error: e };
   }
 }
+
+async function sleep(ms) {
+  return new Promise((r) => setTimeout(() => r(), ms));
+}
