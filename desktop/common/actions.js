@@ -1139,3 +1139,22 @@ export async function search(query) {
     ...result.data.search,
   };
 }
+
+export async function getMediaServiceAsync() {
+  const result = await API.graphqlAsync(
+    `
+      query {
+        mediaService {
+          type
+          address
+        }
+      }
+    `
+  );
+
+  if (result.errors && result.errors.length) {
+    throw new Error(`\`getMediaServiceAsync\`: ${result.errors[0].message}`);
+  }
+
+  return result.data.mediaService;
+}

@@ -6,6 +6,7 @@ import * as PingUtils from '~/common/pingutils';
 import * as Bridge from '~/common/bridge';
 import * as ScreenCapture from '~/common/screencapture';
 import * as ExecNode from '~/common/execnode';
+import * as VoiceChat from '~/common/voicechat';
 
 import { isKeyHotkey } from 'is-hotkey';
 import { linkify } from 'react-linkify';
@@ -79,6 +80,8 @@ class App extends React.Component {
         this.props.development.addLogs(logs);
       }
     });
+
+    VoiceChat.startVoiceChatAsync();
   }
 
   componentWillUnmount() {
@@ -100,7 +103,8 @@ class App extends React.Component {
     if (e.target.localName == 'a') {
       e.preventDefault();
 
-      if (e.target.href === 'noop:noop;') { // To allow no-op `a` tags
+      if (e.target.href === 'noop:noop;') {
+        // To allow no-op `a` tags
         return;
       }
 
