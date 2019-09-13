@@ -1,10 +1,11 @@
 import * as Actions from '~/common/actions';
 import * as mediasoup from 'mediasoup-client';
+import * as uuid from 'uuid/v4';
 
 const $ = document.querySelector.bind(document);
 
 let host;
-let myPeerId = `${Math.floor(Math.random() * 100000)}`;
+let myPeerId;
 let device;
 let joined;
 let pollingInterval;
@@ -22,6 +23,8 @@ function getMicPausedState() {
 }
 
 export const startVoiceChatAsync = async () => {
+  myPeerId = `${uuid()}`;
+
   let mediaService = await Actions.getMediaServiceAsync();
   if (!mediaService) {
     console.error('no media service');
@@ -39,7 +42,7 @@ export const startVoiceChatAsync = async () => {
     device = new mediasoup.Device();
   } catch (e) {
     if (e.name === 'UnsupportedError') {
-      console.error('browser not supported for video calls');
+      console.error('browser not supported for voice calls');
       return;
     } else {
       console.error(e);
@@ -47,8 +50,8 @@ export const startVoiceChatAsync = async () => {
   }
 
   await joinRoomAsync();
-  await startCamera();
-  await sendCameraStreams();
+  await startMic();
+  await sendMicStream();
 };
 
 async function joinRoomAsync() {
@@ -78,7 +81,7 @@ async function joinRoomAsync() {
   }, 1000);
 }
 
-async function startCamera() {
+async function startMic() {
   if (localCam) {
     return;
   }
@@ -88,22 +91,22 @@ async function startCamera() {
       audio: true,
     });
   } catch (e) {
-    console.error('start camera error', e);
+    console.error('start mic error', e);
   }
 }
 
-async function sendCameraStreams() {
+async function sendMicStream() {
   // create a transport for outgoing media, if we don't already have one
   if (!sendTransport) {
     sendTransport = await createTransport('send');
   }
 
-  // start sending video. the transport logic will initiate a
+  // start sending audio. the transport logic will initiate a
   // signaling conversation with the server to set up an outbound rtp
-  // stream for the camera video track. our createTransport() function
+  // stream for the audio track. our createTransport() function
   // includes logic to tell the server to start the stream in a paused
   // state, if the checkbox in our UI is unchecked. so as soon as we
-  // have a client-side camVideoProducer object, we need to set it to
+  // have a client-side camAudioProducer object, we need to set it to
   // paused as appropriate, too.
 
   // same thing for audio, but we can use our already-created
@@ -267,7 +270,7 @@ export async function subscribeToTrack(peerId, mediaTag) {
 
   // the server-side consumer will be started in paused state. wait
   // until we're connected, then send a resume request to the server
-  // to get our first keyframe and start displaying video
+  // to get our first keyframe and start playing audio
   while (recvTransport.connectionState !== 'connected') {
     console.log('  transport connstate', recvTransport.connectionState);
     await sleep(100);
@@ -279,17 +282,17 @@ export async function subscribeToTrack(peerId, mediaTag) {
   consumers.push(consumer);
 
   // ui
-  await addVideoAudio(consumer);
+  await addAudioElement(consumer);
 }
 
-function addVideoAudio(consumer) {
+function addAudioElement(consumer) {
   if (!(consumer && consumer.track)) {
     return;
   }
   let el = document.createElement(consumer.kind);
-  // set some attributes on our audio and video elements to make
-  // mobile Safari happy. note that for audio to play you need to be
-  // capturing from the mic/camera
+  // set some attributes to make mobile Safari happy. note
+  // that for audio to play you need to be capturing from the
+  // mic/camera
   el.setAttribute('playsinline', true);
   el.setAttribute('autoplay', true);
 
@@ -306,7 +309,7 @@ function addVideoAudio(consumer) {
     });
 }
 
-function removeVideoAudio(consumer) {
+function removeAudioElement(consumer) {
   document.querySelectorAll(consumer.kind).forEach((v) => {
     if (v.consumer === consumer) {
       v.parentNode.removeChild(v);
@@ -344,7 +347,7 @@ async function pollAndUpdate() {
   currentActiveSpeaker = activeSpeaker;
 
   // if a peer has gone away, we need to close all consumers we have
-  // for that peer and remove video and audio elements
+  // for that peer and remove audio elements
   for (let id in lastPollSyncData) {
     if (!peers[id]) {
       console.log(`peer ${id} has exited`);
@@ -357,7 +360,7 @@ async function pollAndUpdate() {
   }
 
   // if a peer has stopped sending media that we are consuming, we
-  // need to close the consumer and remove video and audio elements
+  // need to close the consumer and remove audio elements
   consumers.forEach((consumer) => {
     let { peerId, mediaTag } = consumer.appData;
     if (!peers[peerId] || !peers[peerId].media || !peers[peerId].media[mediaTag]) {
@@ -399,7 +402,7 @@ async function closeConsumer(consumer) {
     await consumer.close();
 
     consumers = consumers.filter((c) => c !== consumer);
-    removeVideoAudio(consumer);
+    removeAudioElement(consumer);
   } catch (e) {
     console.error(e);
   }
