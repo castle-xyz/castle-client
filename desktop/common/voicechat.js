@@ -2,6 +2,8 @@ import * as Actions from '~/common/actions';
 import * as mediasoup from 'mediasoup-client';
 import * as uuid from 'uuid/v4';
 
+const USE_LOCAL_SERVER = true;
+
 const $ = document.querySelector.bind(document);
 
 let host;
@@ -25,13 +27,17 @@ function getMicPausedState() {
 export const startVoiceChatAsync = async () => {
   myPeerId = `${uuid()}`;
 
-  let mediaService = await Actions.getMediaServiceAsync();
-  if (!mediaService) {
-    console.error('no media service');
-    return;
-  }
+  if (USE_LOCAL_SERVER) {
+    host = 'http://localhost:3011';
+  } else {
+    let mediaService = await Actions.getMediaServiceAsync();
+    if (!mediaService) {
+      console.error('no media service');
+      return;
+    }
 
-  host = mediaService.address;
+    host = mediaService.address;
+  }
 
   let bodyTag = document.getElementsByTagName('body')[0];
   let remoteAudioTag = document.createElement('div');
