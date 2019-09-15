@@ -42,7 +42,6 @@
 		A1D5537321366F8B00921012 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5537221366F8B00921012 /* QuartzCore.framework */; };
 		A1D5537521366F9400921012 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5537421366F9400921012 /* AudioToolbox.framework */; };
 		A1D5537721366FA500921012 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1D5537621366FA500921012 /* OpenAL.framework */; };
-		A1D58F1121390D3B005CA434 /* FileServer.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D58F0921390D3B005CA434 /* FileServer.m */; };
 		A1E036E8213658EC002299ED /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E036E0213658EC002299ED /* GameController.framework */; };
 		A1E12FDF2136529600DB4163 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E12FD72136529500DB4163 /* imgui_draw.cpp */; };
 		A1E12FE02136529600DB4163 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1E12FDB2136529500DB4163 /* imgui_demo.cpp */; };
@@ -150,7 +149,6 @@
 		A1D5537221366F8B00921012 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A1D5537421366F9400921012 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A1D5537621366FA500921012 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
-		A1D58F0921390D3B005CA434 /* FileServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileServer.m; sourceTree = "<group>"; };
 		A1E036E0213658EC002299ED /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		A1E12FD62136529500DB4163 /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = "../../ghost-extensions/cimgui/imgui/stb_textedit.h"; sourceTree = "<group>"; };
 		A1E12FD72136529500DB4163 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = "../../ghost-extensions/cimgui/imgui/imgui_draw.cpp"; sourceTree = "<group>"; };
@@ -423,7 +421,6 @@
 				A10DAD9C21CB1120005C4939 /* castle.entitlements */,
 				A18CBC372165922F004CEE1E /* EXFileSystem+Castle.m */,
 				A18062D0213A5B2D002B0E53 /* GhostChannels.mm */,
-				A1D58F0921390D3B005CA434 /* FileServer.m */,
 				A1F954E92135719E00503B4F /* GhostView.m */,
 				B56386471DB9693800A0598C /* AppDelegate.h */,
 				B56386481DB9693800A0598C /* AppDelegate.m */,
@@ -728,7 +725,6 @@
 				A1E12FE42136541900DB4163 /* fpconv.c in Sources */,
 				A192DE7521364AD400848ABB /* lpcode.c in Sources */,
 				A192DEA121364D3E00848ABB /* ec.c in Sources */,
-				A1D58F1121390D3B005CA434 /* FileServer.m in Sources */,
 				A1F954EA2135719E00503B4F /* GhostView.m in Sources */,
 				A192DE9E21364D3E00848ABB /* ssl.c in Sources */,
 				A192DE6021364A5E00848ABB /* cimgui.cpp in Sources */,
