@@ -167,6 +167,17 @@
   });
 }
 
+extern double ghostScreenScaling;
+extern bool ghostApplyScreenScaling;
+
+- (void)setScreenScaling:(double)screenScaling {
+  ghostScreenScaling = screenScaling;
+}
+
+- (void)setApplyScreenScaling:(BOOL)applyScreenScaling {
+  ghostApplyScreenScaling = applyScreenScaling;
+}
+
 - (void)sdlViewAddNotificationReceived:(NSNotification *)notification {
   UIViewController *viewController =
       (UIViewController *)notification.userInfo[@"viewController"];
@@ -231,5 +242,7 @@ RCT_EXPORT_MODULE()
 }
 
 RCT_EXPORT_VIEW_PROPERTY(uri, NSString);
+RCT_EXPORT_VIEW_PROPERTY(screenScaling, double);
+RCT_EXPORT_VIEW_PROPERTY(applyScreenScaling, BOOL);
 
 @end
