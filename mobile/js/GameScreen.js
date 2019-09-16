@@ -14,10 +14,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import { gql, Query, isSignedInAsync } from './Conn';
 import { navigate } from './Navigation';
 
-const DEFAULT_GAME_URI =
-  'https://raw.githubusercontent.com/castle-games/ghost-tests/master/screensize/main.lua';
+// const DEFAULT_GAME_URI =
+//   'https://raw.githubusercontent.com/castle-games/ghost-tests/master/screensize/main.lua';
 // const DEFAULT_GAME_URI =
 //   'https://raw.githubusercontent.com/nikki93/edit-world/master/main_local.lua';
+const DEFAULT_GAME_URI =
+  'https://raw.githubusercontent.com/nikki93/procjam-oct-2018/master/main.lua';
 
 let mountedInstance = null; // Ref to currently mounted `GameScreen` instance, if any
 
