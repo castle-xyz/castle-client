@@ -22,7 +22,7 @@
 @property(nonatomic, assign) lua_State *luaState;
 @property(nonatomic, assign) int loveBootStackPos;
 
-@property(nonatomic, strong) NSTimer *mainLoopTimer;
+@property(nonatomic, strong) CADisplayLink *displayLink;
 
 @end
 
@@ -32,7 +32,7 @@
   if (self = [super init]) {
     self.luaState = nil;
 
-    self.mainLoopTimer = nil;
+    self.displayLink = nil;
 
     [[NSNotificationCenter defaultCenter]
         addObserver:self
@@ -46,13 +46,8 @@
              object:nil];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-      self.mainLoopTimer = [NSTimer timerWithTimeInterval:1.0f / 60.0f
-                                                   target:self
-                                                 selector:@selector(stepLove)
-                                                 userInfo:nil
-                                                  repeats:YES];
-      [[NSRunLoop mainRunLoop] addTimer:self.mainLoopTimer
-                                forMode:NSRunLoopCommonModes];
+      self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(stepLove)];
+      [self.displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     });
   }
   return self;
@@ -200,9 +195,9 @@ extern bool ghostApplyScreenScaling;
 }
 
 - (void)removeFromSuperview {
-  if (self.mainLoopTimer) {
-    [self.mainLoopTimer invalidate];
-    self.mainLoopTimer = nil;
+  if (self.displayLink) {
+    [self.displayLink invalidate];
+    self.displayLink = nil;
   }
 
   if (self.luaState) {
