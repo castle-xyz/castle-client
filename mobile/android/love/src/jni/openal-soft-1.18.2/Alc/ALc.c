@@ -2215,7 +2215,10 @@ static ALCenum UpdateDeviceParams(ALCdevice *device, const ALCint *attrList)
     if(!(device->DitherDepth > 0.0f))
         TRACE("Dithering disabled\n");
     else
-        TRACE("Dithering enabled (%g-bit, %g)\n", log2f(device->DitherDepth)+1.0f,
+//        TRACE("Dithering enabled (%g-bit, %g)\n", log2f(device->DitherDepth)+1.0f,
+//              device->DitherDepth);
+    // XXX(Ghost): Inlining use of `log2f`
+        TRACE("Dithering enabled (%g-bit, %g)\n", (logf(device->DitherDepth)/logf(2.0f))+1.0f,
               device->DitherDepth);
 
     if(ConfigValueBool(alstr_get_cstr(device->DeviceName), NULL, "output-limiter", &val))
