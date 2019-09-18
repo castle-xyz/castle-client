@@ -1,6 +1,7 @@
 import * as Actions from '~/common/actions';
 import * as mediasoup from 'mediasoup-client';
 import * as uuid from 'uuid/v4';
+import io from 'socket.io-client';
 
 const USE_LOCAL_SERVER = true;
 
@@ -10,13 +11,13 @@ let host;
 let myPeerId;
 let device;
 let joined;
-let pollingInterval;
 let localCam;
 let sendTransport;
 let camAudioProducer;
 let currentActiveSpeaker = {};
 let lastPollSyncData = {};
 let recvTransport;
+let socket;
 
 let consumers = [];
 
@@ -38,6 +39,12 @@ export const startVoiceChatAsync = async () => {
 
     host = mediaService.address;
   }
+
+  socket = io(host, {
+    query: {
+      peerId: myPeerId,
+    },
+  });
 
   let bodyTag = document.getElementsByTagName('body')[0];
   let remoteAudioTag = document.createElement('div');
@@ -78,13 +85,11 @@ async function joinRoomAsync() {
     return;
   }
 
-  pollingInterval = setInterval(async () => {
-    let { error } = await pollAndUpdate();
-    if (error) {
-      clearInterval(pollingInterval);
-      console.error(error);
+  socket.on('sync', (data) => {
+    if (joined) {
+      pollAndUpdate(data);
     }
-  }, 1000);
+  });
 }
 
 async function startMic() {
@@ -213,9 +218,6 @@ export async function leaveRoom() {
     return;
   }
 
-  // stop polling
-  clearInterval(pollingInterval);
-
   // close everything on the server-side (transports, producers, consumers)
   let { error } = await sig('leave');
   if (error) {
@@ -341,8 +343,8 @@ export async function resumeConsumer(consumer) {
 // polling/update logic
 //
 
-async function pollAndUpdate() {
-  let { peers, activeSpeaker, error } = await sig('sync');
+function pollAndUpdate(data) {
+  let { peers, activeSpeaker, error } = data;
   if (error) {
     return { error };
   }
@@ -427,6 +429,19 @@ async function sig(endpoint, data) {
     console.error(e);
     return { error: e };
   }
+}
+
+function sigSocket(endpoint, data) {
+  return new Promise((resolve) => {
+    try {
+      socket.emit(endpoint, { ...data, peerId: myPeerId }, (response) => {
+        resolve(response);
+      });
+    } catch (e) {
+      console.error(e);
+      resolve({ error: e });
+    }
+  });
 }
 
 async function sleep(ms) {
