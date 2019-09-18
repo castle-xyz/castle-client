@@ -234,9 +234,7 @@ export async function leaveRoom() {
   recvTransport = null;
   sendTransport = null;
   camAudioProducer = null;
-  screenAudioProducer = null;
   localCam = null;
-  localScreen = null;
   lastPollSyncData = {};
   consumers = [];
   joined = false;
