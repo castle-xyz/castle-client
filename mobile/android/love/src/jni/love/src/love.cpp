@@ -225,8 +225,15 @@ static DoneAction runlove(int argc, char **argv, int &retval)
 	lua_newthread(L);
 	lua_pushvalue(L, -2);
 	int stackpos = lua_gettop(L);
-	while (lua_resume(L, 0) == LUA_YIELD)
+	while (lua_resume(L, 0) == LUA_YIELD) {
+		extern double ghostScreenScaling;
+		extern bool ghostApplyScreenScaling;
+
+		ghostScreenScaling = love::android::getGhostScreenScaling();
+		ghostApplyScreenScaling = love::android::getGhostApplyScreenScaling();
+
 		lua_pop(L, lua_gettop(L) - stackpos);
+	}
 
 	retval = 0;
 	DoneAction done = DONE_QUIT;

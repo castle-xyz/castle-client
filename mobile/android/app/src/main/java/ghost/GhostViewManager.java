@@ -51,6 +51,16 @@ public class GhostViewManager extends SimpleViewManager<ViewGroup> implements Li
     GameActivity.ghostRootUri = uri;
   }
 
+  @ReactProp(name = "screenScaling")
+  public void setScreenScaling(ViewGroup view, double screenScaling) {
+    GameActivity.ghostScreenScaling = screenScaling;
+  }
+
+  @ReactProp(name = "applyScreenScaling")
+  public void setScreenScaling(ViewGroup view, boolean applyScreenScaling) {
+    GameActivity.ghostApplyScreenScaling = applyScreenScaling;
+  }
+
   @Override
   public void onHostPause() {
     if (gameActivity != null && gameActivity.isRunning()) {

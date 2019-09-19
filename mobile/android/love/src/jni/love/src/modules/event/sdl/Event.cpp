@@ -523,6 +523,9 @@ Message *Event::convertJoystickEvent(const SDL_Event &e) const
 	return msg;
 }
 
+/// XXX(Ghost): For telling Ghost that the window was closed
+extern "C" bool ghostChildWindowCloseEventReceived = false;
+
 Message *Event::convertWindowEvent(const SDL_Event &e)
 {
 	Message *msg = nullptr;
@@ -608,6 +611,10 @@ Message *Event::convertWindowEvent(const SDL_Event &e)
 			}
 		}
 #endif
+		break;
+	case SDL_WINDOWEVENT_CLOSE:
+		// XXX(Ghost): Tell Ghost that the window was closed
+		ghostChildWindowCloseEventReceived = true;
 		break;
 	}
 

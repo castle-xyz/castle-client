@@ -510,7 +510,8 @@ bool Window::setWindow(int width, int height, WindowSettings *settings)
 	if ((f.useposition || f.centered) && !f.fullscreen)
 		SDL_SetWindowPosition(window, x, y);
 
-	SDL_RaiseWindow(window);
+	// XXX(Ghost): Don't raise window on `setMode`
+//	SDL_RaiseWindow(window);
 
 	SDL_GL_SetSwapInterval(f.vsync);
 
@@ -826,7 +827,7 @@ void Window::getPosition(int &x, int &y, int &displayindex)
 
 bool Window::isOpen() const
 {
-	return open;
+	return open && (SDL_GetWindowFlags(window) & SDL_WINDOW_SHOWN);
 }
 
 void Window::setWindowTitle(const std::string &title)
@@ -977,6 +978,13 @@ bool Window::isMouseGrabbed() const
 		return mouseGrabbed;
 }
 
+
+// XXX(Ghost): Maintain scaling factors that Ghost can affect
+extern "C" double ghostGlobalScaling = 1.0f;
+extern "C" bool ghostApplyGlobalScaling = false;
+extern "C" double ghostScreenScaling = 1.0f;
+extern "C" bool ghostApplyScreenScaling = true;
+
 int Window::getWidth() const
 {
 	return windowWidth;
@@ -1051,10 +1059,13 @@ void Window::DPIToWindowCoords(double *x, double *y) const
 
 double Window::getDPIScale() const
 {
+	// XXX(Ghost): Apply scaling factors
+	auto screenScaling = (ghostApplyScreenScaling ? ghostScreenScaling : 1);
+	auto globalScaling = (ghostApplyGlobalScaling ? ghostGlobalScaling : 1);
 #ifdef LOVE_ANDROID
-	return love::android::getScreenScale();
+	return screenScaling * globalScaling * love::android::getScreenScale();
 #else
-	return (double) pixelHeight / (double) windowHeight;
+	return screenScaling * globalScaling * (double) pixelHeight / (double) windowHeight;
 #endif
 }
 

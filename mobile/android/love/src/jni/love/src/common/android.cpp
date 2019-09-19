@@ -279,6 +279,32 @@ const char *getGhostRootUri()
     return path;
 }
 
+double getGhostScreenScaling()
+{
+	JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+	jclass activity = env->FindClass("org/love2d/android/GameActivity");
+
+	jmethodID getGhostScreenScaling = env->GetStaticMethodID(activity, "getGhostScreenScaling", "()D");
+	double screenScaling = (jdouble) env->CallStaticDoubleMethod(activity, getGhostScreenScaling);
+
+	env->DeleteLocalRef(activity);
+
+	return screenScaling;
+}
+
+bool getGhostApplyScreenScaling()
+{
+	JNIEnv *env = (JNIEnv*) SDL_AndroidGetJNIEnv();
+	jclass activity = env->FindClass("org/love2d/android/GameActivity");
+
+	jmethodID getGhostApplyScreenScaling = env->GetStaticMethodID(activity, "getGhostApplyScreenScaling", "()Z");
+	bool applyScreenScaling = (jboolean) env->CallStaticBooleanMethod(activity, getGhostApplyScreenScaling);
+
+	env->DeleteLocalRef(activity);
+
+	return applyScreenScaling;
+}
+
 } // android
 } // love
 

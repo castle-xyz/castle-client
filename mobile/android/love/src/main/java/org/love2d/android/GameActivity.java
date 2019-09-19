@@ -262,6 +262,18 @@ public class GameActivity extends SDLActivity {
     return ghostRootUri == null ? DEFAULT_GHOST_ROOT_URI : ghostRootUri;
   }
 
+  public static double ghostScreenScaling = 1;
+
+  public static double getGhostScreenScaling() {
+    return ghostScreenScaling;
+  }
+
+  public static boolean ghostApplyScreenScaling = true;
+
+  public static boolean getGhostApplyScreenScaling() {
+    return ghostApplyScreenScaling;
+  }
+
     /**
      * Copies a given file from the assets folder to the destination.
      *
