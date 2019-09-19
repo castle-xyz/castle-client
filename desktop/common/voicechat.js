@@ -75,7 +75,7 @@ async function joinRoomAsync() {
   try {
     // signal that we're a new peer and initialize our
     // mediasoup-client device, if this is our first time connecting
-    let { routerRtpCapabilities } = await sig('join-as-new-peer');
+    let { routerRtpCapabilities } = await sigSocket('join-as-new-peer');
     if (!device.loaded) {
       await device.load({ routerRtpCapabilities });
     }
@@ -138,7 +138,7 @@ async function createTransport(direction) {
   // ask the server to create a server-side transport object and send
   // us back the info we need to create a client-side transport
   let transport,
-    { transportOptions } = await sig('create-transport', { direction });
+    { transportOptions } = await sigSocket('create-transport', { direction });
 
   if (direction === 'recv') {
     transport = await device.createRecvTransport(transportOptions);
@@ -152,7 +152,7 @@ async function createTransport(direction) {
   // start flowing for the first time. send dtlsParameters to the
   // server, then call callback() on success or errback() on failure.
   transport.on('connect', async ({ dtlsParameters }, callback, errback) => {
-    let { error } = await sig('connect-transport', {
+    let { error } = await sigSocket('connect-transport', {
       transportId: transportOptions.id,
       dtlsParameters,
     });
@@ -180,7 +180,7 @@ async function createTransport(direction) {
       // up a server-side producer object, and get back a
       // producer.id. call callback() on success or errback() on
       // failure.
-      let { error, id } = await sig('send-track', {
+      let { error, id } = await sigSocket('send-track', {
         transportId: transportOptions.id,
         kind,
         rtpParameters,
@@ -219,7 +219,7 @@ export async function leaveRoom() {
   }
 
   // close everything on the server-side (transports, producers, consumers)
-  let { error } = await sig('leave');
+  let { error } = await sigSocket('leave');
   if (error) {
     console.error(error);
   }
@@ -262,7 +262,7 @@ export async function subscribeToTrack(peerId, mediaTag) {
 
   // ask the server to create a server-side consumer object and send
   // us back the info we need to create a client-side consumer
-  let consumerParameters = await sig('recv-track', {
+  let consumerParameters = await sigSocket('recv-track', {
     mediaTag,
     mediaPeerId: peerId,
     rtpCapabilities: device.rtpCapabilities,
@@ -331,7 +331,7 @@ export async function resumeConsumer(consumer) {
   if (consumer) {
     console.log('resume consumer', consumer.appData.peerId, consumer.appData.mediaTag);
     try {
-      await sig('resume-consumer', { consumerId: consumer.id });
+      await sigSocket('resume-consumer', { consumerId: consumer.id });
       await consumer.resume();
     } catch (e) {
       console.error(e);
@@ -404,7 +404,7 @@ async function closeConsumer(consumer) {
   try {
     // tell the server we're closing this consumer. (the server-side
     // consumer may have been closed already, but that's okay.)
-    await sig('close-consumer', { consumerId: consumer.id });
+    await sigSocket('close-consumer', { consumerId: consumer.id });
     await consumer.close();
 
     consumers = consumers.filter((c) => c !== consumer);
@@ -417,19 +417,6 @@ async function closeConsumer(consumer) {
 //
 // our "signaling" function -- just an http fetch
 //
-
-async function sig(endpoint, data) {
-  try {
-    let headers = { 'Content-Type': 'application/json' },
-      body = JSON.stringify({ ...data, peerId: myPeerId });
-
-    let response = await fetch(host + '/signaling/' + endpoint, { method: 'POST', body, headers });
-    return await response.json();
-  } catch (e) {
-    console.error(e);
-    return { error: e };
-  }
-}
 
 function sigSocket(endpoint, data) {
   return new Promise((resolve) => {
