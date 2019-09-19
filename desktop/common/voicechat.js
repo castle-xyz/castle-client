@@ -3,7 +3,7 @@ import * as mediasoup from 'mediasoup-client';
 import * as uuid from 'uuid/v4';
 import io from 'socket.io-client';
 
-const USE_LOCAL_SERVER = true;
+const USE_LOCAL_SERVER = false;
 
 const $ = document.querySelector.bind(document);
 
@@ -25,13 +25,15 @@ function getMicPausedState() {
   return false;
 }
 
-export const startVoiceChatAsync = async () => {
+export const startVoiceChatAsync = async (roomId) => {
   myPeerId = `${uuid()}`;
 
   if (USE_LOCAL_SERVER) {
     host = 'http://localhost:3011';
   } else {
-    let mediaService = await Actions.getMediaServiceAsync();
+    let mediaService = await Actions.getMediaServiceAsync({
+      roomId,
+    });
     if (!mediaService) {
       console.error('no media service');
       return;
@@ -43,6 +45,7 @@ export const startVoiceChatAsync = async () => {
   socket = io(host, {
     query: {
       peerId: myPeerId,
+      roomId,
     },
   });
 
@@ -65,6 +68,10 @@ export const startVoiceChatAsync = async () => {
   await joinRoomAsync();
   await startMic();
   await sendMicStream();
+};
+
+export const stopVoiceChatAsync = async () => {
+  leaveRoom();
 };
 
 async function joinRoomAsync() {
@@ -213,7 +220,7 @@ async function createTransport(direction) {
   return transport;
 }
 
-export async function leaveRoom() {
+async function leaveRoom() {
   if (!joined) {
     return;
   }
@@ -244,7 +251,7 @@ export async function leaveRoom() {
   $('#remote-audio').innerHTML = '';
 }
 
-export async function subscribeToTrack(peerId, mediaTag) {
+async function subscribeToTrack(peerId, mediaTag) {
   console.log('subscribe to track', peerId, mediaTag);
 
   // create a receive transport if we don't already have one
@@ -327,7 +334,7 @@ function findConsumerForTrack(peerId, mediaTag) {
   return consumers.find((c) => c.appData.peerId === peerId && c.appData.mediaTag === mediaTag);
 }
 
-export async function resumeConsumer(consumer) {
+async function resumeConsumer(consumer) {
   if (consumer) {
     console.log('resume consumer', consumer.appData.peerId, consumer.appData.mediaTag);
     try {

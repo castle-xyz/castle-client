@@ -1140,16 +1140,17 @@ export async function search(query) {
   };
 }
 
-export async function getMediaServiceAsync() {
+export async function getMediaServiceAsync(metadata) {
   const result = await API.graphqlAsync(
     `
-      query {
-        mediaService {
+      query($metadata: Json) {
+        mediaService(metadata: $metadata) {
           type
           address
         }
       }
-    `
+    `,
+    { metadata }
   );
 
   if (result.errors && result.errors.length) {

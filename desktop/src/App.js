@@ -6,7 +6,6 @@ import * as PingUtils from '~/common/pingutils';
 import * as Bridge from '~/common/bridge';
 import * as ScreenCapture from '~/common/screencapture';
 import * as ExecNode from '~/common/execnode';
-import * as VoiceChat from '~/common/voicechat';
 
 import { isKeyHotkey } from 'is-hotkey';
 import { linkify } from 'react-linkify';
@@ -80,8 +79,6 @@ class App extends React.Component {
         this.props.development.addLogs(logs);
       }
     });
-
-    VoiceChat.startVoiceChatAsync();
   }
 
   componentWillUnmount() {
