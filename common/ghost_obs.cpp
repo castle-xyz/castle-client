@@ -115,8 +115,8 @@ bool get_window_exe(wchar_t *wname, HWND window)
 	DWORD       id;
 
 	GetWindowThreadProcessId(window, &id);
-	if (id == GetCurrentProcessId())
-		return false;
+	/*if (id == GetCurrentProcessId())
+		return false;*/
 
 	process = open_process(PROCESS_QUERY_LIMITED_INFORMATION, false, id);
 	if (!process)
@@ -372,6 +372,7 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
   }
 }
 
+
 bool ghostStartObs() {
 	//find_window();
 
@@ -390,8 +391,8 @@ bool ghostStartObs() {
 	
 	obs_data_set_string(sourceSettings, "capture_mode", "window");
 	obs_data_set_string(sourceSettings, "window", "Castle:CefBrowserWindow:Castle.exe");
-	//obs_data_set_int(sourceSettings, "priority", 0); // use the title (castle-player) to search for windows
-	//obs_data_set_bool(sourceSettings, "capture_cursor", "false");
+	//obs_data_set_int(sourceSettings, "priority", 1); // default priority is "exe" which works fine
+	obs_data_set_bool(sourceSettings, "capture_cursor", "false");
 	obs_source_t *ghostObsSource =
 		obs_source_create("game_capture", "castle_source", sourceSettings, NULL);
 #else
@@ -433,7 +434,12 @@ bool ghostStartObs() {
 
     // obs-ffmpeg-mux.c window-basic-main-outputs.cpp
     std::string screenCaptureUnprocessedDirectory = ghostGetCachePath();
-    screenCaptureUnprocessedDirectory += "/screen_captures_unprocessed";
+
+#ifdef _MSC_VER
+    screenCaptureUnprocessedDirectory += "\\screen_captures_unprocessed";
+#else
+	screenCaptureUnprocessedDirectory += "/screen_captures_unprocessed";
+#endif
 
     boost::filesystem::path dir(screenCaptureUnprocessedDirectory);
     boost::filesystem::create_directory(dir);
@@ -463,10 +469,12 @@ bool ghostStartObs() {
     obs_sceneitem_set_info(window_capture_scene_item, &transform_info);
     ////// END SCENE TRANSFORM
 
-    obs_set_output_source(0, obs_scene_get_source(scene));
+    obs_source_t *scene_source = obs_scene_get_source(scene);
+    obs_set_output_source(0, scene_source);
 
     video_t *main_video = obs_get_video();
     audio_t *main_audio = obs_get_audio();
+
     obs_encoder_set_video(ghostObsVideoEncoder, main_video);
     obs_encoder_set_audio(ghostObsAudioEncoder, main_audio);
 
