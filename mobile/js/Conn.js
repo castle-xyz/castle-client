@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 import ApolloClient, { gql } from 'apollo-boost';
 export { ApolloConsumer, Query, Mutation } from 'react-apollo';
 
-import { onApolloClientChanged } from '../App';
+import { onApolloClientChanged } from './Main';
 
 export { gql };
 
