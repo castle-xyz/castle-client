@@ -225,10 +225,6 @@ NSArray *enumerate_windows(void) {
                        ghostResizeChildWindow(-1, -1);
                        ghostResizeChildWindow(1, 1);
                        //                       [ghostMacChildWindow makeKeyWindow];
-
-                       // TODO (jesse): this should actually start after the castle loading screen
-                       // goes away
-                       ghostStartObs();
                      });
     }
   }

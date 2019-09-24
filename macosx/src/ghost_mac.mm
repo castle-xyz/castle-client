@@ -4,6 +4,7 @@
 #import "GhostAppDelegate.h"
 #import "GhostCpuMonitor.h"
 #import "GhostFileSystem.h"
+#import "ghost_obs.h"
 
 #import <sstream>
 
@@ -397,5 +398,5 @@ void ghostSetCpuMonitoring(bool isMonitoringCpu) {
 }
 
 GHOST_EXPORT void ghostDoneLoading() {
-
+  ghostStartObs();
 }

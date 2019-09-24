@@ -410,8 +410,8 @@
 
 /* Begin PBXFileReference section */
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		910F3AE822555C4B00148428 /* ghost_obs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ghost_obs.cpp; path = ../../common/ghost_obs.cpp; sourceTree = "<group>"; };
-		910F3AEF22555C4B00148428 /* ghost_obs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ghost_obs.h; path = ../../common/ghost_obs.h; sourceTree = "<group>"; };
+		910F3AE822555C4B00148428 /* ghost_obs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ghost_obs.cpp; sourceTree = "<group>"; };
+		910F3AEF22555C4B00148428 /* ghost_obs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ghost_obs.h; sourceTree = "<group>"; };
 		912D1E35224C52EF00815BBD /* castle-desktop-node-macos */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "castle-desktop-node-macos"; path = "../node/castle-desktop-node-macos"; sourceTree = "<group>"; };
 		914A9B382339C36A00C57364 /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_thread.a; sourceTree = "<group>"; };
 		914A9B3F2339C36A00C57364 /* libboost_chrono.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_chrono.a; sourceTree = "<group>"; };
@@ -875,6 +875,8 @@
 		B5B06A402150751A001C4382 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				910F3AE822555C4B00148428 /* ghost_obs.cpp */,
+				910F3AEF22555C4B00148428 /* ghost_obs.h */,
 				A1F9224E21EFFB1100D8F23D /* debug_utils.h */,
 				A18221CF21ACB2FE0018B6DD /* js_binds.h */,
 				A18221C821ACB2FE0018B6DD /* js_binds.cpp */,
@@ -911,8 +913,6 @@
 				B5BAE38A215ABA89001354F9 /* simple_handler_mac.mm */,
 				B5CC96712225F90D00F5C4AC /* NSApplication+Ghost.h */,
 				B5CC96722225F90D00F5C4AC /* NSApplication+Ghost.mm */,
-				910F3AE822555C4B00148428 /* ghost_obs.cpp */,
-				910F3AEF22555C4B00148428 /* ghost_obs.h */,
 			);
 			path = src;
 			sourceTree = "<group>";

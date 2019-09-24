@@ -23,18 +23,21 @@
 using namespace boost;
 using namespace std;
 
+const bool ALWAYS_RECORDING = false;
+
 const int RECORD_WIDTH = 960;
 const int RECORD_HEIGHT = 720;
 const int RECORD_TIME_SECONDS = 5;
 
 obs_output_t *ghostObsOutput = NULL;
 std::thread ghostObsThread;
+std::thread stopRecordingThread;
 std::string ghostFFmpegPath;
 bool ghostObsIsStarted = false;
 const char *lastReplayPath = NULL;
 bool _debug;
 
-string ghostPreprocessVideo(string unprocessedVideoPath) {
+string _ghostPreprocessVideo(string unprocessedVideoPath) {
   string screenCaptureDirectory = ghostGetCachePath();
   screenCaptureDirectory += "/screen_captures";
   filesystem::path dir(screenCaptureDirectory);
@@ -92,7 +95,7 @@ string ghostPreprocessVideo(string unprocessedVideoPath) {
   return outPath;
 }
 
-void ghostObsBackgroundThread() {
+void _ghostObsBackgroundThread() {
   while (ghostObsIsStarted) {
     proc_handler_t *proc_handler = obs_output_get_proc_handler(ghostObsOutput);
     calldata_t *calldata = calldata_create();
@@ -101,20 +104,49 @@ void ghostObsBackgroundThread() {
     if (path && (!lastReplayPath || strcmp(path, lastReplayPath) != 0)) {
       lastReplayPath = path;
 
-      string preprocessedPath = ghostPreprocessVideo(path);
+      string preprocessedPath = _ghostPreprocessVideo(path);
 
       std::stringstream params;
       params << "{"
              << " path: \"" << preprocessedPath << "\", "
              << "}";
       ghostSendJSEvent(kGhostScreenCaptureReadyEventName, params.str().c_str());
+
+      if (!ALWAYS_RECORDING) {
+        ghostStopObs();
+      }
     }
 
 	  boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
   }
 }
 
-void ghostLoadObsModule(std::string basePath, std::string moduleName) {
+void _startRecording() {
+  if (ghostObsIsStarted) {
+    return;
+  }
+
+  bool result = obs_output_start(ghostObsOutput);
+  if (result) {
+    ghostObsIsStarted = true;
+  }
+
+  ghostObsThread = std::thread(_ghostObsBackgroundThread);
+}
+
+void _takeScreenCapture() {
+  proc_handler_t *proc_handler = obs_output_get_proc_handler(ghostObsOutput);
+  proc_handler_call(proc_handler, "save", NULL);
+}
+
+void _stopRecordingAfterTimeout() {
+  boost::this_thread::sleep_for(boost::chrono::milliseconds(RECORD_TIME_SECONDS * 1000));
+
+  _takeScreenCapture();
+  stopRecordingThread.detach();
+}
+
+void _loadObsModule(std::string basePath, std::string moduleName) {
   obs_module_t *module;
 
 #ifdef _MSC_VER
@@ -130,7 +162,6 @@ void ghostLoadObsModule(std::string basePath, std::string moduleName) {
 }
 
 void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
-  debug = true;
   _debug = debug;
 
   ghostFFmpegPath = ffmpegPath;
@@ -145,15 +176,15 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
   castle_obs_set_data_path(obsLibDataPath.c_str());
 
 #ifdef _MSC_VER
-  ghostLoadObsModule(basePath, "win-capture");
-  ghostLoadObsModule(basePath, "obs-x264");
+  _loadObsModule(basePath, "win-capture");
+  _loadObsModule(basePath, "obs-x264");
 #else
-  ghostLoadObsModule(basePath, "coreaudio-encoder");
-  ghostLoadObsModule(basePath, "mac-capture");
-  ghostLoadObsModule(basePath, "mac-vth264");
+  _loadObsModule(basePath, "coreaudio-encoder");
+  _loadObsModule(basePath, "mac-capture");
+  _loadObsModule(basePath, "mac-vth264");
 #endif
-  ghostLoadObsModule(basePath, "obs-ffmpeg");
-  ghostLoadObsModule(basePath, "obs-outputs");
+  _loadObsModule(basePath, "obs-ffmpeg");
+  _loadObsModule(basePath, "obs-outputs");
 
   obs_post_load_modules();
 
@@ -243,11 +274,7 @@ void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
   }
 }
 
-
-bool ghostStartObs() {
-  if (ghostObsIsStarted) {
-    return true;
-  }
+void ghostStartObs() {
 
   if (!ghostObsOutput) {
 
@@ -349,14 +376,9 @@ bool ghostStartObs() {
     obs_output_set_audio_encoder(ghostObsOutput, ghostObsAudioEncoder, 0);
   }
 
-  bool result = obs_output_start(ghostObsOutput);
-  if (result) {
-    ghostObsIsStarted = true;
+  if (ALWAYS_RECORDING) {
+    _startRecording();
   }
-
-  ghostObsThread = std::thread(ghostObsBackgroundThread);
-
-  return result;
 }
 
 void ghostStopObs() {
@@ -366,14 +388,21 @@ void ghostStopObs() {
 
   obs_output_stop(ghostObsOutput);
   ghostObsIsStarted = false;
-  ghostObsThread.join();
+  ghostObsThread.detach();
 }
 
 void ghostTakeScreenCaptureObs() {
+  if (!ALWAYS_RECORDING) {
+    _startRecording();
+  }
+
   if (!ghostObsIsStarted) {
     return;
   }
 
-  proc_handler_t *proc_handler = obs_output_get_proc_handler(ghostObsOutput);
-  proc_handler_call(proc_handler, "save", NULL);
+  if (ALWAYS_RECORDING) {
+    _takeScreenCapture();
+  } else {
+    stopRecordingThread = std::thread(_stopRecordingAfterTimeout);
+  }
 }
