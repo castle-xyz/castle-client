@@ -130,6 +130,7 @@ void ghostLoadObsModule(std::string basePath, std::string moduleName) {
 }
 
 void ghostInitObs(std::string basePath, std::string ffmpegPath, bool debug) {
+  debug = true;
   _debug = debug;
 
   ghostFFmpegPath = ffmpegPath;

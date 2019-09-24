@@ -10,6 +10,10 @@
 		910F3AF022555C4B00148428 /* ghost_obs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 910F3AE822555C4B00148428 /* ghost_obs.cpp */; };
 		910F3AF122555C4B00148428 /* ghost_obs.h in Headers */ = {isa = PBXBuildFile; fileRef = 910F3AEF22555C4B00148428 /* ghost_obs.h */; };
 		912D1E36224C52EF00815BBD /* castle-desktop-node-macos in Resources */ = {isa = PBXBuildFile; fileRef = 912D1E35224C52EF00815BBD /* castle-desktop-node-macos */; };
+		914A9B422339C36A00C57364 /* libboost_thread.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 914A9B382339C36A00C57364 /* libboost_thread.a */; };
+		914A9B432339C36A00C57364 /* libboost_chrono.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 914A9B3F2339C36A00C57364 /* libboost_chrono.a */; };
+		914A9B442339C36A00C57364 /* libboost_date_time.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 914A9B402339C36A00C57364 /* libboost_date_time.a */; };
+		914A9B452339C36A00C57364 /* libboost_regex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 914A9B412339C36A00C57364 /* libboost_regex.a */; };
 		91537F892319948D0055F55F /* libtheoraenc.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91537F4D2319948D0055F55F /* libtheoraenc.1.dylib */; };
 		91537F8A2319948D0055F55F /* libp11-kit.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91537F4E2319948D0055F55F /* libp11-kit.0.dylib */; };
 		91537F8B2319948D0055F55F /* libpcre.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 91537F4F2319948D0055F55F /* libpcre.1.dylib */; };
@@ -409,6 +413,10 @@
 		910F3AE822555C4B00148428 /* ghost_obs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ghost_obs.cpp; path = ../../common/ghost_obs.cpp; sourceTree = "<group>"; };
 		910F3AEF22555C4B00148428 /* ghost_obs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ghost_obs.h; path = ../../common/ghost_obs.h; sourceTree = "<group>"; };
 		912D1E35224C52EF00815BBD /* castle-desktop-node-macos */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = "castle-desktop-node-macos"; path = "../node/castle-desktop-node-macos"; sourceTree = "<group>"; };
+		914A9B382339C36A00C57364 /* libboost_thread.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_thread.a; sourceTree = "<group>"; };
+		914A9B3F2339C36A00C57364 /* libboost_chrono.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_chrono.a; sourceTree = "<group>"; };
+		914A9B402339C36A00C57364 /* libboost_date_time.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_date_time.a; sourceTree = "<group>"; };
+		914A9B412339C36A00C57364 /* libboost_regex.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libboost_regex.a; sourceTree = "<group>"; };
 		91537F4D2319948D0055F55F /* libtheoraenc.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libtheoraenc.1.dylib; sourceTree = "<group>"; };
 		91537F4E2319948D0055F55F /* libp11-kit.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libp11-kit.0.dylib"; sourceTree = "<group>"; };
 		91537F4F2319948D0055F55F /* libpcre.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libpcre.1.dylib; sourceTree = "<group>"; };
@@ -565,7 +573,9 @@
 				B5A0404321483BA5007A6CC1 /* Chromium Embedded Framework.framework in Frameworks */,
 				91537F972319948D0055F55F /* libopenjp2.7.dylib in Frameworks */,
 				91537F9A2319948D0055F55F /* libtheoradec.1.dylib in Frameworks */,
+				914A9B442339C36A00C57364 /* libboost_date_time.a in Frameworks */,
 				91537FA02319948D0055F55F /* libcrypto.1.0.0.dylib in Frameworks */,
+				914A9B452339C36A00C57364 /* libboost_regex.a in Frameworks */,
 				91537FB72319948D0055F55F /* liblzma.5.dylib in Frameworks */,
 				91537FBA2319948D0055F55F /* libsnappy.1.dylib in Frameworks */,
 				91537F9F2319948D0055F55F /* libnettle.6.dylib in Frameworks */,
@@ -578,6 +588,7 @@
 				91537FBB2319948D0055F55F /* libopencore-amrwb.0.dylib in Frameworks */,
 				91537F922319948D0055F55F /* libswresample.3.dylib in Frameworks */,
 				91537F932319948D0055F55F /* libtasn1.6.dylib in Frameworks */,
+				914A9B422339C36A00C57364 /* libboost_thread.a in Frameworks */,
 				91537F8E2319948D0055F55F /* libvorbisenc.2.dylib in Frameworks */,
 				91537F9C2319948D0055F55F /* libobsglad.dylib in Frameworks */,
 				91537FC02319948D0055F55F /* libffi.6.dylib in Frameworks */,
@@ -609,6 +620,7 @@
 				91537F8C2319948D0055F55F /* libpostproc.55.dylib in Frameworks */,
 				91537F9D2319948D0055F55F /* libmp3lame.0.dylib in Frameworks */,
 				91537FAF2319948D0055F55F /* libavdevice.58.dylib in Frameworks */,
+				914A9B432339C36A00C57364 /* libboost_chrono.a in Frameworks */,
 				91537F902319948D0055F55F /* libgnutls.30.dylib in Frameworks */,
 				A1887D5122162F59008F50E3 /* Sparkle.framework in Frameworks */,
 				91537FA52319948D0055F55F /* libobs.dylib in Frameworks */,
@@ -780,6 +792,10 @@
 		91543A8422558AD4001B2E4A /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				914A9B3F2339C36A00C57364 /* libboost_chrono.a */,
+				914A9B402339C36A00C57364 /* libboost_date_time.a */,
+				914A9B412339C36A00C57364 /* libboost_regex.a */,
+				914A9B382339C36A00C57364 /* libboost_thread.a */,
 				91543A8522558AD4001B2E4A /* libboost_system.a */,
 				91543A8622558AD4001B2E4A /* libboost_filesystem.a */,
 			);
@@ -1457,7 +1473,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/obs/bin",
 					"$(PROJECT_DIR)/boost/build/lib",
-					"$(PROJECT_DIR)/obs/libs",
 				);
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -1496,7 +1511,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/obs/bin",
 					"$(PROJECT_DIR)/boost/build/lib",
-					"$(PROJECT_DIR)/obs/libs",
 				);
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -1535,7 +1549,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/obs/bin",
 					"$(PROJECT_DIR)/boost/build/lib",
-					"$(PROJECT_DIR)/obs/libs",
 				);
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
