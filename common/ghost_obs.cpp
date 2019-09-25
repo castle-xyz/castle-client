@@ -38,6 +38,20 @@ bool ghostObsIsStarted = false;
 const char *lastReplayPath = NULL;
 bool _debug;
 
+void _sendJSUpdate(string type, string extraParams = "") {
+  std::stringstream params;
+  params << "{"
+  << " type: \"" << type << "\", ";
+
+  if (extraParams.length() > 0) {
+    params << extraParams;
+  }
+
+  params << "}";
+
+  ghostSendJSEvent(kGhostScreenCaptureUpdateEventName, params.str().c_str());
+}
+
 string _ghostPreprocessVideo(string unprocessedVideoPath) {
   string screenCaptureDirectory = ghostGetCachePath();
   screenCaptureDirectory += "/screen_captures";
@@ -115,11 +129,7 @@ void _ghostObsBackgroundThread() {
 	  string formattedPathString = formattedPath.string();
 #endif
 
-      std::stringstream params;
-      params << "{"
-             << " path: \"" << formattedPathString << "\", "
-             << "}";
-      ghostSendJSEvent(kGhostScreenCaptureReadyEventName, params.str().c_str());
+      _sendJSUpdate("completed", " path: \"" + formattedPathString + "\"");
 
       if (!ALWAYS_RECORDING) {
         ghostStopObs();

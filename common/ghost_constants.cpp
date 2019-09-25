@@ -7,7 +7,7 @@ const char *kGhostNativeMenuSelectedEventName = "nativeMenuSelected";
 const char *kGhostOpenUrlEventName = "nativeOpenUrl";
 const char *kGhostUpdateAvailableEventName = "nativeUpdateAvailable";
 const char *kGhostFileDownloadEventName = "nativeFileDownload";
-const char *kGhostScreenCaptureReadyEventName = "nativeScreenCaptureReady";
+const char *kGhostScreenCaptureUpdateEventName = "nativeScreenCaptureUpdate";
 const char *kGhostExecNodeComplete = "nativeExecNodeComplete";
 const char *kGhostCpuUsageEventName = "nativeCpuUsage";
 

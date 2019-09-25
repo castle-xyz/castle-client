@@ -8,26 +8,30 @@ export async function takeScreenCaptureAsync() {
   } catch (e) {}
 }
 
-export async function screenCaptureReadyEvent(e) {
+export async function screenCaptureUpdateEvent(e) {
   try {
-    let result = await ExecNode.uploadScreenCaptureAsync(e.params.path);
+    let updateType = e.params.type;
 
-    let gifFile = null;
-    for (let i = 0; i < result.length; i++) {
-      if (result[i].type === 'gif') {
-        gifFile = result[i].file;
-        break;
+    if (updateType === 'completed') {
+      let result = await ExecNode.uploadScreenCaptureAsync(e.params.path);
+
+      let gifFile = null;
+      for (let i = 0; i < result.length; i++) {
+        if (result[i].type === 'gif') {
+          gifFile = result[i].file;
+          break;
+        }
       }
-    }
 
-    if (!gifFile) {
-      return;
-    }
+      if (!gifFile) {
+        return;
+      }
 
-    await Bridge.JS.postCreate({
-      message: 'I recorded a video!',
-      mediaPath: gifFile.url,
-      mediaFileId: gifFile.fileId,
-    });
+      await Bridge.JS.postCreate({
+        message: 'I recorded a video!',
+        mediaPath: gifFile.url,
+        mediaFileId: gifFile.fileId,
+      });
+    }
   } catch (e) {}
 }

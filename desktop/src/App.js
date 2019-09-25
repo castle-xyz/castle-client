@@ -57,7 +57,7 @@ class App extends React.Component {
     window.addEventListener('online', PingUtils.reportPingsAsync);
     window.addEventListener('GHOST_PRINT', this._handleLuaPrintEvent);
     window.addEventListener('GHOST_ERROR', this._handleLuaErrorEvent);
-    window.addEventListener('nativeScreenCaptureReady', ScreenCapture.screenCaptureReadyEvent);
+    window.addEventListener('nativeScreenCaptureUpdate', ScreenCapture.screenCaptureUpdateEvent);
     window.addEventListener('nativeExecNodeComplete', ExecNode.execNodeCompleteEvent);
     window.addEventListener('click', this._handleAnchorClick);
     window.addEventListener('nativeFocusChat', this._handleNativeFocusChat);
@@ -89,7 +89,7 @@ class App extends React.Component {
     window.removeEventListener('online', PingUtils.reportPingsAsync);
     window.removeEventListener('GHOST_PRINT', this._handleLuaPrintEvent);
     window.removeEventListener('GHOST_ERROR', this._handleLuaErrorEvent);
-    window.removeEventListener('nativeScreenCaptureReady', ScreenCapture.screenCaptureReadyEvent);
+    window.removeEventListener('nativeScreenCaptureUpdate', ScreenCapture.screenCaptureUpdateEvent);
     window.removeEventListener('nativeExecNodeComplete', ExecNode.execNodeCompleteEvent);
     window.removeEventListener('click', this._handleAnchorClick);
     Bridge.removeEventListeners();
