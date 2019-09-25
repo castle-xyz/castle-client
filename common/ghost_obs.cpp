@@ -14,6 +14,7 @@
 #include <boost/chrono.hpp>
 #include <boost/thread/thread.hpp> 
 #include <boost/process.hpp>
+#include <boost/algorithm/string/replace.hpp>
 #include <graphics/vec2.h>
 #include <iostream>
 #include <obs.h>
@@ -48,19 +49,17 @@ string _ghostPreprocessVideo(string unprocessedVideoPath) {
 
   process::environment env = boost::this_process::environment();
 
-/*#ifdef _MSC_VER
-  process::child ch1(ghostFFmpegPath + " -sseof -5 -i " + unprocessedVideoPath +
-                         " -filter_complex \"[0:v] fps=30,scale=480:-1\" " + outPath,
-                     env, process::windows::hide);
-  ch1.wait();
-#else*/
   // Get crop bounds
   boost::asio::io_service ch1Ios;
   std::future<std::string> ch1Data;
   process::child ch1(
       ghostFFmpegPath,
       process::args({"-i", unprocessedVideoPath, "-vf", "cropdetect=24:16:0", "-f", "null", "-"}),
-      process::std_out > process::null, process::std_err > ch1Data, ch1Ios);
+#ifdef _MSC_VER
+      process::std_out > process::null, process::std_err > ch1Data, ch1Ios, process::windows::hide);
+#else
+	  process::std_out > process::null, process::std_err > ch1Data, ch1Ios);
+#endif
 
   ch1Ios.run();
   string ch1Output = ch1Data.get();
@@ -80,15 +79,18 @@ string _ghostPreprocessVideo(string unprocessedVideoPath) {
     process::child ch2(ghostFFmpegPath,
                        process::args({"-sseof", timeArg.str(), "-i", unprocessedVideoPath,
                                       "-filter_complex", "[0:v] crop=" + cropAmount, outPath}),
-                       process::std_out > process::null, process::std_err > ch2Data, ch2Ios);
+#ifdef _MSC_VER
+									  process::std_out > process::null, process::std_err > ch2Data, ch2Ios, process::windows::hide);
+#else
+									  process::std_out > process::null, process::std_err > ch2Data, ch2Ios);
+#endif
+
     ch2Ios.run();
     string ch2Output = ch2Data.get();
     if (_debug) {
       cout << ch2Output << endl;
     }
   }
-
-//#endif
 
   filesystem::remove(unprocessedVideoPath);
 
@@ -105,10 +107,17 @@ void _ghostObsBackgroundThread() {
       lastReplayPath = path;
 
       string preprocessedPath = _ghostPreprocessVideo(path);
+	  filesystem::path formattedPath = filesystem::path(preprocessedPath).make_preferred();
+
+#ifdef _MSC_VER
+	  string formattedPathString = boost::replace_all_copy(formattedPath.string(), "\\", "\\\\");
+#else
+	  string formattedPathString = formattedPath.string();
+#endif
 
       std::stringstream params;
       params << "{"
-             << " path: \"" << preprocessedPath << "\", "
+             << " path: \"" << formattedPathString << "\", "
              << "}";
       ghostSendJSEvent(kGhostScreenCaptureReadyEventName, params.str().c_str());
 
