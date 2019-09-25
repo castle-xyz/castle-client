@@ -4,6 +4,7 @@ import * as NativeUtil from '~/native/nativeutil';
 import * as URLS from '~/common/urls';
 import * as Utilities from '~/common/utilities';
 import * as Bridge from '~/common/bridge';
+import * as ScreenCapture from '~/common/screencapture';
 
 import { css } from 'react-emotion';
 import { DevelopmentContext } from '~/contexts/DevelopmentContext';
@@ -79,6 +80,7 @@ export default class Game extends React.Component {
         isMuted={this.props.isMuted}
         onToggleMute={this.props.onToggleMute}
         onPostScreenshot={this._handlePostScreenshot}
+        onPostScreenCapture={ScreenCapture.takeScreenCaptureAsync}
         onViewSource={isOpenSource ? () => this._handleViewSource(entryPoint) : null}
         onViewDeveloper={this._handleToggleDeveloper}
       />

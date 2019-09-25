@@ -118,9 +118,9 @@ export default class GameScreenActionsBar extends React.Component {
             </CTA>
           ) : null}
 
-          {this.props.onPostScreenshot ? (
-            <CTA style={{ marginRight: 24 }} onClick={this.props.onPostScreenshot}>
-              <GameSVG.Camera height="32px" style={{ marginRight: 8 }} />
+          {this.props.onPostScreenCapture ? (
+            <CTA style={{ marginRight: 24 }} onClick={this.props.onPostScreenCapture}>
+              <GameSVG.VideoCamera height="32px" style={{ marginRight: 8 }} />
             </CTA>
           ) : null}
         </div>
