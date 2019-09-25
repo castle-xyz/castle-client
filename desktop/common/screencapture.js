@@ -1,16 +1,9 @@
 import * as ExecNode from '~/common/execnode';
-
 import { NativeBinds } from '~/native/nativebinds';
+import * as Bridge from '~/common/bridge';
 
 export async function takeScreenCaptureAsync() {
   try {
-    /*let event = new Event('CASTLE_ADD_CHAT_NOTIFICATION');
-    event.params = {
-      message: 'Processing screen capture...',
-    };
-    window.dispatchEvent(event);*/
-    console.log('screen capture starting...');
-
     await NativeBinds.takeScreenCapture();
   } catch (e) {}
 }
@@ -18,15 +11,23 @@ export async function takeScreenCaptureAsync() {
 export async function screenCaptureReadyEvent(e) {
   try {
     let result = await ExecNode.uploadScreenCaptureAsync(e.params.path);
-    if (!result.mp4Url || !result.gifUrl) {
+
+    let gifFile = null;
+    for (let i = 0; i < result.length; i++) {
+      if (result[i].type === 'gif') {
+        gifFile = result[i].file;
+        break;
+      }
+    }
+
+    if (!gifFile) {
       return;
     }
 
-    /*let event = new Event('CASTLE_ADD_CHAT_NOTIFICATION');
-    event.params = {
-      message: `Here is a gif of your screen capture: ${result.gifUrl}`,
-    };
-    window.dispatchEvent(event);*/
-    console.log(result.gifUrl);
+    await Bridge.JS.postCreate({
+      message: 'I recorded a video!',
+      mediaPath: gifFile.url,
+      mediaFileId: gifFile.fileId,
+    });
   } catch (e) {}
 }

@@ -87,16 +87,20 @@ class EditPostScreen extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    const { message, mediaPath } = props.editPost;
+    const { message, mediaPath, shouldCrop } = props.editPost;
+    console.log(JSON.stringify(props.editPost));
 
     this.state = {
       message,
       mediaPath,
+      shouldCrop,
     };
   }
 
   componentDidMount() {
-    this._autoCrop();
+    if (this.state.shouldCrop) {
+      this._autoCrop();
+    }
   }
 
   _handleChangeMessage = (e) => {
@@ -229,10 +233,13 @@ class EditPostScreen extends React.Component {
 
   render() {
     let maybeMediaContainer;
-    if (this.state.editedMediaObjUrl) {
+    if (!this.state.shouldCrop || this.state.editedMediaObjUrl) {
       maybeMediaContainer = (
         <div className={STYLES_MEDIA_CONTAINER}>
-          <img className={STYLES_MEDIA_IMAGE} src={this.state.editedMediaObjUrl} />
+          <img
+            className={STYLES_MEDIA_IMAGE}
+            src={this.state.shouldCrop ? this.state.editedMediaObjUrl : this.state.mediaPath}
+          />
         </div>
       );
     }

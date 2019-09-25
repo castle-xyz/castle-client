@@ -140,7 +140,7 @@ export const JS = {
 
   // Post
 
-  async postCreate({ message, mediaType, mediaPath, mediaUploadParams, data }) {
+  async postCreate({ message, mediaType, mediaPath, mediaFileId, mediaUploadParams, data }) {
     // Get the current game and make sure it has a `.gameId` (is registered)
     const currentGame = GameWindow.getCurrentGame();
     const navigations = GameWindow.getNavigations();
@@ -167,6 +167,7 @@ export const JS = {
         editPost: {
           message,
           mediaPath,
+          shouldCrop: mediaType === 'capture',
         },
         onSubmit: (editPost) => {
           if (!resolved) {
@@ -189,11 +190,12 @@ export const JS = {
     }
 
     // Upload the media
-    let mediaFileId;
-    if (editedMediaBlob) {
-      mediaFileId = (await Actions.uploadImageAsync({ file: editedMediaBlob })).fileId;
-    } else if (mediaPath) {
-      mediaFileId = (await ExecNode.uploadFileAsync(mediaPath, mediaUploadParams)).fileId;
+    if (!mediaFileId) {
+      if (editedMediaBlob) {
+        mediaFileId = (await Actions.uploadImageAsync({ file: editedMediaBlob })).fileId;
+      } else if (mediaPath) {
+        mediaFileId = (await ExecNode.uploadFileAsync(mediaPath, mediaUploadParams)).fileId;
+      }
     }
 
     // Create the post!
@@ -208,7 +210,7 @@ export const JS = {
   async postGet({ postId, data }) {
     const jsPost = await Actions.getPostById(postId);
     return jsPost ? jsPostToLuaPost(jsPost, { data }) : null;
-  }
+  },
 };
 
 // Listen for JS call requests from Lua

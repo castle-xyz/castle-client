@@ -16,7 +16,13 @@ async function uploadScreenCapture(API, { file }) {
   const result = await API.graphqlAsync({
     query: `
       mutation($file: Upload!) {
-        uploadScreenCapture(file: $file)
+        uploadScreenCapture(file: $file) {
+          type
+          file {
+            fileId
+            url
+          }
+        }
       }
     `,
     variables,
