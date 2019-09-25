@@ -151,12 +151,12 @@ bool _startRecording() {
   if (!result) {
     return false;
   }
-  
+
   ghostObsIsStarted = true;
   ghostObsIsRecording = true;
   _sendJSUpdate("startRecording");
   ghostObsThread = std::thread(_ghostObsBackgroundThread);
-  
+
   return true;
 }
 

@@ -23,7 +23,7 @@ import Logs from '~/common/logs';
  *  should have an effect on values here.
  */
 const NavigationContextDefaults = {
-  contentMode: 'home', // game | gamemeta | profile | home | signin | notifications | create | edit_post | loading_screen_capture
+  contentMode: 'home', // game | gamemeta | profile | home | signin | notifications | create | edit_post
   timeLastNavigated: 0,
   gameUrl: '',
   game: null,
@@ -44,7 +44,6 @@ const NavigationContextDefaults = {
 const AUTHENTICATED_ONLY_MODES = {
   chat: true,
   edit_post: true,
-  loading_screen_capture: true,
   create: true,
   notifications: true,
   history: true,
@@ -80,7 +79,6 @@ const NavigatorContextDefaults = {
   navigateToNotifications: () => {},
   navigateToCreate: () => {},
   navigateToEditPost: () => {},
-  navigateToLoadingScreenCapture: () => {},
   reloadGame: (onlyIfVisible) => {},
   minimizeGame: () => {},
   clearCurrentGame: async () => {},
@@ -117,7 +115,6 @@ class NavigationContextManager extends React.Component {
         navigateToNotifications: this.navigateToNotifications,
         navigateToCreate: this.navigateToCreate,
         navigateToEditPost: this.navigateToEditPost,
-        navigateToLoadingScreenCapture: this.navigateToLoadingScreenCapture,
         openUrl: this.openUrl,
         reloadGame: this.reloadGame,
         minimizeGame: this.minimizeGame,
@@ -364,17 +361,11 @@ class NavigationContextManager extends React.Component {
 
   navigateToEditPost = (params) => this._navigateToContentMode('edit_post', { params });
 
-  navigateToLoadingScreenCapture = (params) =>
-    this._navigateToContentMode('loading_screen_capture', { params });
-
   navigateToCurrentGame = () => {
     if (!this.state.navigation.game) {
       throw new Error(`Cannot navigate to current game because there is no current game.`);
     }
-    if (
-      this.state.navigation.contentMode === 'edit_post' ||
-      this.state.navigation.contentMode === 'loading_screen_capture'
-    ) {
+    if (this.state.navigation.contentMode === 'edit_post') {
       this.state.navigation.params.onCancel();
     }
     let deferredNavigationState = {
@@ -498,11 +489,7 @@ class NavigationContextManager extends React.Component {
       const time = Date.now();
       const oldContentMode = state.navigation.contentMode;
       const newContentMode =
-        oldContentMode === 'game' ||
-        oldContentMode === 'edit_post' ||
-        oldContentMode === 'loading_screen_capture'
-          ? 'home'
-          : oldContentMode;
+        oldContentMode === 'game' || oldContentMode === 'edit_post' ? 'home' : oldContentMode;
       // navigate away from the game
       Analytics.trackNavigation({
         prevContentMode: oldContentMode,

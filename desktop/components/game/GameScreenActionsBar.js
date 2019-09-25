@@ -64,6 +64,35 @@ const STYLES_CTA = css`
   justify-content: flex-start;
 `;
 
+const STYLES_RECORDING_TEXT = css`
+  margin-right: 8px;
+  width: 32px;
+  height: 32px;
+  font-family: ${Constants.REFACTOR_FONTS.system};
+  font-weight: 600;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f00;
+`;
+
+const STYLES_RECORDING_PROCESSING = css`
+  @keyframes color-change {
+    0% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+
+  animation: color-change infinite 1000ms;
+`;
+
 const CTA = (props) => {
   return (
     <span
@@ -83,8 +112,49 @@ export default class GameScreenActionsBar extends React.Component {
     onPostScreenshot: null,
     onViewSource: null,
     onViewDeveloper: null,
-    isRecording: false,
+    recordingStatus: {
+      status: 'ready',
+    },
   };
+
+  _renderRecordingStatus() {
+    let { recordingStatus } = this.props;
+
+    if (recordingStatus.status === 'ready') {
+      return (
+        <CTA style={{ marginRight: 24 }} onClick={this.props.onPostScreenCapture}>
+          <GameSVG.VideoCamera
+            height="32px"
+            style={{
+              marginRight: 8,
+            }}
+          />
+        </CTA>
+      );
+    } else if (recordingStatus.status === 'processing') {
+      return (
+        <CTA style={{ marginRight: 24 }} active={false}>
+          <div className={STYLES_RECORDING_PROCESSING}>
+            <GameSVG.VideoCamera
+              height="32px"
+              style={{
+                marginRight: 8,
+                fill: '#999',
+              }}
+            />
+          </div>
+        </CTA>
+      );
+    } else {
+      return (
+        <CTA style={{ marginRight: 24, verticalAlign: 'top' }} active={false}>
+          <div width="32px" height="32px" className={STYLES_RECORDING_TEXT}>
+            {recordingStatus.secondsRemaining}
+          </div>
+        </CTA>
+      );
+    }
+  }
 
   render() {
     let { game, sessionId } = this.props;
@@ -119,14 +189,7 @@ export default class GameScreenActionsBar extends React.Component {
             </CTA>
           ) : null}
 
-          {this.props.onPostScreenCapture ? (
-            <CTA style={{ marginRight: 24 }} onClick={this.props.onPostScreenCapture}>
-              <GameSVG.VideoCamera
-                height="32px"
-                style={{ marginRight: 8, fill: this.props.isRecording ? '#f00' : '#000' }}
-              />
-            </CTA>
-          ) : null}
+          {this.props.onPostScreenCapture ? this._renderRecordingStatus() : null}
         </div>
         <div className={STYLES_RIGHT}>
           <CTA style={{ marginRight: 24, cursor: 'default' }}>

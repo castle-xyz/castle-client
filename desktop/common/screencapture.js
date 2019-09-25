@@ -3,7 +3,8 @@ import { NativeBinds } from '~/native/nativebinds';
 import * as Bridge from '~/common/bridge';
 import GameWindow from '~/native/gamewindow';
 
-let cancelActiveScreenCapture = false;
+let recordingSecondsRemaining = 0;
+let recordingCountdownInterval = null;
 
 export async function takeScreenCaptureAsync() {
   try {
@@ -16,27 +17,38 @@ export async function screenCaptureUpdateEvent(e) {
     let updateType = e.params.type;
 
     if (updateType === 'startRecording') {
-      GameWindow.setIsRecording(true);
-    } else if (updateType === 'endRecording') {
-      const navigations = GameWindow.getNavigations();
-      navigations.navigateToLoadingScreenCapture({
-        onCancel: () => {
-          cancelActiveScreenCapture = true;
+      recordingSecondsRemaining = 5;
 
-          // If there's an error anywhere we don't want this to persist to the next screen capture
-          setTimeout(() => {
-            cancelActiveScreenCapture = false;
-          }, 10 * 1000);
-        },
+      GameWindow.setRecordingStatus({
+        status: 'recording',
+        secondsRemaining: recordingSecondsRemaining,
       });
 
-      GameWindow.setIsRecording(false);
-    } else if (updateType === 'completed') {
-      if (cancelActiveScreenCapture) {
-        cancelActiveScreenCapture = false;
-        return;
+      if (recordingCountdownInterval) {
+        clearInterval(recordingCountdownInterval);
       }
 
+      recordingCountdownInterval = setInterval(() => {
+        recordingSecondsRemaining--;
+        if (recordingSecondsRemaining < 1) {
+          recordingSecondsRemaining = 1;
+        }
+
+        GameWindow.setRecordingStatus({
+          status: 'recording',
+          secondsRemaining: recordingSecondsRemaining,
+        });
+      }, 1000);
+    } else if (updateType === 'endRecording') {
+      if (recordingCountdownInterval) {
+        clearInterval(recordingCountdownInterval);
+        recordingCountdownInterval = null;
+      }
+
+      GameWindow.setRecordingStatus({
+        status: 'processing',
+      });
+    } else if (updateType === 'completed') {
       let result = await ExecNode.uploadScreenCaptureAsync(e.params.path);
 
       let gifFile = null;
