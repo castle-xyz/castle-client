@@ -88,7 +88,6 @@ class EditPostScreen extends React.Component {
     super(props, context);
 
     const { message, mediaPath, shouldCrop } = props.editPost;
-    console.log(JSON.stringify(props.editPost));
 
     this.state = {
       message,

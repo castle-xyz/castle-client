@@ -7,6 +7,7 @@ class GameWindow {
   _navigations = null;
   _openCallbacks = [];
   _closeCallbacks = [];
+  _setIsRecording = null;
 
   open = async ({ gameUrl, game, initialData, navigations, screenSettings }) => {
     if (this._isOpen) return;
@@ -38,6 +39,10 @@ class GameWindow {
     });
   };
 
+  updateSetIsRecording = (setIsRecording) => {
+    this._setIsRecording = setIsRecording;
+  };
+
   close = async () => {
     if (this._isOpen) {
       UserStatus.stop();
@@ -65,6 +70,10 @@ class GameWindow {
 
   onClose = (callback) => {
     this._closeCallbacks.push(callback);
+  };
+
+  setIsRecording = (isRecording) => {
+    this._setIsRecording(isRecording);
   };
 }
 

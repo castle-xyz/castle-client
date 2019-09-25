@@ -21,6 +21,7 @@ import NowPlayingBar from '~/components/NowPlayingBar';
 import ProfileScreen from '~/screens/ProfileScreen';
 import SearchScreen from '~/screens/SearchScreen';
 import SignInScreen from '~/screens/SignInScreen';
+import LoadingScreenCaptureScreen from '../screens/LoadingScreenCaptureScreen';
 
 const STYLES_CONTAINER_FLUID = css`
   font-family: ${Constants.font.default};
@@ -123,6 +124,8 @@ class ContentContainer extends React.Component {
       return <NotificationScreen />;
     } else if (mode === 'edit_post') {
       return <EditPostScreen />;
+    } else if (mode === 'loading_screen_capture') {
+      return <LoadingScreenCaptureScreen />;
     } else if (mode === 'signin') {
       return <SignInScreen />;
     }

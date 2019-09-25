@@ -1,6 +1,9 @@
 import * as ExecNode from '~/common/execnode';
 import { NativeBinds } from '~/native/nativebinds';
 import * as Bridge from '~/common/bridge';
+import GameWindow from '~/native/gamewindow';
+
+let cancelActiveScreenCapture = false;
 
 export async function takeScreenCaptureAsync() {
   try {
@@ -12,7 +15,28 @@ export async function screenCaptureUpdateEvent(e) {
   try {
     let updateType = e.params.type;
 
-    if (updateType === 'completed') {
+    if (updateType === 'startRecording') {
+      GameWindow.setIsRecording(true);
+    } else if (updateType === 'endRecording') {
+      const navigations = GameWindow.getNavigations();
+      navigations.navigateToLoadingScreenCapture({
+        onCancel: () => {
+          cancelActiveScreenCapture = true;
+
+          // If there's an error anywhere we don't want this to persist to the next screen capture
+          setTimeout(() => {
+            cancelActiveScreenCapture = false;
+          }, 10 * 1000);
+        },
+      });
+
+      GameWindow.setIsRecording(false);
+    } else if (updateType === 'completed') {
+      if (cancelActiveScreenCapture) {
+        cancelActiveScreenCapture = false;
+        return;
+      }
+
       let result = await ExecNode.uploadScreenCaptureAsync(e.params.path);
 
       let gifFile = null;

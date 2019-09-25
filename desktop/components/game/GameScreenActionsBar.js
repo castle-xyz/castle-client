@@ -83,6 +83,7 @@ export default class GameScreenActionsBar extends React.Component {
     onPostScreenshot: null,
     onViewSource: null,
     onViewDeveloper: null,
+    isRecording: false,
   };
 
   render() {
@@ -120,7 +121,10 @@ export default class GameScreenActionsBar extends React.Component {
 
           {this.props.onPostScreenCapture ? (
             <CTA style={{ marginRight: 24 }} onClick={this.props.onPostScreenCapture}>
-              <GameSVG.VideoCamera height="32px" style={{ marginRight: 8 }} />
+              <GameSVG.VideoCamera
+                height="32px"
+                style={{ marginRight: 8, fill: this.props.isRecording ? '#f00' : '#000' }}
+              />
             </CTA>
           ) : null}
         </div>

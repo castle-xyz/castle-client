@@ -35,6 +35,7 @@ std::thread ghostObsThread;
 std::thread stopRecordingThread;
 std::string ghostFFmpegPath;
 bool ghostObsIsStarted = false;
+bool ghostObsIsRecording = false;
 const char *lastReplayPath = NULL;
 bool _debug;
 
@@ -130,6 +131,7 @@ void _ghostObsBackgroundThread() {
 #endif
 
       _sendJSUpdate("completed", " path: \"" + formattedPathString + "\"");
+      ghostObsIsRecording = false;
 
       if (!ALWAYS_RECORDING) {
         ghostStopObs();
@@ -140,22 +142,29 @@ void _ghostObsBackgroundThread() {
   }
 }
 
-void _startRecording() {
-  if (ghostObsIsStarted) {
-    return;
+bool _startRecording() {
+  if (ghostObsIsStarted || ghostObsIsRecording) {
+    return false;
   }
 
   bool result = obs_output_start(ghostObsOutput);
-  if (result) {
-    ghostObsIsStarted = true;
+  if (!result) {
+    return false;
   }
-
+  
+  ghostObsIsStarted = true;
+  ghostObsIsRecording = true;
+  _sendJSUpdate("startRecording");
   ghostObsThread = std::thread(_ghostObsBackgroundThread);
+  
+  return true;
 }
 
 void _takeScreenCapture() {
   proc_handler_t *proc_handler = obs_output_get_proc_handler(ghostObsOutput);
   proc_handler_call(proc_handler, "save", NULL);
+  
+  _sendJSUpdate("endRecording");
 }
 
 void _stopRecordingAfterTimeout() {
@@ -412,7 +421,9 @@ void ghostStopObs() {
 
 void ghostTakeScreenCaptureObs() {
   if (!ALWAYS_RECORDING) {
-    _startRecording();
+    if (!_startRecording()) {
+      return;
+    }
   }
 
   if (!ghostObsIsStarted) {

@@ -71,6 +71,7 @@ class GameScreen extends React.Component {
   state = {
     isMuted: false,
     loaded: true,
+    isRecording: false,
     luaNetworkRequests: [
       // Some example data to test with in the browser
       // {
@@ -98,6 +99,7 @@ class GameScreen extends React.Component {
 
   componentDidMount() {
     this.updateGameWindowFrame();
+    GameWindow.updateSetIsRecording(this._setIsRecording);
     window.addEventListener('CASTLE_GAME_LOADED', this._handleGameLoaded);
     window.addEventListener('GHOST_NETWORK_REQUEST', this._handleLuaNetworkRequest);
     document.addEventListener('CASTLE_GAME_LAYOUT_UPDATE', this.updateGameWindowFrame);
@@ -174,6 +176,10 @@ class GameScreen extends React.Component {
     await GameWindow.close();
   };
 
+  _setIsRecording = (isRecording) => {
+    this.setState({ isRecording });
+  };
+
   _openGame = async (url, game) => {
     await new Promise((resolve) =>
       this.setState(
@@ -199,6 +205,7 @@ class GameScreen extends React.Component {
       game: game,
       navigations: {
         navigateToEditPost: this.props.navigateToEditPost,
+        navigateToLoadingScreenCapture: this.props.navigateToLoadingScreenCapture,
         navigateToGameUrl: this.props.navigateToGameUrl,
         navigateToGame: this.props.navigateToGame,
       },
@@ -319,6 +326,7 @@ class GameScreen extends React.Component {
         sessionId={this.props.sessionId}
         isFullScreen={this.props.isFullScreen}
         isMuted={this.state.isMuted}
+        isRecording={this.state.isRecording}
         navigateToUserProfile={this.props.navigateToUserProfile}
         navigateToGameUrl={this.props.navigateToGameUrl}
         navigateToGame={this.props.navigateToGame}
@@ -358,6 +366,7 @@ export default class GameScreenWithContext extends React.Component {
                     timeNavigatedToGame={navigation.timeLastNavigated}
                     navigateToUserProfile={navigator.navigateToUserProfile}
                     navigateToEditPost={navigator.navigateToEditPost}
+                    navigateToLoadingScreenCapture={navigator.navigateToLoadingScreenCapture}
                     navigateToGameUrl={navigator.navigateToGameUrl}
                     navigateToGame={navigator.navigateToGame}
                     navigateToHome={navigator.navigateToHome}
