@@ -295,7 +295,7 @@ void ghostStartObs() {
     obs_data_set_string(sourceSettings, "capture_mode", "window");
     obs_data_set_string(sourceSettings, "window", "Castle:CefBrowserWindow:Castle.exe");
     //obs_data_set_int(sourceSettings, "priority", 1); // default priority is "exe" which works fine
-    obs_data_set_bool(sourceSettings, "capture_cursor", "false");
+    obs_data_set_bool(sourceSettings, "capture_cursor", false);
     obs_source_t *ghostObsSource =
       obs_source_create("game_capture", "castle_source", sourceSettings, NULL);
 #else
