@@ -118,6 +118,20 @@ class UserStatus {
       return isLocalFile && !isAlreadySeen;
     });
   };
+
+  uniqueRegisteredUserStatuses = (statuses) => {
+    if (!statuses || !statuses.length) return [];
+
+    let seenUrls = {};
+    return statuses.filter((item) => {
+      const { game } = item;
+      let isPrivate = Urls.isPrivateUrl(game.url);
+      let isLocalFile = isPrivate || !game.owner;
+      let isAlreadySeen = seenUrls[game.url] === true;
+      seenUrls[game.url] = true;
+      return !isLocalFile && game.gameId && !isAlreadySeen;
+    });
+  };
 }
 
 export default new UserStatus();

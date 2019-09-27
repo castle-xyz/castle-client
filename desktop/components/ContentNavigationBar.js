@@ -1,11 +1,9 @@
 import * as React from 'react';
-import * as ChatUtilities from '~/common/chat-utilities';
 import * as Constants from '~/common/constants';
 import * as NativeUtil from '~/native/nativeutil';
 import * as Urls from '~/common/urls';
 
 import { css } from 'react-emotion';
-import { ChatContext } from '~/contexts/ChatContext';
 import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 import { NavigationContext, NavigatorContext } from '~/contexts/NavigationContext';
 
@@ -90,37 +88,28 @@ class ContentNavigationBar extends React.Component {
   };
 
   _getPlayItems = () => {
-    // TODO: BEN: decouple from chat (and unsub this component from chat)
-    const { channels, navigator } = this.props;
+    const { currentUser, navigator } = this.props;
 
     let items = [
       { name: 'Home', onClick: navigator.navigateToHome },
       { name: 'All Games', onClick: () => navigator.navigateToContentMode('allGames') },
     ];
 
-    if (channels) {
+    const { userStatusHistory } = currentUser;
+    if (userStatusHistory) {
       if (items.length > 0) {
         items.push({ isSeparator: true });
       }
-      let filteredChannels = [];
-      Object.entries(channels).forEach(([channelId, channel]) => {
-        if (channel.isSubscribed && channel.type === 'game') {
-          filteredChannels.push(channel);
-        }
-      });
-      if (filteredChannels.length) {
-        filteredChannels = ChatUtilities.sortChannels(filteredChannels);
-        return items.concat(
-          filteredChannels.map((c) => {
-            return {
-              name: c.name,
-              onClick: () => navigator.navigateToGameMeta(c.channelId),
-            };
-          })
-        );
-      }
+      items = items.concat(
+        UserStatus.uniqueRegisteredUserStatuses(userStatusHistory).map((status) => {
+          return {
+            name: this._getProjectDisplayName({ name: status.game.title, url: status.game.url }),
+            onClick: () => navigator.navigateToGameMeta(status.game),
+          };
+        })
+      );
     }
-    return [];
+    return items;
   };
 
   _getCreateItems = () => {
@@ -129,7 +118,6 @@ class ContentNavigationBar extends React.Component {
     let items = [];
     if (userStatusHistory) {
       items = items.concat(
-        items,
         UserStatus.uniqueLocalUserStatuses(userStatusHistory).map((status) => {
           return {
             name: this._getProjectDisplayName({ name: status.game.title, url: status.game.url }),
@@ -225,16 +213,11 @@ export default class ContentNavigationBarWithContext extends React.Component {
             {(navigator) => (
               <CurrentUserContext.Consumer>
                 {(currentUser) => (
-                  <ChatContext.Consumer>
-                    {(chat) => (
-                      <ContentNavigationBar
-                        currentUser={currentUser}
-                        channels={chat.channels}
-                        navigator={navigator}
-                        {...this.props}
-                      />
-                    )}
-                  </ChatContext.Consumer>
+                  <ContentNavigationBar
+                    currentUser={currentUser}
+                    navigator={navigator}
+                    {...this.props}
+                  />
                 )}
               </CurrentUserContext.Consumer>
             )}

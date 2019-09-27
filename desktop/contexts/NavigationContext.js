@@ -23,7 +23,7 @@ import Logs from '~/common/logs';
  *  should have an effect on values here.
  */
 const NavigationContextDefaults = {
-  contentMode: 'home', // gamemeta | profile | home | signin | create | edit_post
+  contentMode: 'home', // game-meta | profile | home | signin | create | edit_post
   timeLastNavigated: 0,
   playing: {
     gameUrl: '',
@@ -38,7 +38,7 @@ const NavigationContextDefaults = {
   },
   isChatExpanded: true,
   chatChannelId: null,
-  gameMetaChannelId: null, // TODO: ben: decouple from chat, take a game here
+  gameMetaShown: null,
   userProfileShown: null,
   deferredNavigationState: null, // used when restoring navigation state after login
 };
@@ -58,7 +58,7 @@ const NavigatorContextDefaults = {
   navigateToHome: () => {},
   navigateToGameUrl: async (url, options) => {},
   navigateToGame: async (game, options) => {},
-  navigateToGameMeta: (channelId) => {}, // TODO: ben: decouple from chat
+  navigateToGameMeta: async (game) => {},
   navigateToCurrentGame: () => {},
   navigateToSignIn: () => {},
   navigateToCurrentUserProfile: () => {},
@@ -209,12 +209,6 @@ class NavigationContextManager extends React.Component {
 
   // navigator actions
   _navigateToContentMode = (mode, navigationParams) => {
-    if (mode !== 'game-meta') {
-      // TODO: ben: decouple chat from game meta pages
-      if (!navigationParams) navigationParams = {};
-      navigationParams.gameMetaChannelId = null;
-    }
-
     try {
       Analytics.trackNavigation({
         prevContentMode: this.state.navigation.contentMode,
@@ -244,6 +238,7 @@ class NavigationContextManager extends React.Component {
           isVisible: false,
         },
         userProfileShown: null,
+        gameMetaShown: null,
         timeLastNavigated: Date.now(),
         deferredNavigationState: null,
         ...navigationParams,
@@ -317,26 +312,29 @@ class NavigationContextManager extends React.Component {
 
   // assumes you have a channel id.
   // if not, use ChatContext.openChannel methods
-  showChatChannel = async (channelId, options) => {
+  showChatChannel = async (channelId) => {
     let chatChannelId = channelId || this.state.chatChannelId;
     return this.setState({
       navigation: {
         ...this.state.navigation,
         chatChannelId: channelId,
-        gameMetaChannelId:
-          options && options.isGameMetaChannel
-            ? channelId
-            : this.state.navigation.gameMetaChannelId,
         isChatExpanded: true,
       },
     });
   };
 
-  navigateToGameMeta = (channelId) => {
-    let chatChannelId = channelId || this.state.navigation.chatChannelId;
+  navigateToGameMeta = async (game) => {
+    // TODO: could cache rather than always fetching
+    let fullGame;
+    try {
+      fullGame = await Actions.getGameByGameId(game.gameId);
+    } catch (e) {
+      // fall back to whatever we were given
+      fullGame = game;
+    }
+    // TODO: BEN: figure out how to show the appropriate chat channel
     return this._navigateToContentMode('game-meta', {
-      gameMetaChannelId: chatChannelId,
-      chatChannelId: chatChannelId,
+      gameMetaShown: fullGame,
     });
   };
 

@@ -43,8 +43,8 @@ const STYLES_SETTING = css`
 
 class GameMetaScreen extends React.Component {
   state = {
-    game: null,
     mode: 'members',
+    channel: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -61,36 +61,35 @@ class GameMetaScreen extends React.Component {
   }
 
   _update = async (prevProps, prevState) => {
-    const { chat, channelId } = this.props;
-    if (chat) {
-      chat.markChannelRead(channelId);
-    }
-    if (!prevProps || prevProps.channelId !== channelId) {
+    const { chat, game } = this.props;
+    if (!prevProps || prevProps.game !== game) {
       // clear prev state
       let updates = { mode: 'members' };
-      if (this.state.game) {
-        updates.game = null;
+      if (this.state.channel) {
+        updates.channel = null;
       }
       await this.setState(updates);
-      const channel = chat.channels[channelId];
-      if (channel.type === 'game' && channel.gameId) {
-        try {
-          let game = await Actions.getGameByGameId(channel.gameId);
-          this.setState({ game });
-        } catch (_) {}
+      let channel;
+      if (chat) {
+        channel = chat.findChannelForGame(game);
+      }
+      if (channel && channel.type === 'game' && channel.gameId) {
+        chat.markChannelRead(channel.channelId);
+        this.setState({ channel });
       }
     }
   };
 
   _getNavigationItems = () => {
-    const { chat, channelId } = this.props;
+    const { chat, game } = this.props;
+    const { channel } = this.state;
     let items = [];
-    const numChannelMembers = this.props.chat.channelOnlineCounts[this.props.channelId];
-    items.push({ label: `People Online (${numChannelMembers})`, key: 'members' });
-
-    const channel = chat.channels[channelId];
-    if (channel && channel.isSubscribed) {
-      items.push({ label: 'Settings', key: 'settings' });
+    if (channel) {
+      const numChannelMembers = chat.channelOnlineCounts[channel.channelId];
+      items.push({ label: `People Online (${numChannelMembers})`, key: 'members' });
+      if (channel.isSubscribed) {
+        items.push({ label: 'Settings', key: 'settings' });
+      }
     }
 
     return items;
@@ -101,9 +100,12 @@ class GameMetaScreen extends React.Component {
   };
 
   _handleLeaveChannel = async () => {
-    const lobbyChannel = this.props.chat.findChannel(ChatUtilities.EVERYONE_CHANNEL_NAME);
-    await this.props.navigator.showChatChannel(lobbyChannel.channelId);
-    this.props.chat.closeChannel(this.props.channelId);
+    // TODO: BEN: clean up
+    if (this.state.channel) {
+      const lobbyChannel = this.props.chat.findChannel(ChatUtilities.EVERYONE_CHANNEL_NAME);
+      await this.props.navigator.showChatChannel(lobbyChannel.channelId);
+      this.props.chat.closeChannel(this.state.channel.channelId);
+    }
     this.props.navigator.navigateToHome();
   };
 
@@ -134,11 +136,10 @@ class GameMetaScreen extends React.Component {
   };
 
   render() {
-    const { game, mode } = this.state;
+    const { channel, mode } = this.state;
+    const { game } = this.props;
 
-    if (!this.props.channelId) return null;
-
-    const channel = this.props.chat.channels[this.props.channelId];
+    // TODO: BEN
     if (!channel) return null;
 
     return (
@@ -187,7 +188,7 @@ export default class GameMetaScreenWithContext extends React.Component {
                     {(navigator) => (
                       <GameMetaScreen
                         navigator={navigator}
-                        channelId={navigation.gameMetaChannelId}
+                        game={navigation.gameMetaShown}
                         userIdToUser={userPresence.userIdToUser}
                         chat={chat}
                       />
