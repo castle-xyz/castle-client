@@ -52,9 +52,104 @@ const getInitialState = async () => {
       },
       content: {
         trendingGames: data.trendingGames ? data.trendingGames : [],
-        multiplayerSessions: data.joinableMultiplayerSessions
-          ? data.joinableMultiplayerSessions
-          : [],
+        multiplayerSessions: [
+          {
+            sessionId: 'MAFFwQTix',
+            gameId: '46',
+            userIds: [1],
+            game: {
+              name: 'Light Ryders 🏍',
+              name_slug: 'light-ryders',
+              description: 'Welcome to The Grid. The GOAL is... to survive!',
+              metadata: {
+                dimensions: 'full',
+                multiplayer: { enabled: true, serverMain: 'src/game_server.lua' },
+                main: 'src/main.lua',
+              },
+              unlisted: false,
+              main: 'src/main.lua',
+              draft: false,
+              last_update_succeeded: true,
+              url: 'https://castle.games/+46/@liquidream/light-ryders',
+              username: 'liquidream',
+              slug: '@liquidream/light-ryders',
+              gameId: '46',
+              userId: 66,
+              createdTime: '2019-04-11T17:59:00.358Z',
+              updatedTime: '2019-09-30T22:02:47.529Z',
+              coverImageFileId: 16012,
+              entryPoint:
+                'https://raw.githubusercontent.com/Liquidream/lite-bikez/master/src/main.lua',
+              storageId: 'baccb6af-67ab-488c-ae8e-4bfcad8051b6',
+              ownerId: 66,
+              owner: {
+                username: 'liquidream',
+                username_lower_case: 'liquidream',
+                about: {
+                  rich:
+                    '{"object":"value","document":{"object":"document","data":{},"nodes":[{"object":"block","type":"line","data":{},"nodes":[{"object":"text","leaves":[{"object":"leaf","text":"","marks":[]}]}]}]}}',
+                },
+                name: 'Paul Nicholas',
+                userId: 66,
+                createdTime: '2019-02-20T19:00:17.293Z',
+                updatedTime: '2019-02-25T05:40:27.124Z',
+                websiteUrl: 'https://www.liquidream.co.uk',
+                twitterUsername: 'Liquidream',
+                itchUsername: 'Liquidream',
+                photoFileId: 52,
+                isTestUser: false,
+              },
+              title: 'Light Ryders 🏍',
+              serverEntryPoint:
+                'https://raw.githubusercontent.com/Liquidream/lite-bikez/master/src/game_server.lua',
+              sourceUrl:
+                'https://raw.githubusercontent.com/Liquidream/lite-bikez/master/lite-bikez.castle',
+              isCastleHosted: false,
+              castleUrlPath: '+46/@liquidream/light-ryders',
+              chatChannelId: 'game-46',
+              coverImage: {
+                file_id: 16012,
+                url: 'https://d1vkcv80qw9qqp.cloudfront.net/03f6a0a39683a6d59336d8b153da6f93',
+                s3_key: '03f6a0a39683a6d59336d8b153da6f93',
+                user_id: 66,
+                width: 1923,
+                height: 1073,
+                filename: null,
+                mime_type: null,
+                encoding: null,
+                created_at: '2019-08-17T17:48:08.210Z',
+                updated_at: '2019-08-17T17:48:08.210Z',
+                imgixUrl: 'https://d1vkcv80qw9qqp.cloudfront.net/03f6a0a39683a6d59336d8b153da6f93',
+                fileId: 16012,
+              },
+              playCount: 10,
+              sessionId: 'MAFFwQTix',
+              sessionUsers: [
+                {
+                  userId: 1,
+                  username: 'jesse',
+                },
+
+                {
+                  userId: 2,
+                  username: 'charlie',
+                },
+                {
+                  userId: 2,
+                  username: 'charlie',
+                },
+                {
+                  userId: 2,
+                  username: 'charlie',
+                },
+                {
+                  userId: 2,
+                  username: 'charlie',
+                },
+              ],
+            },
+          },
+        ],
       },
       userStatusHistory: data.userStatusHistory,
     };

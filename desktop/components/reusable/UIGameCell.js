@@ -209,6 +209,32 @@ export default class UIGameCell extends React.Component {
     this.setState({ gameUrlWasCopiedToClipboard: false });
   };
 
+  _usersListToString(users) {
+    if (!users || users.length === 0) {
+      return '';
+    } else if (users.length === 1) {
+      return `@${users[0].username} is playing`;
+    } else if (users.length === 2) {
+      return `@${users[0].username} and @${users[1].username} are playing`;
+    } else {
+      let text = '';
+
+      for (let i = 0; i < users.length; i++) {
+        text += `@${users[i].username}`;
+
+        if (i < users.length - 1) {
+          text += ', ';
+        }
+
+        if (i === users.length - 2) {
+          text += 'and ';
+        }
+      }
+
+      return `${text} are playing`;
+    }
+  }
+
   render() {
     let { game } = this.props;
     let title = game.title ? Strings.elide(game.title, 21) : 'Untitled';
@@ -316,6 +342,11 @@ export default class UIGameCell extends React.Component {
               </div>
             ) : null}
             {detailLine}
+            {game.sessionUsers ? (
+              <span className={STYLES_SECONDARY_TEXT}>
+                {this._usersListToString(game.sessionUsers)}
+              </span>
+            ) : null}
           </div>
           <UIPlayIcon
             hovering={this.state.isHoveringOnPlay && !hoveringOnDetailIcon}
