@@ -4,8 +4,9 @@ import * as Constants from '~/common/constants';
 import * as Strings from '~/common/strings';
 
 import { css } from 'react-emotion';
+import { Tooltip } from 'react-tippy';
 
-import Viewer from '~/components/Viewer';
+import UIAvatar from '~/components/reusable/UIAvatar';
 
 const STYLES_HEADER = css`
   background: #ececed;
@@ -29,6 +30,21 @@ const STYLES_VIEWER = css`
   justify-content: center;
   flex-shrink: 0;
 `;
+
+const STYLES_VIEWER_CONTAINER = css`
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+`;
+
+const TOOLTIP_PROPS = {
+  arrow: true,
+  duration: 170,
+  animation: 'fade',
+  hideOnClick: false,
+  position: 'left',
+};
 
 const STYLES_HEADER_LEFT = css`
   padding: 8px 8px 8px 16px;
@@ -81,13 +97,16 @@ const STYLES_CHANNEL_NAME = css``;
 
 export default class SocialSidebarHeader extends React.Component {
   static defaultProps = {
+    mode: 'chat',
     isExpanded: true,
   };
 
   _renderTitle = () => {
-    const { channel, onChannelClick } = this.props;
+    const { mode, channel, onChannelClick } = this.props;
     let content;
-    if (channel.type === 'dm') {
+    if (mode === 'notifications') {
+      content = <span className={STYLES_CHANNEL_NAME}>My Notifications</span>;
+    } else if (channel.type === 'dm') {
       content = (
         <span className={STYLES_CHANNEL_NAME} onClick={onChannelClick}>
           {channel.name}
@@ -110,7 +129,11 @@ export default class SocialSidebarHeader extends React.Component {
   };
 
   _getHeading = () => {
-    const { channel } = this.props;
+    const { mode, channel, viewer } = this.props;
+    if (mode === 'notifications') {
+      let username = viewer ? viewer.username : '';
+      return `Signed in as ${username}`;
+    }
     switch (channel.type) {
       case 'dm':
         return `A private conversation with ${channel.name}`;
@@ -138,7 +161,13 @@ export default class SocialSidebarHeader extends React.Component {
   };
 
   _renderActions = () => {
-    const { channel, numChannelMembers } = this.props;
+    const { mode, channel, numChannelMembers } = this.props;
+
+    // TODO: notifications unread count
+    if (mode === 'notifications') {
+      return null;
+    }
+
     if (channel.type !== 'dm' && numChannelMembers) {
       return (
         <span className={STYLES_ONLINE} onClick={this.props.onMembersClick}>
@@ -149,6 +178,26 @@ export default class SocialSidebarHeader extends React.Component {
     } else {
       return null;
     }
+  };
+
+  _renderViewer = () => {
+    const { viewer, onSelectNotifications } = this.props;
+    const avatarSrc = viewer && viewer.photo ? viewer.photo.url : null;
+    return (
+      <Tooltip title={`Notifications for ${viewer.username}`} {...TOOLTIP_PROPS}>
+        <div className={STYLES_VIEWER_CONTAINER}>
+          <UIAvatar
+            src={avatarSrc}
+            onClick={onSelectNotifications}
+            showIndicator={false}
+            style={{
+              height: `28px`,
+              width: `28px`,
+            }}
+          />
+        </div>
+      </Tooltip>
+    );
   };
 
   render() {
@@ -168,9 +217,7 @@ export default class SocialSidebarHeader extends React.Component {
             </div>
           </div>
         ) : null}
-        <div className={STYLES_VIEWER}>
-          <Viewer />
-        </div>
+        <div className={STYLES_VIEWER}>{this._renderViewer()}</div>
       </header>
     );
   }

@@ -11,6 +11,7 @@ import { UserPresenceContext } from '~/contexts/UserPresenceContext';
 
 import ChatChannel from '~/components/chat/ChatChannel';
 import ChatMembers from '~/components/chat/ChatMembers';
+import NotificationsList from '~/components/notifications/NotificationsList';
 import SocialSidebarHeader from '~/components/social/SocialSidebarHeader';
 import SocialSidebarNavigator from '~/components/social/SocialSidebarNavigator';
 
@@ -120,8 +121,18 @@ class SocialSidebar extends React.Component {
     return this.setState({ mode: 'chat' });
   };
 
+  _handleShowNotifications = () => {
+    const { isChatExpanded } = this.props;
+    if (!isChatExpanded) {
+      this.props.navigator.toggleIsChatExpanded();
+    }
+    this.setState({ mode: 'notifications' });
+  };
+
   _renderContent = (mode, { channelId, theme }) => {
     switch (mode) {
+      case 'notifications':
+        return <NotificationsList />;
       case 'members':
         const channel = this.props.chat.channels[channelId];
         const onlineUserIds = this.props.chat.channelOnlineUserIds[channelId];
@@ -177,15 +188,19 @@ class SocialSidebar extends React.Component {
           borderLeft,
         }}>
         <SocialSidebarHeader
+          mode={this.state.mode}
           channel={chat.channels[channelId]}
           isExpanded={isChatExpanded}
           numChannelMembers={chat.channelOnlineCounts[channelId]}
           onMembersClick={this._handleToggleMembers}
+          viewer={viewer}
+          onSelectNotifications={this._handleShowNotifications}
         />
         <div className={STYLES_SIDEBAR_BODY}>
           {isChatExpanded && this._renderContent(this.state.mode, { channelId, theme })}
           <div className={STYLES_CHANNEL_NAVIGATOR}>
             <SocialSidebarNavigator
+              mode={this.state.mode}
               playing={playing}
               contentMode={contentMode}
               gameMetaShown={gameMetaShown}

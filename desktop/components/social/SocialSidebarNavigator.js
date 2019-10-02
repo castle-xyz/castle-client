@@ -48,6 +48,7 @@ const TOOLTIP_PROPS = {
 
 export default class SocialSidebarNavigator extends React.Component {
   static defaultProps = {
+    mode: 'chat',
     theme: {},
   };
 
@@ -124,7 +125,7 @@ export default class SocialSidebarNavigator extends React.Component {
 
   _renderGameItem = () => {
     const { gameChatAvailable } = this.state;
-    const { chat, isChatExpanded, selectedChannelId } = this.props;
+    const { mode, chat, isChatExpanded, selectedChannelId } = this.props;
     const { theme } = this.props;
     let gameItem = null;
     if (gameChatAvailable) {
@@ -134,7 +135,8 @@ export default class SocialSidebarNavigator extends React.Component {
         if (gameChatAvailable && gameChatAvailable.coverImage) {
           iconSrc = gameChatAvailable.coverImage.url;
         }
-        const isGameSelected = isChatExpanded && selectedChannelId === channel.channelId;
+        const isGameSelected =
+          mode === 'chat' && isChatExpanded && selectedChannelId === channel.channelId;
         const title = channel.name ? channel.name : 'Untitled Game Chat';
 
         gameItem = (
@@ -155,14 +157,15 @@ export default class SocialSidebarNavigator extends React.Component {
   };
 
   _renderLobbyItem = () => {
-    const { chat, isChatExpanded, selectedChannelId } = this.props;
+    const { mode, chat, isChatExpanded, selectedChannelId } = this.props;
     const { theme } = this.props;
     let lobbyItem = null;
     try {
       let lobbyChannel = this.props.lobbyChannel,
         isLobbySelected = false;
       if (lobbyChannel) {
-        isLobbySelected = isChatExpanded && selectedChannelId === lobbyChannel.channelId;
+        isLobbySelected =
+          mode === 'chat' && isChatExpanded && selectedChannelId === lobbyChannel.channelId;
         lobbyItem = (
           <SocialSidebarNavigationItem
             isUnread={lobbyChannel.hasUnreadMessages}
@@ -181,7 +184,7 @@ export default class SocialSidebarNavigator extends React.Component {
   };
 
   render() {
-    const { chat, viewer, isChatExpanded, selectedChannelId } = this.props;
+    const { mode, chat, viewer, isChatExpanded, selectedChannelId } = this.props;
     const { theme } = this.props;
     if (!viewer) {
       return null;
@@ -217,7 +220,8 @@ export default class SocialSidebarNavigator extends React.Component {
           {this._renderGameItem()}
           {this._renderLobbyItem()}
           {directMessages.map((c, ii) => {
-            const isSelected = isChatExpanded && c.channelId === selectedChannelId;
+            const isSelected =
+              mode === 'chat' && isChatExpanded && c.channelId === selectedChannelId;
 
             const user = userIdToUser[c.otherUserId];
             if (!user) {

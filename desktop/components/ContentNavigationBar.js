@@ -13,8 +13,6 @@ import UIBackForwardControl from '~/components/reusable/UIBackForwardControl';
 import UINavigationLink from '~/components/reusable/UINavigationLink';
 import UserStatus from '~/common/userstatus';
 
-const ENABLE_NOTIF_SCREEN = false; // feature flag notification item
-
 const STYLES_CONTAINER = css`
   background: #f3f3f3;
   flex-shrink: 0;

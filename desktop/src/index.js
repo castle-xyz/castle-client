@@ -80,6 +80,23 @@ const run = async () => {
     Analytics.trackLogin({ user: state.currentUser.user, isAutoLogin: true });
   }
 
+  // TODO: BEN: remove
+  state.currentUser.appNotifications = state.currentUser.appNotifications || [];
+  state.currentUser.appNotifications.push({
+    type: 'post',
+    body: {
+      message: [{ text: { message: [{ userId: 2 }, { text: ' made a post about platformer!' }] } }],
+    },
+    status: 'unseen',
+    appNotificationId: 9,
+    updatedTime: '2019-10-03T20:07:06.401Z',
+    chatMessageId: null,
+    chatChannelId: null,
+    gameId: '42kb9z',
+    authorUserId: 2,
+    postId: 18,
+  });
+
   ReactDOM.render(<App state={state} storage={storage} />, document.getElementById('root'));
   await unmountLoader();
 };
