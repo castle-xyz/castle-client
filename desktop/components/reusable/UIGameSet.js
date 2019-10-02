@@ -22,7 +22,6 @@ class UIGameSet extends React.Component {
 
   static defaultProps = {
     numRowsToElide: -1,
-    isMiniature: false,
   };
 
   _openGameMetaScreen = async (game) => {
@@ -30,12 +29,13 @@ class UIGameSet extends React.Component {
   };
 
   _numGamesToRender = () => {
-    let cardWidth = this.props.isMiniature ? Constants.card.mini.width : Constants.card.width;
     const { numRowsToElide, gameItems } = this.props;
     if (numRowsToElide > 0) {
       let numGamesPerRow = 0;
       if (this._container) {
-        numGamesPerRow = Math.floor(this._container.offsetWidth / (parseInt(cardWidth, 10) + 16));
+        numGamesPerRow = Math.floor(
+          this._container.offsetWidth / (parseInt(Constants.card.width, 10) + 16)
+        );
       }
       return Math.max(1, numGamesPerRow * numRowsToElide);
     }
@@ -62,7 +62,6 @@ class UIGameSet extends React.Component {
                 onUserSelect={this.props.onUserSelect}
                 src={m.coverImage && m.coverImage.url}
                 game={m}
-                isMiniature={this.props.isMiniature}
               />
             </div>
           );

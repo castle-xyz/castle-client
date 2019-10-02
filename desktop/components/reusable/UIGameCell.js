@@ -30,11 +30,6 @@ const STYLES_TOP_SECTION = css`
   height: ${Constants.card.imageHeight};
 `;
 
-const STYLES_MINI_TOP_SECTION = css`
-  width: ${Constants.card.mini.width};
-  height: ${Constants.card.mini.imageHeight};
-`;
-
 const STYLES_GAME_SCREENSHOT = css`
   width: ${Constants.card.imageWidth};
   height: ${Constants.card.imageHeight};
@@ -42,11 +37,6 @@ const STYLES_GAME_SCREENSHOT = css`
   background-size: cover;
   background-position: 50% 50%;
   background-color: ${Constants.colors.black};
-`;
-
-const STYLES_MINI_GAME_SCREENSHOT = css`
-  width: ${Constants.card.mini.imageWidth};
-  height: ${Constants.card.mini.imageHeight};
 `;
 
 const STYLES_DESCRIPTION_SECTION = css`
@@ -72,7 +62,8 @@ const STYLES_DETAIL_SECTION = css`
   display: flex;
   flex-direction: row;
   padding-top: 16px;
-  height: 68px;
+  min-height: 68px;
+  width: ${Constants.card.width};
 `;
 
 const STYLES_TITLE_AND_PLAY = css`
@@ -81,7 +72,7 @@ const STYLES_TITLE_AND_PLAY = css`
   line-height: 0.8;
 `;
 
-const STYLES_GAME_TITLE_AND_AUTHOR = css`
+const STYLES_GAME_META = css`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -127,10 +118,32 @@ const STYLES_SECONDARY_TEXT = css`
   margin-top: 2px;
 `;
 
-const STYLES_AUTHOR_AND_PLAY_COUNT = css`
-  margin-top: 4px;
+const STYLES_LIVE_TEXT = css`
+  font-family: ${Constants.font.system};
+  font-size: 13px;
+  color: ${Constants.brand.fuchsia};
+  font-weight: 500;
+  margin-top: 2px;
+
+  @keyframes live-color-change {
+    0% {
+      color: ${Constants.brand.fuchsia};
+    }
+    50% {
+      color: ${Constants.colors.black};
+    }
+    100% {
+      color: ${Constants.brand.fuchsia};
+    }
+  }
+
+  animation: live-color-change infinite 800ms;
+`;
+
+const STYLES_TAGLINE = css`
   display: flex;
   flex-direction: row;
+  margin-top: 6px;
 `;
 
 const STYLES_GAME_AUTHOR = css`
@@ -151,7 +164,6 @@ export default class UIGameCell extends React.Component {
     onGameSelect: () => {},
     onUserSelect: () => {},
     onGameUpdate: null,
-    isMiniature: false,
     theme: {},
   };
 
@@ -209,77 +221,82 @@ export default class UIGameCell extends React.Component {
     this.setState({ gameUrlWasCopiedToClipboard: false });
   };
 
-  _usersListToString(users) {
+  _usersListToString = (users) => {
     if (!users || users.length === 0) {
       return '';
-    } else if (users.length === 1) {
-      return `@${users[0].username} is playing`;
-    } else if (users.length === 2) {
-      return `@${users[0].username} and @${users[1].username} are playing`;
+    }
+    let usernames = users.map((user) => `@${user.username}`);
+    switch (users.length) {
+      case 1:
+        return usernames[0];
+      case 2:
+        return `${usernames[0]} and ${usernames[1]}`;
+      case 3:
+        return `${usernames[0]}, ${usernames[1]}, and 1 other`;
+      default: {
+        return `${usernames[0]}, ${usernames[1]}, and ${users.length - 2} others`;
+      }
+    }
+  };
+
+  _renderTagline = (game, isLocalFile) => {
+    const isJoinableMultiplayerSession = !!game.sessionId;
+    if (isJoinableMultiplayerSession) {
+      return <div className={`${STYLES_TAGLINE} ${STYLES_LIVE_TEXT}`}>Active Now</div>;
+    } else if (isLocalFile) {
+      return <div className={`${STYLES_TAGLINE} ${STYLES_SECONDARY_TEXT}`}>Local project</div>;
     } else {
-      let text = '';
+      return (
+        <div className={`${STYLES_TAGLINE} ${STYLES_SECONDARY_TEXT}`}>
+          <span
+            className={STYLES_GAME_AUTHOR}
+            onClick={() => this.props.onUserSelect(game.owner)}
+            onMouseEnter={() => this._handleToggleHoverOnAuthor(true)}
+            onMouseLeave={() => this._handleToggleHoverOnAuthor(false)}>
+            {game.owner.username}
+          </span>
+          <span className={STYLES_PLAY_COUNT}>
+            {'\u2022 '}
+            {game.playCount} plays
+          </span>
+        </div>
+      );
+    }
+  };
 
-      for (let i = 0; i < users.length; i++) {
-        text += `@${users[i].username}`;
-
-        if (i < users.length - 1) {
-          text += ', ';
-        }
-
-        if (i === users.length - 2) {
-          text += 'and ';
-        }
+  _renderDetailLine = (game) => {
+    const isJoinableMultiplayerSession = !!game.sessionId;
+    if (isJoinableMultiplayerSession) {
+      const joinText = game.sessionUsers ? this._usersListToString(game.sessionUsers) : '';
+      return <span className={STYLES_SECONDARY_TEXT}>Click to join {joinText}</span>;
+    } else {
+      const isMultiplayer = Utilities.isMultiplayer(game);
+      const items = [];
+      if (isMultiplayer) {
+        items.push(`Multiplayer`);
+      }
+      if (game.draft) {
+        items.push(`Work in Progress`);
       }
 
-      return `${text} are playing`;
+      return <span className={STYLES_SECONDARY_TEXT}>{items.join(' \u2022 ')}</span>;
     }
-  }
+  };
 
   render() {
     let { game } = this.props;
     let title = game.title ? Strings.elide(game.title, 21) : 'Untitled';
     let onGameUpdate = this.props.onGameUpdate ? () => this.props.onGameUpdate(game) : null;
-    let sessionId = game.sessionId;
-    let isJoinableMultiplayerSession = !!sessionId;
-
-    const isMultiplayer = Utilities.isMultiplayer(game);
-    const numPlayersText = isMultiplayer
-      ? isJoinableMultiplayerSession
-        ? `Session #${sessionId}`
-        : 'Multiplayer'
-      : ' ';
-    const draftText = game.draft
-      ? isMultiplayer
-        ? '\u2022 Work in Progress'
-        : 'Work in Progress'
-      : ' ';
-
-    let detailLine = (
-      <span className={STYLES_SECONDARY_TEXT}>
-        {numPlayersText}
-        {draftText}
-      </span>
-    );
 
     const hoveringOnDetailIcon = this.state.isHoveringOnActions || this.state.isHoveringOnAuthor;
     let descriptionText = game.description
       ? Strings.elide(game.description, 104)
       : 'No description yet :)';
-    let username, playCount;
 
     let isPrivate = Urls.isPrivateUrl(game.url);
     let isLocalFile = isPrivate || !game.owner || !game.owner.username;
     if (isLocalFile) {
       descriptionText = game.url;
-      username = 'Local Project'; // TODO(Jason): show date last edited?
-    } else {
-      username = game.owner.username;
-      playCount = (
-        <span className={STYLES_PLAY_COUNT}>
-          {'\u2022 '}
-          {game.playCount} plays
-        </span>
-      );
     }
 
     return (
@@ -288,15 +305,11 @@ export default class UIGameCell extends React.Component {
         onMouseEnter={() => this._handleToggleHoverOnPlay(true)}
         onMouseLeave={this._handleMouseLeave}
         onClick={this._handleGameSelect}>
-        <div
-          className={
-            STYLES_TOP_SECTION + (this.props.isMiniature ? ` ${STYLES_MINI_TOP_SECTION}` : '')
-          }
-          style={{ width: this.props.theme.embedWidth }}>
+        <div className={STYLES_TOP_SECTION} style={{ width: this.props.theme.embedWidth }}>
           {isLocalFile ? (
             <div className={STYLES_DESCRIPTION_SECTION}>
               <div className={STYLES_BYLINE} onClick={() => this.props.onUserSelect(game.owner)}>
-                <div className={STYLES_GAME_DESCRIPTION_HEADER}>{username}</div>
+                <div className={STYLES_GAME_DESCRIPTION_HEADER}>Local Project</div>
               </div>
               <div
                 className={STYLES_GAME_DESCRIPTION}
@@ -306,10 +319,7 @@ export default class UIGameCell extends React.Component {
             </div>
           ) : (
             <figure
-              className={
-                STYLES_GAME_SCREENSHOT +
-                (this.props.isMiniature ? ` ${STYLES_MINI_GAME_SCREENSHOT}` : '')
-              }
+              className={STYLES_GAME_SCREENSHOT}
               style={{
                 backgroundImage: this.props.src ? `url(${this.props.src})` : null,
                 filter: this.state.isHoveringOnPlay ? 'brightness(105%)' : null,
@@ -323,30 +333,12 @@ export default class UIGameCell extends React.Component {
           style={{
             background: !this.state.isHoveringOnPlay ? null : this.props.theme.embedBackground,
           }}>
-          <div className={STYLES_GAME_TITLE_AND_AUTHOR}>
+          <div className={STYLES_GAME_META}>
             <div className={STYLES_TITLE_AND_PLAY}>
               <span className={STYLES_GAME_TITLE}>{title}</span>
             </div>
-            {!this.props.isMiniature ? (
-              <div className={STYLES_SECONDARY_TEXT}>
-                <div className={STYLES_AUTHOR_AND_PLAY_COUNT}>
-                  <span
-                    className={STYLES_GAME_AUTHOR}
-                    onClick={() => this.props.onUserSelect(game.owner)}
-                    onMouseEnter={() => this._handleToggleHoverOnAuthor(true)}
-                    onMouseLeave={() => this._handleToggleHoverOnAuthor(false)}>
-                    {username}
-                  </span>
-                  {playCount}
-                </div>
-              </div>
-            ) : null}
-            {detailLine}
-            {game.sessionUsers ? (
-              <span className={STYLES_SECONDARY_TEXT}>
-                {this._usersListToString(game.sessionUsers)}
-              </span>
-            ) : null}
+            {this._renderTagline(game, isLocalFile)}
+            {this._renderDetailLine(game)}
           </div>
           <UIPlayIcon
             hovering={this.state.isHoveringOnPlay && !hoveringOnDetailIcon}
