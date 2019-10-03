@@ -108,6 +108,19 @@ const POST_FIELDS = `
   createdTime
 `;
 
+const NOTIFICATION_FIELDS = `
+  appNotificationId
+  type
+  body
+  status
+  chatMessageId
+  chatChannelId
+  gameId
+  authorUserId
+  postId
+  updatedTime
+`;
+
 const CURRENT_USER_QUERY = `
   me {
     ${FULL_USER_FIELDS}
@@ -456,6 +469,10 @@ export async function getInitialData() {
       featuredExamples {
         ${GAME_FIELDS}
         ${NESTED_GAME_OWNER}
+      }
+
+      appNotifications {
+        ${NOTIFICATION_FIELDS}
       }
     }
   `

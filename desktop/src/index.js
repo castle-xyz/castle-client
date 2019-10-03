@@ -55,6 +55,7 @@ const getInitialState = async () => {
         multiplayerSessions: [],
       },
       userStatusHistory: data.userStatusHistory,
+      appNotifications: data.appNotifications,
     };
   }
 

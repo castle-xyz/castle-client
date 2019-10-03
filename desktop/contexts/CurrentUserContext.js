@@ -15,6 +15,7 @@ const EMPTY_CURRENT_USER = {
     trendingGames: null,
     multiplayerSessions: null,
   },
+  appNotifications: [],
 };
 
 const CurrentUserContextDefaults = {
