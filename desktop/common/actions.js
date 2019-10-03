@@ -1052,6 +1052,20 @@ export async function createPostAsync({ sourceGameId, message, mediaFileId, data
   return result.data.createPost.postId;
 }
 
+export async function appNotificationsAsync() {
+  const result = await API.graphqlAsync(`
+      query {
+        appNotifications {
+          ${NOTIFICATION_FIELDS}
+        }
+      }
+    `);
+  if (result.errors && result.errors.length) {
+    throw new Error(`appNotificationsAsync: ${result.errors[0].message}`);
+  }
+  return result.data.appNotifications;
+}
+
 export async function allPostsAsync({ pageSize = 20, pageAfterPostId } = {}) {
   const result = await API.graphqlAsync(
     `

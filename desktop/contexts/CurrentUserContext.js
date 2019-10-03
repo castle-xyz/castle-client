@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as Actions from '~/common/actions';
 import * as Utilities from '~/common/utilities';
 
+import { UserPresenceContext } from '~/contexts/UserPresenceContext';
+
 const EMPTY_CURRENT_USER = {
   user: null,
   settings: {
@@ -28,11 +30,12 @@ const CurrentUserContextDefaults = {
   updateMultiplayerSessions: async () => {},
   reloadPosts: () => {},
   loadMorePosts: () => {},
+  loadAppNotifications: async () => {},
 };
 
 const CurrentUserContext = React.createContext(CurrentUserContextDefaults);
 
-class CurrentUserContextProvider extends React.Component {
+class CurrentUserContextManager extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,6 +49,7 @@ class CurrentUserContextProvider extends React.Component {
       loadAllGames: this.loadAllGames,
       reloadTrendingGames: this.reloadTrendingGames,
       updateMultiplayerSessions: this.updateMultiplayerSessions,
+      loadAppNotifications: this.loadAppNotifications,
     };
 
     if (props.value && props.value.user) {
@@ -192,11 +196,74 @@ class CurrentUserContextProvider extends React.Component {
     this._loadPosts({ pageAfterPostId: lastPostId });
   };
 
+  loadAppNotifications = async () => {
+    let notifications = [];
+    try {
+      notifications = await Actions.appNotificationsAsync();
+
+      // TODO: BEN: remove
+      notifications.push({
+        type: 'post',
+        body: {
+          message: [{ userId: 395 }, { text: ' made a post about platformer!' }],
+        },
+        status: 'unseen',
+        appNotificationId: 9,
+        updatedTime: '2019-10-03T20:07:06.401Z',
+        chatMessageId: null,
+        chatChannelId: null,
+        gameId: 2,
+        authorUserId: 395,
+        postId: 18,
+      });
+    } catch (_) {}
+    if (notifications && notifications.length) {
+      await Promise.all(notifications.map((n) => this._gatherObjectsFromNotification(n)));
+    }
+    this.setState({
+      appNotifications: notifications,
+    });
+  };
+
+  _gatherObjectsFromNotification = async (n) => {
+    let userIds = {};
+    const maybeAddUserId = (userId) => {
+      if (userId && !this.props.userPresence.userIdToUser[userId]) {
+        userIds[userId] = true;
+      }
+    };
+
+    maybeAddUserId(n.authorUserId);
+    if (n.body && n.body.message) {
+      n.body.message.forEach((component) => maybeAddUserId(component.userId));
+    }
+
+    const newUserIds = Object.keys(userIds);
+    if (newUserIds.length) {
+      try {
+        let users = await Actions.getUsers({ userIds: newUserIds });
+        await this.props.userPresence.addUsers(users);
+      } catch (_) {}
+    }
+  };
+
   render() {
     return (
       <CurrentUserContext.Provider value={this.state}>
         {this.props.children}
       </CurrentUserContext.Provider>
+    );
+  }
+}
+
+class CurrentUserContextProvider extends React.Component {
+  render() {
+    return (
+      <UserPresenceContext.Consumer>
+        {(userPresence) => (
+          <CurrentUserContextManager userPresence={userPresence} {...this.props} />
+        )}
+      </UserPresenceContext.Consumer>
     );
   }
 }
