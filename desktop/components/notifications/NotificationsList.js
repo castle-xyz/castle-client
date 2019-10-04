@@ -6,13 +6,20 @@ import { CurrentUserContext } from '~/contexts/CurrentUserContext';
 import { NavigatorContext } from '~/contexts/NavigationContext';
 
 import NotificationItem from '~/components/notifications/NotificationItem';
+import NotificationSectionHeader from '~/components/notifications/NotificationSectionHeader';
 
 const STYLES_CONTAINER = css`
   width: 100%;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 16px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+    width: 1px;
+  }
 `;
 
 class NotificationsList extends React.Component {
@@ -37,17 +44,38 @@ class NotificationsList extends React.Component {
     }
   };
 
+  _renderNotification = (n, ii) => {
+    const { notifications } = this.props;
+    let prevNotification = ii > 0 ? notifications[ii - 1] : null;
+
+    const status = n.status === 'unseen';
+    const prevStatus = prevNotification ? prevNotification.status === 'unseen' : null;
+
+    const notifElement = (
+      <NotificationItem
+        key={`notification-${ii}`}
+        notification={n}
+        onSelectNotification={this._handleSelectNotification}
+      />
+    );
+
+    if (status !== prevStatus) {
+      return (
+        <React.Fragment>
+          <NotificationSectionHeader unseen={status} />
+          {notifElement}
+        </React.Fragment>
+      );
+    } else {
+      return notifElement;
+    }
+  };
+
   render() {
     const { notifications } = this.props;
     return (
       <div className={STYLES_CONTAINER}>
-        {notifications.map((n, ii) => (
-          <NotificationItem
-            key={`notification-${ii}`}
-            notification={n}
-            onSelectNotification={this._handleSelectNotification}
-          />
-        ))}
+        {notifications.map((n, ii) => this._renderNotification(n, ii))}
       </div>
     );
   }
