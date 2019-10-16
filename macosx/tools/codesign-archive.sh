@@ -37,7 +37,7 @@ security unlock-keychain -p $TEMP_KEYCHAIN_PASSWORD $TEMP_KEYCHAIN_PATH
 # security show-keychain-info $TEMP_KEYCHAIN_PATH
 
 echo "Importing cert to keychain..."
-CERT_PASSWORD="CastleDeveloperID"
+CERT_PASSWORD=$APPLE_DEVELOPER_ID_CERT_PASSWORD
 security import $CERT_PATH -A -k $TEMP_KEYCHAIN_PATH -f pkcs12 -P $CERT_PASSWORD
 
 echo "Finding codesigning identity in keychain..."
