@@ -207,7 +207,7 @@ PODS:
     - React
   - react-native-slider (2.0.5):
     - React
-  - react-native-webview (7.5.1):
+  - react-native-webview (7.6.0):
     - React
   - React-RCTActionSheet (0.61.5):
     - React-Core/RCTActionSheetHeaders (= 0.61.5)
@@ -249,6 +249,8 @@ PODS:
   - RNCAsyncStorage (1.6.2):
     - React
   - RNCMaskedView (0.1.6):
+    - React
+  - RNDeviceInfo (5.6.1):
     - React
   - RNFastImage (7.0.2):
     - React
@@ -324,6 +326,7 @@ DEPENDENCIES:
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -425,6 +428,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
   RNGestureHandler:
@@ -498,7 +503,7 @@ SPEC CHECKSUMS:
   react-native-image-picker: 3637d63fef7e32a230141ab4660d3ceb773c824f
   react-native-safe-area-context: 8260e5157617df4b72865f44006797f895b2ada7
   react-native-slider: 77cb20fc8d9522b891a3fef1821a715579ea1da1
-  react-native-webview: b7ad1323338cb52e370bb07d6141308953ff2440
+  react-native-webview: 711cef318a554093b09a5b871894011435d87a8d
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -512,6 +517,7 @@ SPEC CHECKSUMS:
   RNBootSplash: bba8b884b667778b0fd0c34a5f909046ff0f2237
   RNCAsyncStorage: 5ae4d57458804e99f73d427214442a6b10a53856
   RNCMaskedView: e5b99bc191945f157adeede68da9d424462de177
+  RNDeviceInfo: ab2ab4ca9e7f2bc4f35d62ab6ce2b66f2cbf1e7a
   RNFastImage: 9b0c22643872bb7494c8d87bbbb66cc4c0d9e7a2
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
