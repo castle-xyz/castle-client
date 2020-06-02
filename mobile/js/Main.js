@@ -7,10 +7,14 @@ import BootSplash from 'react-native-bootsplash';
 import DevMenu from '@terrysahaidak/react-native-devmenu';
 import * as GhostEvents from './ghost/GhostEvents';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { enableAndroidFontFix } from './AndroidFontFix';
 
 import * as Session from './Session';
 
 let bootSplashHidden = false;
+
+// Fixes the problem with font rendering on OnePlus phones, like Charlie's
+enableAndroidFontFix();
 
 const Main = () => {
   const { initialized } = Session.useSession();
