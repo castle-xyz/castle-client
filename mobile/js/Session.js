@@ -718,6 +718,16 @@ const _sendMarkNotificationsRead = debounce(
   100
 );
 
+export const setNotifBadge = (count) => {
+  // Sets app badge on iOS + Android and in-app tab badge on Android
+  PushNotifications.setBadgeCount(count);
+
+  // Sets in-app tab badge on iOS
+  EventEmitter.sendEvent('notifications', {
+    notificationsBadgeCount: count,
+  });
+};
+
 const NOTIF_FETCH_THRESHOLD_MS = 10 * 60 * 1000;
 let notifLastFetchTime;
 
@@ -770,22 +780,10 @@ export const maybeFetchNotificationsAsync = async (force = true) => {
     ? notifications.reduce((accum, n) => accum + (n.status === 'unseen'), 0)
     : 0;
   PushNotifications.setNewFollowingDecks(newFollowingDecks);
-
-  // This replicates the behavior of setNotifBadge()
-  PushNotifications.setBadgeCount(notificationsBadgeCount);
   EventEmitter.sendEvent('notifications', {
     newFollowingDecks,
     notifications,
-    notificationsBadgeCount,
   });
-};
 
-export const setNotifBadge = (count) => {
-  // Sets app badge on iOS + Android and in-app tab badge on Android
-  PushNotifications.setBadgeCount(count);
-
-  // Sets in-app tab badge on iOS
-  EventEmitter.sendEvent('notifications', {
-    notificationsBadgeCount: count,
-  });
+  setNotifBadge(notificationsBadgeCount);
 };
