@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { useSession, maybeFetchNotificationsAsync } from './Session';
+import { useSession, maybeFetchNotificationsAsync, setNotifBadge } from './Session';
 
 import { LoginScreen, CreateAccountScreen, ForgotPasswordScreen } from './AuthScreens';
 import { CreateScreen } from './create/CreateScreen';
@@ -241,7 +241,8 @@ export const RootNavigator = () => {
   // fetch notifications when a notif arrives while we're running
   const handlePushNotification = React.useCallback(({ data, clicked }) => {
     if (data?.numUnseenNotifications && !clicked) {
-      PushNotifications.setBadgeCount(data.numUnseenNotifications);
+      // Update badge so we don't have to wait on maybeFetchNotificationsAsync() to do it
+      setNotifBadge(data.numUnseenNotifications);
     }
     if (clicked && rootNavRef.current) {
       // pass the `screen` param to ensure we pop to the top of the stack

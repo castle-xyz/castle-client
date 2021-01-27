@@ -102,6 +102,7 @@ export const addTokenListener = (listener) => {
   });
 };
 
+// Set the app badge count on both platforms AND the in-app notifs tab badge on Android
 export const setBadgeCount = async (count) => {
   if (Platform.OS === 'ios') {
     return NativeModules.GhostPushNotifications.setBadgeCount(count);

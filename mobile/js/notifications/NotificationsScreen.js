@@ -16,7 +16,7 @@ import { toRecentDate } from '../common/date-utilities';
 import { useAppState } from '../ghost/GhostAppState';
 import { useNavigation, useFocusEffect, useIsFocused } from '../ReactNavigation';
 import { useSafeArea } from 'react-native-safe-area-context';
-import { useSession, maybeFetchNotificationsAsync } from '../Session';
+import { useSession, maybeFetchNotificationsAsync, setNotifBadge } from '../Session';
 import { UserAvatar } from '../components/UserAvatar';
 
 import * as Amplitude from 'expo-analytics-amplitude';
@@ -170,42 +170,30 @@ export const NotificationsScreen = () => {
   const { notifications, markNotificationsReadAsync } = useSession();
   const isFocused = useIsFocused();
 
+  // Clear the notif badge on tab focus, mark notifs as read on blur
+  // Also clear notif badge on blur in case push notifs come in while the user is on the notifs tab
+  useFocusEffect(
+    React.useCallback(() => {
+      setNotifBadge(0);
+      StatusBar.setBarStyle('light-content'); // needed for tab navigator
+      return () => {
+        setNotifBadge(0);
+        markNotificationsReadAsync();
+      };
+    }, [])
+  );
+
+  // Clear badge + mark notifs read if we background the app while the notifs tab is focused
   useAppState(
     React.useCallback(
       (state) => {
         if (state === 'background' && isFocused) {
-          // mark notifs read if we background the app while the notifs tab is focused
+          setNotifBadge(0);
           markNotificationsReadAsync();
         }
       },
       [isFocused]
     )
-  );
-
-  React.useEffect(() => {
-    Amplitude.logEvent('VIEW_NOTIFICATIONS');
-
-    // request permissions and token for push notifs when the notifs tab is first viewed.
-    // whether they accept or deny, subsequent calls to this method won't pop up anything for
-    // the user.
-    PushNotifications.requestTokenAsync();
-  }, []);
-
-  const onRefresh = React.useCallback(async (force = true) => {
-    setRefresh(true);
-    try {
-      await maybeFetchNotificationsAsync(force);
-    } catch (_) {}
-    setRefresh(false);
-  }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      StatusBar.setBarStyle('light-content'); // needed for tab navigator
-      // Refresh notifs when focusing on notifs tab, but don't force update
-      onRefresh(false);
-      return () => markNotificationsReadAsync();
-    }, [])
   );
 
   React.useEffect(() => {
@@ -222,6 +210,22 @@ export const NotificationsScreen = () => {
       setOrderedNotifs([]);
     }
   }, [notifications]);
+
+  React.useEffect(() => {
+    Amplitude.logEvent('VIEW_NOTIFICATIONS');
+    // request permissions and token for push notifs when the notifs tab is first viewed.
+    // whether they accept or deny, subsequent calls to this method won't pop up anything for
+    // the user.
+    PushNotifications.requestTokenAsync();
+  }, []);
+
+  const onRefresh = React.useCallback(async (force = true) => {
+    setRefresh(true);
+    try {
+      await maybeFetchNotificationsAsync(force);
+    } catch (_) {}
+    setRefresh(false);
+  }, []);
 
   const navigateToUser = React.useCallback(
     (user) =>
