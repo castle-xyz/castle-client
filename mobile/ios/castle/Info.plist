@@ -55,7 +55,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your photo gallery to choose an avatar</string>
 	<key>SceneCreatorApiVersion</key>
-	<string>dev</string>
+	<string>39</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>RTAliasGrotesk-Bold.otf</string>
