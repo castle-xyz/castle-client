@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
 
 const defaultStyles = StyleSheet.create({
   text: {
@@ -13,7 +13,40 @@ const defaultStyles = StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 19,
   },
+  link: {
+    textDecorationLine: 'underline',
+  },
 });
+
+const LinkableText = ({ styles, children, ...props }) => {
+  const pattern = /https?:\/\/\S+/g;
+
+  let match,
+    startIdx = 0;
+  let components = [];
+  while ((match = pattern.exec(children)) != null) {
+    const urlToOpen = match.toString();
+    components.push(
+      <Text key={`${components.length}`} {...props}>
+        {children.substring(startIdx, match.index - startIdx)}
+      </Text>
+    );
+    components.push(
+      <Pressable key={`${components.length}}`} onPress={() => Linking.openURL(urlToOpen)}>
+        <Text {...props} style={styles.link}>
+          {match}
+        </Text>
+      </Pressable>
+    );
+    startIdx = match.lastIndex;
+  }
+  if (components.length) {
+    return <>{components}</>;
+  } else {
+    // plain text
+    return <Text {...props}>{children}</Text>;
+  }
+};
 
 const BodyToken = ({ styles, token, navigateToUser, navigateToAllUsers }) => {
   if (token.text) {
@@ -24,7 +57,11 @@ const BodyToken = ({ styles, token, navigateToUser, navigateToAllUsers }) => {
         </TouchableWithoutFeedback>
       );
     }
-    return <Text style={styles.text}>{token.text}</Text>;
+    return (
+      <LinkableText styles={styles} style={styles.text}>
+        {token.text}
+      </LinkableText>
+    );
   }
   if (token.userId) {
     return (

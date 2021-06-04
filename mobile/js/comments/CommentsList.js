@@ -71,6 +71,10 @@ const commentBodyStyles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
   },
+  link: {
+    color: '#000',
+    textDecorationLine: 'underline',
+  },
 });
 
 const CommentReplies = ({ replies, ...props }) => {
