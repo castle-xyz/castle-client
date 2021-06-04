@@ -46,7 +46,7 @@ export const MessageBody = ({
     return null;
   }
   return (
-    <React.Fragment>
+    <Text>
       {body.message.map((token, ii) => (
         <BodyToken
           key={`token-${ii}`}
@@ -56,6 +56,6 @@ export const MessageBody = ({
           styles={styles}
         />
       ))}
-    </React.Fragment>
+    </Text>
   );
 };
