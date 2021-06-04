@@ -38,9 +38,15 @@ const LinkableText = ({ styles, children, ...props }) => {
         </Text>
       </Pressable>
     );
-    startIdx = match.lastIndex;
+    startIdx = pattern.lastIndex;
   }
   if (components.length) {
+    // capture trailing text after last url
+    components.push(
+      <Text key={`${components.length + 1}`} {...props}>
+        {children.substring(startIdx)}
+      </Text>
+    );
     return <>{components}</>;
   } else {
     // plain text
