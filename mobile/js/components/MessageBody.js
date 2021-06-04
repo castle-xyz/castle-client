@@ -28,7 +28,7 @@ const LinkableText = ({ styles, children, ...props }) => {
     const urlToOpen = match.toString();
     components.push(
       <Text key={`${components.length}`} {...props}>
-        {children.substring(startIdx, match.index - startIdx)}
+        {children.substring(startIdx, match.index)}
       </Text>
     );
     components.push(
