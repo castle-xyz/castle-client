@@ -17,6 +17,8 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     flexDirection: 'row',
+    maxWidth: '90%',
+    flexShrink: 1,
   },
   authorAvatar: {
     width: 24,
