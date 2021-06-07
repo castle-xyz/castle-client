@@ -107,7 +107,7 @@ export const CommentsSheet = ({ isOpen, onClose, deck, isFullScreen, ...props })
         setReplyingToComment={setReplyingToComment}
         {...props}
       />
-      {!isAnonymous && isOpen ? (
+      {!isAnonymous && isOpen && deck?.commentsEnabled ? (
         <CommentInput
           onAddComment={onAddComment}
           replyingToComment={replyingToComment}

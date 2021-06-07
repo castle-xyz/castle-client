@@ -34,7 +34,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const ConfigureDeck = ({ deck, onChange, onDeleteDeck, onChangeAccessPermissions }) => {
+export const ConfigureDeck = ({
+  deck,
+  onChange,
+  onDeleteDeck,
+  onChangeAccessPermissions,
+  onChangeCommentsEnabled,
+}) => {
   const { showActionSheetWithOptions } = useActionSheet();
   const maybeDeleteDeck = React.useCallback(() => {
     showActionSheetWithOptions(
@@ -52,6 +58,14 @@ export const ConfigureDeck = ({ deck, onChange, onDeleteDeck, onChangeAccessPerm
   }, [onDeleteDeck, showActionSheetWithOptions]);
   return deck ? (
     <View style={styles.container}>
+      <View style={styles.row}>
+        <Text style={styles.rowLabel}>Allow others to comment on this deck</Text>
+        <Switch
+          ios_backgroundColor="#888"
+          value={deck.commentsEnabled === true}
+          onValueChange={(value) => onChangeCommentsEnabled(value)}
+        />
+      </View>
       <View style={styles.row}>
         <Text style={styles.rowLabel}>Allow others to remix this deck</Text>
         <Switch

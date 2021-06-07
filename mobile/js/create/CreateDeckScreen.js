@@ -77,6 +77,7 @@ const DECK_FRAGMENT = `
   visibility
   playCount
   accessPermissions
+  commentsEnabled
   parentDeckId
   parentDeck {
     creator { username }
@@ -360,6 +361,15 @@ export const CreateDeckScreen = (props) => {
     [setDeck, saveDeck, deck, deckId]
   );
 
+  const onChangeCommentsEnabled = React.useCallback(
+    async (commentsEnabled) => {
+      const deckUpdateFragment = { deckId, commentsEnabled };
+      saveDeck({ variables: { deck: deckUpdateFragment } });
+      setDeck({ ...deck, commentsEnabled });
+    },
+    [setDeck, saveDeck, deck, deckId]
+  );
+
   return (
     <React.Fragment>
       <SafeAreaView style={Constants.styles.container}>
@@ -457,6 +467,7 @@ export const CreateDeckScreen = (props) => {
         onChange={_changeDeck}
         onDeleteDeck={_deleteDeck}
         onChangeAccessPermissions={onChangeAccessPermissions}
+        onChangeCommentsEnabled={onChangeCommentsEnabled}
       />
     </React.Fragment>
   );

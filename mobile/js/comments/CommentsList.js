@@ -318,6 +318,14 @@ export const CommentsList = ({ deck, isOpen, setReplyingToComment }) => {
     [comments, navigateToUser]
   );
 
+  if (deck && deck.commentsEnabled === false) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.emptyMessage}>The creator has disabled comments for this deck.</Text>
+      </View>
+    );
+  }
+
   if (isAnonymous && !comments?.length) {
     // empty comments list + no text input is weird for anon users,
     // show a message instead
