@@ -155,7 +155,21 @@ export const CreateDeckScreen = (props) => {
           ${DECK_FRAGMENT}
         }
       }
-    `
+    `,
+    {
+      update: (cache, { data }) => {
+        // clear comments cache in case they modified the comment enabled flag
+        // https://www.apollographql.com/docs/react/caching/cache-interaction/#example-deleting-a-field-from-a-cached-object
+        cache.modify({
+          id: cache.identify(deck),
+          fields: {
+            comments(_, { DELETE }) {
+              return DELETE;
+            },
+          },
+        });
+      },
+    }
   );
 
   const [deleteDeck] = useMutation(
