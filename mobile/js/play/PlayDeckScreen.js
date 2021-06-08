@@ -40,6 +40,9 @@ export const PlayDeckScreen = ({ decks, initialDeckIndex = 0, title, route }) =>
   const [isCommentsVisible, setIsCommentsVisible] = React.useState(false);
   const openComments = React.useCallback(() => setIsCommentsVisible(true), []);
   const closeComments = React.useCallback(() => setIsCommentsVisible(false), []);
+
+  React.useEffect(closeComments, [decks]);
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <PopoverProvider>
